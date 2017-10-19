@@ -16,14 +16,14 @@ namespace nx {
 	  std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
 
   public:
-	  Engine(bool debug = false);
+	  Engine(const bool debug = false);
     virtual ~Engine ();
 
   public:
-    bool  ping(void);
+    bool  ping(void) const;
 
   private:
-	bool checkEngineIntegrity(void);
+	bool checkEngineIntegrity(void) const;
 
   public:
 	  void setup(void);
@@ -31,9 +31,9 @@ namespace nx {
 	  int run(const std::function<void(void)>&);
 
   public:
-	  bool debug(void);
+	  bool debug(void) const;
 	  void setDebugFlag(const bool);
-	  const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void);
+	  const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
   };
 } /* nx */
 

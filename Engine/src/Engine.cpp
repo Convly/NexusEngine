@@ -1,7 +1,7 @@
 #include "Nexus/engine.hpp"
 #include "Nexus/log.hpp"
 
-nx::Engine::Engine(bool debug)
+nx::Engine::Engine(const bool debug)
 :
 	_run(false),
 	_debug(debug),
@@ -21,23 +21,26 @@ nx::Engine::~Engine()
 
 /* GETTERS */
 
-bool nx::Engine::debug() {
+bool nx::Engine::debug() const
+{
 	return this->_debug;
 }
 
-const std::vector<std::shared_ptr<nx::SystemTpl>>& nx::Engine::getSystems() {
+const std::vector<std::shared_ptr<nx::SystemTpl>>& nx::Engine::getSystems() const
+{
 	return this->_systems;
 }
 
 /* SETTERS */
 
-void nx::Engine::setDebugFlag(const bool debugFlag) {
+void nx::Engine::setDebugFlag(const bool debugFlag)
+{
 	this->_debug = debugFlag;
 }
 
 /* TOOLS */
 
-bool nx::Engine::ping()
+bool nx::Engine::ping() const
 {
 	bool ret = this->checkEngineIntegrity();
 
@@ -47,7 +50,7 @@ bool nx::Engine::ping()
 	return ret;
 }
 
-bool nx::Engine::checkEngineIntegrity()
+bool nx::Engine::checkEngineIntegrity() const
 {
 	bool systemState, ret = true;
 
