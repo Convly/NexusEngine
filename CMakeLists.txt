@@ -20,6 +20,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG  ${ENGINE_DIR}/lib)
 
 include_directories(
   ${INCLUDES_DIR}
+  ${ENGINE_DIR}/src/standalone/errors/
 )
 
 file(GLOB_RECURSE HEADER_CLIENT_FILES   ${INCLUDES_DIR}/Nexus/*.hpp)
