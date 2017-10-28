@@ -75,8 +75,7 @@ void nx::Engine::stop() {
 
 int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	if (!(this->_run)) {
-		nx::Log::error("Trying to access the mainloop without starting the engine", "ACCESS_WITHOUT_RUN", 1);
-		return (-1);
+		throw nx::RunWithoutSetupException();
 	}
 
 	while (this->_run) {

@@ -7,6 +7,7 @@
 #include <functional>
 
 #include "Nexus/gui.hpp"
+#include "RunWithoutSetupException.hpp"
 
 namespace nx {
   class Engine {
