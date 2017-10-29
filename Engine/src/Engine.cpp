@@ -105,7 +105,6 @@ void nx::Engine::emit(const nx::Event& event)
 }
 
 int nx::Engine::run(const std::function<void(void)>& userCallback) {
-
 	if (!(this->_run)) {
 		throw nx::RunWithoutSetupException();
 	}
