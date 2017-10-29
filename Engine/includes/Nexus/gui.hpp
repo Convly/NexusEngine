@@ -2,24 +2,25 @@
 #define NEXUS_ENGINE__GUI_SYSTEM_HPP_
 
 #include <iostream>
+#include <memory>
 
 #include "Nexus/systems/SystemTpl.hpp"
 
 namespace nx {
-	namespace gui {
-		class GUISystem : public SystemTpl
-		{
-		public:
-			GUISystem();
-			virtual ~GUISystem();
+	class GUISystem : public SystemTpl
+	{
+	public:
+		GUISystem(nx::Engine&);
+		virtual ~GUISystem();
 
-		public:
-			void update();
-			void init();
-			bool checkIntegrity() const;
-			const std::string& getName() const;
-		};
-	}
+	public:
+		void update();
+		void init();
+		bool checkIntegrity() const;
+
+	public:
+		static nx::GUISystem* cast(const std::shared_ptr<nx::SystemTpl>&);	
+	};
 }
 
 #endif

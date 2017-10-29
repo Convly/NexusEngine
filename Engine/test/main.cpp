@@ -1,8 +1,8 @@
 #include "Nexus/engine.hpp"
 #include "Nexus/log.hpp"
 
-void lol() {
-	std::cout << "Daboudi dabouda" << std::endl;
+void userMainLoop() {
+	std::cout << "User MainLoop called" << std::endl;
 }
 
 int main()
@@ -13,7 +13,7 @@ int main()
   engine.setup();
 
   try {
-    return (engine.run(&lol));
+    return (engine.run(&userMainLoop));
   } catch (const nx::RunWithoutSetupException& e) {
     nx::Log::error(e.what(), "RUNTIME_ERROR", 1);
     return -1;

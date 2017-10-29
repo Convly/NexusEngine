@@ -36,3 +36,13 @@
 bin/
 build/
 .vs/
+.vscode/
+*.sln
+*.log
+.vs
+.vscode
+*.vcxproj
+*.filters
+.DS_Store
+Desktop.ini
+*.user

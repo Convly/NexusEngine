@@ -27,13 +27,6 @@ file(GLOB_RECURSE HEADER_CLIENT_FILES   ${INCLUDES_DIR}/Nexus/*.hpp)
 file(GLOB_RECURSE SOURCE_CLIENT_FILES		${ENGINE_DIR}/src/*.cpp)
 add_library(NexusEngine STATIC ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES})
 
-message("Build: " ${CMAKE_BUILD_TYPE})
-message("Engine: " ${ENGINE_DIR})
-message("Includes: " ${INCLUDES_DIR})
-message("Output directory: " ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
-message("Headers: " ${SOURCE_CLIENT_FILES})
-message("Sources: " ${HEADER_CLIENT_FILES})
-
 # CMake instructions to test exemple using the static lib in debug mode
 if (CMAKE_BUILD_TYPE MATCHES Debug)
   message("Preparing to build tests for debug mode...")

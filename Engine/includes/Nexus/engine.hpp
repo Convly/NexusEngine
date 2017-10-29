@@ -5,36 +5,41 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <algorithm>
 
 #include "Nexus/gui.hpp"
 #include "RunWithoutSetupException.hpp"
+#include "SystemNotFoundException.hpp"
 
 namespace nx {
   class Engine {
   private:
-	  bool											_run;
-	  bool											_debug;
-	  std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
+	bool											_run;
+	bool											_debug;
+	std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
 
   public:
-	  Engine(const bool debug = false);
-    virtual ~Engine ();
+	Engine(const bool debug = false);
+	virtual ~Engine ();
 
   public:
-    bool  ping(void) const;
+	bool  ping(void) const;
 
   private:
 	bool checkEngineIntegrity(void) const;
 
   public:
-	  void setup(void);
-	  void stop(void);
-	  int run(const std::function<void(void)>&);
+	void emit(const nx::Event&);
+	void emit(const std::string&, const std::string&);
+	void setup(void);
+	void stop(void);
+	int run(const std::function<void(void)>&);
 
   public:
-	  bool debug(void) const;
-	  void setDebugFlag(const bool);
-	  const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
+	bool debug(void) const;
+	void setDebugFlag(const bool);
+	const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
+	const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
   };
 } /* nx */
 

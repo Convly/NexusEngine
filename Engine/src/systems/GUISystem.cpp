@@ -1,29 +1,36 @@
 #include "Nexus/gui.hpp"
+#include "Nexus/engine.hpp"
 
-nx::gui::GUISystem::GUISystem()
+nx::GUISystem::GUISystem(nx::Engine& engine)
 	:
-	nx::SystemTpl("gui")
+	nx::SystemTpl("gui", engine)
 {
 
 }
 
-nx::gui::GUISystem::~GUISystem() {
+nx::GUISystem::~GUISystem() {
 
 }
 
-void nx::gui::GUISystem::init() {
-	std::cout << "Init" << std::endl;
+nx::GUISystem* nx::GUISystem::cast(const std::shared_ptr<nx::SystemTpl>& src)
+{
+	auto ptr = src.get();
+	if (!ptr) return nullptr;
+	auto dst = dynamic_cast<nx::GUISystem*>(ptr);
+	return dst;
 }
 
-void nx::gui::GUISystem::update() {
-
-	std::cout << "Update" << std::endl;
+void nx::GUISystem::init()
+{
+	std::cout << "Init for " << this->getName() << std::endl;
 }
 
-bool nx::gui::GUISystem::checkIntegrity() const {
+void nx::GUISystem::update()
+{
+	std::cout << "Update for " << this->getName() << std::endl;
+}
+
+bool nx::GUISystem::checkIntegrity() const
+{
 	return true;
-}
-
-const std::string& nx::gui::GUISystem::getName() const {
-	return this->_name;
 }
