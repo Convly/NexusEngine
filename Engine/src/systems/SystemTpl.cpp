@@ -30,12 +30,12 @@ void nx::SystemTpl::emitter(const nx::Event& event)
 	for (const auto link : this->_links)
 	{
 		if (link.name == event.name) {
-			link.callback(event);
+			link.callback(this->_engine, event);
 		}
 	}
 }
 
-uint32_t nx::SystemTpl::connect(const std::string& eventName, const std::function<void(const nx::Event&)>& callback)
+uint32_t nx::SystemTpl::connect(const std::string& eventName, const std::function<void(const nx::Engine&, const nx::Event&)>& callback)
 {
 	this->_maxConnectID++;
 
