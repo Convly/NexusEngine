@@ -6,7 +6,7 @@ nx::Engine::Engine(const bool debug)
 	_run(false),
 	_debug(debug),
 	_systems({
-		std::make_shared<nx::gui::GUISystem>()
+		std::make_shared<nx::gui::GUISystem>(*this)
 	})
 {
 	if (this->_debug)
@@ -73,14 +73,30 @@ void nx::Engine::stop() {
 	this->_run = false;
 }
 
+void nx::Engine::emit(const std::string& name, const std::string& data)
+{
+	this->emit(nx::Event(name, data));
+}
+
+void nx::Engine::emit(const nx::Event& event)
+{
+	std::for_each(
+		this->_systems.begin(),
+		this->_systems.end(),
+		[&](const auto system){
+			system->emitter(event);
+		}
+	);
+}
+
 int nx::Engine::run(const std::function<void(void)>& userCallback) {
+
 	if (!(this->_run)) {
 		throw nx::RunWithoutSetupException();
 	}
 
 	while (this->_run) {
 		for (auto system : this->_systems) {
-			nx::Log::debug("Calling update for " + system->getName());
 			system->update();
 		}
 		userCallback();
