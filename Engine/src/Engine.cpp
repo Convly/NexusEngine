@@ -6,17 +6,16 @@ nx::Engine::Engine(const bool debug)
 	_run(false),
 	_debug(debug),
 	_systems({
-		std::make_shared<nx::gui::GUISystem>(*this)
+		std::make_shared<nx::GUISystem>(*this)
 	})
 {
-	if (this->_debug)
-		nx::Log::debug("Nexus Engine successfully created!");
+	for (auto system : this->_systems) {
+		system->init();
+	}
 }
 
 nx::Engine::~Engine()
 {
-	if (this->_debug)
-		nx::Log::debug("Nexus Engine successfully destroyed!");
 }
 
 /* GETTERS */
@@ -30,6 +29,22 @@ const std::vector<std::shared_ptr<nx::SystemTpl>>& nx::Engine::getSystems() cons
 {
 	return this->_systems;
 }
+
+const std::shared_ptr<nx::SystemTpl>& nx::Engine::getSystemByName(const std::string& name) const
+{
+	auto it = std::find_if(
+		this->_systems.begin(),
+		this->_systems.end(),
+		[&](const auto system){
+			return system->getName() == name;
+		}
+	);
+	if (it == this->_systems.end()) {
+		throw nx::SystemNotFoundException(name);
+	}
+	return *it;
+}
+
 
 /* SETTERS */
 

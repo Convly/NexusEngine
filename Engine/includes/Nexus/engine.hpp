@@ -5,9 +5,11 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <algorithm>
 
 #include "Nexus/gui.hpp"
 #include "RunWithoutSetupException.hpp"
+#include "SystemNotFoundException.hpp"
 
 namespace nx {
   class Engine {
@@ -37,6 +39,7 @@ namespace nx {
 	bool debug(void) const;
 	void setDebugFlag(const bool);
 	const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
+	const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
   };
 } /* nx */
 
