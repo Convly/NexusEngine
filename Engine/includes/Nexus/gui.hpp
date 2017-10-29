@@ -10,14 +10,13 @@ namespace nx {
 		class GUISystem : public SystemTpl
 		{
 		public:
-			GUISystem();
+			GUISystem(nx::Engine&);
 			virtual ~GUISystem();
 
 		public:
 			void update();
 			void init();
 			bool checkIntegrity() const;
-			const std::string& getName() const;
 		};
 	}
 }
