@@ -27,12 +27,9 @@ const nx::Engine& nx::SystemTpl::getEngine() const
 
 void nx::SystemTpl::emitter(const nx::Event& event)
 {
-	std::cout << "Emitter called for " << this->getName() << std::endl;
-	std::cout << "Event " << event.name << " found" << std::endl;
 	for (const auto link : this->_links)
 	{
 		if (link.name == event.name) {
-			std::cout << "Callback called" << std::endl;
 			link.callback(event);
 		}
 	}
@@ -63,6 +60,5 @@ bool nx::SystemTpl::disconnect(const uint32_t uid)
 	}
 
 	this->_links.erase(it);
-	nx::Log::inform("The Link associated to the given UID has been removed");
 	return true;
 }
