@@ -34,7 +34,7 @@
 
 #Other
 bin/
-build/
+#build/
 .vs/
 .vscode/
 *.sln
