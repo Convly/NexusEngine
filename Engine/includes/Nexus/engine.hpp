@@ -24,7 +24,7 @@ namespace nx {
 	bool											_debug;
 	std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
 
-  public:
+	private:
 	Engine(const bool debug = false);
 	virtual ~Engine ();
 
