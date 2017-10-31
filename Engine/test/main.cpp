@@ -7,11 +7,11 @@ void userMainLoop() {
 
 int main()
 {
-  nx::Engine engine(true);
+  auto& engine = nx::Engine::Instance();
 
   engine.ping();
   engine.setup();
-
+  
   try {
     return (engine.run(&userMainLoop));
   } catch (const nx::RunWithoutSetupException& e) {

@@ -1,12 +1,19 @@
 #include "Nexus/engine.hpp"
 #include "Nexus/log.hpp"
 
+nx::Engine nx::Engine::_instance = nx::Engine();
+
+nx::Engine&  				nx::Engine::Instance()
+{
+	return nx::Engine::_instance;
+}
+
 nx::Engine::Engine(const bool debug)
 :
 	_run(false),
 	_debug(debug),
 	_systems({
-		std::make_shared<nx::GUISystem>(*this)
+		std::make_shared<nx::GUISystem>()
 	})
 {
 	for (auto system : this->_systems) {
@@ -19,6 +26,11 @@ nx::Engine::~Engine()
 }
 
 /* GETTERS */
+
+bool nx::Engine::isSetup(void) const
+{
+	return this->_run;
+}
 
 bool nx::Engine::debug() const
 {

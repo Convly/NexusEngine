@@ -14,6 +14,12 @@
 namespace nx {
   class Engine {
   private:
+	static nx::Engine						_instance;
+
+  public:
+	static nx::Engine& 						Instance();
+
+  private:
 	bool											_run;
 	bool											_debug;
 	std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
@@ -36,6 +42,7 @@ namespace nx {
 	int run(const std::function<void(void)>&);
 
   public:
+	bool isSetup(void) const;
 	bool debug(void) const;
 	void setDebugFlag(const bool);
 	const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
