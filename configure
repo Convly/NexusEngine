@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "CMake"
+cd build
+cmake ..
+
+echo "Done configure"
