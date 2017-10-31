@@ -1,10 +1,10 @@
 #include "Nexus/systems/SystemTpl.hpp"
 #include "Nexus/engine.hpp"
 
-nx::SystemTpl::SystemTpl(const std::string& name, nx::Engine& engine)
+nx::SystemTpl::SystemTpl(const std::string& name)
 :
 	_name(name),
-	_engine(engine),
+	_engine(nx::Engine::Instance()),
 	_maxConnectID(0)
 {
 
@@ -30,12 +30,12 @@ void nx::SystemTpl::emitter(const nx::Event& event)
 	for (const auto link : this->_links)
 	{
 		if (link.name == event.name) {
-			link.callback(this->_engine, event);
+			link.callback(event);
 		}
 	}
 }
 
-uint32_t nx::SystemTpl::connect(const std::string& eventName, const std::function<void(const nx::Engine&, const nx::Event&)>& callback)
+uint32_t nx::SystemTpl::connect(const std::string& eventName, const std::function<void(const nx::Event&)>& callback)
 {
 	this->_maxConnectID++;
 

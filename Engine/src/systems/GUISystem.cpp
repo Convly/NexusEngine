@@ -1,9 +1,9 @@
 #include "Nexus/gui.hpp"
 #include "Nexus/engine.hpp"
 
-nx::GUISystem::GUISystem(nx::Engine& engine)
+nx::GUISystem::GUISystem()
 	:
-	nx::SystemTpl("gui", engine)
+	nx::SystemTpl("gui")
 {
 
 }

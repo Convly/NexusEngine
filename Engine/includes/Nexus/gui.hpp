@@ -10,7 +10,7 @@ namespace nx {
 	class GUISystem : public SystemTpl
 	{
 	public:
-		GUISystem(nx::Engine&);
+		GUISystem();
 		virtual ~GUISystem();
 
 	public:

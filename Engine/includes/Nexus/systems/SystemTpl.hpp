@@ -25,18 +25,18 @@ namespace nx {
 
 	struct EventLink
 	{
-		EventLink(const uint32_t uid_, const std::string& name_, const std::function<void(const nx::Engine&, const nx::Event&)>& callback_)
+		EventLink(const uint32_t uid_, const std::string& name_, const std::function<void(const nx::Event&)>& callback_)
 		: uid(uid_), name(name_), callback(callback_) {}
 
 		uint32_t uid;
 		std::string name;
-		std::function<void(const nx::Engine&, const nx::Event&)> callback;
+		std::function<void(const nx::Event&)> callback;
 	};
 
 	class SystemTpl
 	{
 	public:
-		SystemTpl(const std::string& name, nx::Engine& engine);
+		SystemTpl(const std::string& name);
 		virtual ~SystemTpl();
 
 	public:
@@ -48,7 +48,7 @@ namespace nx {
 
 	public:
 		virtual void emitter(const nx::Event&);
-		virtual uint32_t connect(const std::string& eventName, const std::function<void(const nx::Engine&, const nx::Event&)>& callback);
+		virtual uint32_t connect(const std::string& eventName, const std::function<void(const nx::Event&)>& callback);
 		virtual bool disconnect(const uint32_t uid);
 
 
