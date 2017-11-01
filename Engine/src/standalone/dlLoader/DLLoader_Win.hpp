@@ -6,6 +6,7 @@
 # define DL_LOADER_WIN_HPP_
 
 #ifdef _WIN32
+#include "DLLoaderException.hpp"
 #include <unordered_map>
 #include <algorithm>
 #include <windows.h>
@@ -55,7 +56,7 @@ public:
 			std::cerr << "_> Adding new lib in (" << this->_name << ") [" << path << "]" << std::endl;
 
 		if ((handler = LoadLibrary(path.c_str())) == nullptr)
-			std::cerr << "Error when loading " << path.c_str() << std::endl;
+			throw nx::DLLoaderException("Can't load " + path + ".");
 		else
 		{
 			this->_handlers[path] = handler;
@@ -141,10 +142,7 @@ public:
 		}
 
 		if ((symbol = reinterpret_cast<T*(*)(T*)>(GetProcAddress(handler, "DObject"))) == nullptr)
-		{
-			std::cerr << "Error when loading DObject from dll file " << path.c_str() << std::endl;
-			return;
-		}
+			throw nx::DLLoaderException("Error when loading DObject from dll file " + path + ".");
 
 		symbol(this->_instances.at(path));
 		this->_instances[path] = nullptr;
@@ -164,7 +162,9 @@ public:
 		if (this->_handlers.find(path) == this->_handlers.end())
 			return;
 		if (FreeLibrary(this->_handlers.at(path)))
-			std::cerr << "Error when using FreeLibrary." << std::endl;
+			throw nx::DLLoaderException("Error when freeing library " + path + ".");
+
+			std::cerr <<  << std::endl;
 	}
 
 	void									destroyLibs(void)

@@ -6,6 +6,7 @@
 # define DL_LOADER_LIN_HPP_
 
 #ifdef __linux__
+#include "DLLoaderException.hpp"
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -55,7 +56,7 @@ public:
 			std::cerr << "_> Adding new lib in (" << this->_name << ") [" << path << "]" << std::endl;
 
 		if ((handler = dlopen(path.c_str(), RTLD_LAZY)) == nullptr)
-			std::cerr << dlerror() << std::endl;
+			throw nx::DLLoaderException("Can't load " + path + ": " + dlerror() + ".");
 		else
 		{
 			this->_handlers[path] = handler;
@@ -141,10 +142,7 @@ public:
 		}
 
 		if ((symbol = reinterpret_cast<T *(*)(T*)>(dlsym(handler, "DObject"))) == nullptr)
-		{
-			std::cerr << dlerror() << std::endl;
-			return;
-		}
+			throw nx::DLLoaderException("Error when loading DObject from dll file " + path + ": " + dlerror() + ".");
 
 		symbol(this->_instances.at(path));
 		this->_instances[path] = nullptr;
@@ -166,7 +164,7 @@ public:
 		else
 		{
 			if (dlclose(this->_handlers.at(path)))
-				std::cerr << dlerror() << std::endl;
+				throw nx::DLLoaderException("Error when freeing library " + path + ": " + dlerror() << ".");
 		}
 }
 
