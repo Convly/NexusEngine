@@ -1,18 +1,18 @@
 /**
-*	@file DLLoader_Win.hpp
+*	@file DLLoader.hpp
 *	@author Marc-Antoine Leconte
-*
-*	This file must be include when using the DLLoader class on Windows
+*	
+*	This file must be include when using the DLLoader class on Linux/OSX.
 */
 
-#ifndef DL_LOADER_WIN_HPP_
-# define DL_LOADER_WIN_HPP_
+#ifndef DL_LOADER_LIN_HPP_
+# define DL_LOADER_LIN_HPP_
 
 #include "DLLoaderException.hpp"
 #include <unordered_map>
 #include <algorithm>
-#include <windows.h>
 #include <iostream>
+#include <dlfcn.h>
 #include <iomanip>
 #include <string>
 #include <vector>
@@ -21,18 +21,18 @@
 /**
 *	@class	DLLoader
 *
-*	This class deserve to load a dynamic Library
+*	This class deserve to load a dynamic Library.
 */
 
 template <typename T>
 class DLLoader
 {
 private:
-	std::unordered_map<std::string, HMODULE>	_handlers;		/**< This param is uses to stock the handlers by file name.*/
-	std::vector<std::string>					_libs;			/**< This param is uses to stock the lib's names.*/
-	std::unordered_map<std::string, T*>			_instances;		/**< This param stock the instances of each librarys opened.*/
-	std::string									_name;			/**< This param is the name of the DLLoader.*/
-	bool										_debug;			/**< This param allow debug prints.*/
+	std::unordered_map<std::string, void*>				_handlers;	/**< This param is uses to stock the handlers by file name.*/
+	std::vector<std::string>							_libs;		/**< This param is uses to stock the lib's names.*/
+	std::unordered_map<std::string, std::shared_ptr<T>>	_instances; /**< This param stock the instances of each librarys opened.*/
+	std::string											_name;		/**< This param is the name of the DLLoader.*/
+	bool												_debug;		/**< This param allow debug prints.*/
 
 public:
 	/**
@@ -51,9 +51,9 @@ public:
 	/**
 	*	Destructor.
 	*/
-	virtual ~DLLoader()
+	~DLLoader()
 	{
-		this->destroyLibs();
+		this->_destroyLibs();
 	}
 
 public:
@@ -64,7 +64,7 @@ public:
 	*/
 	void									addLib(const std::string & path)
 	{
-		HMODULE								handler;
+		void*                               handler;
 
 		if (std::find(this->_libs.begin(), this->_libs.end(), path) != this->_libs.end())
 		{
@@ -76,8 +76,8 @@ public:
 		if (this->_debug)
 			std::cerr << "_> Adding new lib in (" << this->_name << ") [" << path << "]" << std::endl;
 
-		if ((handler = LoadLibrary(path.c_str())) == nullptr)
-			throw nx::DLLoaderException("Can't load " + path + ".");
+		if ((handler = dlopen(path.c_str(), RTLD_LAZY)) == nullptr)
+			throw nx::DLLoaderException("Can't load " + path + ": " + dlerror() + ".");
 		else
 		{
 			this->_handlers[path] = handler;
@@ -89,12 +89,12 @@ public:
 	/**
 	*	Permit to reset the instance of the library ist.
 	*	@param	ist	The name of the instance to reset.
-	*	@return Return an instance newly create of the ist library.
+	*	@return Return an instance newly created of the ist library.
 	*/
-	T*										resetLib(const std::string & ist)
+	std::shared_ptr<T>						resetLib(const std::string & ist)
 	{
-		std::unordered_map<std::string, T*> ists = this->_instances;
-		T*                                  nIst = nullptr;
+		std::shared_ptr<T>					nIst = nullptr;
+		std::unordered_map<std::string, std::shared_ptr<T>> ists = this->_instances;
 
 		if (_debug)
 			std::cerr << "_> " << ist << " is being reset..." << '\n';
@@ -105,11 +105,11 @@ public:
 		if (_debug)
 			std::cerr << "<_ " << ((nIst == nullptr) ? "ERROR" : "SUCCESS") << '\n';
 
-		return nIst;
+		return (nIst.get());
 	}
 
 	/**
-	*	Display the content of the librarys stocked in memory.
+	*	Display the content of the librarys stocked in memory. 
 	*/
 	void									dump() const
 	{
@@ -142,15 +142,15 @@ public:
 		else
 			std::cerr << "Please activate the verbose mode in order to dump context" << std::endl;
 	}
-
+	
 	/**
 	*	Delete the instance of the path passed in paramater.
 	*	@param	path	The path of the instance to delete.
 	*/
 	void									deleteInstance(const std::string & path)
 	{
-		HMODULE								handler;
-		T*									(*symbol)(T*);
+		void*                               handler;
+		T*                                  (*symbol)(T*);
 
 		if (_debug)
 			std::cerr << "_> About to delete instance of [" << path << "]" << std::endl;
@@ -167,10 +167,10 @@ public:
 			return;
 		}
 
-		if ((symbol = reinterpret_cast<T*(*)(T*)>(GetProcAddress(handler, "DObject"))) == nullptr)
-			throw nx::DLLoaderException("Error when loading DObject from dll file " + path + ".");
+		if ((symbol = reinterpret_cast<T *(*)(T*)>(dlsym(handler, "DObject"))) == nullptr)
+			throw nx::DLLoaderException("Error when loading DObject from dll file " + path + ": " + dlerror() + ".");
 
-		symbol(this->_instances.at(path));
+		symbol(this->_instances.at(path).get());
 		this->_instances[path] = nullptr;
 
 		if (_debug)
@@ -191,12 +191,12 @@ public:
 
 		if (this->_handlers.find(path) == this->_handlers.end())
 			return;
-		if (FreeLibrary(this->_handlers.at(path)))
-			throw nx::DLLoaderException("Error when freeing library " + path + ".");
-
-			std::cerr <<  << std::endl;
-	}
-
+		else
+		{
+			if (dlclose(this->_handlers.at(path)))
+				throw nx::DLLoaderException("Error when freeing library " + path + ": " + dlerror() << ".");
+		}
+}
 	/**
 	*	Destroy all the librarys and their instances stocked in memory.
 	*/
@@ -211,8 +211,11 @@ public:
 
 			if (this->_handlers.find((*it)) == this->_handlers.end())
 				return;
-			if (FreeLibrary(this->_handlers.at((*it))))
-				std::cerr << "Error when using FreeLibrary." << std::endl;
+			else
+			{
+				if (dlclose(this->_handlers.at((*it))))
+					std::cerr << dlerror() << std::endl;
+			}
 		}
 
 		if (this->_debug)
@@ -232,7 +235,7 @@ public:
 	*	Get the instances of the libs stocked in memory order by name.
 	*	@return Return a std::unordered_map<std::string, T*> containing all the names and the instances of the libs.
 	*/
-	std::unordered_map<std::string, T*>		getInstances(void) const
+	std::unordered_map<std::string, std::shared_ptr<T>>		getInstances(void) const
 	{
 		return (this->_instances);
 	}
@@ -243,8 +246,8 @@ public:
 	*/
 	std::string								getPathByInstance(T* ist) const
 	{
-		std::unordered_map<std::string, T*> ists = this->_instances;
 		std::string                         res = "";
+		std::unordered_map<std::string, std::shared_ptr<T>>	ists = this->_instances;
 
 		for (auto it = ists.begin(); it != ists.end(); it++)
 		{
@@ -259,10 +262,10 @@ public:
 	*	@param	path	Design the path of the library to get instance of.
 	*	@return An instance of the library design by the param path.
 	*/
-	T*										getInstance(const std::string & path)
+	std::shared_ptr<T>						getInstance(const std::string & path)
 	{
-		HMODULE								handler;
-		T*									(*symbol)();
+		void*                               handler;
+		T*                                  (*symbol)();
 
 		if (this->_instances[path])
 			return (this->_instances.at(path));
@@ -272,19 +275,19 @@ public:
 		if (this->_debug)
 			std::cerr << "_> Creating new instance of [" << path << "] in (" << this->_name << ")..." << std::endl;
 
-		if ((symbol = reinterpret_cast<T*(*)()>(GetProcAddress(handler, "CObject"))) == nullptr)
+		if ((symbol = reinterpret_cast<T *(*)()>(dlsym(handler, "CObject"))) == nullptr)
 		{
 			this->_handlers.erase(path);
-			std::cerr << "Error when loading CObject from dll file " << path.c_str() << std::endl;
+			std::cerr << dlerror() << std::endl;
 			return (nullptr);
 		}
 
-		this->_instances[path] = symbol();
+		this->_instances[path] = std::make_shared<T>(*symbol());
 
 		if (this->_debug)
 			std::cerr << "_> Instance successfully created!" << std::endl;
 
-		return (this->_instances.at(path));
+		return (this->_instances.at(path)));
 	}
 
 };

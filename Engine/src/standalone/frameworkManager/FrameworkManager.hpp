@@ -7,10 +7,9 @@
 
 #ifndef FRAMEWORK_MANAGER_HPP_
 # define FRAMEWORK_MANAGER_HPP_
-
 #include "FrameworkException.hpp"
 #include "FrameworkTpl.hpp"
-#include "DLLoader_Win.hpp"
+#include "DLLoader.hpp"
 #include "Crawler.hpp"
 
 /**
@@ -31,10 +30,10 @@ static const std::string DYNAMIC_LIBRARY_EXTENSION = ".dll";
 class FrameworkManager
 {
 private:
-	DLLoader<FrameworkTpl>	_loader;		/**< Contain the DLLoader. */
-	nx::Crawler				_crawler;		/**< Contain a crawler @see nx::Crawler.*/
-	std::string				_frameworkName;	/**< Contain the name of the Framework to load.*/
-	FrameworkTpl			*_framework;	/**< Contain an instance of the framework loaded.*/
+	DLLoader<FrameworkTpl>			_loader;		/**< Contain the DLLoader.*/
+	nx::Crawler						_crawler;		/**< Contain a crawler @see nx::Crawler.*/
+	std::string						_frameworkName;	/**< Contain the name of the Framework to load.*/
+	std::shared_ptr<FrameworkTpl>	_framework;		/**< Contain an instance of the framework loaded.*/
 
 public:
 	/**
@@ -67,9 +66,8 @@ private:
 	void							checkFile(void)
 	{
 		std::string					tmp;
-		int							nameSize;
+		size_t						nameSize;
 
-		this->_crawler.update();
 		auto pathList = this->_crawler.getEntriesListByType(nx::Crawler::REGULAR);
 
 		if (pathList.size() <= 0)
@@ -115,7 +113,7 @@ public:
 	*	Get an instance of the current framework.
 	*	@return Return an instance of the framework.
 	*/
-	FrameworkTpl	*getFramework(void) const
+	std::shared_ptr<FrameworkTpl>	getFramework(void) const
 	{
 		return (this->_framework);
 	}
