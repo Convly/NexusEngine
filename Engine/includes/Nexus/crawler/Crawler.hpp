@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <functional>
 
+#include "Nexus/errors/CrawlerInvalidPath.hpp"
+
 namespace fs = std::experimental::filesystem;
 
 struct EnumClassHash

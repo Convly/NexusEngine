@@ -8,7 +8,7 @@
 #ifndef DL_LOADER_LIN_HPP_
 # define DL_LOADER_LIN_HPP_
 
-#include "DLLoaderException.hpp"
+#include "Nexus/errors/DLLoaderException.hpp"
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -30,9 +30,10 @@ class DLLoader
 private:
 	std::unordered_map<std::string, void*>				_handlers;	/**< This param is uses to stock the handlers by file name.*/
 	std::vector<std::string>							_libs;		/**< This param is uses to stock the lib's names.*/
-	std::unordered_map<std::string, std::shared_ptr<T>>	_instances; /**< This param stock the instances of each librarys opened.*/
+	std::unordered_map<std::string,T*>					_instances; /**< This param stock the instances of each librarys opened.*/
 	std::string											_name;		/**< This param is the name of the DLLoader.*/
 	bool												_debug;		/**< This param allow debug prints.*/
+	std::string											_dylibext; /**< This param indicate the extension for dynamic libraries */
 
 public:
 	/**
@@ -42,7 +43,8 @@ public:
 	*/
 	DLLoader(const std::string& libName = "anonymous", int debug = false) :
 		_name(libName),
-		_debug(debug)
+		_debug(debug),
+		_dylibext(".so")		
 	{
 		if (_debug)
 			std::cerr << "_> Construction of DLLoader (" << this->_name << ")" << std::endl;
@@ -53,7 +55,16 @@ public:
 	*/
 	~DLLoader()
 	{
-		this->_destroyLibs();
+		this->destroyLibs();
+	}
+
+public:
+	/**
+	*	@return	This method return the dynamic library extension used on this DLLoader
+	*/
+	const std::string& getDylibExt() const
+	{
+		return this->_dylibext;
 	}
 
 public:
@@ -76,8 +87,9 @@ public:
 		if (this->_debug)
 			std::cerr << "_> Adding new lib in (" << this->_name << ") [" << path << "]" << std::endl;
 
-		if ((handler = dlopen(path.c_str(), RTLD_LAZY)) == nullptr)
-			throw nx::DLLoaderException("Can't load " + path + ": " + dlerror() + ".");
+		if ((handler = dlopen(path.c_str(), RTLD_NOW)) == nullptr) {
+			throw nx::DLLoaderException(std::string("Can't load ") + dlerror() + ".");
+		}
 		else
 		{
 			this->_handlers[path] = handler;
@@ -91,10 +103,10 @@ public:
 	*	@param	ist	The name of the instance to reset.
 	*	@return Return an instance newly created of the ist library.
 	*/
-	std::shared_ptr<T>						resetLib(const std::string & ist)
+	T*										resetLib(const std::string & ist)
 	{
-		std::shared_ptr<T>					nIst = nullptr;
-		std::unordered_map<std::string, std::shared_ptr<T>> ists = this->_instances;
+		T*									nIst = nullptr;
+		std::unordered_map<std::string, T*> ists = this->_instances;
 
 		if (_debug)
 			std::cerr << "_> " << ist << " is being reset..." << '\n';
@@ -105,7 +117,7 @@ public:
 		if (_debug)
 			std::cerr << "<_ " << ((nIst == nullptr) ? "ERROR" : "SUCCESS") << '\n';
 
-		return (nIst.get());
+		return (nIst);
 	}
 
 	/**
@@ -170,7 +182,7 @@ public:
 		if ((symbol = reinterpret_cast<T *(*)(T*)>(dlsym(handler, "DObject"))) == nullptr)
 			throw nx::DLLoaderException("Error when loading DObject from dll file " + path + ": " + dlerror() + ".");
 
-		symbol(this->_instances.at(path).get());
+		symbol(this->_instances.at(path));
 		this->_instances[path] = nullptr;
 
 		if (_debug)
@@ -194,7 +206,7 @@ public:
 		else
 		{
 			if (dlclose(this->_handlers.at(path)))
-				throw nx::DLLoaderException("Error when freeing library " + path + ": " + dlerror() << ".");
+				throw nx::DLLoaderException("Error when freeing library " + path + std::string(":") + dlerror() + ".");
 		}
 }
 	/**
@@ -235,7 +247,7 @@ public:
 	*	Get the instances of the libs stocked in memory order by name.
 	*	@return Return a std::unordered_map<std::string, T*> containing all the names and the instances of the libs.
 	*/
-	std::unordered_map<std::string, std::shared_ptr<T>>		getInstances(void) const
+	std::unordered_map<std::string, T*>		getInstances(void) const
 	{
 		return (this->_instances);
 	}
@@ -262,7 +274,7 @@ public:
 	*	@param	path	Design the path of the library to get instance of.
 	*	@return An instance of the library design by the param path.
 	*/
-	std::shared_ptr<T>						getInstance(const std::string & path)
+	T*										getInstance(const std::string & path)
 	{
 		void*                               handler;
 		T*                                  (*symbol)();
@@ -278,18 +290,17 @@ public:
 		if ((symbol = reinterpret_cast<T *(*)()>(dlsym(handler, "CObject"))) == nullptr)
 		{
 			this->_handlers.erase(path);
-			std::cerr << dlerror() << std::endl;
+			
 			return (nullptr);
 		}
 
-		this->_instances[path] = std::make_shared<T>(*symbol());
+		this->_instances[path] = symbol();
 
 		if (this->_debug)
 			std::cerr << "_> Instance successfully created!" << std::endl;
 
-		return (this->_instances.at(path)));
+		return (this->_instances.at(path));
 	}
-
 };
 
 #endif

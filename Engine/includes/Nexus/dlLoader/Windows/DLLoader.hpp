@@ -30,9 +30,10 @@ class DLLoader
 private:
 	std::unordered_map<std::string, HMODULE>			_handlers;		/**< This param is uses to stock the handlers by file name.*/
 	std::vector<std::string>							_libs;			/**< This param is uses to stock the lib's names.*/
-	std::unordered_map<std::string, std::shared_ptr<T>>	_instances;		/**< This param stock the instances of each librarys opened.*/
+	std::unordered_map<std::string, T*>					_instances;		/**< This param stock the instances of each librarys opened.*/
 	std::string											_name;			/**< This param is the name of the DLLoader.*/
 	bool												_debug;			/**< This param allow debug prints.*/
+	std::string											_dylibext; /**< This param indicate the extension for dynamic libraries */	
 
 public:
 	/**
@@ -42,7 +43,8 @@ public:
 	*/
 	DLLoader(const std::string& libName = "anonymous", int debug = false) :
 		_name(libName),
-		_debug(debug)
+		_debug(debug),
+		_dylibext(".dll")
 	{
 		if (_debug)
 			std::cerr << "_> Construction of DLLoader (" << this->_name << ")" << std::endl;
@@ -54,6 +56,15 @@ public:
 	virtual ~DLLoader()
 	{
 		this->destroyLibs();
+	}
+
+	/**
+	*	@return	This method return the dynamic library extension used on this DLLoader
+	*/
+public:
+	const std::string& getDylibExt()
+	{
+		return this->_dylibext;
 	}
 
 public:
@@ -91,10 +102,10 @@ public:
 	*	@param	ist	The name of the instance to reset.
 	*	@return Return an instance newly created of the ist library.
 	*/
-	std::shared_ptr<T>						resetLib(const std::string & ist)
+	T*									resetLib(const std::string & ist)
 	{
-		std::shared_ptr<T>					nIst = nullptr;
-		std::unordered_map<std::string, std::shared_ptr<T*>> ists = this->_instances;
+		T*								nIst = nullptr;
+		std::unordered_map<std::string, T*> ists = this->_instances;
 
 		if (_debug)
 			std::cerr << "_> " << ist << " is being reset..." << '\n';
@@ -170,7 +181,7 @@ public:
 		if ((symbol = reinterpret_cast<T*(*)(T*)>(GetProcAddress(handler, "DObject"))) == nullptr)
 			throw nx::DLLoaderException("Error when loading DObject from dll file " + path + ".");
 
-		symbol(this->_instances.at(path).get());
+		symbol(this->_instances.at(path));
 		this->_instances[path] = nullptr;
 
 		if (_debug)
@@ -193,8 +204,6 @@ public:
 			return;
 		if (FreeLibrary(this->_handlers.at(path)))
 			throw nx::DLLoaderException("Error when freeing library " + path + ".");
-
-			std::cerr <<  << std::endl;
 	}
 
 	/**
@@ -232,7 +241,7 @@ public:
 	*	Get the instances of the libs stocked in memory order by name.
 	*	@return Return a std::unordered_map<std::string, T*> containing all the names and the instances of the libs.
 	*/
-	std::unordered_map<std::string, std::shared_ptr<T>>		getInstances(void) const
+	std::unordered_map<std::string, T>		getInstances(void) const
 	{
 		return (this->_instances);
 	}
@@ -244,7 +253,7 @@ public:
 	std::string								getPathByInstance(T* ist) const
 	{
 		std::string                         res = "";
-		std::unordered_map<std::string, std::shared_ptr<T>> ists = this->_instances;
+		std::unordered_map<std::string, T> ists = this->_instances;
 
 		for (auto it = ists.begin(); it != ists.end(); it++)
 		{
@@ -259,7 +268,7 @@ public:
 	*	@param	path	Design the path of the library to get instance of.
 	*	@return An instance of the library design by the param path.
 	*/
-	std::shared_ptr<T>						getInstance(const std::string & path)
+	T										getInstance(const std::string & path)
 	{
 		HMODULE								handler;
 		T*									(*symbol)();
@@ -279,7 +288,7 @@ public:
 			return (nullptr);
 		}
 
-		this->_instances[path] = std::make_shared<T>(*symbol());
+		this->_instances[path] = symbol();
 
 		if (this->_debug)
 			std::cerr << "_> Instance successfully created!" << std::endl;
