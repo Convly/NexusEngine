@@ -1,4 +1,4 @@
-#include "Crawler.hpp"
+#include "Nexus/crawler/Crawler.hpp"
 
 nx::Crawler::Crawler(const std::string& path, const bool log)
 :
@@ -41,6 +41,10 @@ const std::vector<std::pair<nx::Crawler::ENTRY_TYPE, std::vector<fs::path>>>& nx
 
 const std::vector<fs::path>& nx::Crawler::update()
 {
+	if (!fs::is_directory(this->_path)) {
+		throw nx::CrawlerInvalidPath(this->_path + " is not a valid path");
+	}
+
 	this->_entries.clear();
 
 	for (const fs::path & p : fs::directory_iterator(this->_path)) {
@@ -108,6 +112,10 @@ const std::vector<fs::path>& nx::Crawler::getDirectoriesListByPath(const std::st
 
 const std::vector<fs::path>& nx::Crawler::getEntriesListByTypeAndPath(const nx::Crawler::ENTRY_TYPE type, const std::string& path)
 {
+	if (!fs::is_directory(path)) {
+		throw nx::CrawlerInvalidPath(path + " is not a valid path");
+	}
+
 	this->archiveSearch(type);
 
 	for (const fs::path & p : fs::directory_iterator(path))
