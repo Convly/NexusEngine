@@ -6,6 +6,9 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 endif()
 
+### LIBRARY NAME
+set(LIBRARY_NAME "NexusEngine")
+
 ### COMPILATOR OPTIONS
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,14 +21,33 @@ set(INCLUDES_DIR ${ENGINE_DIR}/includes)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY        ${ENGINE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG  ${ENGINE_DIR}/lib)
 
+if (WIN32)
+  set(DLLOADER_INCLUDE_PATH /Windows/)
+elseif(UNIX AND NOT APPLE)
+  set(DLLOADER_INCLUDE_PATH /Linux/)
+endif()
+
 include_directories(
   ${INCLUDES_DIR}
-  ${ENGINE_DIR}/src/standalone/errors/
+  ${INCLUDES_DIR}/dlLoader/${DLLOADER_INCLUDE_PATH}
 )
 
 file(GLOB_RECURSE HEADER_CLIENT_FILES   ${INCLUDES_DIR}/Nexus/*.hpp)
 file(GLOB_RECURSE SOURCE_CLIENT_FILES		${ENGINE_DIR}/src/*.cpp)
-add_library(NexusEngine STATIC ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES})
+add_library(${LIBRARY_NAME} STATIC ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES})
+
+
+
+if (UNIX AND NOT APPLE AND NOT FSLIB_STATIC)
+  set(FSLIB_STATIC "/usr/lib/gcc/x86_64-linux-gnu/5/libstdc++fs.a")
+endif()
+  ### LIBCSTD++FS (UNIX)
+if (UNIX AND NOT APPLE)
+  add_library(stdc++fs UNKNOWN IMPORTED)
+  set_property(TARGET stdc++fs PROPERTY IMPORTED_LOCATION ${FSLIB_STATIC})
+  target_link_libraries(${LIBRARY_NAME} stdc++fs)
+  target_link_libraries(${LIBRARY_NAME} dl)
+endif()
 
 # CMake instructions to test exemple using the static lib in debug mode
 if (CMAKE_BUILD_TYPE MATCHES Debug)
@@ -38,7 +60,7 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 
   add_executable(${APP_EXE} ${SOURCE_TEST_FILES} ${HEADER_TEST_FILES})
 
-  target_link_libraries(${APP_EXE} NexusEngine)
+  target_link_libraries(${APP_EXE} ${LIBRARY_NAME})
 else()
   message("Ignoring tests...")
 endif()
