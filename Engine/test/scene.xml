@@ -1,0 +1,6 @@
+<scene name="MaScene">
+	<layout src="LayoutMenu.xml"/>
+	<component type="script" src="MaScene.lua"/>
+	<gameobject name="enemy1" type="enemy"/>
+	<gameobject name="enemy2" type="enemy"/>
+</scene>
