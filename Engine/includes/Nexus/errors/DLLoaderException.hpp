@@ -2,7 +2,7 @@
 // Made by Marco
 //
 
-#ifndef NEXUS_ENGINE__ERROR_DLLAODER_
+#ifndef NEXUS_ENGINE__ERROR_DLLOADER_
 # define NEXUS_ENGINE__ERROR_DLLOADER_
 
 #include <exception>
