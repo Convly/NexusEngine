@@ -5,10 +5,15 @@
 #include <memory>
 
 #include "Nexus/systems/SystemTpl.hpp"
+#include "Nexus/frameworks/FrameworkManager.hpp"
+#include "Nexus/frameworks/guiFrameworkTpl.hpp"
 
 namespace nx {
 	class GUISystem : public SystemTpl
 	{
+	private:
+		FrameworkManager<nx::GuiFrameworkTpl>	_framework_m;
+
 	public:
 		GUISystem();
 		virtual ~GUISystem();
@@ -17,9 +22,10 @@ namespace nx {
 		void update();
 		void init();
 		bool checkIntegrity() const;
+		nx::GuiFrameworkTpl* getFramework();
 
 	public:
-		static nx::GUISystem* cast(const std::shared_ptr<nx::SystemTpl>&);	
+		static nx::GUISystem* cast(const std::shared_ptr<nx::SystemTpl>&);
 	};
 }
 
