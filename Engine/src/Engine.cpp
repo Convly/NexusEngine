@@ -13,7 +13,7 @@ nx::Engine::Engine(const bool debug)
 	_run(false),
 	_debug(debug),
 	_systems({
-		std::make_shared<nx::GUISystem>()
+		std::make_shared<nx::TestSystem>()
 	})
 {
 	for (auto system : this->_systems) {
@@ -107,6 +107,7 @@ void nx::Engine::emit(const std::string& name, const std::string& data)
 
 void nx::Engine::emit(const nx::Event& event)
 {
+	nx::Log::inform("New event catched in the Engine: {" + event.name + ", " + event.data + "}");
 	std::for_each(
 		this->_systems.begin(),
 		this->_systems.end(),
