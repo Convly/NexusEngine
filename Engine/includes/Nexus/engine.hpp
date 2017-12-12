@@ -8,8 +8,8 @@
 #include <algorithm>
 
 #include "Nexus/gui.hpp"
-#include "RunWithoutSetupException.hpp"
-#include "SystemNotFoundException.hpp"
+#include "Nexus/errors/RunWithoutSetupException.hpp"
+#include "Nexus/errors/SystemNotFoundException.hpp"
 
 namespace nx {
   class Engine {
