@@ -56,7 +56,7 @@ namespace nx {
 		std::vector<nx::EventLink>	_links;
 		nx::Engine&					_engine;
 		const std::string			_name;
-		uint32_t																	_maxConnectID;
+		uint32_t					_maxConnectID;
 	};
 }
 
