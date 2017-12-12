@@ -24,7 +24,7 @@ namespace nx {
 	class FrameworkManager
 	{
 	private:
-		DLLoader<T>						_loader;		/**< Contain the DLLoader.*/
+		DLLoader<T, nx::Engine>			_loader;		/**< Contain the DLLoader.*/
 		std::string						_frameworksRoot; /**< Contain the path to the frameworks directory. */
 		nx::Crawler						_crawler;		/**< Contain a crawler @see nx::Crawler.*/
 		std::string						_frameworkName;	/**< Contain the name of the Framework to load.*/
@@ -41,7 +41,7 @@ namespace nx {
 		FrameworkManager(const std::string & frameworkName, bool debug = false)
 		:
 			_loader(std::string(frameworkName), debug),
-			_frameworksRoot("./frameworks/"),
+			_frameworksRoot("./frameworks/" + frameworkName + "/"),
 			_crawler(".", debug),
 			_frameworkName(frameworkName),
 			_framework(nullptr)

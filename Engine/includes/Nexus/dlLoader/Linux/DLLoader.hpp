@@ -17,6 +17,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "Nexus/engine.hpp"
+
 
 /**
 *	@class	DLLoader
@@ -24,7 +26,9 @@
 *	This class deserve to load a dynamic Library.
 */
 
-template <typename T>
+namespace nx { class Engine; }
+
+template <typename T, typename U>
 class DLLoader
 {
 private:
@@ -277,7 +281,7 @@ public:
 	T*										getInstance(const std::string & path)
 	{
 		void*                               handler;
-		T*                                  (*symbol)();
+		T*                                  (*symbol)(U*);
 
 		if (this->_instances[path])
 			return (this->_instances.at(path));
@@ -287,14 +291,14 @@ public:
 		if (this->_debug)
 			std::cerr << "_> Creating new instance of [" << path << "] in (" << this->_name << ")..." << std::endl;
 
-		if ((symbol = reinterpret_cast<T *(*)()>(dlsym(handler, "CObject"))) == nullptr)
+		if ((symbol = reinterpret_cast<T *(*)(U*)>(dlsym(handler, "CObject"))) == nullptr)
 		{
 			this->_handlers.erase(path);
 			
 			return (nullptr);
 		}
 
-		this->_instances[path] = symbol();
+		this->_instances[path] = symbol(&(U::Instance()));
 
 		if (this->_debug)
 			std::cerr << "_> Instance successfully created!" << std::endl;

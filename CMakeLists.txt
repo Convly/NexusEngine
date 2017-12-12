@@ -36,7 +36,7 @@ file(GLOB_RECURSE HEADER_CLIENT_FILES   ${INCLUDES_DIR}/Nexus/*.hpp)
 file(GLOB_RECURSE SOURCE_CLIENT_FILES		${ENGINE_DIR}/src/*.cpp)
 add_library(${LIBRARY_NAME} STATIC ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES})
 
-
+file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 if (UNIX AND NOT APPLE AND NOT FSLIB_STATIC)
   set(FSLIB_STATIC "/usr/lib/gcc/x86_64-linux-gnu/5/libstdc++fs.a")
@@ -54,6 +54,8 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
   message("Preparing to build tests for debug mode...")
   set(APP_EXE "engine_test")
   set(TEST_DIR ${ENGINE_DIR}/test/)
+
+  file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_BINARY_DIR})
 
   file(GLOB_RECURSE SOURCE_TEST_FILES		${TEST_DIR}/*.cpp)
   file(GLOB_RECURSE HEADER_TEST_FILES		${TEST_DIR}/*.hpp)
