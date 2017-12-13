@@ -14,39 +14,48 @@
 namespace nx {
   class Engine {
   private:
-	static nx::Engine						_instance;
+		static nx::Engine						_instance;
 
   public:
-	static nx::Engine& 						Instance();
+		static nx::Engine& 						Instance();
 
   private:
-	bool											_run;
-	bool											_debug;
-	std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
+		bool											_run;
+		bool											_debug;
+		std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
 
 	private:
-	Engine(const bool debug = false);
-	virtual ~Engine ();
+		Engine(const bool debug = false);
+		virtual ~Engine ();
 
   public:
-	bool  ping(void) const;
+		bool  ping(void) const;
 
   private:
-	bool checkEngineIntegrity(void) const;
+		bool checkEngineIntegrity(void) const;
 
   public:
-	void emit(const nx::Event&);
-	void emit(const std::string&, const std::string&);
-	void setup(void);
-	void stop(void);
-	int run(const std::function<void(void)>&);
+		void emit(const nx::Event&);
+		void emit(const std::string&, const std::string&);
+		void setup(void);
+		void stop(void);
+		int run(const std::function<void(void)>&);
+
+	public:
+		template<typename T>
+		static T* cast(const std::shared_ptr<nx::SystemTpl>& src)
+		{
+			auto ptr = src.get();
+			if (!ptr) return nullptr;
+			return dynamic_cast<T*>(ptr);
+		}
 
   public:
-	bool isSetup(void) const;
-	bool debug(void) const;
-	void setDebugFlag(const bool);
-	const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
-	const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
+		bool isSetup(void) const;
+		bool debug(void) const;
+		void setDebugFlag(const bool);
+		const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
+		const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
   };
 } /* nx */
 
