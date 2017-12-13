@@ -8,7 +8,7 @@
 #ifndef DL_LOADER_WIN_HPP_
 # define DL_LOADER_WIN_HPP_
 
-#include "Nexus/errors/DLLoaderException.hpp"
+#include "DLLoaderException.hpp"
 #include <unordered_map>
 #include <algorithm>
 #include <windows.h>
@@ -268,7 +268,7 @@ public:
 	*	@param	path	Design the path of the library to get instance of.
 	*	@return An instance of the library design by the param path.
 	*/
-	T*										getInstance(const std::string & path)
+	T										getInstance(const std::string & path)
 	{
 		HMODULE								handler;
 		T*									(*symbol)(U*);
@@ -288,7 +288,7 @@ public:
 			return (nullptr);
 		}
 
-		this->_instances[path] = symbol(&U::Instance());
+		this->_instances[path] = symbol(&u::Instance());
 
 		if (this->_debug)
 			std::cerr << "_> Instance successfully created!" << std::endl;

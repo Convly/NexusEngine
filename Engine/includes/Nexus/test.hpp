@@ -8,11 +8,11 @@
 #include "Nexus/frameworks/FrameworkManager.hpp"
 #include "Nexus/frameworks/TestFrameworkTpl.hpp"
 
+# define __SYSTEM_KEY__ "test"
+
 namespace nx {
 	class TestSystem : public SystemTpl
 	{
-		# define __NX_TEST_KEY__ "test"
-
 	private:
 		FrameworkManager<nx::TestFrameworkTpl>	_framework_m;
 

@@ -3,8 +3,8 @@
 
 nx::TestSystem::TestSystem()
 :
-	nx::SystemTpl(__NX_TEST_KEY__),
-	_framework_m(__NX_TEST_KEY__, true)
+	nx::SystemTpl(__SYSTEM_KEY__),
+	_framework_m(__SYSTEM_KEY__, true)
 {
 	this->connect("TestEventKey", nx::TestSystem::event_TestEventKey);
 }
@@ -46,7 +46,7 @@ void nx::TestSystem::event_TestEventKey(const nx::Event& e)
 	auto& engine = nx::Engine::Instance();
 	// We use the getSystemByName method to get a shared_ptr on the SystemTpl* instance of our choice.
 	// Then we cast it into the system of our choice
-	auto self = nx::Engine::cast<nx::TestSystem>(engine.getSystemByName(__NX_TEST_KEY__));
+	auto self = nx::Engine::cast<nx::TestSystem>(engine.getSystemByName("test"));
 	// If the cast fails, our self variable is set to nullptr
 	if (!self) return;
 

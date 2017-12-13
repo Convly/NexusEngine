@@ -5,7 +5,6 @@
 *	This file must be include when using the DLLoader class on Linux/OSX.
 */
 
-#if defined(__GNUC__) || defined(__GNUG__)
 #ifndef DL_LOADER_LIN_HPP_
 # define DL_LOADER_LIN_HPP_
 
@@ -308,5 +307,4 @@ public:
 	}
 };
 
-#endif
 #endif
