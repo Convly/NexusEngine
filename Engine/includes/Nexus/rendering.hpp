@@ -5,8 +5,12 @@
 #include <memory>
 
 #include "Nexus/systems/SystemTpl.hpp"
-#include "Nexus/frameworks/FrameworkManager.hpp"
 #include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
+
+namespace nx {
+	template <typename T>
+	class FrameworkManager;
+}
 
 namespace nx {
 	class RenderingSystem : public SystemTpl
@@ -14,7 +18,7 @@ namespace nx {
 		# define __NX_RENDERING_KEY__ "rendering"
 
 	private:
-		FrameworkManager<nx::RenderingFrameworkTpl>	_framework_m;
+		std::shared_ptr<FrameworkManager<nx::RenderingFrameworkTpl>>	_framework_m;
 
 	public:
 		RenderingSystem();

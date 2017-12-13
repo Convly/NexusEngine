@@ -1,10 +1,11 @@
 #include "Nexus/test.hpp"
 #include "Nexus/engine.hpp"
+#include "Nexus/frameworks/FrameworkManager.hpp"
 
 nx::TestSystem::TestSystem()
 :
-	nx::SystemTpl(__SYSTEM_KEY__),
-	_framework_m(__SYSTEM_KEY__, true)
+	nx::SystemTpl(__NX_TEST_KEY__),
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::TestFrameworkTpl>>(__NX_TEST_KEY__, true))
 {
 	this->connect("TestEventKey", nx::TestSystem::event_TestEventKey);
 }
@@ -15,7 +16,7 @@ nx::TestSystem::~TestSystem() {
 
  nx::TestFrameworkTpl* nx::TestSystem::getFramework()
 {
-	return this->_framework_m.getFramework();
+	return this->_framework_m->getFramework();
 }
 
 void nx::TestSystem::init()
@@ -35,7 +36,7 @@ void nx::TestSystem::update()
 
 bool nx::TestSystem::checkIntegrity() const
 {
-	if (this->_framework_m.getFramework()) {
+	if (this->_framework_m->getFramework()) {
 		return true;
 	}
 	return false;
@@ -46,7 +47,7 @@ void nx::TestSystem::event_TestEventKey(const nx::Event& e)
 	auto& engine = nx::Engine::Instance();
 	// We use the getSystemByName method to get a shared_ptr on the SystemTpl* instance of our choice.
 	// Then we cast it into the system of our choice
-	auto self = nx::Engine::cast<nx::TestSystem>(engine.getSystemByName("test"));
+	auto self = nx::Engine::cast<nx::TestSystem>(engine.getSystemByName(__NX_TEST_KEY__));
 	// If the cast fails, our self variable is set to nullptr
 	if (!self) return;
 

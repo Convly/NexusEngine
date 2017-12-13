@@ -1,10 +1,11 @@
 #include "Nexus/rendering.hpp"
 #include "Nexus/engine.hpp"
+#include "Nexus/frameworks/FrameworkManager.hpp"
 
 nx::RenderingSystem::RenderingSystem()
 :
 	nx::SystemTpl(__NX_RENDERING_KEY__),
-	_framework_m(__NX_RENDERING_KEY__, true)
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::RenderingFrameworkTpl>>(__NX_RENDERING_KEY__, true))
 {
 	this->connect("RenderingEventKey", nx::RenderingSystem::event_RenderingEventKey);
 }
@@ -15,7 +16,7 @@ nx::RenderingSystem::~RenderingSystem() {
 
  nx::RenderingFrameworkTpl* nx::RenderingSystem::getFramework()
 {
-	return this->_framework_m.getFramework();
+	return this->_framework_m->getFramework();
 }
 
 void nx::RenderingSystem::init()
@@ -35,7 +36,7 @@ void nx::RenderingSystem::update()
 
 bool nx::RenderingSystem::checkIntegrity() const
 {
-	if (this->_framework_m.getFramework()) {
+	if (this->_framework_m->getFramework()) {
 		return true;
 	}
 	return false;
