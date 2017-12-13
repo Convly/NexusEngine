@@ -15,7 +15,7 @@ namespace nx {
 		// This method must be implemented this way
 		virtual ~TestFrameworkTpl() {};
 		// This method must be implemented this way
-		const std::string& getName(void) const;
+		const std::string& getName(void) const {return this->_name;}
 
 		// Framework Methods (must be virtual pure)
 		virtual void TriggerTestEvent() = 0;
