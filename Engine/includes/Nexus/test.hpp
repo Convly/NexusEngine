@@ -27,7 +27,7 @@ namespace nx {
 		nx::TestFrameworkTpl* getFramework();
 
 	public:
-		static nx::TestSystem* cast(const std::shared_ptr<nx::SystemTpl>&);
+		static void event_TestEventKey(const nx::Event&);
 	};
 }
 
