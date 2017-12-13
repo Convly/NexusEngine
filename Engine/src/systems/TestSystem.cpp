@@ -6,18 +6,11 @@ nx::TestSystem::TestSystem()
 	nx::SystemTpl(__SYSTEM_KEY__),
 	_framework_m(__SYSTEM_KEY__, true)
 {
-
+	this->connect("TestEventKey", nx::TestSystem::event_TestEventKey);
 }
 
 nx::TestSystem::~TestSystem() {
 
-}
-
-nx::TestSystem* nx::TestSystem::cast(const std::shared_ptr<nx::SystemTpl>& src)
-{
-	auto ptr = src.get();
-	if (!ptr) return nullptr;
-	return dynamic_cast<nx::TestSystem*>(ptr);
 }
 
  nx::TestFrameworkTpl* nx::TestSystem::getFramework()
@@ -46,4 +39,21 @@ bool nx::TestSystem::checkIntegrity() const
 		return true;
 	}
 	return false;
+}
+
+void nx::TestSystem::event_TestEventKey(const nx::Event& e)
+{
+	auto& engine = nx::Engine::Instance();
+	// We use the getSystemByName method to get a shared_ptr on the SystemTpl* instance of our choice.
+	// Then we cast it into the system of our choice
+	auto self = nx::Engine::cast<nx::TestSystem>(engine.getSystemByName("test"));
+	// If the cast fails, our self variable is set to nullptr
+	if (!self) return;
+
+	// We can now use public member functions of the System
+	self->getName();
+	// As well as the public functions of the engine.
+	engine.ping();
+	// Finally we obviously also have access to the name and the data of the Event
+	nx::Log::inform(e.data);
 }
