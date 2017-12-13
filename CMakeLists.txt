@@ -22,9 +22,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY        ${ENGINE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG  ${ENGINE_DIR}/lib)
 
 if (WIN32)
-  set(DLLOADER_INCLUDE_PATH /Windows/)
-elseif(UNIX AND NOT APPLE)
   set(DLLOADER_INCLUDE_PATH /Linux/)
+elseif(UNIX AND NOT APPLE)
+  set(DLLOADER_INCLUDE_PATH /Windows/)
 endif()
 
 include_directories(
