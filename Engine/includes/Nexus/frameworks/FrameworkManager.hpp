@@ -11,7 +11,11 @@
 #include "Nexus/log.hpp"
 #include "Nexus/errors/FrameworkException.hpp"
 #include "Nexus/crawler/Crawler.hpp"
+#if defined(__GNUC__) || defined(__GNUG__)
 #include "Nexus/dlLoader/Linux/DLLoader.hpp"
+#elif  defined(_MSC_VER)
+#include "Nexus/dlLoader/Windows/DLLoader.hpp"
+#endif
 
 /**
 *	@class FrameworkManager
@@ -133,7 +137,7 @@ namespace nx {
 		*	Get the full path to the framework
 		*	@return Return a relative path to the wanted framework
 		*/
-		const std::string getFrameworkPath() const
+		const std::string getFrameworkPath()
 		{
 			return this->_frameworksRoot + this->_frameworkName + this->_loader.getDylibExt();
 		}
@@ -142,7 +146,7 @@ namespace nx {
 		*	Get the full name of the framework
 		*	@return Return the full name (with the extension) for the wanted framework
 		*/
-		const std::string getFrameworkFullName() const
+		const std::string getFrameworkFullName()
 		{
 			return this->_frameworkName + this->_loader.getDylibExt();
 		}

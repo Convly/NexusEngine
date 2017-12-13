@@ -1,40 +1,40 @@
-#include "Nexus/test.hpp"
+#include "Nexus/rendering.hpp"
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/FrameworkManager.hpp"
 
-nx::TestSystem::TestSystem()
+nx::RenderingSystem::RenderingSystem()
 :
-	nx::SystemTpl(__NX_TEST_KEY__),
-	_framework_m(std::make_shared<nx::FrameworkManager<nx::TestFrameworkTpl>>(__NX_TEST_KEY__, true))
+	nx::SystemTpl(__NX_RENDERING_KEY__),
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::RenderingFrameworkTpl>>(__NX_RENDERING_KEY__, true))
 {
-	this->connect("TestEventKey", nx::TestSystem::event_TestEventKey);
+	this->connect("RenderingEventKey", nx::RenderingSystem::event_RenderingEventKey);
 }
 
-nx::TestSystem::~TestSystem() {
+nx::RenderingSystem::~RenderingSystem() {
 
 }
 
- nx::TestFrameworkTpl* nx::TestSystem::getFramework()
+ nx::RenderingFrameworkTpl* nx::RenderingSystem::getFramework()
 {
 	return this->_framework_m->getFramework();
 }
 
-void nx::TestSystem::init()
+void nx::RenderingSystem::init()
 {
 
 }
 
-void nx::TestSystem::update()
+void nx::RenderingSystem::update()
 {
 	auto f = this->getFramework();
 	if (!f)
 		nx::Log::print("Framework is nullptr");
 	else
-		f->TriggerTestEvent();
+		f->TriggerRenderingEvent();
 	std::cout << "Update for " << this->getName() << std::endl;
 }
 
-bool nx::TestSystem::checkIntegrity() const
+bool nx::RenderingSystem::checkIntegrity() const
 {
 	if (this->_framework_m->getFramework()) {
 		return true;
@@ -42,12 +42,12 @@ bool nx::TestSystem::checkIntegrity() const
 	return false;
 }
 
-void nx::TestSystem::event_TestEventKey(const nx::Event& e)
+void nx::RenderingSystem::event_RenderingEventKey(const nx::Event& e)
 {
 	auto& engine = nx::Engine::Instance();
 	// We use the getSystemByName method to get a shared_ptr on the SystemTpl* instance of our choice.
 	// Then we cast it into the system of our choice
-	auto self = nx::Engine::cast<nx::TestSystem>(engine.getSystemByName(__NX_TEST_KEY__));
+	auto self = nx::Engine::cast<nx::RenderingSystem>(engine.getSystemByName(__NX_RENDERING_KEY__));
 	// If the cast fails, our self variable is set to nullptr
 	if (!self) return;
 
