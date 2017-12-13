@@ -5,16 +5,22 @@
 #include <memory>
 
 #include "Nexus/systems/SystemTpl.hpp"
-#include "Nexus/frameworks/FrameworkManager.hpp"
 #include "Nexus/frameworks/TestFrameworkTpl.hpp"
 
 # define __SYSTEM_KEY__ "test"
 
 namespace nx {
+	template <typename T>
+	class FrameworkManager;
+}
+
+namespace nx {
 	class TestSystem : public SystemTpl
 	{
+		# define __NX_TEST_KEY__ "test"
+
 	private:
-		FrameworkManager<nx::TestFrameworkTpl>	_framework_m;
+		std::shared_ptr<FrameworkManager<nx::TestFrameworkTpl>>	_framework_m;
 
 	public:
 		TestSystem();

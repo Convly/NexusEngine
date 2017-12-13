@@ -22,9 +22,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY        ${ENGINE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG  ${ENGINE_DIR}/lib)
 
 if (WIN32)
-  set(DLLOADER_INCLUDE_PATH /Windows/)
-elseif(UNIX AND NOT APPLE)
   set(DLLOADER_INCLUDE_PATH /Linux/)
+elseif(UNIX AND NOT APPLE)
+  set(DLLOADER_INCLUDE_PATH /Windows/)
 endif()
 
 include_directories(
@@ -34,6 +34,7 @@ include_directories(
 
 file(GLOB_RECURSE HEADER_CLIENT_FILES   ${INCLUDES_DIR}/Nexus/*.hpp)
 file(GLOB_RECURSE SOURCE_CLIENT_FILES		${ENGINE_DIR}/src/*.cpp)
+list(REMOVE_ITEM HEADER_CLIENT_FILES ${ENGINE_DIR}/dlLoader/${DLLOADER_INCLUDE_PATH}/DLLoader.hpp)
 add_library(${LIBRARY_NAME} STATIC ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES})
 
 file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
@@ -54,8 +55,12 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
   message("Preparing to build tests for debug mode...")
   set(APP_EXE "engine_test")
   set(TEST_DIR ${ENGINE_DIR}/test/)
-
-  file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_BINARY_DIR})
+  
+  if (UNIX AND NOT APPLE)
+	file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_BINARY_DIR})
+  elseif (WIN32)
+	file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+  endif()
 
   file(GLOB_RECURSE SOURCE_TEST_FILES		${TEST_DIR}/*.cpp)
   file(GLOB_RECURSE HEADER_TEST_FILES		${TEST_DIR}/*.hpp)
