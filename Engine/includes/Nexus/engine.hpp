@@ -7,6 +7,7 @@
 #include <functional>
 #include <algorithm>
 
+#include "Nexus/systems/SystemTpl.hpp"
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
 

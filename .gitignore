@@ -35,6 +35,7 @@
 #Other
 bin/
 build/
+lib/*
 .vs/
 .vscode/
 *.sln
