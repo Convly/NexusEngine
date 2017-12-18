@@ -7,8 +7,7 @@
 #include <functional>
 #include <algorithm>
 
-#include "Nexus/test.hpp"
-#include "Nexus/rendering.hpp"
+#include "Nexus/systems/SystemTpl.hpp"
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
 
