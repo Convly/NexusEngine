@@ -48,3 +48,7 @@ lib/*
 Desktop.ini
 *.user
 *.sh
+
+
+cmake-build-debug
+.idea
