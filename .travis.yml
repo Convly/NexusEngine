@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: cpp
 compiler: g++
-script: ./configure && make -C build
+script: "./configure && make -C build"
 install: export CXX="g++-5"
 addons:
   apt:
@@ -10,3 +10,6 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-5
+notifications:
+  slack:
+    secure: PaT8R5aWFA8TrmMiotvFJQH8823iILtwWaaKAf61vf3m5IBA9n1IssFUwGd8P5huscUBsYoZgTPfF2yN2+cJ5Eg5fxmtCQHDFD42aW8Xdw3z1qp0bSMPGZM35kgLcgbGe3r1h5n+PrdkXMwaU68oJX1kzAyt13fhC7/oYSGt7miDtAH86WW6r6+ee0gDsHpok+DxzVv3HBT8sa5Hg+B1Kc7SK0CERkWQ6qj6zG2nXM4ErXdcVUAv+zD3jSOCs9Fslf7AT5cxxhrP18bK/84S5xobE7HT2Cr7y0DR2am8CS8OpDkFawUa2YmdcnWnido5jrjOnsmmoTQPJ2jEzJj4FCvuWmGBmvUwYR5rbL3YXQK5K0uXOBW/iV+FsHwjEIUgYbBHCAt9Kc7EO9YSgQLW1xfBWsezTcI3BDgP0Wkc39K8EIuRqL/rM7xqbHm5y2PFk/9SR9Xhlof+7k0HatATBmhhoumWi9oONEcIuKxmgFOX7J1f8oj8lT25UW5PQJMGXLzuYGaS2cDQIEEHr/kEmUoBUWYfEtaqaSrPbbnaWkZSH/fETAlsI3Zx/I9w5mkDrQonaPQY9Ir4Le6rVzKuKxGfA0jYNEzKTCIk4WXrvibkaDHCZdumW6NAtbJmPg0h3gYivrl2KgQUSXjbkx/qyjcAkFspvZgEMTnKCYxKGOE=
