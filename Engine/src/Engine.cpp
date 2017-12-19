@@ -13,7 +13,8 @@ nx::Engine::Engine(const bool debug)
 	_debug(debug),
 	_systems({
 		/* std::make_shared<nx::XxxSystem>() */
-				 std::make_shared<nx::NetworkSystem>()
+				 std::make_shared<nx::NetworkSystem>(),
+				 std::make_shared<nx::ConsoleEventSystem>()
 	})
 {
 	for (auto system : this->_systems) {
