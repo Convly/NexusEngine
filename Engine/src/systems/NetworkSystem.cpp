@@ -25,8 +25,6 @@ void nx::NetworkSystem::update() {
   auto f = this->getFramework();
   if (!f)
 	nx::Log::print("Framework is nullptr");
-  else
-	f->TriggerNetworkEvent();
   //std::cout << "Update for " << this->getName() << std::endl;
 }
 

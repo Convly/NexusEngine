@@ -1,6 +1,10 @@
 #ifndef FRAMEWORK_NETWORK
 # define FRAMEWORK_NETWORK
 
+#include <stdio.h>
+#include <string.h>
+#include <arpa/inet.h>
+
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/NetworkFrameworkTpl.hpp"
 
@@ -11,19 +15,20 @@ class FrameworkNetwork : public nx::NetworkFrameworkTpl {
 	UDP = 1
   };
 
+ private:
+  bool _isListen;
+
  public:
   FrameworkNetwork(nx::Engine *);
   ~FrameworkNetwork();
 
  public:
-  void TriggerNetworkEvent();
-
   // Server
 
   /**
    * @attention TCP Only
    */
-  void listen(std::string port);
+  void acceptor(std::string port);
 
   // Client
 

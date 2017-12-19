@@ -17,7 +17,7 @@ class NetworkFrameworkTpl {
   const std::string &getName(void) const { return this->_name; }
 
   // Framework Methods (must be virtual pure)
-  virtual void TriggerNetworkEvent() = 0;
+  virtual void acceptor(std::string port) = 0;
 
 };
 }
