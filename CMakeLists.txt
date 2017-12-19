@@ -65,7 +65,12 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
   file(GLOB_RECURSE SOURCE_TEST_FILES		${TEST_DIR}/*.cpp)
   file(GLOB_RECURSE HEADER_TEST_FILES		${TEST_DIR}/*.hpp)
 
+  set(THREADS_PREFER_PTHREAD_FLAG ON)
+  find_package(Threads REQUIRED)
+
   add_executable(${APP_EXE} ${SOURCE_TEST_FILES} ${HEADER_TEST_FILES})
+
+  target_link_libraries(${LIBRARY_NAME} Threads::Threads)
 
   target_link_libraries(${APP_EXE} ${LIBRARY_NAME})
 else()

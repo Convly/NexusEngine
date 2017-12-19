@@ -1,6 +1,8 @@
 #ifndef FRAMEWORK_CONSOLEEVENT
 # define FRAMEWORK_CONSOLEEVENT
 
+#include <thread>
+
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/ConsoleEventFrameworkTpl.hpp"
 
@@ -8,6 +10,9 @@ class FrameworkConsoleEvent : public nx::ConsoleEventFrameworkTpl {
  public:
   FrameworkConsoleEvent(nx::Engine *);
   ~FrameworkConsoleEvent();
+
+ private:
+  std::thread _thread;
 
  public:
   void start();

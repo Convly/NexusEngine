@@ -17,7 +17,6 @@ nx::ConsoleEventFrameworkTpl *nx::ConsoleEventSystem::getFramework() {
 }
 
 void nx::ConsoleEventSystem::init() {
-  this->_framework_m->getFramework()->start();
 }
 
 void nx::ConsoleEventSystem::update() {
