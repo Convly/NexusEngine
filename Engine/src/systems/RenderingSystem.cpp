@@ -21,7 +21,11 @@ nx::RenderingSystem::~RenderingSystem() {
 
 void nx::RenderingSystem::init()
 {
-
+	auto f = this->getFramework();
+	if (!f)
+		nx::Log::print("Framework is nullptr");
+	else
+		f->InitializeWindow(1024, 768, "R-Type");
 }
 
 void nx::RenderingSystem::update()
@@ -30,8 +34,7 @@ void nx::RenderingSystem::update()
 	if (!f)
 		nx::Log::print("Framework is nullptr");
 	else
-		f->TriggerRenderingEvent();
-	std::cout << "Update for " << this->getName() << std::endl;
+		f->RefreshRendering();
 }
 
 bool nx::RenderingSystem::checkIntegrity() const
