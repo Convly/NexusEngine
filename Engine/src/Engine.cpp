@@ -1,5 +1,4 @@
 #include "Nexus/engine.hpp"
-#include "Nexus/log.hpp"
 
 nx::Engine nx::Engine::_instance = nx::Engine();
 
@@ -14,6 +13,7 @@ nx::Engine::Engine(const bool debug)
 	_debug(debug),
 	_systems({
 		/* std::make_shared<nx::XxxSystem>() */
+				 std::make_shared<nx::NetworkSystem>()
 	})
 {
 	for (auto system : this->_systems) {

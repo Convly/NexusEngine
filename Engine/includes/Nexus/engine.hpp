@@ -11,6 +11,8 @@
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
 
+#include "Nexus/network.hpp"
+
 namespace nx {
   class Engine {
   private:
