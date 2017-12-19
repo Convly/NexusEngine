@@ -16,11 +16,11 @@ namespace nx {
 
 	struct Event
 	{
-		Event(const std::string& name_, const std::string& data_)
+		Event(const std::string& name_, const std::vector<char>& data_)
 		: name(name_), data(data_) {}
 
-		std::string name;
-		std::string data;
+		std::string			name;
+		std::vector<char>	data;
 	};
 
 	struct EventLink

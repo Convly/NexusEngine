@@ -13,6 +13,7 @@
 
 #include "Nexus/network.hpp"
 #include "Nexus/consoleevent.hpp"
+#include "Nexus/rendering.hpp"
 
 namespace nx {
   class Engine {
@@ -39,7 +40,7 @@ namespace nx {
 
   public:
 		void emit(const nx::Event&);
-		void emit(const std::string&, const std::string&);
+	void emit(const std::string &, const std::vector<char> &);
 		void setup(void);
 		void stop(void);
 		int run(const std::function<void(void)>&);

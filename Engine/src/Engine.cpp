@@ -14,7 +14,8 @@ nx::Engine::Engine(const bool debug)
 	_systems({
 		/* std::make_shared<nx::XxxSystem>() */
 				 std::make_shared<nx::NetworkSystem>(),
-				 std::make_shared<nx::ConsoleEventSystem>()
+				 std::make_shared<nx::ConsoleEventSystem>(),
+				 //std::make_shared<nx::RenderingSystem>()
 	})
 {
 	for (auto system : this->_systems) {
@@ -101,14 +102,14 @@ void nx::Engine::stop() {
 	this->_run = false;
 }
 
-void nx::Engine::emit(const std::string& name, const std::string& data)
+void nx::Engine::emit(const std::string &name, const std::vector<char> &data)
 {
 	this->emit(nx::Event(name, data));
 }
 
 void nx::Engine::emit(const nx::Event& event)
 {
-	nx::Log::inform("New event catched in the Engine: {" + event.name + ", " + event.data + "}");
+  nx::Log::inform("New event catched in the Engine: {" + event.name + "}");
 	std::for_each(
 		this->_systems.begin(),
 		this->_systems.end(),
