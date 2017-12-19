@@ -2,7 +2,6 @@
 #include "Nexus/log.hpp"
 
 void userMainLoop() {
-	std::cout << "User MainLoop called" << std::endl;
 }
 
 int main()
