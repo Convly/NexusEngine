@@ -19,6 +19,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 #set(JPEG_LIBRARY "${CMAKE_SOURCE_DIR}/libs/SFML2.4.2-built/lib/jpeg.lib")
 
 set(SFML_STATIC_LIBRARIES TRUE)
+if (WIN32)
+	set(SFML_STATIC_LIBRARIES TRUE)
+endif()
 find_package(SFML 2 REQUIRED network audio graphics window system)
 if(SFML_FOUND)
 	### COMPILATOR OPTIONS
