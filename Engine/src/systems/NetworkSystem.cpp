@@ -48,5 +48,5 @@ void nx::NetworkSystem::event_NetworkEventKey(const nx::Event &e) {
   // As well as the public functions of the engine.
   engine.ping();
   // Finally we obviously also have access to the name and the data of the Event
-  nx::Log::inform(e.data);
+  nx::Log::inform(e.data.data());
 }

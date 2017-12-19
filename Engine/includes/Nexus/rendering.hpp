@@ -8,31 +8,30 @@
 #include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
 namespace nx {
-	template <typename T>
-	class FrameworkManager;
+template<typename T>
+class FrameworkManager;
 }
 
 namespace nx {
-	class RenderingSystem : public SystemTpl
-	{
-		# define __NX_RENDERING_KEY__ "rendering"
+class RenderingSystem : public SystemTpl {
+# define __NX_RENDERING_KEY__ "rendering"
 
-	private:
-		std::shared_ptr<FrameworkManager<nx::RenderingFrameworkTpl>>	_framework_m;
+ private:
+  std::shared_ptr<FrameworkManager<nx::RenderingFrameworkTpl>> _framework_m;
 
-	public:
-		RenderingSystem();
-		virtual ~RenderingSystem();
+ public:
+  RenderingSystem();
+  virtual ~RenderingSystem();
 
-	public:
-		void update();
-		void init();
-		bool checkIntegrity() const;
-		nx::RenderingFrameworkTpl* getFramework();
+ public:
+  void update();
+  void init();
+  bool checkIntegrity() const;
+  nx::RenderingFrameworkTpl *getFramework();
 
-	public:
-		static void event_RenderingEventKey(const nx::Event&);
-	};
+ public:
+  static void event_RenderingEventKey(const nx::Event &);
+};
 }
 
 #endif
