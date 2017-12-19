@@ -15,5 +15,5 @@ Framework${__NX_BASE_SYSTEM__}::~Framework${__NX_BASE_SYSTEM__}()
 
 void Framework${__NX_BASE_SYSTEM__}::Trigger${__NX_BASE_SYSTEM__}Event()
 {
-	this->_engine->emit("${__NX_BASE_SYSTEM__}EventKey", "${__NX_BASE_SYSTEM__}EventValue");
+	this->_engine->emit("${__NX_BASE_SYSTEM__}EventKey", {'4', '2'});
 }
