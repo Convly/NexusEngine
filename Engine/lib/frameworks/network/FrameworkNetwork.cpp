@@ -12,5 +12,11 @@ FrameworkNetwork::~FrameworkNetwork() {
 }
 
 void FrameworkNetwork::TriggerNetworkEvent() {
-  this->_engine->emit("NetworkEventKey", "NetworkEventValue");
+  //this->_engine->emit("NetworkEventKey", "NetworkEventValue");
+}
+
+void FrameworkNetwork::listen(std::string port) {
+}
+
+void FrameworkNetwork::connect(std::string ip, std::string port) {
 }

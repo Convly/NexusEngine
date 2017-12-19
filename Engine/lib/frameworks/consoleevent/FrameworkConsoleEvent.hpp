@@ -10,7 +10,8 @@ class FrameworkConsoleEvent : public nx::ConsoleEventFrameworkTpl {
   ~FrameworkConsoleEvent();
 
  public:
-  void TriggerConsoleEventEvent();
+  void start();
+  void runEvent(std::string event);
 
  protected:
   nx::Engine *_engine;

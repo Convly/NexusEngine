@@ -23,14 +23,14 @@ class FrameworkNetwork : public nx::NetworkFrameworkTpl {
   /**
    * @attention TCP Only
    */
-  void createTcpServer(std::string port);
+  void listen(std::string port);
 
   // Client
 
   /**
    * @attention TCP Only
    */
-  void connectToServer(std::string ip, std::string port);
+  void connect(std::string ip, std::string port);
 
  protected:
   nx::Engine *_engine;

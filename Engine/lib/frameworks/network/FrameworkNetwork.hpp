@@ -6,11 +6,31 @@
 
 class FrameworkNetwork : public nx::NetworkFrameworkTpl {
  public:
+  enum class Transport {
+	TCP = 0,
+	UDP = 1
+  };
+
+ public:
   FrameworkNetwork(nx::Engine *);
   ~FrameworkNetwork();
 
  public:
   void TriggerNetworkEvent();
+
+  // Server
+
+  /**
+   * @attention TCP Only
+   */
+  void listen(std::string port);
+
+  // Client
+
+  /**
+   * @attention TCP Only
+   */
+  void connect(std::string ip, std::string port);
 
  protected:
   nx::Engine *_engine;

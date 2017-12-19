@@ -17,8 +17,8 @@ class ConsoleEventFrameworkTpl {
   const std::string &getName(void) const { return this->_name; }
 
   // Framework Methods (must be virtual pure)
-  virtual void TriggerConsoleEventEvent() = 0;
-
+  virtual void start() = 0;
+  virtual void runEvent(std::string event) = 0;
 };
 }
 

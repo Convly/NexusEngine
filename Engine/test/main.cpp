@@ -1,8 +1,7 @@
 #include "Nexus/engine.hpp"
-#include "Nexus/log.hpp"
 
 void userMainLoop() {
-	std::cout << "User MainLoop called" << std::endl;
+  //std::cout << "User MainLoop called" << std::endl;
 }
 
 int main()

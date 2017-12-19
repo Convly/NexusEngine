@@ -11,6 +11,9 @@ FrameworkConsoleEvent::~FrameworkConsoleEvent() {
   std::cout << "New ConsoleEvent Framework deleted" << std::endl;
 }
 
-void FrameworkConsoleEvent::TriggerConsoleEventEvent() {
-  this->_engine->emit("ConsoleEventEventKey", "ConsoleEventEventValue");
+void FrameworkConsoleEvent::start() {
+  nx::Log::inform("[ConsoleEvent] Starting ...");
+}
+
+void FrameworkConsoleEvent::runEvent(std::string event) {
 }

@@ -6,7 +6,6 @@ nx::ConsoleEventSystem::ConsoleEventSystem()
 	:
 	nx::SystemTpl(__NX_CONSOLEEVENT_KEY__),
 	_framework_m(std::make_shared<nx::FrameworkManager<nx::ConsoleEventFrameworkTpl>>(__NX_CONSOLEEVENT_KEY__, true)) {
-  this->connect("ConsoleEventEventKey", nx::ConsoleEventSystem::event_ConsoleEventEventKey);
 }
 
 nx::ConsoleEventSystem::~ConsoleEventSystem() {
@@ -18,16 +17,14 @@ nx::ConsoleEventFrameworkTpl *nx::ConsoleEventSystem::getFramework() {
 }
 
 void nx::ConsoleEventSystem::init() {
-
+  this->_framework_m->getFramework()->start();
 }
 
 void nx::ConsoleEventSystem::update() {
   auto f = this->getFramework();
   if (!f)
 	nx::Log::print("Framework is nullptr");
-  else
-	f->TriggerConsoleEventEvent();
-  std::cout << "Update for " << this->getName() << std::endl;
+  //std::cout << "Update for " << this->getName() << std::endl;
 }
 
 bool nx::ConsoleEventSystem::checkIntegrity() const {
