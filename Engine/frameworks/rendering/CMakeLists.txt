@@ -15,9 +15,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 #Find any version 2.X of SFML
 #See the FindSFML.cmake file for additional details and instructions
 
-#set(FREETYPE_LIBRARY "${CMAKE_SOURCE_DIR}/libs/SFML2.4.2-built/lib/freetype.lib")
-#set(JPEG_LIBRARY "${CMAKE_SOURCE_DIR}/libs/SFML2.4.2-built/lib/jpeg.lib")
-
 if (WIN32)
 	set(SFML_STATIC_LIBRARIES TRUE)
 endif()
@@ -39,7 +36,7 @@ if(SFML_FOUND)
 
 	file(GLOB_RECURSE HEADER_LIB_FILES   	${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp)
 	file(GLOB_RECURSE SOURCE_LIB_FILES		${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-	file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../src/*.cpp)
+	file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../include/Nexus/engine.cpp)
 	add_library(${LIBRARY_NAME} SHARED ${SOURCE_LIB_FILES} ${HEADER_LIB_FILES} ${SOURCE_ENGINE_FILES})
 	set_target_properties(${LIBRARY_NAME} PROPERTIES PREFIX "")
 

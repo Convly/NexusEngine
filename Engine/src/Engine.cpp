@@ -2,21 +2,20 @@
 #include "Nexus/log.hpp"
 #include "Nexus/rendering.hpp"
 
-nx::Engine nx::Engine::_instance = nx::Engine();
+nx::Engine nx::Engine::_instance = nx::Engine({
+	std::make_shared<nx::RenderingSystem>()
+});
 
 nx::Engine&  				nx::Engine::Instance()
 {
 	return nx::Engine::_instance;
 }
 
-nx::Engine::Engine(const bool debug)
+nx::Engine::Engine(const std::vector<std::shared_ptr<nx::SystemTpl>>& systems, const bool debug)
 :
 	_run(false),
 	_debug(debug),
-	_systems({
-		/* std::make_shared<nx::XxxSystem>() */
-		// std::make_shared<nx::RenderingSystem>() 
-	})
+	_systems(systems)
 {
 	for (auto system : this->_systems) {
 		system->init();
@@ -100,23 +99,6 @@ void nx::Engine::setup() {
 
 void nx::Engine::stop() {
 	this->_run = false;
-}
-
-void nx::Engine::emit(const std::string& name, const std::vector<char>& data)
-{
-	this->emit(nx::Event(name, data));
-}
-
-void nx::Engine::emit(const nx::Event& event)
-{
-	nx::Log::inform("New event catched in the Engine: {" + event.name + "}");
-	std::for_each(
-		this->_systems.begin(),
-		this->_systems.end(),
-		[&](const auto system){
-			system->emitter(event);
-		}
-	);
 }
 
 int nx::Engine::run(const std::function<void(void)>& userCallback) {

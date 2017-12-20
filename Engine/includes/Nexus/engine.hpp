@@ -27,7 +27,7 @@ namespace nx {
 		std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
 
 	private:
-		Engine(const bool debug = false);
+		Engine(const std::vector<std::shared_ptr<nx::SystemTpl>>& systems, const bool debug = false);
 		virtual ~Engine ();
 
   public:
@@ -37,13 +37,23 @@ namespace nx {
 		bool checkEngineIntegrity(void) const;
 
   public:
-		void emit(const nx::Event&);
-		void emit(const std::string&, const std::vector<char>&);
-		void setup(void);
-		void stop(void);
-		int run(const std::function<void(void)>&);
+	  void emit(const std::string& name, const std::vector<char>& data)
+	  {
+		  this->emit(nx::Event(name, data));
+	  }
 
-	public:
+	  void emit(const nx::Event& event)
+	  {
+		  nx::Log::inform("New event catched in the Engine: {" + event.name + "}");
+		  std::for_each(
+			  this->_systems.begin(),
+			  this->_systems.end(),
+			  [&](const auto system) {
+			  system->emitter(event);
+		  }
+		  );
+	  }
+
 		template<typename T>
 		static T* cast(const std::shared_ptr<nx::SystemTpl>& src)
 		{
@@ -52,6 +62,10 @@ namespace nx {
 			return dynamic_cast<T*>(ptr);
 		}
 
+  public:
+		void setup(void);
+		void stop(void);
+		int run(const std::function<void(void)>&);
   public:
 		bool isSetup(void) const;
 		bool debug(void) const;
