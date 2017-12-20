@@ -1,6 +1,7 @@
 #include "GUIHandler.hpp"
 
-GUIHandler::GUIHandler()
+GUIHandler::GUIHandler(std::shared_ptr<sf::RenderWindow> const& win):
+	_win(win)
 {
 
 }
@@ -19,17 +20,40 @@ void	GUIHandler::addLayer(std::shared_ptr<GUILayer> layer)
 
 void GUIHandler::drawLayers()
 {
-	for (auto it : this->_guiLayers)
+	for (auto itLayer : this->_guiLayers)
 	{
-		if (it->isVisible())
-			it->draw();
+		if (itLayer->isVisible())
+		{
+			auto elems = itLayer->getElements();
+			for (auto itElem : elems)
+			{
+				if (itElem->isVisible())
+				{
+					auto shapes = itElem->getShapes();
+					for (auto itShape : shapes)
+					{
+						this->_win->draw(*itShape.get());
+					}
+				}
+			}
+		}
 	}
 }
 
 
 // Getters
 
-std::vector<std::shared_ptr<GUILayer>>	GUIHandler::getLayers() const
+std::vector<std::shared_ptr<GUILayer>>	const &	GUIHandler::getLayers() const
 {
 	return (this->_guiLayers);
+}
+
+std::shared_ptr<GUILayer> const &				GUIHandler::getLayerByName(std::string const& identifier) const
+{
+	for (auto &it : this->_guiLayers)
+	{
+		if (it->getIdentifier() == identifier)
+			return (it);
+	}
+	throw (nx::LayerNotFoundException(identifier));
 }

@@ -4,7 +4,8 @@ FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	:
 	nx::RenderingFrameworkTpl("FrameworkRendering"),
 	_engine(engine),
-	_win(nullptr)
+	_win(nullptr),
+	_handler(nullptr)
 {
 	std::cout << "New Rendering Framework created" << std::endl;
 }
@@ -16,12 +17,18 @@ FrameworkRendering::~FrameworkRendering()
 
 void FrameworkRendering::InitializeWindow(int width, int height, std::string titleWin)
 {
-	this->_win = std::make_shared<sf::Window>(sf::VideoMode(width, height), titleWin);
+	this->_win = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), titleWin);
+	this->_handler = std::make_shared<GUIHandler>(this->_win);
+
+	std::shared_ptr<GUILayer> layer = std::make_shared<GUILayer>("MainLayer");
+	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(100, 100), sf::Vector2f(50, 30), "MyFirstButton");
+	layer->add(button);
+	this->_handler->addLayer(layer);
 }
 
 void FrameworkRendering::RefreshRendering()
 {
-	if (this->_win) 
+	if (this->_win && this->_handler) 
 	{
 		while (this->_win->isOpen())
 		{
@@ -33,8 +40,12 @@ void FrameworkRendering::RefreshRendering()
 				if (Event.type == sf::Event::Closed)
 					this->_win->close();
 			}
+			
+			// Clearing the window
+			this->_win->clear();
+
 			// Drawing stuff on screen
-			//this->_handler.drawGUIElements();
+			this->_handler->drawLayers();
 
 			// Displaying screen
 			this->_win->display();

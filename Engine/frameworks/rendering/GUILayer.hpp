@@ -6,6 +6,8 @@
 # include <memory>
 # include "GUIElement.hpp"
 
+# include "ElementNotFoundException.hpp"
+
 class GUILayer
 {
 	std::string									_identifier;
@@ -18,15 +20,15 @@ public:
 
 	void	add(std::shared_ptr<GUIElement> elem);
 
-	// Display
-	void	draw();
-
 	// Setters
-	void										setVisible(bool const state);
+	void											 setVisible(bool const state);
 
 	// Getters
-	bool										isVisible() const;
-	std::vector<std::shared_ptr<GUIElement>>	getElements() const;
+	std::string const &								 getIdentifier() const;
+	bool											 isVisible() const;
+
+	std::vector<std::shared_ptr<GUIElement>> const & getElements() const;
+	std::shared_ptr<GUIElement> const &				 getElementByName(std::string const& identifier) const;
 };
 
 #endif /* GUILAYER_HPP_ */

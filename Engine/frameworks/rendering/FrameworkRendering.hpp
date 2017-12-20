@@ -1,8 +1,7 @@
 #ifndef FRAMEWORK_RENDERING
 # define FRAMEWORK_RENDERING
 
-//# include "GUIHandler.hpp"
-# include <SFML/Graphics.hpp>
+# include "GUIHandler.hpp"
 # include "Nexus/engine.hpp"
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
@@ -19,8 +18,8 @@ protected:
 	nx::Engine	*_engine;
 
 private:
-	std::shared_ptr<sf::Window>	_win;
-	//GUIHandler					_handler;
+	std::shared_ptr<sf::RenderWindow>	_win;
+	std::shared_ptr<GUIHandler>			_handler;
 };
 
 #if  defined(_MSC_VER)

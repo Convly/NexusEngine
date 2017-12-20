@@ -17,18 +17,6 @@ void GUILayer::add(std::shared_ptr<GUIElement> elem)
 }
 
 
-// Display
-
-void GUILayer::draw()
-{
-	for (auto it : this->_guiElements)
-	{
-		if (it->isVisible())
-			it->show();
-	}
-}
-
-
 // Setters
 
 void										GUILayer::setVisible(bool const state)
@@ -39,12 +27,28 @@ void										GUILayer::setVisible(bool const state)
 
 // Getters
 
+std::string const &							GUILayer::getIdentifier() const
+{
+	return (this->_identifier);
+}
+
 bool	GUILayer::isVisible() const
 {
 	return (this->_isVisible);
 }
 
-std::vector<std::shared_ptr<GUIElement>> GUILayer::getElements() const
+std::vector<std::shared_ptr<GUIElement>> const & GUILayer::getElements() const
 {
-	return (std::vector<std::shared_ptr<GUIElement>>());
+	return (this->_guiElements);
+}
+
+
+std::shared_ptr<GUIElement> const &	GUILayer::getElementByName(std::string const& identifier) const
+{
+	for (auto &it : this->_guiElements)
+	{
+		if (it->getIdentifier() == identifier)
+			return (it);
+	}
+	throw (nx::ElementNotFoundException(identifier));
 }

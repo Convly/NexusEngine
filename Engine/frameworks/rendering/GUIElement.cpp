@@ -35,25 +35,39 @@ void	GUIElement::setVisible(bool const state)
 	this->_isVisible = state;
 }
 
+void	GUIElement::clearShapes()
+{
+	this->_shapes.clear();
+}
+
+void	GUIElement::addToShapes(std::shared_ptr<sf::Shape> const& shape)
+{
+	this->_shapes.push_back(shape);
+}
 
 // Getters
 
-sf::Vector2f	GUIElement::getPos() const
+sf::Vector2f const &	GUIElement::getPos() const
 {
 	return (this->_pos);
 }
 
-sf::Vector2f	GUIElement::getSize() const
+sf::Vector2f const &	GUIElement::getSize() const
 {
 	return (this->_size);
 }
 
-std::string		GUIElement::getIdentifier() const
+std::string	const &		GUIElement::getIdentifier() const
 {
 	return (this->_identifier);
 }
 
-bool	GUIElement::isVisible() const
+bool					GUIElement::isVisible() const
 {
 	return (this->_isVisible);
+}
+
+std::vector<std::shared_ptr<sf::Shape>> const &	GUIElement::getShapes() const
+{
+	return (this->_shapes);
 }
