@@ -21,7 +21,13 @@ public:
 	// Specific functions for this element
 	void		onStateChanged();
 
+	// Display
+	virtual void show();
+
 	// Getters
+	virtual std::string		getType() const;
+
+	// Specific getters
 	bool		getState() const;
 	std::string	getLabel() const;
 };

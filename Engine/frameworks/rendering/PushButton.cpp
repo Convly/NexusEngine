@@ -31,6 +31,14 @@ void PushButton::onClick()
 	this->onStateChanged();
 }
 
+// Display
+
+void PushButton::show()
+{
+	// TODO: Draw the PushButton
+}
+
+
 // Specific functions for this element
 
 void PushButton::onStateChanged()
@@ -40,6 +48,14 @@ void PushButton::onStateChanged()
 
 
 // Getters
+
+std::string		PushButton::getType() const
+{
+	return ("PushButton");
+}
+
+
+// Specific getters
 
 bool PushButton::getState() const
 {

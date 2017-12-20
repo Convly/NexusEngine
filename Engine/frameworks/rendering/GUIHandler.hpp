@@ -3,23 +3,23 @@
     
 # include <vector>
 # include <memory>
-# include "GUIElement.hpp"
+# include "GUILayer.hpp"
     
 class GUIHandler
 {
-    std::vector<std::shared_ptr<GUIElement>> _guiElements;
+    std::vector<std::shared_ptr<GUILayer>> _guiLayers;
 
 public:
 	GUIHandler();
 	~GUIHandler();
 
-	void	addGUIElement(std::shared_ptr<GUIElement> elem);
+	void	addLayer(std::shared_ptr<GUILayer> elem);
 
 	// Display
-	void	drawGUIElements();
+	void	drawLayers();
 
 	// Getters
-	std::vector<std::shared_ptr<GUIElement>>	getGUIElements() const;
+	std::vector<std::shared_ptr<GUILayer>>	getLayers() const;
 };
 
 #endif /* GUIHANDLER_HPP_ */

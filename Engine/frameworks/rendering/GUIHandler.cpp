@@ -9,23 +9,27 @@ GUIHandler::~GUIHandler()
 
 }
 
-void	GUIHandler::addGUIElement(std::shared_ptr<GUIElement> elem)
+void	GUIHandler::addLayer(std::shared_ptr<GUILayer> layer)
 {
-	this->_guiElements.push_back(elem);
+	this->_guiLayers.push_back(layer);
 }
 
 
 // Display
 
-void GUIHandler::drawGUIElements()
+void GUIHandler::drawLayers()
 {
-	// TODO: Draw GUI Elements contained in the _guiElements vector
+	for (auto it : this->_guiLayers)
+	{
+		if (it->isVisible())
+			it->draw();
+	}
 }
 
 
 // Getters
 
-std::vector<std::shared_ptr<GUIElement>>	GUIHandler::getGUIElements() const
+std::vector<std::shared_ptr<GUILayer>>	GUIHandler::getLayers() const
 {
-	return (this->_guiElements);
+	return (this->_guiLayers);
 }
