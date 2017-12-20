@@ -22,6 +22,7 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 
 	std::shared_ptr<GUILayer> layer = std::make_shared<GUILayer>("MainLayer");
 	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(100, 100), sf::Vector2f(50, 30), "MyFirstButton");
+	button->update();
 	layer->add(button);
 	this->_handler->addLayer(layer);
 }
@@ -42,10 +43,15 @@ void FrameworkRendering::RefreshRendering()
 			}
 			
 			// Clearing the window
-			this->_win->clear();
+			this->_win->clear(sf::Color(0,0,0,255));
 
 			// Drawing stuff on screen
 			this->_handler->drawLayers();
+
+			/*sf::RectangleShape r(sf::Vector2f(100, 100));
+			r.setFillColor(sf::Color(100, 250, 50));
+
+			this->_win->draw(r);*/
 
 			// Displaying screen
 			this->_win->display();

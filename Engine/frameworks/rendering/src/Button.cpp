@@ -4,7 +4,7 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size, std::string const& identifie
 	GUIElement(pos, size, identifier), _state(false), _label(text), _backgroundColor(sf::Color(200, 200, 200, 255)),
 	_borderColor(sf::Color(0, 0, 0, 255)), _isPushButton(isPushButton)
 {
-
+	this->update();
 }
 
 Button::~Button()
