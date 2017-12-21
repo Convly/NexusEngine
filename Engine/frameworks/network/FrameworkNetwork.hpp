@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <memory>
+
+#include <thread>
+#include <atomic>
 
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/NetworkFrameworkTpl.hpp"
@@ -16,7 +20,8 @@ class FrameworkNetwork : public nx::NetworkFrameworkTpl {
   };
 
  private:
-  bool _isListen;
+  std::shared_ptr<std::thread>	_thListenData;
+  std::atomic<bool>				_stopListen;
 
  public:
   FrameworkNetwork(nx::Engine *);
@@ -28,14 +33,18 @@ class FrameworkNetwork : public nx::NetworkFrameworkTpl {
   /**
    * @attention TCP Only
    */
-  void acceptor(std::string port);
+  void waitClient(unsigned int port);
+
+  void waitData(unsigned int port);
+
+  void addClient();
 
   // Client
 
   /**
    * @attention TCP Only
    */
-  void connect(std::string ip, std::string port);
+  void connect(std::string ip, unsigned int port);
 
  protected:
   nx::Engine *_engine;

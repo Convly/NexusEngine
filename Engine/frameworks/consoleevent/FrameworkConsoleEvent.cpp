@@ -28,10 +28,25 @@ void FrameworkConsoleEvent::start() {
 void FrameworkConsoleEvent::runEvent(std::string event) {
   if (event == "listen") {
 	nx::Log::inform("[ConsoleEvent] Listen (TCP) on localhost");
-	//std::pair<std::string, std::string> data("127.0.0.1", "4242");
-	//this->_engine->emit("NetworkConnect");
+
+	nx::NetworkSystem::WaitDataEvent waitDataEvent;
+
+	waitDataEvent._localhost = false;
+	waitDataEvent._port = 4242;
+
+	auto const ptr = reinterpret_cast<char*>(&waitDataEvent);
+	std::vector<char> data(ptr, ptr + sizeof waitDataEvent);
+	this->_engine->emit("NetworkWaitData", data);
   } else if (event == "connect") {
-	// emit
+	nx::NetworkSystem::ConnectEvent connectEvent;
+
+	connectEvent._ip = "127.0.0.1";
+	connectEvent._port = 4242;
+
+	auto const ptr = reinterpret_cast<char*>(&connectEvent);
+	std::vector<char> data(ptr, ptr + sizeof connectEvent);
+	this->_engine->emit("NetworkConnect", data);
+
 	nx::Log::inform("[ConsoleEvent] Connect (TCP) to localhost");
   } else if (event == "send") {
 	nx::Log::print("Please enter data string for send to localhost !!!");

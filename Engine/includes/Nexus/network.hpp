@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <future>
 
 #include "Nexus/systems/SystemTpl.hpp"
 #include "Nexus/frameworks/NetworkFrameworkTpl.hpp"
@@ -24,13 +25,25 @@ class NetworkSystem : public SystemTpl {
   virtual ~NetworkSystem();
 
  public:
+  struct ConnectEvent {
+	std::string		_ip;
+	unsigned int	_port;
+  };
+
+  struct WaitDataEvent {
+	bool 			_localhost;
+	unsigned int	_port;
+  };
+
+ public:
   void update();
   void init();
   bool checkIntegrity() const;
   nx::NetworkFrameworkTpl *getFramework();
 
  public:
-  static void event_NetworkEventKey(const nx::Event &);
+  static void event_NetworkWaitData(const nx::Event &);
+  static void event_NetworkConnect(const nx::Event &);
 };
 }
 
