@@ -22,7 +22,6 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 
 	std::shared_ptr<GUILayer> layer = std::make_shared<GUILayer>("MainLayer");
 	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(100, 100), sf::Vector2f(50, 30), "MyFirstButton");
-	button->update();
 	layer->add(button);
 	this->_handler->addLayer(layer);
 }

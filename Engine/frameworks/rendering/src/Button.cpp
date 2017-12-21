@@ -1,10 +1,11 @@
 #include "Button.hpp"
 
 Button::Button(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, bool const isPushButton, sf::Text const& text) :
-	GUIElement(pos, size, identifier), _state(false), _label(text), _backgroundColor(sf::Color(200, 200, 200, 255)),
-	_borderColor(sf::Color(0, 0, 0, 255)), _isPushButton(isPushButton)
+	GUIElement(pos, size, identifier), _state(false), _isPushButton(isPushButton),
+	_label(text), _backgroundColor(sf::Color(200, 200, 200, 255)),
+	_borderColor(sf::Color(0, 0, 0, 255)), _borderThickness(0)
 {
-	this->update();
+
 }
 
 Button::~Button()
@@ -37,18 +38,17 @@ void Button::onClick()
 
 // Display
 
-void Button::update()
+void Button::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	// TODO: Finish the Button drawing
-	this->clearShapes();
+	sf::RectangleShape body(this->getSize());
 
-	std::shared_ptr<sf::RectangleShape> body = std::make_shared<sf::RectangleShape>(this->getSize());
+	body.setPosition(this->getPos());
+	body.setFillColor(this->_backgroundColor);
+	body.setOutlineThickness(this->_borderThickness);
+	body.setOutlineColor(this->_borderColor);
 
-	body->setFillColor(this->_backgroundColor);
-	body->setOutlineThickness(this->_borderThickness);
-	body->setOutlineColor(this->_borderColor);
-
-	this->addToShapes(body);
+	win->draw(body);
 }
 
 

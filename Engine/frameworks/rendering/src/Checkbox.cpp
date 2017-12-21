@@ -35,7 +35,7 @@ void Checkbox::onClick()
 
 // Display
 
-void Checkbox::update()
+void Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	// TODO: Draw the Checkbox
 }

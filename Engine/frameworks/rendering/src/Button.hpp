@@ -26,7 +26,7 @@ public:
 	virtual void onStateChanged();
 
 	// Display
-	void		update();
+	void		show(std::shared_ptr<sf::RenderWindow> const& win);
 
 	// Setters
 	void setState(bool const state);

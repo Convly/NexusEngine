@@ -1,5 +1,5 @@
 #include "GUIHandler.hpp"
-# include "Nexus/engine.hpp"
+#include "Nexus/log.hpp"
 
 GUIHandler::GUIHandler(std::shared_ptr<sf::RenderWindow> const& win):
 	_win(win)
@@ -30,15 +30,7 @@ void GUIHandler::drawLayers()
 			{
 				if (itElem->isVisible())
 				{
-					nx::Log::debug("Drawing " + itElem->getIdentifier());
-					auto shapes = itElem->getShapes();
-					nx::Log::debug("Begin shapes");
-					for (auto itShape : shapes)
-					{
-						nx::Log::debug("Shape found");
-						this->_win->draw(*itShape);
-					}
-					nx::Log::debug("End shapes");
+					itElem->show(this->_win);
 				}
 			}
 		}
