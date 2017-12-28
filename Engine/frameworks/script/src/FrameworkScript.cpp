@@ -46,7 +46,7 @@ void FrameworkScript::execMethod(const std::string& scriptPath, const std::strin
 	}
 
 	luaL_dofile(this->_scripts[scriptPath], scriptPath.c_str());	
-	luabridge::getGlobal(this->_scripts[scriptPath], methodName)();
+	luabridge::getGlobal(this->_scripts[scriptPath], methodName.c_str())();
 }
 
 void FrameworkScript::init(const std::string& scriptPath)
