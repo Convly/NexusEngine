@@ -13,7 +13,7 @@ Framework${__NX_BASE_SYSTEM__}::~Framework${__NX_BASE_SYSTEM__}()
 	nx::Log::inform("New ${__NX_BASE_SYSTEM__} Framework deleted");
 }
 
-void Framework${__NX_BASE_SYSTEM__}::Trigger${__NX_BASE_SYSTEM__}Event()
+void Framework${__NX_BASE_SYSTEM__}::ping${__NX_BASE_SYSTEM__}Framework()
 {
-	this->_engine->emit("${__NX_BASE_SYSTEM__}EventKey", {'4', '2'});
+	nx::Log::inform("Pong");
 }

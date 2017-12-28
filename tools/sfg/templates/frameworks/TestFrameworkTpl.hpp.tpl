@@ -18,7 +18,7 @@ namespace nx {
 		const std::string& getName(void) const {return this->_name;}
 
 		// Framework Methods (must be virtual pure)
-		virtual void Trigger${__NX_BASE_SYSTEM__}Event() = 0;
+		virtual void ping${__NX_BASE_SYSTEM__}Framework() = 0;
 
 	};	
 }

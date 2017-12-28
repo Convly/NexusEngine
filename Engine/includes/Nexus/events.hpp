@@ -1,0 +1,15 @@
+#ifndef NX_ENGINE__EVENTS_HPP
+#define NX_ENGINE__EVENTS_HPP
+
+namespace nx {
+	enum EVENT {
+		DEFAULT = 0,
+		// SCRIPT [1000]
+		SCRIPT_RUN = 1001,
+		SCRIPT_LOAD = 1002,
+		SCRIPT_INIT = 1003,
+		SCRIPT_UPDATE = 1004
+		// RENDERING [2000]
+	};
+}
+#endif

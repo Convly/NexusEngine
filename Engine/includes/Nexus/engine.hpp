@@ -38,14 +38,14 @@ namespace nx {
 		bool checkEngineIntegrity(void) const;
 
   public:
-	  void emit(const std::string& name, const std::vector<char>& data)
+	  void emit(const nx::EVENT type, const std::vector<char>& data)
 	  {
-		  this->emit(nx::Event(name, data));
+		  this->emit(nx::Event(type, data));
 	  }
 
 	  void emit(const nx::Event& event)
 	  {
-		  nx::Log::inform("New event catched in the Engine: {" + event.name + "}");
+		  nx::Log::inform("New event catched in the Engine: {" + std::to_string(event.type) + "}");
 		  std::for_each(
 			  this->_systems.begin(),
 			  this->_systems.end(),
