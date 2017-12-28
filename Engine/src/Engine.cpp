@@ -3,7 +3,8 @@
 #include "Nexus/rendering.hpp"
 
 nx::Engine nx::Engine::_instance = nx::Engine({
-	std::make_shared<nx::RenderingSystem>()
+	std::make_shared<nx::RenderingSystem>(),
+	std::make_shared<nx::ScriptSystem>()
 });
 
 nx::Engine&  				nx::Engine::Instance()
