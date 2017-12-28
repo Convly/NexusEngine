@@ -29,9 +29,6 @@ namespace nx {
 		void init();
 		bool checkIntegrity() const;
 		nx::${__NX_BASE_SYSTEM__}FrameworkTpl* getFramework();
-
-	public:
-		static void event_${__NX_BASE_SYSTEM__}EventKey(const nx::Event&);
 	};
 }
 

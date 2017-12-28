@@ -7,12 +7,12 @@ FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	_win(nullptr),
 	_handler(nullptr)
 {
-	std::cout << "New Rendering Framework created" << std::endl;
+	nx::Log::inform("New Rendering Framework created");
 }
 
 FrameworkRendering::~FrameworkRendering()
 {
-	std::cout << "New Rendering Framework deleted" << std::endl;
+	nx::Log::inform("New Rendering Framework deleted");
 }
 
 void FrameworkRendering::InitializeWindow(int width, int height, std::string titleWin)
