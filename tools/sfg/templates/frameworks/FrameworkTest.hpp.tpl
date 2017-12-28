@@ -12,7 +12,7 @@ public:
 	~Framework${__NX_BASE_SYSTEM__}();
 
 public:
-	void Trigger${__NX_BASE_SYSTEM__}Event();
+	void ping${__NX_BASE_SYSTEM__}Framework();
 
 	
 protected:
