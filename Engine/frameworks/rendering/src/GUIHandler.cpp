@@ -17,6 +17,63 @@ void	GUIHandler::addLayer(std::shared_ptr<GUILayer> layer)
 }
 
 
+// Events
+
+void GUIHandler::processEvent(sf::Event const& event)
+{
+	for (auto itLayer : this->_guiLayers)
+	{
+		if (itLayer->isVisible())
+		{
+			auto elems = itLayer->getElements();
+			for (auto itElem : elems)
+			{
+				if (itElem->isVisible())
+				{
+					sf::Rect<float> rect(itElem->getPos(), itElem->getSize());
+
+					if (event.mouseButton.button == sf::Mouse::Left)
+					{
+						if (event.type == sf::Event::MouseButtonPressed)
+						{
+							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
+								itElem->onLeftClickPressedInside();
+							else
+								itElem->onLeftClickPressedOutside();
+						}
+						else if (event.type == sf::Event::MouseButtonReleased)
+						{
+							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
+								itElem->onLeftClickReleasedInside();
+							else
+								itElem->onLeftClickReleasedOutside();
+						}
+					}
+					else if (event.mouseButton.button == sf::Mouse::Right)
+					{
+						if (event.type == sf::Event::MouseButtonPressed)
+						{
+							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
+								itElem->onRightClickPressedInside();
+							else
+								itElem->onRightClickPressedOutside();
+						}
+						else if (event.type == sf::Event::MouseButtonReleased)
+						{
+							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
+								itElem->onRightClickReleasedInside();
+							else
+								itElem->onRightClickReleasedOutside();
+						}
+					}
+					//TODO: Calling onEnter & onLeave
+				}
+			}
+		}
+	}
+}
+
+
 // Display
 
 void GUIHandler::drawLayers()
@@ -28,10 +85,7 @@ void GUIHandler::drawLayers()
 			auto elems = itLayer->getElements();
 			for (auto itElem : elems)
 			{
-				if (itElem->isVisible())
-				{
-					itElem->show(this->_win);
-				}
+				itElem->show(this->_win);
 			}
 		}
 	}

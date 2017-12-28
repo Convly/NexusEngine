@@ -24,13 +24,56 @@ void Checkbox::onLeave()
 	//Will be called when mouse is leaving the element
 }
 
-void Checkbox::onClick()
+void Checkbox::onLeftClickPressedInside()
 {
-	//Will be called when the element has been clicked
+	//Will be called when a left-click is inside the element
+	nx::Log::inform("Left-click pressed inside the checkbox '" + this->getIdentifier() + "'");
 	if (this->_state != State::UNCHECKED)
 		this->_state = State::UNCHECKED;
 	else
 		this->_state = State::CHECKED;
+}
+
+void Checkbox::onLeftClickReleasedInside()
+{
+	//Will be called when a left-release is inside the element
+	nx::Log::inform("Left-click released inside the checkbox '" + this->getIdentifier() + "'");
+}
+
+void Checkbox::onRightClickPressedInside()
+{
+	//Will be called when a right-click is inside the element
+	nx::Log::inform("Right-click pressed inside the checkbox '" + this->getIdentifier() + "'");
+}
+
+void Checkbox::onRightClickReleasedInside()
+{
+	//Will be called when a right-release is inside the element
+	nx::Log::inform("Right-click released inside the checkbox '" + this->getIdentifier() + "'");
+}
+
+void Checkbox::onLeftClickPressedOutside()
+{
+	//Will be called when a left-click is outside the element
+	nx::Log::inform("Left-click pressed outside the checkbox '" + this->getIdentifier() + "'");
+}
+
+void Checkbox::onLeftClickReleasedOutside()
+{
+	//Will be called when a left-release is outside the element
+	nx::Log::inform("Left-click released outside the checkbox '" + this->getIdentifier() + "'");
+}
+
+void Checkbox::onRightClickPressedOutside()
+{
+	//Will be called when a right-click is outside the element
+	nx::Log::inform("Right-click pressed outside the checkbox '" + this->getIdentifier() + "'");
+}
+
+void Checkbox::onRightClickReleasedOutside()
+{
+	//Will be called when a right-release is outside the element
+	nx::Log::inform("Right-click released outside the checkbox '" + this->getIdentifier() + "'");
 }
 
 // Display

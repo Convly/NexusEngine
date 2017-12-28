@@ -21,7 +21,9 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	this->_handler = std::make_shared<GUIHandler>(this->_win);
 
 	std::shared_ptr<GUILayer> layer = std::make_shared<GUILayer>("MainLayer");
-	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(100, 100), sf::Vector2f(50, 30), "MyFirstButton");
+	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(100, 100), sf::Vector2f(100, 40), "MyFirstButton", true,
+															  ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(200, 0, 0, 255), 2),
+															  TextInfo("./fonts/Quicksand_Book.otf", "Press me!", 12, sf::Color(0, 0, 0, 255)));
 	layer->add(button);
 	this->_handler->addLayer(layer);
 }
@@ -32,25 +34,21 @@ void FrameworkRendering::RefreshRendering()
 	{
 		while (this->_win->isOpen())
 		{
-			// Getting input events
-			sf::Event Event;
+			// Getting input events	
+			sf::Event event;
 
-			while (this->_win->pollEvent(Event))
+			while (this->_win->pollEvent(event))
 			{
-				if (Event.type == sf::Event::Closed)
+				if (event.type == sf::Event::Closed)
 					this->_win->close();
+				this->_handler->processEvent(event);
 			}
 			
 			// Clearing the window
-			this->_win->clear(sf::Color(0,0,0,255));
+			this->_win->clear(sf::Color(0, 0 , 0, 255));
 
 			// Drawing stuff on screen
 			this->_handler->drawLayers();
-
-			/*sf::RectangleShape r(sf::Vector2f(100, 100));
-			r.setFillColor(sf::Color(100, 250, 50));
-
-			this->_win->draw(r);*/
 
 			// Displaying screen
 			this->_win->display();

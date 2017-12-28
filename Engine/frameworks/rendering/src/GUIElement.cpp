@@ -23,13 +23,59 @@ void	GUIElement::onLeave()
 
 }
 
-void	GUIElement::onClick()
+void	GUIElement::onLeftClickPressedInside()
+{
+
+}
+
+void	GUIElement::onLeftClickReleasedInside()
+{
+
+}
+
+void	GUIElement::onRightClickPressedInside()
+{
+
+}
+
+void	GUIElement::onRightClickReleasedInside()
+{
+
+}
+
+void	GUIElement::onLeftClickPressedOutside()
+{
+
+}
+
+void	GUIElement::onLeftClickReleasedOutside()
+{
+
+}
+
+void	GUIElement::onRightClickPressedOutside()
+{
+
+}
+
+void	GUIElement::onRightClickReleasedOutside()
 {
 
 }
 
 
 // Setters
+
+void	GUIElement::setPos(sf::Vector2f const& pos)
+{
+	this->_pos = pos;
+}
+
+void	GUIElement::setSize(sf::Vector2f const& size)
+{
+	this->_size = size;
+}
+
 void	GUIElement::setVisible(bool const state)
 {
 	this->_isVisible = state;

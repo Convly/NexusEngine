@@ -3,6 +3,7 @@
 
 # include <string>
 # include "GUIElement.hpp"
+# include "Nexus/log.hpp"
 
 class Checkbox : public GUIElement
 {
@@ -25,7 +26,14 @@ public:
 	// GUIElement's mouse event methods overload
 	virtual void onEnter();
 	virtual void onLeave();
-	virtual void onClick();
+	virtual void onLeftClickPressedInside();
+	virtual void onLeftClickReleasedInside();
+	virtual void onRightClickPressedInside();
+	virtual void onRightClickReleasedInside();
+	virtual void onLeftClickPressedOutside();
+	virtual void onLeftClickReleasedOutside();
+	virtual void onRightClickPressedOutside();
+	virtual void onRightClickReleasedOutside();
 
 	// Specific functions for this element
 	virtual void onStateChanged();

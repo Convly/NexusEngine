@@ -21,6 +21,9 @@ public:
 
 	void	addLayer(std::shared_ptr<GUILayer> elem);
 
+	// Events
+	void	processEvent(sf::Event const& event);
+
 	// Display
 	void	drawLayers();
 

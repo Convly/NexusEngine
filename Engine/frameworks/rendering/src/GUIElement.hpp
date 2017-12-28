@@ -18,13 +18,22 @@ public:
 	// Mouse events
 	virtual void onEnter();
 	virtual void onLeave();
-	virtual void onClick();
+	virtual void onLeftClickPressedInside();
+	virtual void onLeftClickReleasedInside();
+	virtual void onRightClickPressedInside();
+	virtual void onRightClickReleasedInside();
+	virtual void onLeftClickPressedOutside();
+	virtual void onLeftClickReleasedOutside();
+	virtual void onRightClickPressedOutside();
+	virtual void onRightClickReleasedOutside();
 
 	// Display
 	virtual void show(std::shared_ptr<sf::RenderWindow> const& win) = 0;
 
 	// Setters
-	void						setVisible(bool const state);
+	void				setPos(sf::Vector2f const& pos);
+	void				setSize(sf::Vector2f const& size);
+	void				setVisible(bool const state);
 
 	// Getters
 	sf::Vector2f const &										getPos() const;
