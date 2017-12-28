@@ -18,7 +18,7 @@ namespace nx {
 		const std::string& getName(void) const {return this->_name;}
 
 		// Framework Methods (must be virtual pure)
-		virtual void TriggerRenderingEvent() = 0;
+		virtual void CreateWindow(int x, int y, const std::string& windowTitle) = 0;
 
 	};	
 }
