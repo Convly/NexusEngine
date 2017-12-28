@@ -32,6 +32,9 @@ namespace nx {
 
 	public:
 		static void event_ScriptRun(const nx::Event&);
+		static void event_ScriptLoad(const nx::Event&);
+		static void event_ScriptInit(const nx::Event&);
+		static void event_ScriptUpdate(const nx::Event&);
 	};
 }
 
