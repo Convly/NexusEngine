@@ -5,12 +5,12 @@ Framework${__NX_BASE_SYSTEM__}::Framework${__NX_BASE_SYSTEM__}(nx::Engine* engin
 	nx::${__NX_BASE_SYSTEM__}FrameworkTpl("Framework${__NX_BASE_SYSTEM__}"),
 	_engine(engine)
 {
-	std::cout << "New ${__NX_BASE_SYSTEM__} Framework created" << std::endl;
+	nx::Log::inform("New ${__NX_BASE_SYSTEM__} Framework created");
 }
 
 Framework${__NX_BASE_SYSTEM__}::~Framework${__NX_BASE_SYSTEM__}()
 {
-	std::cout << "New ${__NX_BASE_SYSTEM__} Framework deleted" << std::endl;
+	nx::Log::inform("New ${__NX_BASE_SYSTEM__} Framework deleted");
 }
 
 void Framework${__NX_BASE_SYSTEM__}::Trigger${__NX_BASE_SYSTEM__}Event()

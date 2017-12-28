@@ -12,6 +12,7 @@
 #include "Nexus/errors/SystemNotFoundException.hpp"
 
 #include "Nexus/rendering.hpp"
+#include "Nexus/script.hpp"
 
 namespace nx {
   class Engine {

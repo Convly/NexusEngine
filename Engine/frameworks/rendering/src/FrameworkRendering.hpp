@@ -12,7 +12,7 @@ public:
 	~FrameworkRendering();
 
 public:
-	void TriggerRenderingEvent();
+	void CreateWindow(int x, int y, const std::string& windowTitle);
 
 	
 protected:

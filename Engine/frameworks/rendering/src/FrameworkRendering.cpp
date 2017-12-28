@@ -5,17 +5,17 @@ FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	nx::RenderingFrameworkTpl("FrameworkRendering"),
 	_engine(engine)
 {
-	std::cout << "New Rendering Framework created" << std::endl;
+	nx::Log::inform("New Rendering Framework created");
 }
 
 FrameworkRendering::~FrameworkRendering()
 {
-	std::cout << "New Rendering Framework deleted" << std::endl;
+	nx::Log::inform("New Rendering Framework deleted");
 }
 
-void FrameworkRendering::TriggerRenderingEvent()
+void FrameworkRendering::CreateWindow(int x, int y, const std::string& windowTitle)
 {
-	sf::Window App(sf::VideoMode(800, 600), "myproject");
+	sf::Window App(sf::VideoMode(x, y), windowTitle);
 
 	while (App.isOpen()) {
 		sf::Event Event;
