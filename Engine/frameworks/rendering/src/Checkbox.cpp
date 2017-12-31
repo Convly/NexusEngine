@@ -1,9 +1,39 @@
 #include "Checkbox.hpp"
 
-Checkbox::Checkbox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier) :
-	GUIElement(pos, size, identifier), _state(State::UNCHECKED)
+Checkbox::Checkbox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo) :
+	GUIElement(pos, size, identifier), _state(State::UNCHECKED),
+	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
+	_body(sf::RectangleShape(size))
 {
+	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 
+	this->_body.setPosition(pos);
+	this->_body.setFillColor(colorInfo.backgroundColor);
+	this->_body.setOutlineThickness(colorInfo.borderThickness);
+	this->_body.setOutlineColor(colorInfo.borderColor);
+
+	sf::VertexArray half1(sf::LinesStrip, 2);
+	sf::VertexArray half2(sf::LinesStrip, 2);
+	sf::VertexArray partial(sf::LinesStrip, 2);
+
+	half1[0].position = pos;
+	half1[0].color = this->_borderColor;
+	half1[1].position = pos + size;
+	half1[1].color = this->_borderColor;
+
+	half2[0].position = sf::Vector2f(pos.x + size.x, pos.y);
+	half2[0].color = this->_borderColor;
+	half2[1].position = sf::Vector2f(pos.x, pos.y + size.y);
+	half2[1].color = this->_borderColor;
+
+	partial[0].position = sf::Vector2f(pos.x + size.x * 0.1f, pos.y + size.y / 2.0f);
+	partial[0].color = this->_borderColor;
+	partial[1].position = sf::Vector2f(pos.x + size.x * 0.9f, pos.y + size.y / 2.0f);
+	partial[1].color = this->_borderColor;
+
+	this->_lines.push_back(half1);
+	this->_lines.push_back(half2);
+	this->_lines.push_back(partial);
 }
 
 Checkbox::~Checkbox()
@@ -14,14 +44,16 @@ Checkbox::~Checkbox()
 
 // GUIElement's mouse event methods overload
 
-void Checkbox::onEnter()
+void Checkbox::onMoveInside()
 {
-	//Will be called when mouse is entering into the element
+	//Will be called when mouse is moving into the element
+	nx::Log::inform("Mouse moving inside the checkbox '" + this->getIdentifier() + "'");
 }
 
-void Checkbox::onLeave()
+void Checkbox::onMoveOutside()
 {
-	//Will be called when mouse is leaving the element
+	//Will be called when mouse is moving outside the element
+	nx::Log::inform("Mouse moving outside the checkbox '" + this->getIdentifier() + "'");
 }
 
 void Checkbox::onLeftClickPressedInside()
@@ -80,7 +112,17 @@ void Checkbox::onRightClickReleasedOutside()
 
 void Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
-	// TODO: Draw the Checkbox
+	if (this->isVisible())
+	{
+		win->draw(this->_body);
+		if (this->_state == State::CHECKED)
+		{
+			win->draw(this->_lines[0]);
+			win->draw(this->_lines[1]);
+		}
+		else if (this->_state == State::PARTIAL)
+			win->draw(this->_lines[2]);
+	}
 }
 
 
@@ -93,24 +135,40 @@ void Checkbox::onStateChanged()
 
 
 // Setters
-void		Checkbox::setState(State const state)
+void	Checkbox::setState(State const state)
 {
 	this->_state = state;
 }
 
-void		Checkbox::setBackgroundColor(sf::Color const& color)
+void	Checkbox::setBackgroundColor(sf::Color const& color)
 {
 	this->_backgroundColor = color;
+	this->_body.setFillColor(this->_backgroundColor);
 }
 
-void		Checkbox::setBorderColor(sf::Color const& color)
+void	Checkbox::setBorderColor(sf::Color const& color)
 {
 	this->_borderColor = color;
+	this->_body.setOutlineColor(this->_borderColor);
 }
 
-void		Checkbox::setBorderThickness(int const thickness)
+void	Checkbox::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
+	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
+	this->_body.setOutlineThickness(this->_borderThickness);
+}
+
+void	Checkbox::setPos(sf::Vector2f const& pos)
+{
+	GUIElement::setPos(pos);
+	this->_body.setPosition(this->getPos());
+}
+
+void	Checkbox::setSize(sf::Vector2f const& size)
+{
+	GUIElement::setSize(size);
+	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness, this->getSize().y - this->_borderThickness));
 }
 
 // Getters

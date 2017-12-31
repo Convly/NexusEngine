@@ -13,12 +13,12 @@ GUIElement::~GUIElement()
 
 // Mouse events
 
-void	GUIElement::onEnter()
+void	GUIElement::onMoveInside()
 {
 
 }
 
-void	GUIElement::onLeave()
+void	GUIElement::onMoveOutside()
 {
 
 }

@@ -16,8 +16,8 @@ public:
 	~GUIElement();
 
 	// Mouse events
-	virtual void onEnter();
-	virtual void onLeave();
+	virtual void onMoveInside();
+	virtual void onMoveOutside();
 	virtual void onLeftClickPressedInside();
 	virtual void onLeftClickReleasedInside();
 	virtual void onRightClickPressedInside();

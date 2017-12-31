@@ -66,7 +66,13 @@ void GUIHandler::processEvent(sf::Event const& event)
 								itElem->onRightClickReleasedOutside();
 						}
 					}
-					//TODO: Calling onEnter & onLeave
+					if (event.type == sf::Event::MouseMoved)
+					{
+						if (rect.contains(event.mouseMove.x, event.mouseMove.y))
+							itElem->onMoveInside();
+						else
+							itElem->onMoveOutside();
+					}
 				}
 			}
 		}

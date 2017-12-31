@@ -24,7 +24,10 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(100, 100), sf::Vector2f(100, 40), "MyFirstButton", true,
 															  ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(200, 0, 0, 255), 2),
 															  TextInfo("./fonts/Quicksand_Book.otf", "Press me!", 12, sf::Color(0, 0, 0, 255)));
+	std::shared_ptr<Checkbox> checkbox = std::make_shared<Checkbox>(sf::Vector2f(240, 500), sf::Vector2f(20, 20), "MyFirstCheckbox",
+																	ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(0, 0, 255, 255), 2));
 	layer->add(button);
+	layer->add(checkbox);
 	this->_handler->addLayer(layer);
 }
 

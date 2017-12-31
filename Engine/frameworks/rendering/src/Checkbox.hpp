@@ -4,6 +4,7 @@
 # include <string>
 # include "GUIElement.hpp"
 # include "Nexus/log.hpp"
+# include "ColorInfo.hpp"
 
 class Checkbox : public GUIElement
 {
@@ -14,18 +15,20 @@ class Checkbox : public GUIElement
 		CHECKED
 	};
 
-	State			_state;
-	sf::Color		_backgroundColor;
-	sf::Color		_borderColor;
-	int				_borderThickness;
+	State							_state;
+	sf::Color						_backgroundColor;
+	sf::Color						_borderColor;
+	int								_borderThickness;
+	sf::RectangleShape				_body;
+	std::vector<sf::VertexArray>	_lines;
 
 public:
-	Checkbox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier);
+	Checkbox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo);
 	~Checkbox();
 
 	// GUIElement's mouse event methods overload
-	virtual void onEnter();
-	virtual void onLeave();
+	virtual void onMoveInside();
+	virtual void onMoveOutside();
 	virtual void onLeftClickPressedInside();
 	virtual void onLeftClickReleasedInside();
 	virtual void onRightClickPressedInside();
@@ -46,6 +49,9 @@ public:
 	void		setBackgroundColor(sf::Color const& color);
 	void		setBorderColor(sf::Color const& color);
 	void		setBorderThickness(int const thickness);
+
+	void		setPos(sf::Vector2f const& pos);
+	void		setSize(sf::Vector2f const& size);
 
 	// Getters
 	virtual std::string const	getType() const;

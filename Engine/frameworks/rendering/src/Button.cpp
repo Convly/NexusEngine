@@ -25,14 +25,16 @@ Button::~Button()
 
 // GUIElement's mouse event methods overload
 
-void Button::onEnter()
+void Button::onMoveInside()
 {
-	//Will be called when mouse is entering into the element
+	//Will be called when mouse is moving into the element
+	nx::Log::inform("Mouse moving inside the button '" + this->getIdentifier() + "'");
 }
 
-void Button::onLeave()
+void Button::onMoveOutside()
 {
-	//Will be called when mouse is leaving the element
+	//Will be called when mouse is moving outside the element
+	nx::Log::inform("Mouse moving outside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::onLeftClickPressedInside()
