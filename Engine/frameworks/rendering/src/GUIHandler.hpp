@@ -7,6 +7,7 @@
 
 # include "Button.hpp"
 # include "Checkbox.hpp"
+# include "ProgressBar.hpp"
 
 # include "LayerNotFoundException.hpp"
     

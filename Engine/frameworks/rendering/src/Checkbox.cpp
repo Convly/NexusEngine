@@ -150,6 +150,11 @@ void	Checkbox::setBorderColor(sf::Color const& color)
 {
 	this->_borderColor = color;
 	this->_body.setOutlineColor(this->_borderColor);
+	for (auto it : this->_lines)
+	{
+		it[0].color = this->_borderColor;
+		it[1].color = this->_borderColor;
+	}
 }
 
 void	Checkbox::setBorderThickness(int const thickness)
@@ -163,12 +168,28 @@ void	Checkbox::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
 	this->_body.setPosition(this->getPos());
+
+	this->_lines[0][0].position = pos;
+	this->_lines[0][1].position = pos + this->getSize();
+
+	this->_lines[1][0].position = sf::Vector2f(pos.x + this->getSize().x, pos.y);
+	this->_lines[1][1].position = sf::Vector2f(pos.x, pos.y + this->getSize().y);
+
+	this->_lines[2][0].position = sf::Vector2f(pos.x + this->getSize().x * 0.1f, pos.y + this->getSize().y / 2.0f);
+	this->_lines[2][1].position = sf::Vector2f(pos.x + this->getSize().x * 0.9f, pos.y + this->getSize().y / 2.0f);
 }
 
 void	Checkbox::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness, this->getSize().y - this->_borderThickness));
+
+	if (!this->_lines.empty())
+	{
+		this->_lines[0][1].position = this->getPos() + size;
+		this->_lines[1][1].position = sf::Vector2f(this->getPos().x, this->getPos().y + size.y);
+		this->_lines[2][1].position = sf::Vector2f(this->getPos().x + size.x * 0.9f, this->getPos().y + size.y / 2.0f);
+	}
 }
 
 // Getters

@@ -9,6 +9,8 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size, std::string const& identifie
 	this->_label = sf::Text(textInfo.textLabel, this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
+	this->_label.setPosition(pos.x + size.x / 2 - this->_label.getLocalBounds().width / 2,
+							 pos.y + size.y / 2 - this->_label.getLocalBounds().height);
 	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 
 	this->_body.setPosition(pos);
@@ -109,9 +111,6 @@ void Button::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 	{
-		this->_label.setPosition(this->getPos().x + this->getSize().x / 2 - this->_label.getLocalBounds().width / 2,
-								 this->getPos().y + this->getSize().y / 2 - this->_label.getLocalBounds().height);
-
 		win->draw(this->_body);
 		win->draw(this->_label);
 	}
@@ -164,13 +163,17 @@ void	Button::setBorderThickness(int const thickness)
 void	Button::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
-	this->_body.setPosition(this->getPos());
+	this->_body.setPosition(pos);
+	this->_label.setPosition(pos.x + this->getSize().x / 2 - this->_label.getLocalBounds().width / 2,
+							 pos.y + this->getSize().y / 2 - this->_label.getLocalBounds().height);
 }
 
 void	Button::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
-	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness, this->getSize().y - this->_borderThickness));
+	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness, size.y - this->_borderThickness));
+	this->_label.setPosition(this->getPos().x + size.x / 2 - this->_label.getLocalBounds().width / 2,
+							 this->getPos().y + size.y / 2 - this->_label.getLocalBounds().height);
 }
 
 // Getters
