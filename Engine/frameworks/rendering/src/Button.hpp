@@ -19,7 +19,7 @@ class Button : public GUIElement
 	sf::RectangleShape	_body;
 
 public:
-	Button(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo);
+	Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo);
 	~Button();
 
 	// GUIElement's mouse event methods overload
