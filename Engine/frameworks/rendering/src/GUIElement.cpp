@@ -1,6 +1,6 @@
 #include "GUIElement.hpp"
 
-GUIElement::GUIElement(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier) :
+GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier) :
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true)
 {
 

@@ -12,7 +12,7 @@ class GUIElement
 	bool									_isVisible;
 
 public:
-	GUIElement(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier);
+	GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier);
 	~GUIElement();
 
 	// Mouse events
