@@ -105,6 +105,11 @@ std::vector<std::shared_ptr<GUILayer>>	const &	GUIHandler::getLayers() const
 	return (this->_guiLayers);
 }
 
+std::vector<std::shared_ptr<GUILayer>>&	GUIHandler::getLayers()
+{
+	return this->_guiLayers;
+}
+
 std::shared_ptr<GUILayer> const &				GUIHandler::getLayerByName(std::string const& identifier) const
 {
 	for (auto &it : this->_guiLayers)
