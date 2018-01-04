@@ -42,8 +42,30 @@ std::vector<std::shared_ptr<GUIElement>> const & GUILayer::getElements() const
 	return (this->_guiElements);
 }
 
+std::vector<std::shared_ptr<GUIElement>>&		 GUILayer::getElements()
+{
+	return (this->_guiElements);
+}
+
 
 std::shared_ptr<GUIElement> const &	GUILayer::getElementByName(std::string const& identifier) const
+{
+	auto it = std::find_if(
+		this->_guiElements.begin(),
+		this->_guiElements.end(),
+		[&](auto &element){
+			return element->getIdentifier() == identifier;
+		}
+	);
+
+	if (it == this->_guiElements.end()) {
+		throw nx::ElementNotFoundException(identifier);
+	}
+
+	return *it;
+}
+
+std::shared_ptr<GUIElement>&		GUILayer::getElementByName(std::string const& identifier)
 {
 	auto it = std::find_if(
 		this->_guiElements.begin(),

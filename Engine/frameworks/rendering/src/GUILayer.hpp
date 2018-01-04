@@ -28,7 +28,9 @@ public:
 	bool											 isVisible() const;
 
 	std::vector<std::shared_ptr<GUIElement>> const & getElements() const;
+	std::vector<std::shared_ptr<GUIElement>>&		 getElements();
 	std::shared_ptr<GUIElement> const &				 getElementByName(std::string const& identifier) const;
+	std::shared_ptr<GUIElement>&					 getElementByName(std::string const& identifier);
 };
 
 #endif /* GUILAYER_HPP_ */
