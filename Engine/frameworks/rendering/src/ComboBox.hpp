@@ -28,7 +28,7 @@ class ComboBox : public GUIElement
 	bool							_isScrolled;
 
 public:
-	ComboBox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo);
+	ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo);
 	~ComboBox();
 
 	// GUIElement's mouse event methods overload

@@ -1,6 +1,6 @@
 #include "ComboBox.hpp"
 
-ComboBox::ComboBox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo) :
+ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_font(sf::Font()), _colorInfo(ColorInfo(colorInfo)), _textInfo(TextInfo(textInfo)), _body(sf::RectangleShape(size)), _idxSelected(-1), _isScrolled(false)
