@@ -19,7 +19,7 @@ class ProgressBar : public GUIElement
 	sf::Text						_label;
 
 public:
-	ProgressBar(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage = true);
+	ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage = true);
 	~ProgressBar();
 
 	// GUIElement's mouse event methods overload

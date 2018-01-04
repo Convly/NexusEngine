@@ -1,6 +1,6 @@
 #include "ProgressBar.hpp"
 
-ProgressBar::ProgressBar(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage) :
+ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage) :
 	GUIElement(pos, size, identifier),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_body(sf::RectangleShape(size)), _filled(sf::RectangleShape()), _percentage(0), _font(sf::Font())
