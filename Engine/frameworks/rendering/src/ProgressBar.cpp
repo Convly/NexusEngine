@@ -5,14 +5,12 @@ ProgressBar::ProgressBar(sf::Vector2f pos, sf::Vector2f size, std::string const&
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_body(sf::RectangleShape(size)), _filled(sf::RectangleShape()), _percentage(0), _font(sf::Font())
 {
-	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
-
-	this->_font.loadFromFile(textInfo.fontPath);
-	this->_label = sf::Text(std::to_string(this->_percentage) + "%", this->_font, textInfo.fontSize);
+	this->_label = sf::Text("", this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
-	this->_label.setPosition(pos.x + size.x / 2 - this->_label.getLocalBounds().width / 2,
-							 pos.y + size.y / 2 - this->_label.getLocalBounds().height);
+	this->setFilled(0);
+
+	this->_font.loadFromFile(textInfo.fontPath);
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
@@ -21,6 +19,8 @@ ProgressBar::ProgressBar(sf::Vector2f pos, sf::Vector2f size, std::string const&
 
 	this->_filled.setPosition(pos);
 	this->_filled.setFillColor(sf::Color(0, 255, 0, 255));
+
+	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 }
 
 ProgressBar::~ProgressBar()
@@ -31,61 +31,61 @@ ProgressBar::~ProgressBar()
 
 // GUIElement's mouse event methods overload
 
-void ProgressBar::onMoveInside()
+void ProgressBar::onMoveInside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving into the element
 	nx::Log::inform("Mouse moving inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onMoveOutside()
+void ProgressBar::onMoveOutside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving outside the element
 	nx::Log::inform("Mouse moving outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onLeftClickPressedInside()
+void ProgressBar::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-click is inside the element
 	nx::Log::inform("Left-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onLeftClickReleasedInside()
+void ProgressBar::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-release is inside the element
 	nx::Log::inform("Left-click released inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onRightClickPressedInside()
+void ProgressBar::onRightClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-click is inside the element
 	nx::Log::inform("Right-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onRightClickReleasedInside()
+void ProgressBar::onRightClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-release is inside the element
 	nx::Log::inform("Right-click released inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onLeftClickPressedOutside()
+void ProgressBar::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-click is outside the element
 	nx::Log::inform("Left-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onLeftClickReleasedOutside()
+void ProgressBar::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-release is outside the element
 	nx::Log::inform("Left-click released outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onRightClickPressedOutside()
+void ProgressBar::onRightClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-click is outside the element
 	nx::Log::inform("Right-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
-void ProgressBar::onRightClickReleasedOutside()
+void ProgressBar::onRightClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-release is outside the element
 	nx::Log::inform("Right-click released outside the ProgressBar '" + this->getIdentifier() + "'");
@@ -136,26 +136,28 @@ void	ProgressBar::setBorderThickness(int const thickness)
 void	ProgressBar::setFilled(int const percentage)
 {
 	this->_percentage = percentage;
-	this->_filled.setSize(sf::Vector2f(this->getSize().x * (percentage / 100.0f), this->getSize().y - this->_borderThickness));
+	this->_filled.setSize(sf::Vector2f(this->getSize().x * (percentage / 100.0f), this->getSize().y - this->_borderThickness * 2));
+	this->_label.setPosition(this->getPos().x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
+							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 	this->_label.setString(std::to_string(percentage) + "%");
 }
 
 void	ProgressBar::setPos(sf::Vector2f const& pos)
 {
-	GUIElement::setPos(pos);
+	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(pos);
 	this->_filled.setPosition(pos);
-	this->_label.setPosition(pos.x + this->getSize().x / 2 - this->_label.getLocalBounds().width / 2,
-							 pos.y + this->getSize().y / 2 - this->_label.getLocalBounds().height);
+	this->_label.setPosition(pos.x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
+							 pos.y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 }
 
 void	ProgressBar::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
-	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness, this->getSize().y));
-	this->_filled.setSize(sf::Vector2f(this->getSize().x * (this->_percentage / 100.0f), this->getSize().y - this->_borderThickness));
-	this->_label.setPosition(this->getPos().x + size.x / 2 - this->_label.getLocalBounds().width / 2,
-							 this->getPos().y + size.y / 2 - this->_label.getLocalBounds().height);
+	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness * 2, this->getSize().y - this->_borderThickness * 2));
+	this->_filled.setSize(sf::Vector2f(this->getSize().x * (this->_percentage / 100.0f), this->getSize().y - this->_borderThickness * 2));
+	this->_label.setPosition(this->getPos().x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
+							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 }
 
 void	ProgressBar::setLabel(sf::Text const& label)

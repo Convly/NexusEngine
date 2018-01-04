@@ -8,6 +8,7 @@
 # include "Button.hpp"
 # include "Checkbox.hpp"
 # include "ProgressBar.hpp"
+# include "ComboBox.hpp"
 
 # include "LayerNotFoundException.hpp"
     

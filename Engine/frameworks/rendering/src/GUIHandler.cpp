@@ -37,16 +37,16 @@ void GUIHandler::processEvent(sf::Event const& event)
 						if (event.type == sf::Event::MouseButtonPressed)
 						{
 							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
-								itElem->onLeftClickPressedInside();
+								itElem->onLeftClickPressedInside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 							else
-								itElem->onLeftClickPressedOutside();
+								itElem->onLeftClickPressedOutside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 						}
 						else if (event.type == sf::Event::MouseButtonReleased)
 						{
 							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
-								itElem->onLeftClickReleasedInside();
+								itElem->onLeftClickReleasedInside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 							else
-								itElem->onLeftClickReleasedOutside();
+								itElem->onLeftClickReleasedOutside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 						}
 					}
 					else if (event.mouseButton.button == sf::Mouse::Right)
@@ -54,24 +54,24 @@ void GUIHandler::processEvent(sf::Event const& event)
 						if (event.type == sf::Event::MouseButtonPressed)
 						{
 							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
-								itElem->onRightClickPressedInside();
+								itElem->onRightClickPressedInside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 							else
-								itElem->onRightClickPressedOutside();
+								itElem->onRightClickPressedOutside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 						}
 						else if (event.type == sf::Event::MouseButtonReleased)
 						{
 							if (rect.contains(event.mouseButton.x, event.mouseButton.y))
-								itElem->onRightClickReleasedInside();
+								itElem->onRightClickReleasedInside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 							else
-								itElem->onRightClickReleasedOutside();
+								itElem->onRightClickReleasedOutside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 						}
 					}
 					if (event.type == sf::Event::MouseMoved)
 					{
 						if (rect.contains(event.mouseMove.x, event.mouseMove.y))
-							itElem->onMoveInside();
+							itElem->onMoveInside(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 						else
-							itElem->onMoveOutside();
+							itElem->onMoveOutside(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 					}
 				}
 			}

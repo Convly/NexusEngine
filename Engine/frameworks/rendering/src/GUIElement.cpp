@@ -13,52 +13,52 @@ GUIElement::~GUIElement()
 
 // Mouse events
 
-void	GUIElement::onMoveInside()
+void	GUIElement::onMoveInside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onMoveOutside()
+void	GUIElement::onMoveOutside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onLeftClickPressedInside()
+void	GUIElement::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onLeftClickReleasedInside()
+void	GUIElement::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onRightClickPressedInside()
+void	GUIElement::onRightClickPressedInside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onRightClickReleasedInside()
+void	GUIElement::onRightClickReleasedInside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onLeftClickPressedOutside()
+void	GUIElement::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onLeftClickReleasedOutside()
+void	GUIElement::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onRightClickPressedOutside()
+void	GUIElement::onRightClickPressedOutside(sf::Vector2i const& pos)
 {
 
 }
 
-void	GUIElement::onRightClickReleasedOutside()
+void	GUIElement::onRightClickReleasedOutside(sf::Vector2i const& pos)
 {
 
 }

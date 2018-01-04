@@ -27,16 +27,16 @@ public:
 	~Checkbox();
 
 	// GUIElement's mouse event methods overload
-	virtual void onMoveInside();
-	virtual void onMoveOutside();
-	virtual void onLeftClickPressedInside();
-	virtual void onLeftClickReleasedInside();
-	virtual void onRightClickPressedInside();
-	virtual void onRightClickReleasedInside();
-	virtual void onLeftClickPressedOutside();
-	virtual void onLeftClickReleasedOutside();
-	virtual void onRightClickPressedOutside();
-	virtual void onRightClickReleasedOutside();
+	virtual void onMoveInside(sf::Vector2i const& pos);
+	virtual void onMoveOutside(sf::Vector2i const& pos);
+	virtual void onLeftClickPressedInside(sf::Vector2i const& pos);
+	virtual void onLeftClickReleasedInside(sf::Vector2i const& pos);
+	virtual void onRightClickPressedInside(sf::Vector2i const& pos);
+	virtual void onRightClickReleasedInside(sf::Vector2i const& pos);
+	virtual void onLeftClickPressedOutside(sf::Vector2i const& pos);
+	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
+	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
+	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
 
 	// Specific functions for this element
 	virtual void onStateChanged();

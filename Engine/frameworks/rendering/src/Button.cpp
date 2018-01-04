@@ -9,14 +9,15 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size, std::string const& identifie
 	this->_label = sf::Text(textInfo.textLabel, this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
-	this->_label.setPosition(pos.x + size.x / 2 - this->_label.getLocalBounds().width / 2,
-							 pos.y + size.y / 2 - this->_label.getLocalBounds().height);
-	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
+	this->_label.setPosition(pos.x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f,
+							 pos.y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
 	this->_body.setOutlineThickness(colorInfo.borderThickness);
 	this->_body.setOutlineColor(colorInfo.borderColor);
+
+	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 }
 
 Button::~Button()
@@ -27,19 +28,19 @@ Button::~Button()
 
 // GUIElement's mouse event methods overload
 
-void Button::onMoveInside()
+void Button::onMoveInside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving into the element
 	nx::Log::inform("Mouse moving inside the button '" + this->getIdentifier() + "'");
 }
 
-void Button::onMoveOutside()
+void Button::onMoveOutside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving outside the element
 	nx::Log::inform("Mouse moving outside the button '" + this->getIdentifier() + "'");
 }
 
-void Button::onLeftClickPressedInside()
+void Button::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been left-clicked
 	nx::Log::inform("Left-click pressed inside the button '" + this->getIdentifier() + "'");
@@ -47,7 +48,7 @@ void Button::onLeftClickPressedInside()
 	this->onStateChanged();
 }
 
-void Button::onLeftClickReleasedInside()
+void Button::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been left-released
 	nx::Log::inform("Left-click released inside the button '" + this->getIdentifier() + "'");
@@ -61,25 +62,25 @@ void Button::onLeftClickReleasedInside()
 	}
 }
 
-void Button::onRightClickPressedInside()
+void Button::onRightClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been right-clicked
 	nx::Log::inform("Right-click pressed inside the button '" + this->getIdentifier() + "'");
 }
 
-void Button::onRightClickReleasedInside()
+void Button::onRightClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been right-released
 	nx::Log::inform("Right-click released inside the button '" + this->getIdentifier() + "'");
 }
 
-void Button::onLeftClickPressedOutside()
+void Button::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-click is outside the element
 	nx::Log::inform("Left-click pressed outside the button '" + this->getIdentifier() + "'");
 }
 
-void Button::onLeftClickReleasedOutside()
+void Button::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-release is outside the element
 	nx::Log::inform("Left-click released outside the button '" + this->getIdentifier() + "'");
@@ -93,13 +94,13 @@ void Button::onLeftClickReleasedOutside()
 	}
 }
 
-void Button::onRightClickPressedOutside()
+void Button::onRightClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-click is outside the element
 	nx::Log::inform("Right-click pressed outside the button '" + this->getIdentifier() + "'");
 }
 
-void Button::onRightClickReleasedOutside()
+void Button::onRightClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-release is outside the element
 	nx::Log::inform("Right-click released outside the button '" + this->getIdentifier() + "'");
@@ -162,18 +163,18 @@ void	Button::setBorderThickness(int const thickness)
 
 void	Button::setPos(sf::Vector2f const& pos)
 {
-	GUIElement::setPos(pos);
+	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(pos);
-	this->_label.setPosition(pos.x + this->getSize().x / 2 - this->_label.getLocalBounds().width / 2,
-							 pos.y + this->getSize().y / 2 - this->_label.getLocalBounds().height);
+	this->_label.setPosition(pos.x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
+							 pos.y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 }
 
 void	Button::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
-	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness, size.y - this->_borderThickness));
-	this->_label.setPosition(this->getPos().x + size.x / 2 - this->_label.getLocalBounds().width / 2,
-							 this->getPos().y + size.y / 2 - this->_label.getLocalBounds().height);
+	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness * 2, size.y - this->_borderThickness * 2));
+	this->_label.setPosition(this->getPos().x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
+							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 }
 
 // Getters

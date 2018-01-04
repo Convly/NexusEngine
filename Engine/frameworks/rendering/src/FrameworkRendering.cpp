@@ -21,18 +21,27 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	this->_handler = std::make_shared<GUIHandler>(this->_win);
 
 	std::shared_ptr<GUILayer> layer = std::make_shared<GUILayer>("MainLayer");
-	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(100, 100), sf::Vector2f(100, 40), "MyFirstButton", true,
+	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(300, 100), sf::Vector2f(100, 30), "MyFirstButton", true,
 															  ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(200, 0, 0, 255), 2),
 															  TextInfo("./fonts/Roboto-Regular.ttf", "Press me!", 12, sf::Color(0, 0, 0, 255)));
-	std::shared_ptr<Checkbox> checkbox = std::make_shared<Checkbox>(sf::Vector2f(640, 30), sf::Vector2f(20, 20), "MyFirstCheckbox",
+	std::shared_ptr<Checkbox> checkbox = std::make_shared<Checkbox>(sf::Vector2f(640, 30), sf::Vector2f(30, 30), "MyFirstCheckbox",
 																	ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(0, 0, 255, 255), 2));
 	std::shared_ptr<ProgressBar> progressbar = std::make_shared<ProgressBar>(sf::Vector2f(240, 500), sf::Vector2f(300, 50), "MyFirstProgressbar",
 																			 ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(255, 255, 255, 255), 2),
 																			 TextInfo("./fonts/Roboto-Regular.ttf", "", 16, sf::Color(0, 0, 0, 255)));
-	progressbar->setFilled(62);
+	std::shared_ptr<ComboBox> combobox = std::make_shared<ComboBox>(sf::Vector2f(70, 250), sf::Vector2f(140, 30), "MyFirstComboBox",
+																    ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(255, 255, 0, 255), 2),
+																    TextInfo("./fonts/Roboto-Regular.ttf", "", 12, sf::Color(0, 0, 0, 255)));
+	progressbar->setFilled(50);
+	combobox->addSelection("First item");
+	combobox->addSelection("Second item");
+	combobox->addSelection("LEEERRROYYYY");
+	combobox->addSelection("JENKINSSSSS");
+	combobox->addSelection("Very long thing over thereeeee omggg");
 	layer->add(button);
 	layer->add(checkbox);
 	layer->add(progressbar);
+	layer->add(combobox);
 	this->_handler->addLayer(layer);
 }
 
