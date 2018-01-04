@@ -1,6 +1,6 @@
 #include "Checkbox.hpp"
 
-Checkbox::Checkbox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo) :
+Checkbox::Checkbox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo) :
 	GUIElement(pos, size, identifier), _state(State::UNCHECKED),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_body(sf::RectangleShape(size))

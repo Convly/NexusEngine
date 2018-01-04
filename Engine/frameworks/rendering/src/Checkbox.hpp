@@ -23,7 +23,7 @@ class Checkbox : public GUIElement
 	std::vector<sf::VertexArray>	_lines;
 
 public:
-	Checkbox(sf::Vector2f pos, sf::Vector2f size, std::string const& identifier, ColorInfo const& colorInfo);
+	Checkbox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo);
 	~Checkbox();
 
 	// GUIElement's mouse event methods overload
