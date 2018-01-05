@@ -5,16 +5,18 @@
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
-class FrameworkRendering : public nx::RenderingFrameworkTpl {
- public:
-  FrameworkRendering(nx::Engine *);
-  ~FrameworkRendering();
+class FrameworkRendering : public nx::RenderingFrameworkTpl
+{
+public:
+	FrameworkRendering(nx::Engine*);
+	~FrameworkRendering();
 
- public:
-  void TriggerRenderingEvent();
+public:
+	void CreateWindow(int x, int y, const std::string& windowTitle);
 
- protected:
-  nx::Engine *_engine;
+	
+protected:
+	nx::Engine* _engine;
 };
 
 #if  defined(_MSC_VER)
@@ -36,13 +38,15 @@ extern "C"
 
 extern "C"
 {
-FrameworkRendering *CObject(nx::Engine *engine) {
-  return (new FrameworkRendering(engine));
-}
+	FrameworkRendering* CObject(nx::Engine* engine)
+	{
+		return (new FrameworkRendering(engine));
+	}
 
-void DObject(FrameworkRendering *obj) {
-  delete obj;
-}
+	void DObject(FrameworkRendering* obj)
+	{
+		delete obj;
+	}
 }
 
 #endif

@@ -6,6 +6,7 @@
 #include <functional>
 #include <algorithm>
 
+#include "Nexus/events.hpp"
 #include "Nexus/log.hpp"
 
 namespace nx {
@@ -16,20 +17,29 @@ namespace nx {
 
 	struct Event
 	{
-	  Event(const std::string &name_, const std::vector<char> &data_)
-		: name(name_), data(data_) {}
+		Event(const nx::EVENT type_, const std::vector<char>& data_)
+		: type(type_), data(data_) {}
 
-	  std::string name;
-	  std::vector<char> data;
+		nx::EVENT			type;
+		std::vector<char>	data;
+
+		static std::vector<char> stringToVector(const std::string& str) {
+			return std::vector<char>(str.c_str(), str.c_str() + str.size() + 1);
+		}
+
+		template <typename T>
+		static std::string stringFromVector(const std::vector<T>& vec) {
+			return vec.data();
+		}
 	};
 
 	struct EventLink
 	{
-		EventLink(const uint32_t uid_, const std::string& name_, const std::function<void(const nx::Event&)>& callback_)
-		: uid(uid_), name(name_), callback(callback_) {}
+		EventLink(const uint32_t uid_, const nx::EVENT type_, const std::function<void(const nx::Event&)>& callback_)
+		: uid(uid_), type(type_), callback(callback_) {}
 
 		uint32_t uid;
-		std::string name;
+		nx::EVENT type;
 		std::function<void(const nx::Event&)> callback;
 	};
 
@@ -48,7 +58,7 @@ namespace nx {
 
 	public:
 		virtual void emitter(const nx::Event&);
-		virtual uint32_t connect(const std::string& eventName, const std::function<void(const nx::Event&)>& callback);
+		virtual uint32_t connect(const nx::EVENT eventType, const std::function<void(const nx::Event&)>& callback);
 		virtual bool disconnect(const uint32_t uid);
 
 
