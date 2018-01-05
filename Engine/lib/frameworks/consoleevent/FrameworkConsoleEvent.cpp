@@ -36,7 +36,7 @@ void FrameworkConsoleEvent::runEvent(std::string event) {
 
 	auto const ptr = reinterpret_cast<char*>(&waitDataEvent);
 	std::vector<char> data(ptr, ptr + sizeof waitDataEvent);
-	this->_engine->emit("NetworkWaitData", data);
+	this->_engine->emit(nx::EVENT::NETWORK_WAIT_DATA, data);
   } else if (event == "connect") {
 	nx::NetworkSystem::ConnectEvent connectEvent;
 
@@ -45,7 +45,7 @@ void FrameworkConsoleEvent::runEvent(std::string event) {
 
 	auto const ptr = reinterpret_cast<char*>(&connectEvent);
 	std::vector<char> data(ptr, ptr + sizeof connectEvent);
-	this->_engine->emit("NetworkConnect", data);
+	this->_engine->emit(nx::EVENT::NETWORK_CONNECT, data);
 
 	nx::Log::inform("[ConsoleEvent] Connect (TCP) to localhost");
   } else if (event == "send") {

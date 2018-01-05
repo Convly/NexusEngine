@@ -6,8 +6,8 @@ nx::NetworkSystem::NetworkSystem()
 	:
 	nx::SystemTpl(__NX_NETWORK_KEY__),
 	_framework_m(std::make_shared<nx::FrameworkManager<nx::NetworkFrameworkTpl>>(__NX_NETWORK_KEY__, true)) {
-  this->connect("NetworkWaitData", nx::NetworkSystem::event_NetworkWaitData);
-  this->connect("NetworkConnect", nx::NetworkSystem::event_NetworkConnect);
+  this->connect(nx::EVENT::NETWORK_WAIT_DATA, nx::NetworkSystem::event_NetworkWaitData);
+  this->connect(nx::EVENT::NETWORK_CONNECT, nx::NetworkSystem::event_NetworkConnect);
 }
 
 nx::NetworkSystem::~NetworkSystem() {

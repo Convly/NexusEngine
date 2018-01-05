@@ -11,6 +11,8 @@
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
 
+#include "Nexus/network.hpp"
+#include "Nexus/consoleevent.hpp"
 #include "Nexus/rendering.hpp"
 #include "Nexus/script.hpp"
 
