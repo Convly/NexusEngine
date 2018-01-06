@@ -17,9 +17,11 @@ class NetworkFrameworkTpl {
   const std::string &getName(void) const { return this->_name; }
 
   // Framework Methods (must be virtual pure)
-  virtual void waitClient(unsigned int port) = 0;
+  virtual void tcpStartAccept(unsigned short port) = 0;
 
-  virtual void connect(std::string ip, unsigned int port) = 0;
+  virtual void tcpStartConnect(std::string ip, unsigned short port) = 0;
+
+  virtual void tcpSend(unsigned int id, Event event) = 0;
 };
 }
 

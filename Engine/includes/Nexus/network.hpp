@@ -25,14 +25,19 @@ class NetworkSystem : public SystemTpl {
   virtual ~NetworkSystem();
 
  public:
-  struct ConnectEvent {
+  struct TcpConnectEvent {
 	std::string		_ip;
-	unsigned int	_port;
+	unsigned short	_port;
   };
 
-  struct WaitDataEvent {
+  struct TcpAcceptEvent {
 	bool 			_localhost;
-	unsigned int	_port;
+	unsigned short	_port;
+  };
+
+  struct TcpSendEvent {
+	unsigned int		id;
+	nx::Event 			&event;
   };
 
  public:
@@ -42,8 +47,9 @@ class NetworkSystem : public SystemTpl {
   nx::NetworkFrameworkTpl *getFramework();
 
  public:
-  static void event_NetworkWaitData(const nx::Event &);
-  static void event_NetworkConnect(const nx::Event &);
+  static void event_NetworkTcpAccept(const nx::Event &);
+  static void event_NetworkTcpConnect(const nx::Event &);
+  static void event_NetworkTcpSend(const nx::Event &);
 };
 }
 

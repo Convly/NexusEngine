@@ -3,14 +3,11 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <arpa/inet.h>
-#include <memory>
-
-#include <thread>
-#include <atomic>
 
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/NetworkFrameworkTpl.hpp"
+
+#include "NetworkTcp.hpp"
 
 class FrameworkNetwork : public nx::NetworkFrameworkTpl {
  public:
@@ -19,35 +16,21 @@ class FrameworkNetwork : public nx::NetworkFrameworkTpl {
 	UDP = 1
   };
 
- private:
-  std::shared_ptr<std::thread>	_thListenData;
-  std::atomic<bool>				_stopListen;
+ protected:
+  NetworkTcp	_tcp;
+
 
  public:
   FrameworkNetwork(nx::Engine *);
   ~FrameworkNetwork();
 
- public:
-  // Server
-
-  /**
-   * @attention TCP Only
-   */
-  void waitClient(unsigned int port);
-
-  void waitData(unsigned int port);
-
-  void addClient();
-
-  // Client
-
-  /**
-   * @attention TCP Only
-   */
-  void connect(std::string ip, unsigned int port);
-
  protected:
   nx::Engine *_engine;
+
+ public:
+  void tcpStartAccept(unsigned short port);
+  void tcpStartConnect(std::string ip, unsigned short port);
+  void tcpSend(unsigned int id, nx::Event event);
 };
 
 #if  defined(_MSC_VER)
