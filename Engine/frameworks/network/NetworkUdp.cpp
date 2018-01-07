@@ -38,13 +38,13 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port)
 	hints.ai_protocol = IPPROTO_UDP;
 
 	if (getaddrinfo(_ip.c_str(), decimal_port, &hints, &_addrInfo) != 0 || _addrInfo == NULL)
-		perror(std::string("invalid address or port: \"" + _ip + ":" + decimal_port + "\"").c_str());
+		throw nx::NetworkUdpException("invalid address or port: \"" + _ip + ":" + decimal_port + "\"");
 
 	_socket = socket(_addrInfo->ai_family, SOCK_DGRAM, IPPROTO_UDP);
 	if (_socket == -1)
 	{
 		freeaddrinfo(_addrInfo);
-		perror(std::string("could not create socket for: \"" + _ip + ":" + decimal_port + "\"").c_str());
+		throw nx::NetworkUdpException("could not create socket for: \"" + _ip + ":" + decimal_port + "\"");
 	}
 }
 
@@ -56,7 +56,7 @@ void		NetworkUdp::startReceive(unsigned short port)
 	__initSocket();
 
 	if ((_socket = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-		perror("cannot create socket\n");
+		throw nx::NetworkUdpException("cannot create socket");
 
 	memset((char *)&_serverAddr, 0, sizeof(_serverAddr));
 
@@ -65,7 +65,7 @@ void		NetworkUdp::startReceive(unsigned short port)
 	_serverAddr.sin_port = htons(_port);
 
 	if (bind(_socket, (struct sockaddr *)&_serverAddr, sizeof(_serverAddr)) < 0)
-		perror("bind failed");
+		throw nx::NetworkUdpException("bind failed");
 }
 
 void		NetworkUdp::send(unsigned short port, std::vector<char> data)
