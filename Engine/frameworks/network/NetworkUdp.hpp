@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-#include "NetworkUdpException.hpp"
+#include "Nexus/errors/NetworkUdpException.hpp"
 
 #ifdef _WIN32
 #include <ws2tcpip.h>
