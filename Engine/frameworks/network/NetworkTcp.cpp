@@ -14,12 +14,12 @@ void NetworkTcp::startAccept(unsigned short port) {
 }
 
 void NetworkTcp::startConnect(std::string ip, unsigned short port) {
-  this->connect(ip, port);
+  this->_thConnect = std::make_shared<std::thread>(&NetworkTcp::connect, this, ip, port);
 }
 
 void NetworkTcp::send(unsigned int id, std::vector<char> data) {
-  auto it = this->_clients.find(id);
-  if (it == this->_clients.end())
+  auto it = this->_tunnels.find(id);
+  if (it == this->_tunnels.end())
 	return ;
   this->write(it->second, data);
 }
@@ -50,12 +50,13 @@ void NetworkTcp::accept(unsigned short port) {
 	sin_size = sizeof(struct sockaddr_in);
 	new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size);
 
-	NetworkTcpClient networkTcpClient;
+	NetworkTcpTunnel networkTcpTunnel;
 
-	networkTcpClient.fd = new_fd;
-	networkTcpClient.addr = their_addr;
-	this->_clients.insert(std::pair<unsigned int, NetworkTcpClient>(idMax, networkTcpClient));
-	this->_thClients.insert(std::pair<unsigned int, std::shared_ptr<std::thread>>(idMax, std::make_shared<std::thread>(&NetworkTcp::handleOneClient, this, idMax)));
+	networkTcpTunnel.id = idMax;
+	networkTcpTunnel.fd = new_fd;
+	networkTcpTunnel.addr = their_addr;
+	this->_tunnels.insert(std::pair<unsigned int, NetworkTcpTunnel>(idMax, networkTcpTunnel));
+	this->_thClients.insert(std::pair<unsigned int, std::shared_ptr<std::thread>>(idMax, std::make_shared<std::thread>(&NetworkTcp::handleOneTunnel, this, networkTcpTunnel)));
 	idMax += 1;
   }
 }
@@ -69,13 +70,42 @@ void NetworkTcp::connect(std::string ip, unsigned short port) {
   address.sin_addr.s_addr = inet_addr(ip.c_str());
   int sd = socket(AF_INET, SOCK_STREAM, 0);
   ::connect(sd, (struct sockaddr*)&address, sizeof(address));
+
+  NetworkTcpTunnel	networkTcpTunnel;
+
+  networkTcpTunnel.id = 0;
+  networkTcpTunnel.fd = sd;
+  networkTcpTunnel.addr = address;
+  this->_tunnels.insert(std::pair<unsigned int, NetworkTcpTunnel>(0, networkTcpTunnel));
+
+  this->handleOneTunnel(networkTcpTunnel);
 }
 
-void NetworkTcp::handleOneClient(unsigned int id) {
-  nx::Log::debug("New client handle");
+void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel) {
+  nx::Log::debug("New tunnel handle");
+  while (1) {
+	std::vector<char> data(4000);
+	::recv(tunnel.fd, data.data(), data.size(), 0);
+
+	nx::Log::debug("[Network] Data:");
+	nx::Log::debug(data.data());
+	nx::Log::debug("--\n");
+
+	const nx::Event event = this->convertNetworkDataToEvent(data);
+
+	nx::Log::debug("Event type: " + std::to_string(event.type));
+
+	std::future<void> eventEmit(std::async([&]() {
+	  this->_engine->emit(event);
+	}));
+
+	eventEmit.get();
+  }
 }
 
-void NetworkTcp::write(NetworkTcpClient networkTcpClient, std::vector<char> data) {
+void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data) {
   nx::Log::debug("New date write");
+
+  ::send(networkTcpTunnel.fd, data.data(), data.size(), 0);
 }
 // End - Linux

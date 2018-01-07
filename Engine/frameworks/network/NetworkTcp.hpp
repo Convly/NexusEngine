@@ -8,13 +8,19 @@
 #include <thread>
 #include <atomic>
 #include <unordered_map>
+#include <future>
+#include <chrono>
+#include <thread>
 
 #include "Nexus/engine.hpp"
 
-class NetworkTcp {
+#include "ANetworkTransport.hpp"
+
+class NetworkTcp : public ANetworkTransport {
  protected:
   // Linux
-  struct NetworkTcpClient {
+  struct NetworkTcpTunnel {
+	unsigned int		id;
 	struct sockaddr_in	addr;
 	int					fd;
   };
@@ -22,11 +28,15 @@ class NetworkTcp {
  protected:
   nx::Engine *_engine;
 
-  std::unordered_map<unsigned int, NetworkTcpClient>						_clients;
+  std::unordered_map<unsigned int, NetworkTcpTunnel>						_tunnels;
   std::unordered_map<unsigned int, std::shared_ptr<std::thread>>			_thClients;
 
 
+  // Server mode
   std::shared_ptr<std::thread>	_thAccept;
+
+  // Client mode
+  std::shared_ptr<std::thread>	_thConnect;
  public:
   NetworkTcp(nx::Engine *);
   ~NetworkTcp();
@@ -39,8 +49,8 @@ class NetworkTcp {
   // Linux
   void accept(unsigned short port);
   void connect(std::string ip, unsigned short port);
-  void handleOneClient(unsigned int id);
-  void write(NetworkTcpClient networkTcpClient, std::vector<char> data);
+  void handleOneTunnel(NetworkTcpTunnel networkTcpTunnel);
+  void write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data);
   // End - Linux
 };
 

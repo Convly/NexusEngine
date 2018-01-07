@@ -8,8 +8,9 @@
 #include "Nexus/frameworks/NetworkFrameworkTpl.hpp"
 
 #include "NetworkTcp.hpp"
+#include "ANetworkTransport.hpp"
 
-class FrameworkNetwork : public nx::NetworkFrameworkTpl {
+class FrameworkNetwork : public nx::NetworkFrameworkTpl, ANetworkTransport {
  public:
   enum class Transport {
 	TCP = 0,

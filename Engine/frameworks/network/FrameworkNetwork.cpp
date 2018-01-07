@@ -21,5 +21,5 @@ void FrameworkNetwork::tcpStartConnect(std::string ip, unsigned short port) {
 }
 
 void FrameworkNetwork::tcpSend(unsigned int id, nx::Event event) {
-  this->_tcp.send(id, event.data);
+  this->_tcp.send(id, this->convertEventToNetworkData(event));
 }

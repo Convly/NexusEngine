@@ -48,11 +48,11 @@ void FrameworkConsoleEvent::runEvent(std::string event) {
 	this->_engine->emit(nx::EVENT::NETWORK_TCP_CONNECT, data);
 
 	nx::Log::inform("[ConsoleEvent] Connect (TCP) to localhost");
-  } else if (event == "send") {
+  } else if (event == "sendC") {
 	std::vector<char> data_r = {'e', 'r', 't'};
 
 	auto eventR = nx::Event(nx::EVENT::SCRIPT_INIT, data_r);
-	nx::NetworkSystem::TcpSendEvent tcpSendEvent = { 1, eventR};
+	nx::NetworkSystem::TcpSendEvent tcpSendEvent = {1, eventR};
 
 	auto const ptr = reinterpret_cast<char*>(&tcpSendEvent);
 	std::vector<char> data(ptr, ptr + sizeof tcpSendEvent);
