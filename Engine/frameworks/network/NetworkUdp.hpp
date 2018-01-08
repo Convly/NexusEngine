@@ -62,11 +62,11 @@ public:
 	virtual		~NetworkUdp();
 
 public:
-	void		startSend(const std::string &ip, unsigned short port);
+	void		startSend(const std::string &ip, unsigned short port, std::vector<char> data);
 	void		startReceive(unsigned short port);
 
 public:
-	void		send(unsigned short port, std::vector<char> data);
+	void		send(std::vector<char> data);
 	void		receive(unsigned short port);
 };
 

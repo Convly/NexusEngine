@@ -20,7 +20,7 @@ NetworkUdp::~NetworkUdp()
 		__closeSocket(_socket);
 }
 
-void		NetworkUdp::startSend(const std::string &ip, unsigned short port)
+void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vector<char> data)
 {
 	char	decimal_port[16];
 	struct	addrinfo hints;
@@ -51,15 +51,15 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port)
 			throw nx::NetworkUdpException("could not create socket for: \"" + _ip + ":" + decimal_port + "\"");
 		}
 	}
-	this->_thSend() = std::make_shared<std::thread>(&NetworkUdp::send, this, port);
+	this->_thSend = std::make_shared<std::thread>(&NetworkUdp::send, this, data);
 }
 
 void		NetworkUdp::startReceive(unsigned short port)
 {
-	this->_thReceive() = std::make_shared<std::thread>(&NetworkUdp::receive, this, port);
+	this->_thReceive = std::make_shared<std::thread>(&NetworkUdp::receive, this, port);
 }
 
-void		NetworkUdp::send(unsigned short port, std::vector<char> data)
+void		NetworkUdp::send(std::vector<char> data)
 {
 	std::string	msg;
 
