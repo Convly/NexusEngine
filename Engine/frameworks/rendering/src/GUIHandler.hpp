@@ -9,6 +9,7 @@
 # include "Checkbox.hpp"
 # include "ProgressBar.hpp"
 # include "ComboBox.hpp"
+# include "TextInput.hpp"
 
 # include "LayerNotFoundException.hpp"
     
