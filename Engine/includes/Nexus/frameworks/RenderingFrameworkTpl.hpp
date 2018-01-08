@@ -20,6 +20,7 @@ namespace nx {
 		// Framework Methods (must be virtual pure)
 		virtual void InitializeWindow(int width, int height, std::string titleWin) = 0;
 		virtual void RefreshRendering() = 0;
+		virtual bool addLayer(const std::string&) = 0;
 
 	};	
 }

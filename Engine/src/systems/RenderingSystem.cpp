@@ -24,8 +24,12 @@ void nx::RenderingSystem::init()
 	auto f = this->getFramework();
 	if (!f)
 		nx::Log::print("Framework is nullptr");
-	else
+	else {
 		f->InitializeWindow(1024, 768, "R-Type");
+		f->addLayer("Menu");
+		f->addLayer("HUD");
+		f->addLayer("Inventory");
+	}
 }
 
 void nx::RenderingSystem::update()

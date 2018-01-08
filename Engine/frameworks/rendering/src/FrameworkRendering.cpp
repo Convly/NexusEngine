@@ -72,3 +72,23 @@ void FrameworkRendering::RefreshRendering()
 		}
 	}
 }
+
+/// EVENTS ///
+
+
+bool FrameworkRendering::addLayer(const std::string& layerIdentifier)
+{
+	if (!_handler || !_win)
+		return false;
+
+	if (this->_handler->getLayers().size() > 0) {
+		if (this->_handler->layer_exists(layerIdentifier))
+		{
+			nx::Log::error(layerIdentifier + " already exists", "LAYER_DUPLICATE", 500);
+			return false;
+		}
+	}
+
+	this->_handler->addLayer(std::make_shared<GUILayer>(layerIdentifier));
+	return true;
+}

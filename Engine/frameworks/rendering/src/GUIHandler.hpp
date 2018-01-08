@@ -34,6 +34,7 @@ public:
 	std::vector<std::shared_ptr<GUILayer>>&			getLayers();
 	std::shared_ptr<GUILayer> const &				getLayerByName(std::string const& identifier) const;
 	std::shared_ptr<GUILayer>&						getLayerByName(std::string const& identifier);
+	const bool 										layer_exists(const std::string&) const;
 };
 
 #endif /* GUIHANDLER_HPP_ */

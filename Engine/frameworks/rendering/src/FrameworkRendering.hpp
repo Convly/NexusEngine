@@ -13,6 +13,7 @@ public:
 
 	void InitializeWindow(int width, int height, std::string titleWin);
 	void RefreshRendering();
+	bool addLayer(const std::string&);
 	
 protected:
 	nx::Engine	*_engine;

@@ -129,3 +129,14 @@ std::shared_ptr<GUILayer>&						GUIHandler::getLayerByName(std::string const& id
 	}
 	throw (nx::LayerNotFoundException(identifier));
 }
+
+const bool			GUIHandler::layer_exists(const std::string& identifier) const
+{
+	for (auto &it : this->_guiLayers)
+	{
+		if (it->getIdentifier() == identifier)
+			return true;
+	}
+
+	return false;
+}
