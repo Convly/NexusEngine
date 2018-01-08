@@ -8,6 +8,7 @@
 #include "Nexus/frameworks/NetworkFrameworkTpl.hpp"
 
 #include "NetworkTcp.hpp"
+#include "NetworkUdp.hpp"
 #include "ANetworkTransport.hpp"
 
 class FrameworkNetwork : public nx::NetworkFrameworkTpl, ANetworkTransport {
@@ -18,8 +19,8 @@ class FrameworkNetwork : public nx::NetworkFrameworkTpl, ANetworkTransport {
   };
 
  protected:
-  NetworkTcp	_tcp;
-
+	 NetworkTcp	_tcp;
+	 NetworkUdp	_udp;
 
  public:
   FrameworkNetwork(nx::Engine *);

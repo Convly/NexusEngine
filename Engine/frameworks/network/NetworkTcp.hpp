@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include <future>
 #include <chrono>
-#include <thread>
 
 #include "Nexus/engine.hpp"
 
