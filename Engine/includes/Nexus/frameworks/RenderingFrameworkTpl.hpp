@@ -18,7 +18,9 @@ namespace nx {
 		const std::string& getName(void) const {return this->_name;}
 
 		// Framework Methods (must be virtual pure)
-		virtual void CreateWindow(int x, int y, const std::string& windowTitle) = 0;
+		virtual void InitializeWindow(int width, int height, std::string titleWin) = 0;
+		virtual void RefreshRendering() = 0;
+		virtual bool addLayer(const std::string&) = 0;
 
 	};	
 }

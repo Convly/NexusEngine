@@ -23,14 +23,22 @@ void nx::RenderingSystem::init()
 {
 	auto f = this->getFramework();
 	if (!f)
-		nx::Log::warning("Rendering framework instance is corrupted", "RENDERING_INTEGRITY");
-	else
-		f->CreateWindow(500, 500, "R-Type");		
+		nx::Log::print("Framework is nullptr");
+	else {
+		f->InitializeWindow(1024, 768, "R-Type");
+		f->addLayer("Menu");
+		f->addLayer("HUD");
+		f->addLayer("Inventory");
+	}
 }
 
 void nx::RenderingSystem::update()
 {
-	nx::Log::inform("Update for rendering");
+	auto f = this->getFramework();
+	if (!f)
+		nx::Log::print("Framework is nullptr");
+	else
+		f->RefreshRendering();
 }
 
 bool nx::RenderingSystem::checkIntegrity() const
