@@ -1,9 +1,9 @@
 #ifndef FRAMEWORK_RENDERING
 # define FRAMEWORK_RENDERING
 
-#include <SFML/Graphics.hpp>
-#include "Nexus/engine.hpp"
-#include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
+# include "GUIHandler.hpp"
+# include "Nexus/engine.hpp"
+# include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
 class FrameworkRendering : public nx::RenderingFrameworkTpl
 {
@@ -11,12 +11,16 @@ public:
 	FrameworkRendering(nx::Engine*);
 	~FrameworkRendering();
 
-public:
-	void CreateWindow(int x, int y, const std::string& windowTitle);
-
+	void InitializeWindow(int width, int height, std::string titleWin);
+	void RefreshRendering();
+	bool addLayer(const std::string&);
 	
 protected:
-	nx::Engine* _engine;
+	nx::Engine	*_engine;
+
+private:
+	std::shared_ptr<sf::RenderWindow>	_win;
+	std::shared_ptr<GUIHandler>			_handler;
 };
 
 #if  defined(_MSC_VER)

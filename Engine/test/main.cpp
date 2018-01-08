@@ -10,7 +10,7 @@ int main()
 
   engine.ping();
   engine.setup();
-  
+
   try {
     return (engine.run(&userMainLoop));
   } catch (const nx::RunWithoutSetupException& e) {
