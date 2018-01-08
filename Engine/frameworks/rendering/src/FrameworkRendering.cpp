@@ -32,6 +32,9 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	std::shared_ptr<ComboBox> combobox = std::make_shared<ComboBox>(sf::Vector2f(70, 250), sf::Vector2f(140, 30), "MyFirstComboBox",
 																    ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(255, 255, 0, 255), 2),
 																    TextInfo("./fonts/Roboto-Regular.ttf", "", 12, sf::Color(0, 0, 0, 255)));
+	std::shared_ptr<TextInput> textinput = std::make_shared<TextInput>(sf::Vector2f(400, 350), sf::Vector2f(230, 30), "MyFirstTextInput",
+																	   ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(255, 0, 255, 255), 2),
+																	   TextInfo("./fonts/Roboto-Regular.ttf", "A default text..", 12, sf::Color(0, 0, 0, 255)));
 	progressbar->setFilled(50);
 	combobox->addSelection("First item");
 	combobox->addSelection("Second item");
@@ -42,6 +45,7 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	layer->add(checkbox);
 	layer->add(progressbar);
 	layer->add(combobox);
+	layer->add(textinput);
 	this->_handler->addLayer(layer);
 }
 

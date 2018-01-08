@@ -135,11 +135,14 @@ void	ProgressBar::setBorderThickness(int const thickness)
 
 void	ProgressBar::setFilled(int const percentage)
 {
-	this->_percentage = percentage;
-	this->_filled.setSize(sf::Vector2f(this->getSize().x * (percentage / 100.0f), this->getSize().y - this->_borderThickness * 2));
-	this->_label.setPosition(this->getPos().x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
-							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
-	this->_label.setString(std::to_string(percentage) + "%");
+	if (percentage >= 0 && percentage <= 100)
+	{
+		this->_percentage = percentage;
+		this->_filled.setSize(sf::Vector2f(this->getSize().x * (percentage / 100.0f), this->getSize().y - this->_borderThickness * 2));
+		this->_label.setPosition(this->getPos().x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
+			this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
+		this->_label.setString(std::to_string(percentage) + "%");
+	}
 }
 
 void	ProgressBar::setPos(sf::Vector2f const& pos)
