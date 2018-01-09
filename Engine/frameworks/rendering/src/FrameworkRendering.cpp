@@ -35,6 +35,8 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	std::shared_ptr<TextInput> textinput = std::make_shared<TextInput>(sf::Vector2f(400, 350), sf::Vector2f(230, 30), "MyFirstTextInput",
 																	   ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(255, 0, 255, 255), 2),
 																	   TextInfo("./fonts/Roboto-Regular.ttf", "A default text..", 12, sf::Color(0, 0, 0, 255)));
+	std::shared_ptr<Text> text = std::make_shared<Text>(sf::Vector2f(500, 30), "MyFirstText",
+														TextInfo("./fonts/Roboto-Regular.ttf", "Sample text", 16, sf::Color(0, 255, 0, 255)));
 	progressbar->setFilled(50);
 	combobox->addSelection("First item");
 	combobox->addSelection("Second item");
@@ -46,6 +48,7 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	layer->add(progressbar);
 	layer->add(combobox);
 	layer->add(textinput);
+	layer->add(text);
 	this->_handler->addLayer(layer);
 }
 
