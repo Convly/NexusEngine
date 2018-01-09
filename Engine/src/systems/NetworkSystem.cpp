@@ -62,9 +62,9 @@ void nx::NetworkSystem::event_NetworkTcpAccept(const nx::Event &e) {
   {
 	  self->getFramework()->tcpStartAccept(waitDataEvent->_port);
   }
-  catch (...)
+  catch (const nx::NetworkTcpException &e)
   {
-	  std::cerr << "error1" << std::endl;
+	  std::cerr << e.what() << std::endl;
   }
 }
 
@@ -90,9 +90,9 @@ void nx::NetworkSystem::event_NetworkTcpConnect(const nx::Event &e) {
   {
 	  self->getFramework()->tcpStartConnect(connectEvent->_ip, connectEvent->_port);
   }
-  catch (...)
+  catch (const nx::NetworkTcpException &e)
   {
-	  std::cerr << "error2" << std::endl;
+	  std::cerr << e.what() << std::endl;
   }
 }
 
@@ -120,8 +120,8 @@ void nx::NetworkSystem::event_NetworkTcpSend(const nx::Event &e) {
   {
 	  self->getFramework()->tcpSend(event->id, event->event);
   }
-  catch (...)
+  catch (const nx::NetworkTcpException &e)
   {
-	  std::cerr << "error3" << std::endl;
+	  std::cerr << e.what() << std::endl;
   }
 }

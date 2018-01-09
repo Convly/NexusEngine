@@ -10,6 +10,7 @@ NetworkUdp::NetworkUdp(nx::Engine *engine) :
 	_addrInfo(nullptr),
 	_init(false)
 {
+	__initSocket();
 }
 
 NetworkUdp::~NetworkUdp()
@@ -28,8 +29,6 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vec
 	if (!_init)
 	{
 		_init = true;
-		__initSocket();
-
 		_ip = ip;
 		_port = port;
 
@@ -73,8 +72,6 @@ void		NetworkUdp::receive(unsigned short port)
 	_ip = "127.0.0.1";
 	_port = port;
 	socklen_t addrlen = sizeof(_clientAddr);
-
-	__initSocket();
 
 	if ((_socket = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 		throw nx::NetworkUdpException("cannot create socket");

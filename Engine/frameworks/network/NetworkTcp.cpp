@@ -2,7 +2,7 @@
 
 NetworkTcp::NetworkTcp(nx::Engine *engine):
 	_engine(engine){
-
+	__initSocket();
 }
 
 NetworkTcp::~NetworkTcp() {
@@ -35,6 +35,9 @@ void NetworkTcp::accept(unsigned short port) {
 	struct sockaddr_in their_addr; /* Informations d'adresse du client */
 	socklen_t sin_size;
 
+	memset(&my_addr, 0, sizeof(struct sockaddr_in));
+	memset(&their_addr, 0, sizeof(struct sockaddr_in));
+
 	sockfd = socket(AF_INET, SOCK_STREAM, 0); /* Contrôle d'erreur! */
 
 	my_addr.sin_family = AF_INET;         /* host byte order */
@@ -45,14 +48,22 @@ void NetworkTcp::accept(unsigned short port) {
 	/* ne pas oublier les contrôles d'erreur pour ces appels: */
 	if (bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1)
 	{
+#ifdef _WIN32
+		std::cerr << "[BIND] error: " << strerror(WSAGetLastError()) << std::endl;
+#else
 		std::cerr << "[BIND] error: " << strerror(errno) << std::endl;
+#endif
 		//	  nx::NetworkTcpException(strerror(errno));
 		exit(84);
 	}
 
 	if (listen(sockfd, 10) == -1)
 	{
+#ifdef _WIN32
+		std::cerr << "[LISTEN] error: " << strerror(WSAGetLastError()) << std::endl;
+#else
 		std::cerr << "[LISTEN] error: " << strerror(errno) << std::endl;
+#endif
 		//nx::NetworkTcpException(strerror(errno));
 		exit(84);
 	}
@@ -60,7 +71,11 @@ void NetworkTcp::accept(unsigned short port) {
 	sin_size = sizeof(struct sockaddr_in);
 	if ((new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size)) == -1)
 	{
+#ifdef _WIN32
+		std::cerr << "[ACCEPT] error: " << strerror(WSAGetLastError()) << std::endl;
+#else
 		std::cerr << "[ACCEPT] error: " << strerror(errno) << std::endl;
+#endif
 		//nx::NetworkTcpException(strerror(errno));
 		exit(84);
 	}

@@ -28,6 +28,9 @@
 
 #include "ANetworkTransport.hpp"
 
+void	__initSocket();
+void	__closeSocket(int socket);
+
 class NetworkTcp : public ANetworkTransport {
  protected:
   // Linux
