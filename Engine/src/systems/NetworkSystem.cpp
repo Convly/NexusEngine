@@ -1,6 +1,7 @@
 #include "Nexus/network.hpp"
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/FrameworkManager.hpp"
+#include "Nexus/errors/NetworkTcpException.hpp"
 
 nx::NetworkSystem::NetworkSystem()
 	:
@@ -57,7 +58,14 @@ void nx::NetworkSystem::event_NetworkTcpAccept(const nx::Event &e) {
 
   nx::Log::debug(waitDataEvent->_port);
 
-  self->getFramework()->tcpStartAccept(waitDataEvent->_port);
+  try
+  {
+	  self->getFramework()->tcpStartAccept(waitDataEvent->_port);
+  }
+  catch (...)
+  {
+	  std::cerr << "error1" << std::endl;
+  }
 }
 
 void nx::NetworkSystem::event_NetworkTcpConnect(const nx::Event &e) {
@@ -78,7 +86,14 @@ void nx::NetworkSystem::event_NetworkTcpConnect(const nx::Event &e) {
 
   connectEvent = reinterpret_cast<const nx::NetworkSystem::TcpConnectEvent*>(e.data.data());
 
-  self->getFramework()->tcpStartConnect(connectEvent->_ip, connectEvent->_port);
+  try
+  {
+	  self->getFramework()->tcpStartConnect(connectEvent->_ip, connectEvent->_port);
+  }
+  catch (...)
+  {
+	  std::cerr << "error2" << std::endl;
+  }
 }
 
 void nx::NetworkSystem::event_NetworkTcpSend(const nx::Event &e) {
@@ -101,5 +116,12 @@ void nx::NetworkSystem::event_NetworkTcpSend(const nx::Event &e) {
 
   std::vector<char> data;
 
-  self->getFramework()->tcpSend(event->id, event->event);
+  try
+  {
+	  self->getFramework()->tcpSend(event->id, event->event);
+  }
+  catch (...)
+  {
+	  std::cerr << "error3" << std::endl;
+  }
 }

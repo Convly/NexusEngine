@@ -44,14 +44,26 @@ void NetworkTcp::accept(unsigned short port) {
 
 	/* ne pas oublier les contrôles d'erreur pour ces appels: */
 	if (bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1)
-	  nx::NetworkTcpException(strerror(errno));
+	{
+		std::cerr << "[BIND] error: " << strerror(errno) << std::endl;
+		//	  nx::NetworkTcpException(strerror(errno));
+		exit(84);
+	}
 
 	if (listen(sockfd, 10) == -1)
-	  nx::NetworkTcpException(strerror(errno));
+	{
+		std::cerr << "[LISTEN] error: " << strerror(errno) << std::endl;
+		//nx::NetworkTcpException(strerror(errno));
+		exit(84);
+	}
 
 	sin_size = sizeof(struct sockaddr_in);
 	if ((new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size)) == -1)
-	  nx::NetworkTcpException(strerror(errno));
+	{
+		std::cerr << "[ACCEPT] error: " << strerror(errno) << std::endl;
+		//nx::NetworkTcpException(strerror(errno));
+		exit(84);
+	}
 
 	NetworkTcpTunnel networkTcpTunnel;
 
