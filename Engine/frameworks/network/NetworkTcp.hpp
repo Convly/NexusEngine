@@ -10,6 +10,10 @@
 #include <chrono>
 #include <string.h>
 
+
+#include "Nexus/errors/NetworkTcpException.hpp"
+
+
 #ifdef _WIN32
 #include <ws2tcpip.h>
 #include <winsock2.h>

@@ -43,12 +43,15 @@ void NetworkTcp::accept(unsigned short port) {
 	bzero(&(my_addr.sin_zero), 8);        /* zero pour le reste de struct */
 
 	/* ne pas oublier les contrôles d'erreur pour ces appels: */
-	bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr));
+	if (bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1)
+	  nx::NetworkTcpException(strerror(errno));
 
-	listen(sockfd, 10);
+	if (listen(sockfd, 10) == -1)
+	  nx::NetworkTcpException(strerror(errno));
 
 	sin_size = sizeof(struct sockaddr_in);
-	new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size);
+	if ((new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size)) == -1)
+	  nx::NetworkTcpException(strerror(errno));
 
 	NetworkTcpTunnel networkTcpTunnel;
 
@@ -69,7 +72,8 @@ void NetworkTcp::connect(std::string ip, unsigned short port) {
   address.sin_port = htons(port);
   address.sin_addr.s_addr = inet_addr(ip.c_str());
   int sd = socket(AF_INET, SOCK_STREAM, 0);
-  ::connect(sd, (struct sockaddr*)&address, sizeof(address));
+  if (::connect(sd, (struct sockaddr*)&address, sizeof(address)) != 0)
+	nx::NetworkTcpException(strerror(errno));
 
   NetworkTcpTunnel	networkTcpTunnel;
 
@@ -106,6 +110,7 @@ void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel) {
 void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data) {
   nx::Log::debug("New date write");
 
-  ::send(networkTcpTunnel.fd, data.data(), data.size(), 0);
+  if (::send(networkTcpTunnel.fd, data.data(), data.size(), 0) == -1)
+	nx::NetworkTcpException(strerror(errno));
 }
 // End - Linux

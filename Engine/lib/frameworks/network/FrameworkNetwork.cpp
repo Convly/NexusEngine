@@ -4,7 +4,8 @@ FrameworkNetwork::FrameworkNetwork(nx::Engine *engine)
 	:
 	nx::NetworkFrameworkTpl("FrameworkNetwork"),
 	_engine(engine),
-	_tcp(engine){
+	_tcp(engine),
+	_udp(engine){
   std::cout << "New Network Framework created" << std::endl;
 }
 
