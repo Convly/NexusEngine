@@ -4,7 +4,7 @@
 
 nx::Engine nx::Engine::_instance = nx::Engine({
 	//std::make_shared<nx::RenderingSystem>(),
-	std::make_shared<nx::ScriptSystem>(),
+	//std::make_shared<nx::ScriptSystem>(),
 	std::make_shared<nx::NetworkSystem>(),
 	std::make_shared<nx::ConsoleEventSystem>()
 });
