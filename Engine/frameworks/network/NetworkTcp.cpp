@@ -29,46 +29,48 @@ void NetworkTcp::accept(unsigned short port) {
   unsigned int idMax = 1;
 
   nx::Log::debug("Start accept");
-  while (1) {
-	int sockfd, new_fd;  /* Écouter sur sock_fd, nouvelle connection sur new_fd */
-	struct sockaddr_in my_addr;    /* Informations d'adresse */
-	struct sockaddr_in their_addr; /* Informations d'adresse du client */
-	socklen_t sin_size;
 
-	memset(&my_addr, 0, sizeof(struct sockaddr_in));
-	memset(&their_addr, 0, sizeof(struct sockaddr_in));
+  int sockfd, new_fd;  /* Écouter sur sock_fd, nouvelle connection sur new_fd */
+  struct sockaddr_in my_addr;    /* Informations d'adresse */
+  struct sockaddr_in their_addr; /* Informations d'adresse du client */
+  socklen_t sin_size;
 
-	sockfd = socket(AF_INET, SOCK_STREAM, 0); /* Contrôle d'erreur! */
+  memset(&my_addr, 0, sizeof(struct sockaddr_in));
+  memset(&their_addr, 0, sizeof(struct sockaddr_in));
 
-	my_addr.sin_family = AF_INET;         /* host byte order */
-	my_addr.sin_port = htons(port);     /* short, network byte order */
-	my_addr.sin_addr.s_addr = INADDR_ANY; /* auto-remplissage avec mon IP */
-	bzero(&(my_addr.sin_zero), 8);        /* zero pour le reste de struct */
+  sockfd = socket(PF_INET, SOCK_STREAM, 0); /* Contrôle d'erreur! */
+
+  my_addr.sin_family = AF_INET;         /* host byte order */
+  my_addr.sin_port = htons(port);     /* short, network byte order */
+  my_addr.sin_addr.s_addr = INADDR_ANY; /* auto-remplissage avec mon IP */
+  bzero(&(my_addr.sin_zero), 8);        /* zero pour le reste de struct */
 
 	/* ne pas oublier les contrôles d'erreur pour ces appels: */
-	if (bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1)
-	{
+  if (bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1)
+  {
 #ifdef _WIN32
-		std::cerr << "[BIND] error: " << strerror(WSAGetLastError()) << std::endl;
+	  std::cerr << "[BIND] error: " << strerror(WSAGetLastError()) << std::endl;
 #else
-		std::cerr << "[BIND] error: " << strerror(errno) << std::endl;
+	  std::cerr << "[BIND] error: " << strerror(errno) << std::endl;
 #endif
-		//	  nx::NetworkTcpException(strerror(errno));
-		exit(84);
-	}
+	  //	  nx::NetworkTcpException(strerror(errno));
+	  exit(84);
+  }
 
-	if (listen(sockfd, 10) == -1)
-	{
+  if (listen(sockfd, 10) == -1)
+  {
 #ifdef _WIN32
-		std::cerr << "[LISTEN] error: " << strerror(WSAGetLastError()) << std::endl;
+	  std::cerr << "[LISTEN] error: " << strerror(WSAGetLastError()) << std::endl;
 #else
-		std::cerr << "[LISTEN] error: " << strerror(errno) << std::endl;
+	  std::cerr << "[LISTEN] error: " << strerror(errno) << std::endl;
 #endif
-		//nx::NetworkTcpException(strerror(errno));
-		exit(84);
-	}
+	  //nx::NetworkTcpException(strerror(errno));
+	  exit(84);
+  }
 
-	sin_size = sizeof(struct sockaddr_in);
+  sin_size = sizeof(struct sockaddr_in);
+
+  while (1) {
 	if ((new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size)) == -1)
 	{
 #ifdef _WIN32
@@ -92,15 +94,22 @@ void NetworkTcp::accept(unsigned short port) {
 }
 
 void NetworkTcp::connect(std::string ip, unsigned short port) {
-  struct sockaddr_in address;
-
-  bzero(&address, sizeof(address));
+	struct sockaddr_in address;
+  memset(&address, 0, sizeof(struct sockaddr_in));
   address.sin_family = AF_INET;
   address.sin_port = htons(port);
   address.sin_addr.s_addr = inet_addr(ip.c_str());
-  int sd = socket(AF_INET, SOCK_STREAM, 0);
+  int sd = socket(PF_INET, SOCK_STREAM, 0);
   if (::connect(sd, (struct sockaddr*)&address, sizeof(address)) != 0)
-	nx::NetworkTcpException(strerror(errno));
+  {
+#ifdef _WIN32
+	  std::cerr << "[CONNECT] error: " << strerror(WSAGetLastError()) << std::endl;
+#else
+	  std::cerr << "[CONNECT] error: " << strerror(errno) << std::endl;
+#endif
+	  exit(84);
+	//nx::NetworkTcpException(strerror(errno));
+  }
 
   NetworkTcpTunnel	networkTcpTunnel;
 
@@ -108,7 +117,6 @@ void NetworkTcp::connect(std::string ip, unsigned short port) {
   networkTcpTunnel.fd = sd;
   networkTcpTunnel.addr = address;
   this->_tunnels.insert(std::pair<unsigned int, NetworkTcpTunnel>(0, networkTcpTunnel));
-
   this->handleOneTunnel(networkTcpTunnel);
 }
 
@@ -138,6 +146,14 @@ void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data
   nx::Log::debug("New date write");
 
   if (::send(networkTcpTunnel.fd, data.data(), data.size(), 0) == -1)
-	nx::NetworkTcpException(strerror(errno));
+  {
+#ifdef _WIN32
+	  std::cerr << "[SEND] error: " << strerror(WSAGetLastError()) << std::endl;
+#else
+	  std::cerr << "[SEND] error: " << strerror(errno) << std::endl;
+#endif
+	  exit(84);
+	//nx::NetworkTcpException(strerror(errno));
+  }
 }
 // End - Linux
