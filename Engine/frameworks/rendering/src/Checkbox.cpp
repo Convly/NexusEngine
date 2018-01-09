@@ -111,6 +111,18 @@ void Checkbox::onRightClickReleasedOutside(sf::Vector2i const& pos)
 	nx::Log::inform("Right-click released outside the checkbox '" + this->getIdentifier() + "'");
 }
 
+void Checkbox::keyTextEntered(char const charEntered)
+{
+	//Will be called when text in entered
+	nx::Log::inform("Char pressed for the Checkbox '" + this->getIdentifier() + "' is " + charEntered);
+}
+
+void Checkbox::keyPressed(sf::Keyboard::Key const& keyPressed)
+{
+	//Will be called when a key is pressed
+	nx::Log::inform("Key pressed for the Checkbox '" + this->getIdentifier());
+}
+
 // Display
 
 void Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
@@ -126,14 +138,6 @@ void Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
 		else if (this->_state == State::PARTIAL)
 			win->draw(this->_lines[2]);
 	}
-}
-
-
-// Specific functions for this element
-
-void Checkbox::onStateChanged()
-{
-	//Will be called when the button's state has been changed
 }
 
 

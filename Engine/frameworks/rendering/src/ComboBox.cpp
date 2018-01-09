@@ -121,6 +121,18 @@ void ComboBox::onRightClickReleasedOutside(sf::Vector2i const& pos)
 	nx::Log::inform("Right-click released outside the ComboBox '" + this->getIdentifier() + "'");
 }
 
+void ComboBox::keyTextEntered(char const charEntered)
+{
+	//Will be called when text in entered
+	nx::Log::inform("Char pressed for the ComboBox '" + this->getIdentifier() + "' is " + charEntered);
+}
+
+void ComboBox::keyPressed(sf::Keyboard::Key const& keyPressed)
+{
+	//Will be called when a key is pressed
+	nx::Log::inform("Key pressed for the ComboBox '" + this->getIdentifier());
+}
+
 // Display
 
 void ComboBox::show(std::shared_ptr<sf::RenderWindow> const& win)
@@ -137,14 +149,6 @@ void ComboBox::show(std::shared_ptr<sf::RenderWindow> const& win)
 				win->draw(itText);
 		}
 	}
-}
-
-
-// Specific functions for this element
-
-void ComboBox::onStateChanged()
-{
-	//Will be called when the ComboBox's state has been changed
 }
 
 

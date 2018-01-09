@@ -18,6 +18,9 @@ class Button : public GUIElement
 	sf::Text			_label;
 	sf::RectangleShape	_body;
 
+	// Specific functions for this element
+	void onStateChanged();
+
 public:
 	Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo);
 	~Button();
@@ -33,9 +36,8 @@ public:
 	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
 	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
 	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
-
-	// Specific functions for this element
-	virtual void onStateChanged();
+	virtual void keyTextEntered(char const charEntered);
+	virtual void keyPressed(sf::Keyboard::Key const& keyPressed);
 
 	// Display
 	void		show(std::shared_ptr<sf::RenderWindow> const& win);

@@ -63,6 +63,16 @@ void	GUIElement::onRightClickReleasedOutside(sf::Vector2i const& pos)
 
 }
 
+void	GUIElement::keyTextEntered(char const charEntered)
+{
+
+}
+
+void	GUIElement::keyPressed(sf::Keyboard::Key const& keyPressed)
+{
+
+}
+
 
 // Setters
 

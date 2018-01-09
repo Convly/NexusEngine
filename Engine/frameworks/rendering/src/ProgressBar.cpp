@@ -91,6 +91,18 @@ void ProgressBar::onRightClickReleasedOutside(sf::Vector2i const& pos)
 	nx::Log::inform("Right-click released outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
+void ProgressBar::keyTextEntered(char const charEntered)
+{
+	//Will be called when text in entered
+	nx::Log::inform("Char pressed for the ProgressBar '" + this->getIdentifier() + "' is " + charEntered);
+}
+
+void ProgressBar::keyPressed(sf::Keyboard::Key const& keyPressed)
+{
+	//Will be called when a key is pressed
+	nx::Log::inform("Key pressed for the ProgressBar '" + this->getIdentifier());
+}
+
 // Display
 
 void ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)
@@ -101,14 +113,6 @@ void ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)
 		win->draw(this->_filled);
 		win->draw(this->_label);
 	}
-}
-
-
-// Specific functions for this element
-
-void ProgressBar::onStateChanged()
-{
-	//Will be called when the button's state has been changed
 }
 
 
