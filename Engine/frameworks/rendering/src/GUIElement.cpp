@@ -1,21 +1,42 @@
 #include "GUIElement.hpp"
 
+GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const std::vector<std::pair<std::string, std::string> >& events) :
+	_pos(pos), _size(size), _identifier(identifier), _isVisible(true), _events(events)
+{
+
+}
+
 GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier) :
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true)
 {
 
 }
+
 GUIElement::~GUIElement()
 {
 
 }
 
+// Tools
+
+void GUIElement::dispatchMouseEvent(sf::Vector2i const& pos, std::string const& eventName)
+{
+	std::for_each(
+		this->_events.begin(),
+		this->_events.end(),
+		[&](std::pair<std::string, std::string>& item) {
+			if (item.first == eventName) {
+				nx::Engine::Instance().emit(nx::EVENT::SCRIPT_RUN, nx::Event::stringToVector(item.second));
+			}
+		}
+	);
+}
 
 // Mouse events
 
 void	GUIElement::onMoveInside(sf::Vector2i const& pos)
 {
-
+	this->dispatchMouseEvent(pos, "onMoveInside");
 }
 
 void	GUIElement::onMoveOutside(sf::Vector2i const& pos)
@@ -101,4 +122,9 @@ std::string	const &		GUIElement::getIdentifier() const
 bool					GUIElement::isVisible() const
 {
 	return (this->_isVisible);
+}
+
+std::vector<std::pair<std::string, std::string> > const& GUIElement::getEvents() const
+{
+	return this->_events;
 }

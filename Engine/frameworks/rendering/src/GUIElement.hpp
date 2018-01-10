@@ -1,31 +1,42 @@
 #ifndef GUIELEMENT_HPP_
 # define GUIELEMENT_HPP_
 
+# include "Nexus/engine.hpp"
 # include <SFML/Graphics.hpp>
 # include <memory>
+# include <vector>
 
 class GUIElement
 {
-	sf::Vector2f							_pos;
-	sf::Vector2f							_size;
-	std::string								_identifier;
-	bool									_isVisible;
+	sf::Vector2f										_pos;
+	sf::Vector2f										_size;
+	std::string											_identifier;
+	bool												_isVisible;
+	std::vector<std::pair<std::string, std::string> >	_events;
 
 public:
+	GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const std::vector<std::pair<std::string, std::string> >& events);
 	GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier);
-	~GUIElement();
+	virtual ~GUIElement();
 
 	// Mouse events
-	virtual void onMoveInside(sf::Vector2i const& pos);
-	virtual void onMoveOutside(sf::Vector2i const& pos);
-	virtual void onLeftClickPressedInside(sf::Vector2i const& pos);
-	virtual void onLeftClickReleasedInside(sf::Vector2i const& pos);
-	virtual void onRightClickPressedInside(sf::Vector2i const& pos);
-	virtual void onRightClickReleasedInside(sf::Vector2i const& pos);
-	virtual void onLeftClickPressedOutside(sf::Vector2i const& pos);
-	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
-	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
-	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
+	void onMoveInside(sf::Vector2i const& pos);
+	void onMoveOutside(sf::Vector2i const& pos);
+	void onLeftClickPressedInside(sf::Vector2i const& pos);
+	void onLeftClickReleasedInside(sf::Vector2i const& pos);
+	void onRightClickPressedInside(sf::Vector2i const& pos);
+	void onRightClickReleasedInside(sf::Vector2i const& pos);
+	void onLeftClickPressedOutside(sf::Vector2i const& pos);
+	void onLeftClickReleasedOutside(sf::Vector2i const& pos);
+	void onRightClickPressedOutside(sf::Vector2i const& pos);
+	void onRightClickReleasedOutside(sf::Vector2i const& pos);
+
+private:
+	// Tools
+	void dispatchMouseEvent(sf::Vector2i const& pos, std::string const& eventName);
+
+
+public:
 
 	// Display
 	virtual void show(std::shared_ptr<sf::RenderWindow> const& win) = 0;
@@ -40,7 +51,9 @@ public:
 	sf::Vector2f const &										getSize() const;
 	std::string	const &											getIdentifier() const;
 	bool														isVisible() const;
+	std::vector<std::pair<std::string, std::string> > const &	getEvents() const;
 	virtual std::string	const									getType() const = 0;
+
 };
 
 #endif /* GUIELEMENT_HPP_ */
