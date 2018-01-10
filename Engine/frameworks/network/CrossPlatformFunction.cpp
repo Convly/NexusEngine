@@ -15,8 +15,13 @@ void	__initSocket()
 void	__closeSocket(int socket)
 {
 	closesocket(socket);
+}
+
+void	__stopSocket()
+{
 	WSACleanup();
 }
+
 #else
 
 void	__initSocket()
@@ -27,4 +32,9 @@ void	__closeSocket(int socket)
 {
 	close(socket);
 }
+
+void	__stopSocket()
+{
+}
+
 #endif // _WIN32

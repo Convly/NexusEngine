@@ -10,9 +10,7 @@
 #include <chrono>
 #include <string.h>
 
-
 #include "Nexus/errors/NetworkTcpException.hpp"
-
 
 #ifdef _WIN32
 #include <ws2tcpip.h>
@@ -30,6 +28,7 @@
 
 void	__initSocket();
 void	__closeSocket(int socket);
+void	__stopSocket();
 
 class NetworkTcp : public ANetworkTransport {
  protected:
@@ -43,8 +42,8 @@ class NetworkTcp : public ANetworkTransport {
  protected:
   nx::Engine *_engine;
 
-  std::unordered_map<unsigned int, NetworkTcpTunnel>						_tunnels;
-  std::unordered_map<unsigned int, std::shared_ptr<std::thread>>			_thClients;
+  std::unordered_map<unsigned int, NetworkTcpTunnel>				_tunnels;
+  std::unordered_map<unsigned int, std::shared_ptr<std::thread>>	_thClients;
 
 
   // Server mode

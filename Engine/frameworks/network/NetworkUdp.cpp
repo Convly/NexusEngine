@@ -19,6 +19,7 @@ NetworkUdp::~NetworkUdp()
 		freeaddrinfo(_addrInfo);
 	if (_socket)
 		__closeSocket(_socket);
+	__stopSocket();
 }
 
 void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vector<char> data)

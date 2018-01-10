@@ -23,6 +23,7 @@ void FrameworkConsoleEvent::start() {
 	this->runEvent(data);
 	data.clear();
   }
+  std::cout << "[consoleEvent] END START" << std::endl;
 }
 
 void FrameworkConsoleEvent::runEvent(std::string event) {

@@ -35,6 +35,7 @@
 
 void	__initSocket();
 void	__closeSocket(int socket);
+void	__stopSocket();
 
 class NetworkUdp : public ANetworkTransport
 {

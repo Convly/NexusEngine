@@ -1,12 +1,25 @@
 #include "NetworkTcp.hpp"
 
+static void error(int socket)
+{
+#ifdef _WIN32
+	std::string msg(std::string("[BIND] error:") + std::string(strerror(WSAGetLastError())));
+#else
+	std::string msg(std::string("[BIND] error:") + std::string(strerror(errno)));
+#endif
+	__closeSocket(socket);
+	nx::NetworkTcpException(msg.c_str());
+}
+
 NetworkTcp::NetworkTcp(nx::Engine *engine):
-	_engine(engine){
+	_engine(engine)
+{
 	__initSocket();
 }
 
-NetworkTcp::~NetworkTcp() {
-
+NetworkTcp::~NetworkTcp()
+{
+	__stopSocket();
 }
 
 void NetworkTcp::startAccept(unsigned short port) {
@@ -21,7 +34,14 @@ void NetworkTcp::send(unsigned int id, std::vector<char> data) {
   auto it = this->_tunnels.find(id);
   if (it == this->_tunnels.end())
 	return ;
-  this->write(it->second, data);
+  try
+  {
+	  this->write(it->second, data);
+  }
+  catch (const nx::NetworkTcpException &e)
+  {
+	  std::cerr << "[WRITE] on tunnel [" << id << "] error: " << e.what() << std::endl;
+  }
 }
 
 // Linux
@@ -47,40 +67,17 @@ void NetworkTcp::accept(unsigned short port) {
 
 	/* ne pas oublier les contrôles d'erreur pour ces appels: */
   if (bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1)
-  {
-#ifdef _WIN32
-	  std::cerr << "[BIND] error: " << strerror(WSAGetLastError()) << std::endl;
-#else
-	  std::cerr << "[BIND] error: " << strerror(errno) << std::endl;
-#endif
-	  //	  nx::NetworkTcpException(strerror(errno));
-	  exit(84);
-  }
+	  error(sockfd);
 
   if (listen(sockfd, 10) == -1)
-  {
-#ifdef _WIN32
-	  std::cerr << "[LISTEN] error: " << strerror(WSAGetLastError()) << std::endl;
-#else
-	  std::cerr << "[LISTEN] error: " << strerror(errno) << std::endl;
-#endif
-	  //nx::NetworkTcpException(strerror(errno));
-	  exit(84);
-  }
+	  error(sockfd);
 
   sin_size = sizeof(struct sockaddr_in);
 
-  while (1) {
+  while (1)
+  {
 	if ((new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size)) == -1)
-	{
-#ifdef _WIN32
-		std::cerr << "[ACCEPT] error: " << strerror(WSAGetLastError()) << std::endl;
-#else
-		std::cerr << "[ACCEPT] error: " << strerror(errno) << std::endl;
-#endif
-		//nx::NetworkTcpException(strerror(errno));
-		exit(84);
-	}
+		error(sockfd);
 
 	NetworkTcpTunnel networkTcpTunnel;
 
@@ -93,7 +90,8 @@ void NetworkTcp::accept(unsigned short port) {
   }
 }
 
-void NetworkTcp::connect(std::string ip, unsigned short port) {
+void NetworkTcp::connect(std::string ip, unsigned short port)
+{
 	struct sockaddr_in address;
   memset(&address, 0, sizeof(struct sockaddr_in));
   address.sin_family = AF_INET;
@@ -101,15 +99,7 @@ void NetworkTcp::connect(std::string ip, unsigned short port) {
   address.sin_addr.s_addr = inet_addr(ip.c_str());
   int sd = socket(PF_INET, SOCK_STREAM, 0);
   if (::connect(sd, (struct sockaddr*)&address, sizeof(address)) != 0)
-  {
-#ifdef _WIN32
-	  std::cerr << "[CONNECT] error: " << strerror(WSAGetLastError()) << std::endl;
-#else
-	  std::cerr << "[CONNECT] error: " << strerror(errno) << std::endl;
-#endif
-	  exit(84);
-	//nx::NetworkTcpException(strerror(errno));
-  }
+	  error(sd);
 
   NetworkTcpTunnel	networkTcpTunnel;
 
@@ -122,9 +112,12 @@ void NetworkTcp::connect(std::string ip, unsigned short port) {
 
 void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel) {
   nx::Log::debug("New tunnel handle");
-  while (1) {
+  
+  while (1)
+  {
 	std::vector<char> data(4000);
-	::recv(tunnel.fd, data.data(), data.size(), 0);
+	if (::recv(tunnel.fd, data.data(), data.size(), 0) == -1)
+		break;
 
 	nx::Log::debug("[Network] Data:");
 	nx::Log::debug(data.data());
@@ -140,20 +133,15 @@ void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel) {
 
 	eventEmit.get();
   }
+  nx::Log::debug(std::string("Tunnel ") + std::to_string(tunnel.id) + std::string(" close"));
+  __closeSocket(tunnel.fd);
+  _tunnels.erase(tunnel.id);
 }
 
 void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data) {
   nx::Log::debug("New date write");
 
   if (::send(networkTcpTunnel.fd, data.data(), data.size(), 0) == -1)
-  {
-#ifdef _WIN32
-	  std::cerr << "[SEND] error: " << strerror(WSAGetLastError()) << std::endl;
-#else
-	  std::cerr << "[SEND] error: " << strerror(errno) << std::endl;
-#endif
-	  exit(84);
-	//nx::NetworkTcpException(strerror(errno));
-  }
+	  error(networkTcpTunnel.fd);
 }
 // End - Linux
