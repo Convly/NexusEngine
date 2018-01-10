@@ -34,73 +34,73 @@ ProgressBar::~ProgressBar()
 void ProgressBar::onMoveInside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving into the element
-	nx::Log::inform("Mouse moving inside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Mouse moving inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onMoveOutside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving outside the element
-	nx::Log::inform("Mouse moving outside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Mouse moving outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-click is inside the element
-	nx::Log::inform("Left-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-release is inside the element
-	nx::Log::inform("Left-click released inside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onRightClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-click is inside the element
-	nx::Log::inform("Right-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onRightClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-release is inside the element
-	nx::Log::inform("Right-click released inside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click released inside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-release is outside the element
-	nx::Log::inform("Left-click released outside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onRightClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-click is outside the element
-	nx::Log::inform("Right-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::onRightClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-release is outside the element
-	nx::Log::inform("Right-click released outside the ProgressBar '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click released outside the ProgressBar '" + this->getIdentifier() + "'");
 }
 
 void ProgressBar::keyTextEntered(char const charEntered)
 {
 	//Will be called when text in entered
-	nx::Log::inform("Char pressed for the ProgressBar '" + this->getIdentifier() + "' is " + charEntered);
+	//nx::Log::inform("Char pressed for the ProgressBar '" + this->getIdentifier() + "' is " + charEntered);
 }
 
 void ProgressBar::keyPressed(sf::Keyboard::Key const& keyPressed)
 {
 	//Will be called when a key is pressed
-	nx::Log::inform("Key pressed for the ProgressBar '" + this->getIdentifier());
+	//nx::Log::inform("Key pressed for the ProgressBar '" + this->getIdentifier());
 }
 
 // Display

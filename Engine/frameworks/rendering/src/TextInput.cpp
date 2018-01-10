@@ -36,19 +36,19 @@ TextInput::~TextInput()
 void TextInput::onMoveInside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving into the element
-	nx::Log::inform("Mouse moving inside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Mouse moving inside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::onMoveOutside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving outside the element
-	nx::Log::inform("Mouse moving outside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Mouse moving outside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been left-clicked
-	nx::Log::inform("Left-click pressed inside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed inside the TextInput '" + this->getIdentifier() + "'");
 	if (!this->_state)
 	{
 		this->_time = this->_clock.restart();
@@ -60,25 +60,25 @@ void TextInput::onLeftClickPressedInside(sf::Vector2i const& pos)
 void TextInput::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been left-released
-	nx::Log::inform("Left-click released inside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released inside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::onRightClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been right-clicked
-	nx::Log::inform("Right-click pressed inside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click pressed inside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::onRightClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been right-released
-	nx::Log::inform("Right-click released inside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click released inside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed outside the TextInput '" + this->getIdentifier() + "'");
 	if (this->_state)
 	{
 		this->_state = false;
@@ -89,25 +89,25 @@ void TextInput::onLeftClickPressedOutside(sf::Vector2i const& pos)
 void TextInput::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-release is outside the element
-	nx::Log::inform("Left-click released outside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released outside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::onRightClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-click is outside the element
-	nx::Log::inform("Right-click pressed outside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click pressed outside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::onRightClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-release is outside the element
-	nx::Log::inform("Right-click released outside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click released outside the TextInput '" + this->getIdentifier() + "'");
 }
 
 void TextInput::keyTextEntered(char const charEntered)
 {
 	//Will be called when text in entered
-	nx::Log::inform("Char pressed for the TextInput '" + this->getIdentifier() + "' is " + std::to_string(static_cast<int>(charEntered)) + " [" + charEntered + "]");
+	//nx::Log::inform("Char pressed for the TextInput '" + this->getIdentifier() + "' is " + std::to_string(static_cast<int>(charEntered)) + " [" + charEntered + "]");
 	if (!this->_state)
 		return;
 	if (charEntered != '\b' && charEntered != '\r' && charEntered != '\n')
@@ -124,7 +124,7 @@ void TextInput::keyTextEntered(char const charEntered)
 void TextInput::keyPressed(sf::Keyboard::Key const& keyPressed)
 {
 	//Will be called when a key is pressed
-	nx::Log::inform("Key pressed for the TextInput '" + this->getIdentifier());
+	//nx::Log::inform("Key pressed for the TextInput '" + this->getIdentifier());
 	if (!this->_state)
 		return;
 	if (keyPressed == sf::Keyboard::BackSpace && !this->_textData.empty() && this->_cursorIdx > 0)
@@ -179,7 +179,7 @@ void TextInput::show(std::shared_ptr<sf::RenderWindow> const& win)
 void TextInput::_onStateChanged()
 {
 	//Will be called when the TextInput's state has been changed
-	nx::Log::inform("The TextInput '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
+	//nx::Log::inform("The TextInput '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
 }
 
 void TextInput::_repositioningCursor()

@@ -11,7 +11,8 @@
 # include "ComboBox.hpp"
 # include "TextInput.hpp"
 # include "Text.hpp"
-//# include "Sprite.hpp"
+# include "Image.hpp"
+# include "Sprite.hpp"
 
 # include "LayerNotFoundException.hpp"
     

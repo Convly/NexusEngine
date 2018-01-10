@@ -37,18 +37,26 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 																	   TextInfo("./fonts/Roboto-Regular.ttf", "A default text..", 12, sf::Color(0, 0, 0, 255)));
 	std::shared_ptr<Text> text = std::make_shared<Text>(sf::Vector2f(500, 30), "MyFirstText",
 														TextInfo("./fonts/Roboto-Regular.ttf", "Sample text", 16, sf::Color(0, 255, 0, 255)));
+	std::shared_ptr<Image> img = std::make_shared<Image>(sf::Vector2f(300, 580), sf::Vector2f(), "MyFirstImage", "./images/defaultgamelogo.png");
+	std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(sf::Vector2f(50, 600), sf::Vector2f(), "MyFirstSprite", "./images/guitarist.png",
+															  sf::Vector2f(3, 2), sf::Vector2f(103, 89), 0, 40);
+
 	progressbar->setFilled(50);
 	combobox->addSelection("First item");
 	combobox->addSelection("Second item");
 	combobox->addSelection("LEEERRROYYYY");
 	combobox->addSelection("JENKINSSSSS");
 	combobox->addSelection("Very long thing over thereeeee omggg");
+	img->setSize(sf::Vector2f(64, 64));
+	sprite->setAnimate(true);
 	layer->add(button);
 	layer->add(checkbox);
 	layer->add(progressbar);
 	layer->add(combobox);
 	layer->add(textinput);
 	layer->add(text);
+	layer->add(img);
+	layer->add(sprite);
 	this->_handler->addLayer(layer);
 }
 

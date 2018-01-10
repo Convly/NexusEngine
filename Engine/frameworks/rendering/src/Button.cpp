@@ -31,19 +31,19 @@ Button::~Button()
 void Button::onMoveInside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving into the element
-	nx::Log::inform("Mouse moving inside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Mouse moving inside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::onMoveOutside(sf::Vector2i const& pos)
 {
 	//Will be called when mouse is moving outside the element
-	nx::Log::inform("Mouse moving outside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Mouse moving outside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been left-clicked
-	nx::Log::inform("Left-click pressed inside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed inside the button '" + this->getIdentifier() + "'");
 	this->_state = !this->_state;
 	this->onStateChanged();
 }
@@ -51,7 +51,7 @@ void Button::onLeftClickPressedInside(sf::Vector2i const& pos)
 void Button::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been left-released
-	nx::Log::inform("Left-click released inside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released inside the button '" + this->getIdentifier() + "'");
 	if (this->_isPushButton)
 	{
 		bool oldState = this->_state;
@@ -65,25 +65,25 @@ void Button::onLeftClickReleasedInside(sf::Vector2i const& pos)
 void Button::onRightClickPressedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been right-clicked
-	nx::Log::inform("Right-click pressed inside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click pressed inside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::onRightClickReleasedInside(sf::Vector2i const& pos)
 {
 	//Will be called when the element has been right-released
-	nx::Log::inform("Right-click released inside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click released inside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed outside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a left-release is outside the element
-	nx::Log::inform("Left-click released outside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released outside the button '" + this->getIdentifier() + "'");
 	if (this->_isPushButton)
 	{
 		bool oldState = this->_state;
@@ -97,25 +97,25 @@ void Button::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 void Button::onRightClickPressedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-click is outside the element
-	nx::Log::inform("Right-click pressed outside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click pressed outside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::onRightClickReleasedOutside(sf::Vector2i const& pos)
 {
 	//Will be called when a right-release is outside the element
-	nx::Log::inform("Right-click released outside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Right-click released outside the button '" + this->getIdentifier() + "'");
 }
 
 void Button::keyTextEntered(char const charEntered)
 {
 	//Will be called when text in entered
-	nx::Log::inform("Char pressed for the Button '" + this->getIdentifier() + "' is " + charEntered);
+	//nx::Log::inform("Char pressed for the Button '" + this->getIdentifier() + "' is " + charEntered);
 }
 
 void Button::keyPressed(sf::Keyboard::Key const& keyPressed)
 {
 	//Will be called when a key is pressed
-	nx::Log::inform("Key pressed for the Button '" + this->getIdentifier());
+	//nx::Log::inform("Key pressed for the Button '" + this->getIdentifier());
 }
 
 // Display
@@ -135,7 +135,7 @@ void Button::show(std::shared_ptr<sf::RenderWindow> const& win)
 void Button::onStateChanged()
 {
 	//Will be called when the button's state has been changed
-	nx::Log::inform("The button '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
+	//nx::Log::inform("The button '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
 	if (this->_state)
 		this->_body.setFillColor(sf::Color(150, 150, 150, 255));
 	else
