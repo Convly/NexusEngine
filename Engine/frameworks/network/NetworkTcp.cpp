@@ -11,7 +11,7 @@ static void error(int socket)
 	nx::NetworkTcpException(msg.c_str());
 }
 
-NetworkTcp::NetworkTcp(nx::Engine *engine):
+NetworkTcp::NetworkTcp(nx::Engine *engine) :
 	_engine(engine)
 {
 	__initSocket();
@@ -40,7 +40,7 @@ void NetworkTcp::send(unsigned int id, std::vector<char> data) {
   }
   catch (const nx::NetworkTcpException &e)
   {
-	  std::cerr << "[WRITE] on tunnel [" << id << "] error: " << e.what() << std::endl;
+	  nx::Log::debug(std::string("[SEND] on tunnel [") + std::to_string(id) + std::string("] error: ") + std::string(e.what()));
   }
 }
 
@@ -110,7 +110,8 @@ void NetworkTcp::connect(std::string ip, unsigned short port)
   this->handleOneTunnel(networkTcpTunnel);
 }
 
-void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel) {
+void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel)
+{
   nx::Log::debug("New tunnel handle");
   
   while (1)
@@ -138,8 +139,9 @@ void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel) {
   _tunnels.erase(tunnel.id);
 }
 
-void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data) {
-  nx::Log::debug("New date write");
+void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data)
+{
+  nx::Log::debug("New data write");
 
   if (::send(networkTcpTunnel.fd, data.data(), data.size(), 0) == -1)
 	  error(networkTcpTunnel.fd);

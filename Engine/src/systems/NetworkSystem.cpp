@@ -64,7 +64,7 @@ void nx::NetworkSystem::event_NetworkTcpAccept(const nx::Event &e) {
   }
   catch (const nx::NetworkTcpException &e)
   {
-	  std::cerr << e.what() << std::endl;
+	  nx::Log::debug("[ACCEPT] error: " + std::string(e.what()));
   }
 }
 
@@ -92,7 +92,7 @@ void nx::NetworkSystem::event_NetworkTcpConnect(const nx::Event &e) {
   }
   catch (const nx::NetworkTcpException &e)
   {
-	  std::cerr << e.what() << std::endl;
+	  nx::Log::debug("[CONNECT] error: " + std::string(e.what()));
   }
 }
 
@@ -122,6 +122,6 @@ void nx::NetworkSystem::event_NetworkTcpSend(const nx::Event &e) {
   }
   catch (const nx::NetworkTcpException &e)
   {
-	  std::cerr << e.what() << std::endl;
+	  nx::Log::debug("[SEND] error: " + std::string(e.what()));
   }
 }
