@@ -25,7 +25,7 @@ struct Vector2d
 
 namespace nx
 {
-  /********  Component  *******/
+  /*******  Component  ******/
   class Component
   {
   private:
