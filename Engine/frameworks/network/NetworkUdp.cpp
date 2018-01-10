@@ -62,10 +62,19 @@ void		NetworkUdp::startReceive(unsigned short port)
 void		NetworkUdp::send(std::vector<char> data)
 {
 	std::string	msg;
+	std::string body;
+	std::string header;
+	std::string footer;
+	bool		run = true;
 
-	for (auto it : data)
-		msg += it;
-	sendto(_socket, msg.c_str(), msg.size(), 0, _addrInfo->ai_addr, _addrInfo->ai_addrlen);
+	while (run)
+	{
+		for (auto it : data)
+			body += it;
+		msg = header + body + footer;
+		sendto(_socket, msg.c_str(), msg.size(), 0, _addrInfo->ai_addr, _addrInfo->ai_addrlen);
+		run = false;
+	}
 }
 
 void		NetworkUdp::receive(unsigned short port)

@@ -50,6 +50,7 @@ protected:
 	struct addrinfo		*_addrInfo;
 	bool				_init;
 
+protected:
 	std::unordered_map<unsigned int, std::shared_ptr<std::thread>>			_thClients;
 
 	//Server Mode
