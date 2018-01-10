@@ -21,9 +21,9 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	this->_handler = std::make_shared<GUIHandler>(this->_win);
 
 	std::shared_ptr<GUILayer> layer = std::make_shared<GUILayer>("MainLayer");
-	std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(300, 100), sf::Vector2f(100, 30), "MyFirstButton", true,
-															  ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(200, 0, 0, 255), 2),
-															  TextInfo("./fonts/Roboto-Regular.ttf", "Press me!", 12, sf::Color(0, 0, 0, 255)));
+	// std::shared_ptr<Button> button = std::make_shared<Button>(sf::Vector2f(300, 100), sf::Vector2f(100, 30), "MyFirstButton", true,
+	// 														  ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(200, 0, 0, 255), 2),
+	// 														  TextInfo("./fonts/Roboto-Regular.ttf", "Press me!", 12, sf::Color(0, 0, 0, 255)));
 	std::shared_ptr<Checkbox> checkbox = std::make_shared<Checkbox>(sf::Vector2f(640, 30), sf::Vector2f(30, 30), "MyFirstCheckbox",
 																	ColorInfo(sf::Color(200, 200, 200, 255), sf::Color(0, 0, 255, 255), 2));
 	std::shared_ptr<ProgressBar> progressbar = std::make_shared<ProgressBar>(sf::Vector2f(240, 500), sf::Vector2f(300, 50), "MyFirstProgressbar",
@@ -41,7 +41,7 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	combobox->addSelection("LEEERRROYYYY");
 	combobox->addSelection("JENKINSSSSS");
 	combobox->addSelection("Very long thing over thereeeee omggg");
-	layer->add(button);
+	// layer->add(button);
 	layer->add(checkbox);
 	layer->add(progressbar);
 	layer->add(combobox);
@@ -77,6 +77,13 @@ void FrameworkRendering::RefreshRendering()
 	}
 }
 
+/// TOOLS ///
+
+sf::Color FrameworkRendering::RGBa_to_sfColor(const nx::rendering::RGBa& color)
+{
+	return sf::Color(color.red, color.green, color.blue, color.alpha);
+}
+
 /// EVENTS ///
 
 
@@ -96,3 +103,52 @@ bool FrameworkRendering::addLayer(const std::string& layerIdentifier)
 	this->_handler->addLayer(std::make_shared<GUILayer>(layerIdentifier));
 	return true;
 }
+
+bool FrameworkRendering::addButton(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIButtonInfos& buttonsParams)
+{
+	if (!this->_handler->layer_exists(layerId) || this->_handler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+		return false;
+	}
+
+	std::shared_ptr<Button> button = std::make_shared<Button>(
+		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
+		sf::Vector2f(guiParams.size.x, guiParams.size.y),
+		guiParams.identifier,
+		guiParams.events,
+		buttonsParams.isPushButton,
+		ColorInfo(
+			FrameworkRendering::RGBa_to_sfColor(buttonsParams.colorInfo.backgroundColor),
+			FrameworkRendering::RGBa_to_sfColor(buttonsParams.colorInfo.borderColor),
+			buttonsParams.colorInfo.borderThickness),
+		TextInfo(
+			buttonsParams.textInfo.fontPath,
+			buttonsParams.textInfo.textLabel,
+			buttonsParams.textInfo.fontSize,
+			FrameworkRendering::RGBa_to_sfColor(buttonsParams.textInfo.textColor))
+		);
+	this->_handler->getLayerByName(layerId)->add(button);
+	std::cout << "Adding new button (" << guiParams.identifier << ") in " << layerId << std::endl;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

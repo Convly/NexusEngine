@@ -1,7 +1,7 @@
 #include "Button.hpp"
 
-Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
-	GUIElement(pos, size, identifier), _state(false), _isPushButton(isPushButton),
+Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const std::vector<std::pair<std::string, std::string> >& events, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
+	GUIElement(pos, size, identifier, events), _state(false), _isPushButton(isPushButton),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_font(sf::Font()), _body(sf::RectangleShape(size))
 {
