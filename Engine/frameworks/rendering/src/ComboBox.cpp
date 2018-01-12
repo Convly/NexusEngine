@@ -29,20 +29,10 @@ ComboBox::~ComboBox()
 
 // GUIElement's mouse event methods overload
 
-void ComboBox::onMoveInside(sf::Vector2i const& pos)
-{
-	//Will be called when mouse is moving into the element
-	nx::Log::inform("Mouse moving inside the ComboBox '" + this->getIdentifier() + "'");
-}
-
-void ComboBox::onMoveOutside(sf::Vector2i const& pos)
-{
-	//Will be called when mouse is moving outside the element
-	nx::Log::inform("Mouse moving outside the ComboBox '" + this->getIdentifier() + "'");
-}
-
 void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
+	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
+
 	sf::Rect<float> rectBody(this->_body.getPosition(), this->_body.getSize());
 
 	//Will be called when the element has been left-clicked
@@ -69,68 +59,21 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 			}
 		}
 		this->_isScrolled = false;
-		nx::Log::inform("Was scrolled, clicked on an element");
+		
 	}
 	else
 	{
 		this->_isScrolled = false;
-		nx::Log::inform("Was scrolled, clicked on body");
 	}
-}
-
-void ComboBox::onLeftClickReleasedInside(sf::Vector2i const& pos)
-{
-	//Will be called when the element has been left-released
-	nx::Log::inform("Left-click released inside the ComboBox '" + this->getIdentifier() + "'");
-}
-
-void ComboBox::onRightClickPressedInside(sf::Vector2i const& pos)
-{
-	//Will be called when the element has been right-clicked
-	nx::Log::inform("Right-click pressed inside the ComboBox '" + this->getIdentifier() + "'");
-}
-
-void ComboBox::onRightClickReleasedInside(sf::Vector2i const& pos)
-{
-	//Will be called when the element has been right-released
-	nx::Log::inform("Right-click released inside the ComboBox '" + this->getIdentifier() + "'");
 }
 
 void ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
+	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");	
+
 	//Will be called when a left-click is outside the element
 	nx::Log::inform("Left-click pressed outside the ComboBox '" + this->getIdentifier() + "'");
 	this->_isScrolled = false;
-}
-
-void ComboBox::onLeftClickReleasedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-release is outside the element
-	nx::Log::inform("Left-click released outside the ComboBox '" + this->getIdentifier() + "'");
-}
-
-void ComboBox::onRightClickPressedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-click is outside the element
-	nx::Log::inform("Right-click pressed outside the ComboBox '" + this->getIdentifier() + "'");
-}
-
-void ComboBox::onRightClickReleasedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-release is outside the element
-	nx::Log::inform("Right-click released outside the ComboBox '" + this->getIdentifier() + "'");
-}
-
-void ComboBox::keyTextEntered(char const charEntered)
-{
-	//Will be called when text in entered
-	nx::Log::inform("Char pressed for the ComboBox '" + this->getIdentifier() + "' is " + charEntered);
-}
-
-void ComboBox::keyPressed(sf::Keyboard::Key const& keyPressed)
-{
-	//Will be called when a key is pressed
-	nx::Log::inform("Key pressed for the ComboBox '" + this->getIdentifier());
 }
 
 // Display
