@@ -20,22 +20,24 @@ public:
 	virtual ~GUIElement();
 
 	// Mouse events
-	void onMoveInside(sf::Vector2i const& pos);
-	void onMoveOutside(sf::Vector2i const& pos);
-	void onLeftClickPressedInside(sf::Vector2i const& pos);
-	void onLeftClickReleasedInside(sf::Vector2i const& pos);
-	void onRightClickPressedInside(sf::Vector2i const& pos);
-	void onRightClickReleasedInside(sf::Vector2i const& pos);
-	void onLeftClickPressedOutside(sf::Vector2i const& pos);
-	void onLeftClickReleasedOutside(sf::Vector2i const& pos);
-	void onRightClickPressedOutside(sf::Vector2i const& pos);
-	void onRightClickReleasedOutside(sf::Vector2i const& pos);
-	void keyTextEntered(char const charEntered);
-	void keyPressed(sf::Keyboard::Key const& keyPressed);
-private:
+	virtual void onMoveInside(sf::Vector2i const& pos);
+	virtual void onMoveOutside(sf::Vector2i const& pos);
+	virtual void onLeftClickPressedInside(sf::Vector2i const& pos);
+	virtual void onLeftClickReleasedInside(sf::Vector2i const& pos);
+	virtual void onRightClickPressedInside(sf::Vector2i const& pos);
+	virtual void onRightClickReleasedInside(sf::Vector2i const& pos);
+	virtual void onLeftClickPressedOutside(sf::Vector2i const& pos);
+	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
+	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
+	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
+	virtual void keyTextEntered(char const charEntered);
+	virtual void keyPressed(sf::Keyboard::Key const& keyPressed);
+
+protected:
 	// Tools
 	void dispatchMouseEvent(sf::Vector2i const& pos, std::string const& eventName);
 
+public:
 	// Display
 	virtual void show(std::shared_ptr<sf::RenderWindow> const& win) = 0;
 

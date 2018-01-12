@@ -96,12 +96,12 @@ void	GUIElement::onRightClickReleasedOutside(sf::Vector2i const& pos)
 
 void	GUIElement::keyTextEntered(char const charEntered)
 {
-	this->dispatchMouseEvent(pos, "keyTextEntered");
+	this->dispatchMouseEvent({}, "keyTextEntered");
 }
 
 void	GUIElement::keyPressed(sf::Keyboard::Key const& keyPressed)
 {
-	this->dispatchMouseEvent(pos, "keyPressed");
+	this->dispatchMouseEvent({}, "keyPressed");
 }
 
 
