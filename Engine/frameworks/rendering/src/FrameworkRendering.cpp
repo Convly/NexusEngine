@@ -131,6 +131,7 @@ bool FrameworkRendering::addButton(const std::string& layerId, const nx::renderi
 		);
 	this->_handler->getLayerByName(layerId)->add(button);
 	std::cout << "Adding new button (" << guiParams.identifier << ") in " << layerId << std::endl;
+	return true;
 }
 
 
