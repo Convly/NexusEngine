@@ -73,6 +73,13 @@ void GUIHandler::processEvent(sf::Event const& event)
 						else
 							itElem->onMoveOutside(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 					}
+					if (event.type == sf::Event::TextEntered)
+					{
+						if (event.text.unicode < 128)
+							itElem->keyTextEntered(static_cast<char>(event.text.unicode));
+					}
+					if (event.type == sf::Event::KeyPressed)
+						itElem->keyPressed(event.key.code);
 				}
 			}
 		}

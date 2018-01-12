@@ -33,9 +33,8 @@ public:
 	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
 	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
 	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
-
-	// Specific functions for this element
-	virtual void onStateChanged();
+	virtual void keyTextEntered(char const charEntered);
+	virtual void keyPressed(sf::Keyboard::Key const& keyPressed);
 
 	// Display
 	void		show(std::shared_ptr<sf::RenderWindow> const& win);

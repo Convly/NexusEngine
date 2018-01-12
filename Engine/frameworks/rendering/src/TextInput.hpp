@@ -16,6 +16,19 @@ class TextInput : public GUIElement
 	sf::Font			_font;
 	sf::Text			_label;
 	sf::RectangleShape	_body;
+	std::string			_textData;
+
+	sf::VertexArray		_cursor;
+	unsigned int		_cursorIdx;
+
+	sf::Clock			_clock;
+	sf::Time			_time;
+
+	// Specific functions for this element
+	void _onStateChanged();
+	void _repositioningCursor();
+	void _updateWrittenText();
+	void _updateTextFromEnd();
 
 public:
 	TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo);
@@ -32,9 +45,8 @@ public:
 	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
 	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
 	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
-
-	// Specific functions for this element
-	virtual void onStateChanged();
+	virtual void keyTextEntered(char const charEntered);
+	virtual void keyPressed(sf::Keyboard::Key const& keyPressed);
 
 	// Display
 	void		show(std::shared_ptr<sf::RenderWindow> const& win);
@@ -45,6 +57,8 @@ public:
 	void setBackgroundColor(sf::Color const& color);
 	void setBorderColor(sf::Color const& color);
 	void setBorderThickness(int const thickness);
+	void setText(std::string const& text);
+	void setCursorIdx(unsigned int idx);
 
 	void setPos(sf::Vector2f const& pos);
 	void setSize(sf::Vector2f const& size);
@@ -58,6 +72,8 @@ public:
 	sf::Color const &	getBackgroundColor() const;
 	sf::Color const &	getBorderColor() const;
 	int const			getBorderThickness() const;
+	std::string const & getText() const;
+	unsigned int const	getCursorIdx() const;
 };
 
 #endif /* TEXTINPUT_HPP_ */

@@ -30,13 +30,11 @@ public:
 	void onLeftClickReleasedOutside(sf::Vector2i const& pos);
 	void onRightClickPressedOutside(sf::Vector2i const& pos);
 	void onRightClickReleasedOutside(sf::Vector2i const& pos);
-
+	void keyTextEntered(char const charEntered);
+	void keyPressed(sf::Keyboard::Key const& keyPressed);
 private:
 	// Tools
 	void dispatchMouseEvent(sf::Vector2i const& pos, std::string const& eventName);
-
-
-public:
 
 	// Display
 	virtual void show(std::shared_ptr<sf::RenderWindow> const& win) = 0;

@@ -1,29 +1,19 @@
-#ifndef BUTTON_HPP_
-# define BUTTON_HPP_
+#ifndef TEXT_HPP_
+# define TEXT_HPP_
 
 # include <string>
 # include "Nexus/log.hpp"
 # include "GUIElement.hpp"
-# include "ColorInfo.hpp"
 # include "TextInfo.hpp"
 
-class Button : public GUIElement
+class Text : public GUIElement
 {
-	bool				_state;
-	bool				_isPushButton;
-	sf::Color			_backgroundColor;
-	sf::Color			_borderColor;
-	int					_borderThickness;
 	sf::Font			_font;
 	sf::Text			_label;
-	sf::RectangleShape	_body;
-
-	// Specific functions for this element
-	void onStateChanged();
 
 public:
-	Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::rendering::MouseEventsContainer& events, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo);
-	~Button();
+	Text(sf::Vector2f const& pos, std::string const& identifier, TextInfo const& textInfo);
+	~Text();
 
 	// GUIElement's mouse event methods overload
 	virtual void onMoveInside(sf::Vector2i const& pos);
@@ -43,11 +33,8 @@ public:
 	void		show(std::shared_ptr<sf::RenderWindow> const& win);
 
 	// Setters
-	void setState(bool const state);
 	void setLabel(sf::Text const& label);
-	void setBackgroundColor(sf::Color const& color);
-	void setBorderColor(sf::Color const& color);
-	void setBorderThickness(int const thickness);
+	void setText(std::string const& text);
 
 	void setPos(sf::Vector2f const& pos);
 	void setSize(sf::Vector2f const& size);
@@ -56,11 +43,8 @@ public:
 	virtual std::string const		getType() const;
 
 	// Specific getters
-	bool const			getState() const;
 	sf::Text const &	getLabel() const;
-	sf::Color const &	getBackgroundColor() const;
-	sf::Color const &	getBorderColor() const;
-	int const			getBorderThickness() const;
+	std::string const	getText() const;
 };
 
-#endif /* BUTTON_HPP_ */
+#endif /* TEXT_HPP_ */

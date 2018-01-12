@@ -10,6 +10,8 @@
 # include "ProgressBar.hpp"
 # include "ComboBox.hpp"
 # include "TextInput.hpp"
+# include "Text.hpp"
+//# include "Sprite.hpp"
 
 # include "LayerNotFoundException.hpp"
     

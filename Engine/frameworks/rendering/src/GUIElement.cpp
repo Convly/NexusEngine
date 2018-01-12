@@ -94,6 +94,16 @@ void	GUIElement::onRightClickReleasedOutside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onRightClickReleasedOutside");
 }
 
+void	GUIElement::keyTextEntered(char const charEntered)
+{
+	this->dispatchMouseEvent(pos, "keyTextEntered");
+}
+
+void	GUIElement::keyPressed(sf::Keyboard::Key const& keyPressed)
+{
+	this->dispatchMouseEvent(pos, "keyPressed");
+}
+
 
 // Setters
 
