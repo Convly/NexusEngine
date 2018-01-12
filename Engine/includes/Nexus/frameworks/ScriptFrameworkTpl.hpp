@@ -4,6 +4,19 @@
 #include <iostream>
 
 namespace nx {
+	namespace script {
+		struct ScriptInfos {
+			ScriptInfos(const std::string& file_, const std::string& func_)
+			: file(file_), func(func_) {}
+
+			ScriptInfos(const nx::script::ScriptInfos& other)
+			: file(other.file), func(other.func) {}
+
+			std::string file;
+			std::string func;
+		};
+	};
+
 	class ScriptFrameworkTpl
 	{
 	protected:
@@ -19,6 +32,7 @@ namespace nx {
 
 		// Framework Methods (must be virtual pure)
 		virtual void runFile(const std::string& scriptPath) = 0;
+		virtual void execFunction(const std::string& scriptPath, const std::string& funcName) = 0;
 		virtual void loadFile(const std::string& scriptPath) = 0;
 		virtual void update(const std::string& scriptPath) = 0;
 		virtual void init(const std::string& scriptPath) = 0;

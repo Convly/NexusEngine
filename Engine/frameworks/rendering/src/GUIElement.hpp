@@ -12,10 +12,10 @@ class GUIElement
 	sf::Vector2f										_size;
 	std::string											_identifier;
 	bool												_isVisible;
-	std::vector<std::pair<std::string, std::string> >	_events;
+	nx::rendering::MouseEventsContainer					_events;
 
 public:
-	GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const std::vector<std::pair<std::string, std::string> >& events);
+	GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::rendering::MouseEventsContainer& events);
 	GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier);
 	virtual ~GUIElement();
 
@@ -51,7 +51,7 @@ public:
 	sf::Vector2f const &										getSize() const;
 	std::string	const &											getIdentifier() const;
 	bool														isVisible() const;
-	std::vector<std::pair<std::string, std::string> > const &	getEvents() const;
+	nx::rendering::MouseEventsContainer const &					getEvents() const;
 	virtual std::string	const									getType() const = 0;
 
 };

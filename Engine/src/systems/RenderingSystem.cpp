@@ -31,7 +31,11 @@ void nx::RenderingSystem::init()
 		f->addLayer("Inventory");
 		f->addButton(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(100, 150), nx::Vector2f(300, 50), "MyHerbauxButton", {{"onMoveInside", "alert.lua"}}),
+			nx::rendering::GUIElementInfos(nx::Vector2f(100, 150), nx::Vector2f(300, 50), "MyHerbauxButton",
+			{
+				{"onLeftClickPressedInside", {"alert.lua", "click"}},
+				{"onLeftClickReleasedInside", {"alert.lua", "clickRelease"}}
+			}),
 			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(100, 200, 100, 50), nx::rendering::RGBa(255, 0, 0, 150), 2), nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Herbaux is a true God", 20, nx::rendering::RGBa(50, 50, 200, 255), 0))
 		);
 	}

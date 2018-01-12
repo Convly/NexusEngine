@@ -2,6 +2,7 @@
 # define RENDERING_FRAMEWORK_TEMPLATE_HPP_
 
 #include <iostream>
+#include "Nexus/frameworks/ScriptFrameworkTpl.hpp"
 #include "Nexus/modules/maths.hpp"
 
 namespace nx {
@@ -10,6 +11,8 @@ namespace nx {
 		//
 		// GUI
 		//
+
+		typedef std::vector<std::pair<std::string, nx::script::ScriptInfos> > MouseEventsContainer;
 
 		struct RGBa {
 			RGBa(const uint32_t red_, const uint32_t green_, const uint32_t blue_, const uint32_t alpha_)
@@ -51,7 +54,7 @@ namespace nx {
 		};
 
 		struct GUIElementInfos {
-			GUIElementInfos(const nx::Vector2f& _pos, const nx::Vector2f& _size, const std::string& _identifier, const std::vector<std::pair<std::string, std::string> >& events_)
+			GUIElementInfos(const nx::Vector2f& _pos, const nx::Vector2f& _size, const std::string& _identifier, const nx::rendering::MouseEventsContainer& events_)
 			: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
 			
 			GUIElementInfos(const GUIElementInfos& other)
@@ -60,7 +63,7 @@ namespace nx {
 			nx::Vector2f pos;
 			nx::Vector2f size;
 			std::string identifier;
-			std::vector<std::pair<std::string, std::string> > events;
+			nx::rendering::MouseEventsContainer events;
 		};
 
 		struct GUIButtonInfos {
