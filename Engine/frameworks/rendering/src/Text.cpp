@@ -1,6 +1,6 @@
 #include "Text.hpp"
 
-Text::Text(sf::Vector2f const& pos, std::string const& identifier, TextInfo const& textInfo) :
+Text::Text(sf::Vector2f const& pos, std::string const& identifier, nx::rendering::MouseEventsContainer const& events, TextInfo const& textInfo) :
 	GUIElement(pos, sf::Vector2f(), identifier), _font(sf::Font())
 {
 	if (!this->_font.loadFromFile(textInfo.fontPath))

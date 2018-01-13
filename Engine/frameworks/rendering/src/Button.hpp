@@ -25,7 +25,8 @@ class Button : public GUIElement
 	void _recenteringLabelText();
 
 public:
-	Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::rendering::MouseEventsContainer& events, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo);
+	Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+		   bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo);
 	~Button();
 
 	// GUIElement's mouse event methods overload

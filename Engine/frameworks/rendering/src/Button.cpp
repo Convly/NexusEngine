@@ -1,6 +1,7 @@
 #include "Button.hpp"
 
-Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::rendering::MouseEventsContainer& events, bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
+Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+			   bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events), _state(false), _isPushButton(isPushButton),
 	_borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_font(sf::Font()), _body(sf::RectangleShape(size)), _colorNotSelected(colorInfo.backgroundColor), _colorSelected(colorInfo.backgroundColor)

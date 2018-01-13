@@ -1,7 +1,8 @@
 #include "TextInput.hpp"
 
-TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo) :
-	GUIElement(pos, size, identifier), _state(false),
+TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+					 ColorInfo const& colorInfo, TextInfo const& textInfo) :
+	GUIElement(pos, size, identifier, events), _state(false),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_font(sf::Font()), _body(sf::RectangleShape(size)), _textData(textInfo.textLabel),
 	_cursor(sf::VertexArray(sf::LinesStrip, 2)), _cursorIdx(textInfo.textLabel.length())

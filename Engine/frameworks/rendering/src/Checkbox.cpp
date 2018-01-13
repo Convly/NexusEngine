@@ -1,7 +1,7 @@
 #include "Checkbox.hpp"
 
-Checkbox::Checkbox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo) :
-	GUIElement(pos, size, identifier), _state(State::UNCHECKED),
+Checkbox::Checkbox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events, ColorInfo const& colorInfo) :
+	GUIElement(pos, size, identifier, events), _state(State::UNCHECKED),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_body(sf::RectangleShape(size))
 {

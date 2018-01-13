@@ -74,6 +74,60 @@ namespace nx {
 			nx::rendering::ColorInfo colorInfo;
 			nx::rendering::TextInfo textInfo;
 		};
+
+		struct GUICheckboxInfos {
+			GUICheckboxInfos(nx::rendering::ColorInfo const& colorInfo_) : colorInfo(colorInfo_) {}
+			GUICheckboxInfos(GUICheckboxInfos const& other) : colorInfo(other.colorInfo) {}
+
+			nx::rendering::ColorInfo colorInfo;
+		};
+
+		struct GUIProgressBarInfos {
+			GUIProgressBarInfos(nx::rendering::ColorInfo const& colorInfo_, nx::rendering::TextInfo const& textInfo_) : colorInfo(colorInfo_), textInfo(textInfo_) {}
+			GUIProgressBarInfos(const GUIProgressBarInfos& other) : colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+
+			nx::rendering::ColorInfo colorInfo;
+			nx::rendering::TextInfo textInfo;
+		};
+
+		struct GUIComboBoxInfos {
+			GUIComboBoxInfos(nx::rendering::ColorInfo const& colorInfo_, nx::rendering::TextInfo const& textInfo_) : colorInfo(colorInfo_), textInfo(textInfo_) {}
+			GUIComboBoxInfos(const GUIComboBoxInfos& other) : colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+
+			nx::rendering::ColorInfo colorInfo;
+			nx::rendering::TextInfo textInfo;
+		};
+
+		struct GUITextInputInfos {
+			GUITextInputInfos(nx::rendering::ColorInfo const& colorInfo_, nx::rendering::TextInfo const& textInfo_) : colorInfo(colorInfo_), textInfo(textInfo_) {}
+			GUITextInputInfos(const GUITextInputInfos& other) : colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+
+			nx::rendering::ColorInfo colorInfo;
+			nx::rendering::TextInfo textInfo;
+		};
+
+		struct GUITextInfos {
+			GUITextInfos(nx::rendering::TextInfo const& textInfo_) : textInfo(textInfo_) {}
+			GUITextInfos(const GUITextInfos& other) : textInfo(other.textInfo) {}
+
+			nx::rendering::TextInfo textInfo;
+		};
+
+		struct GUIImageInfos {
+			GUIImageInfos(std::string const& imagePath_) : imagePath(imagePath_) {}
+			GUIImageInfos(const GUIImageInfos& other) : imagePath(other.imagePath) {}
+
+			std::string imagePath;
+		};
+
+		struct GUISpriteInfos {
+			GUISpriteInfos(std::string const& spritesheetPath_, nx::Vector2f const& sheetGrid_, nx::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
+			GUISpriteInfos(const GUISpriteInfos& other) : spritesheetPath(other.spritesheetPath), sheetGrid(other.sheetGrid), spriteSize(other.spriteSize) {}
+
+			std::string spritesheetPath;
+			nx::Vector2f sheetGrid;
+			nx::Vector2f spriteSize;
+		};
 	}
 
 	class RenderingFrameworkTpl
@@ -95,7 +149,13 @@ namespace nx {
 		// GUI ELEMENTS
 		virtual bool addLayer(const std::string&) = 0;
 		virtual bool addButton(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUIButtonInfos&) = 0;
-
+		virtual bool addCheckbox(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUICheckboxInfos&) = 0;
+		virtual bool addProgressBar(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUIProgressBarInfos&) = 0;
+		virtual bool addComboBox(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUIComboBoxInfos&) = 0;
+		virtual bool addTextInput(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUITextInputInfos&) = 0;
+		virtual bool addText(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUITextInfos&) = 0;
+		virtual bool addImage(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUIImageInfos&) = 0;
+		virtual bool addSprite(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUISpriteInfos&) = 0;
 	};	
 }
 

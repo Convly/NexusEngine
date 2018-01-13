@@ -1,7 +1,8 @@
 #include "Image.hpp"
 
-Image::Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, std::string const& imgPath) :
-	GUIElement(pos, size, identifier), _imgPath(imgPath)
+Image::Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+			 std::string const& imgPath) :
+	GUIElement(pos, size, identifier, events), _imgPath(imgPath)
 {
 	this->_loadImage();
 	this->_rescaleImage();
