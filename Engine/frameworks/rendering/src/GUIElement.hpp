@@ -1,10 +1,12 @@
 #ifndef GUIELEMENT_HPP_
 # define GUIELEMENT_HPP_
 
-# include "Nexus/engine.hpp"
 # include <SFML/Graphics.hpp>
 # include <memory>
 # include <vector>
+# include "Nexus/engine.hpp"
+
+extern nx::Engine* enginePtr;
 
 class GUIElement
 {

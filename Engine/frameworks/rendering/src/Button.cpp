@@ -33,7 +33,7 @@ void Button::onLeftClickPressedInside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
 	
 	//Will be called when the element has been left-clicked
-	nx::Log::inform("Left-click pressed inside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed inside the button '" + this->getIdentifier() + "'");
 	this->_state = !this->_state;
 	this->onStateChanged();
 }
@@ -43,7 +43,7 @@ void Button::onLeftClickReleasedInside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickReleasedInside");
 
 	//Will be called when the element has been left-released
-	nx::Log::inform("Left-click released inside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released inside the button '" + this->getIdentifier() + "'");
 	if (this->_isPushButton)
 	{
 		bool oldState = this->_state;
@@ -59,7 +59,7 @@ void Button::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickReleasedOutside");
 
 	//Will be called when a left-release is outside the element
-	nx::Log::inform("Left-click released outside the button '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click released outside the button '" + this->getIdentifier() + "'");
 	if (this->_isPushButton)
 	{
 		bool oldState = this->_state;
@@ -86,7 +86,7 @@ void Button::show(std::shared_ptr<sf::RenderWindow> const& win)
 void Button::onStateChanged()
 {
 	//Will be called when the button's state has been changed
-	nx::Log::inform("The button '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
+	//nx::Log::inform("The button '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
 	if (this->_state)
 		this->_body.setFillColor(sf::Color(150, 150, 150, 255));
 	else

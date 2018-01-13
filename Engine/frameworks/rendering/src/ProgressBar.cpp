@@ -28,6 +28,7 @@ ProgressBar::~ProgressBar()
 
 }
 
+
 // Display
 
 void ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)

@@ -6,9 +6,9 @@ GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::s
 {	
 	for (auto it : this->_events) {
 		auto data = nx::Event::stringToVector(it.second.file);
-		nx::Engine::Instance().emit(nx::EVENT::SCRIPT_LOAD, data);
+		enginePtr->emit(nx::EVENT::SCRIPT_LOAD, data);
 		try {
-			nx::Engine::Instance().emit(nx::EVENT::SCRIPT_INIT, data);
+			enginePtr->emit(nx::EVENT::SCRIPT_INIT, data);
 		} catch (const nx::ScriptNotLoaded& e) {
 			nx::Log::warning(e.what(), "BAD_FILE");
 		}
@@ -36,7 +36,7 @@ void GUIElement::dispatchMouseEvent(sf::Vector2i const& pos, std::string const& 
 		[&](auto& item) {
 			if (item.first == eventName) {
 				auto const ptr = reinterpret_cast<char*>(&item.second);
-				nx::Engine::Instance().emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, std::vector<char>(ptr, ptr + sizeof item.second));
+				enginePtr->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, std::vector<char>(ptr, ptr + sizeof item.second));
 			}
 		}
 	);

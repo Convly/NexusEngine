@@ -36,7 +36,7 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 	sf::Rect<float> rectBody(this->_body.getPosition(), this->_body.getSize());
 
 	//Will be called when the element has been left-clicked
-	nx::Log::inform("Left-click pressed inside the ComboBox '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed inside the ComboBox '" + this->getIdentifier() + "'");
 	if (!this->_isScrolled && rectBody.contains(pos.x, pos.y))
 	{
 		this->_isScrolled = true;
@@ -50,7 +50,6 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 			sf::Rect<float> rectElem(this->_bgSelections[i].getPosition(), this->_bgSelections[i].getSize());
 			if (rectElem.contains(pos.x, pos.y))
 			{
-				nx::Log::inform("Clicked on element " + std::to_string(i));
 				this->_idxSelected = i;
 				this->_selected.setString(this->_selections[i]);
 				this->_selected.setPosition(rectBody.left + rectBody.width / 2.0f - this->_selectionTexts[i].getLocalBounds().width / 2.0f,
@@ -59,12 +58,9 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 			}
 		}
 		this->_isScrolled = false;
-		
 	}
 	else
-	{
 		this->_isScrolled = false;
-	}
 }
 
 void ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
@@ -72,7 +68,7 @@ void ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");	
 
 	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the ComboBox '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed outside the ComboBox '" + this->getIdentifier() + "'");
 	this->_isScrolled = false;
 }
 

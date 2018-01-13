@@ -38,7 +38,7 @@ void TextInput::onLeftClickPressedInside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");	
 	
 	//Will be called when the element has been left-clicked
-	nx::Log::inform("Left-click pressed inside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed inside the TextInput '" + this->getIdentifier() + "'");
 	if (!this->_state)
 	{
 		this->_time = this->_clock.restart();
@@ -52,7 +52,7 @@ void TextInput::onLeftClickPressedOutside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");	
 	
 	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the TextInput '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed outside the TextInput '" + this->getIdentifier() + "'");
 	if (this->_state)
 	{
 		this->_state = false;
@@ -65,7 +65,7 @@ void TextInput::keyTextEntered(char const charEntered)
 	this->dispatchMouseEvent({}, "keyTextEntered");	
 	
 	//Will be called when text in entered
-	nx::Log::inform("Char pressed for the TextInput '" + this->getIdentifier() + "' is " + std::to_string(static_cast<int>(charEntered)) + " [" + charEntered + "]");
+	//nx::Log::inform("Char pressed for the TextInput '" + this->getIdentifier() + "' is " + std::to_string(static_cast<int>(charEntered)) + " [" + charEntered + "]");
 	if (!this->_state)
 		return;
 	if (charEntered != '\b' && charEntered != '\r' && charEntered != '\n')
@@ -84,7 +84,7 @@ void TextInput::keyPressed(sf::Keyboard::Key const& keyPressed)
 	this->dispatchMouseEvent({}, "keyPressed");	
 	
 	//Will be called when a key is pressed
-	nx::Log::inform("Key pressed for the TextInput '" + this->getIdentifier());
+	//nx::Log::inform("Key pressed for the TextInput '" + this->getIdentifier());
 	if (!this->_state)
 		return;
 	if (keyPressed == sf::Keyboard::BackSpace && !this->_textData.empty() && this->_cursorIdx > 0)
@@ -139,7 +139,7 @@ void TextInput::show(std::shared_ptr<sf::RenderWindow> const& win)
 void TextInput::_onStateChanged()
 {
 	//Will be called when the TextInput's state has been changed
-	nx::Log::inform("The TextInput '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
+	//nx::Log::inform("The TextInput '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
 }
 
 void TextInput::_repositioningCursor()

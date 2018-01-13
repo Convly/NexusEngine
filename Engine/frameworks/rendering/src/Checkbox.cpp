@@ -46,12 +46,13 @@ Checkbox::~Checkbox()
 
 
 // GUIElement's mouse event methods overload
+
 void Checkbox::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
 
 	//Will be called when a left-click is inside the element
-	nx::Log::inform("Left-click pressed inside the checkbox '" + this->getIdentifier() + "'");
+	//nx::Log::inform("Left-click pressed inside the checkbox '" + this->getIdentifier() + "'");
 	if (this->_state != State::UNCHECKED)
 		this->_state = State::UNCHECKED;
 	else

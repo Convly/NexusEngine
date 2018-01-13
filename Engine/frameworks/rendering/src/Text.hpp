@@ -5,6 +5,7 @@
 # include "Nexus/log.hpp"
 # include "GUIElement.hpp"
 # include "TextInfo.hpp"
+# include "InvalidFontException.hpp"
 
 class Text : public GUIElement
 {
@@ -21,6 +22,7 @@ public:
 	// Setters
 	void setLabel(sf::Text const& label);
 	void setText(std::string const& text);
+	void setFontSize(unsigned int const fontSize);
 
 	void setPos(sf::Vector2f const& pos);
 	void setSize(sf::Vector2f const& size);
@@ -31,6 +33,7 @@ public:
 	// Specific getters
 	sf::Text const &	getLabel() const;
 	std::string const	getText() const;
+	unsigned int const	getFontSize() const;
 };
 
 #endif /* TEXT_HPP_ */
