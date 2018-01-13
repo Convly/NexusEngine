@@ -219,6 +219,7 @@ void	Sprite::setAnimationIdx(uint16_t const animationIdx)
 void	Sprite::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
+	this->_sprite.setPosition(pos);
 }
 
 void	Sprite::setSize(sf::Vector2f const& size)

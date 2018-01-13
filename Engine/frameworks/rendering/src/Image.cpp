@@ -122,6 +122,7 @@ void	Image::setImagePath(std::string const& imagePath)
 void	Image::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
+	this->_img.setPosition(pos);
 }
 
 void	Image::setSize(sf::Vector2f const& size)

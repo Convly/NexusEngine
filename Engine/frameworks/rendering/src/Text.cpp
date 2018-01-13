@@ -3,7 +3,8 @@
 Text::Text(sf::Vector2f const& pos, std::string const& identifier, TextInfo const& textInfo) :
 	GUIElement(pos, sf::Vector2f(), identifier), _font(sf::Font())
 {
-	this->_font.loadFromFile(textInfo.fontPath);
+	if (!this->_font.loadFromFile(textInfo.fontPath))
+		throw nx::InvalidFontException(textInfo.fontPath);
 	this->_label = sf::Text(textInfo.textLabel, this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
@@ -114,6 +115,12 @@ void	Text::setText(std::string const& text)
 	GUIElement::setSize(sf::Vector2f(this->_label.getLocalBounds().width, this->_label.getLocalBounds().height));
 }
 
+void	Text::setFontSize(unsigned int const fontSize)
+{
+	this->_label.setCharacterSize = fontSize;
+}
+
+
 void	Text::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
@@ -143,4 +150,9 @@ sf::Text const &	Text::getLabel() const
 std::string const	Text::getText() const
 {
 	return (this->_label.getString().toAnsiString());
+}
+
+unsigned int const	Text::getFontSize() const
+{
+	return (this->_label.getCharacterSize());
 }
