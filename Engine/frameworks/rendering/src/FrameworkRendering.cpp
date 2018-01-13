@@ -51,7 +51,7 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 
 	img->setSize(sf::Vector2f(64, 64));
 
-	sprite->setAnimate(false);
+	sprite->setAnimate(true);
 	sprite->setSlowness(130);
 	sprite->setSpritesAnimated({0, 2, 4});
 	sprite->setSpriteIdx(1);

@@ -184,8 +184,12 @@ void	Sprite::setSlowness(uint16_t const slowness)
 
 void	Sprite::setSpritesAnimated(std::vector<uint16_t> const& spritesAnimated)
 {
-	//TODO: Block the fact you can't assign an empty spritesAnimated vector
-	if (std::find(spritesAnimated.begin(), spritesAnimated.end(), this->_spritesAnimated[this->_spriteIdx]) == spritesAnimated.end())
+	if (spritesAnimated.empty())
+	{
+		nx::Log::warning("The animated sprite vector given was empty, ignoring..", "EMPTY_VECTOR");
+		return;
+	}
+	else if (std::find(spritesAnimated.begin(), spritesAnimated.end(), this->_spritesAnimated[this->_spriteIdx]) == spritesAnimated.end())
 	{
 		this->_spriteIdx = 0;
 		this->_refreshSprite();
@@ -235,19 +239,9 @@ std::string	const	Sprite::getType() const
 
 // Specific getters
 
-std::string const & Sprite::getSpritesheetPath() const
+std::string const &				Sprite::getSpritesheetPath() const
 {
 	return (this->_spritesheetPath);
-}
-
-bool const			Sprite::getAnimate() const
-{
-	return (this->_isAnimated);
-}
-
-std::vector<uint16_t> const &	Sprite::getSpritesAnimated() const
-{
-	return (this->_spritesAnimated);
 }
 
 uint16_t const					Sprite::getSpriteIdx() const
@@ -258,4 +252,19 @@ uint16_t const					Sprite::getSpriteIdx() const
 uint16_t const					Sprite::getSlowness() const
 {
 	return (this->_slowness);
+}
+
+bool const						Sprite::getAnimate() const
+{
+	return (this->_isAnimated);
+}
+
+std::vector<uint16_t> const &	Sprite::getSpritesAnimated() const
+{
+	return (this->_spritesAnimated);
+}
+
+uint16_t const					Sprite::getAnimationIdx() const
+{
+	return (this->_animationIdx);
 }
