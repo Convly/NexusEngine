@@ -98,6 +98,12 @@ void	ProgressBar::setLabel(sf::Text const& label)
 	this->_label = label;
 }
 
+void	ProgressBar::setFontSize(unsigned int const fontSize)
+{
+	this->_label.setCharacterSize(fontSize);
+}
+
+
 // Getters
 
 std::string	const	ProgressBar::getType() const
@@ -131,4 +137,9 @@ int const			ProgressBar::getFilled() const
 sf::Text const &	ProgressBar::getLabel() const
 {
 	return (this->_label);
+}
+
+unsigned int const	ProgressBar::getFontSize() const
+{
+	return (this->_label.getCharacterSize());
 }

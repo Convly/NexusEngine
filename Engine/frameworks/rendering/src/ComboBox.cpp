@@ -9,8 +9,6 @@ ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::strin
 	this->_selected = sf::Text("- Nothing selected -", this->_font, this->_textInfo.fontSize);
 	this->_selected.setFillColor(textInfo.textColor);
 	this->_selected.setStyle(textInfo.textStyle);
-	this->_selected.setPosition(pos.x + this->_body.getSize().x / 2.0f - this->_selected.getLocalBounds().width / 2.0f,
-								pos.y + this->_body.getSize().y / 2.0f - this->_selected.getLocalBounds().height / 2.0f - this->_borderThickness);
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
@@ -18,7 +16,7 @@ ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::strin
 	this->_body.setOutlineColor(colorInfo.borderColor);
 	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 
-	
+	this->_recenteringSelectedText();
 }
 
 ComboBox::~ComboBox()
@@ -26,6 +24,12 @@ ComboBox::~ComboBox()
 
 }
 
+
+void	ComboBox::_recenteringSelectedText()
+{
+	this->_selected.setPosition(this->_body.getPosition().x + this->_body.getSize().x / 2.0f - this->_selected.getLocalBounds().width / 2.0f,
+								this->_body.getPosition().y + this->_body.getSize().y / 2.0f - this->_selected.getLocalBounds().height / 2.0f - this->_borderThickness);
+}
 
 // GUIElement's mouse event methods overload
 
@@ -36,7 +40,6 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 	sf::Rect<float> rectBody(this->_body.getPosition(), this->_body.getSize());
 
 	//Will be called when the element has been left-clicked
-	//nx::Log::inform("Left-click pressed inside the ComboBox '" + this->getIdentifier() + "'");
 	if (!this->_isScrolled && rectBody.contains(pos.x, pos.y))
 	{
 		this->_isScrolled = true;
@@ -52,8 +55,7 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 			{
 				this->_idxSelected = i;
 				this->_selected.setString(this->_selections[i]);
-				this->_selected.setPosition(rectBody.left + rectBody.width / 2.0f - this->_selectionTexts[i].getLocalBounds().width / 2.0f,
-											rectBody.top + rectBody.height / 2.0f - this->_selectionTexts[i].getLocalBounds().height / 2.0f - this->_borderThickness);
+				this->_recenteringSelectedText();
 				break;
 			}
 		}
@@ -68,7 +70,6 @@ void ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");	
 
 	//Will be called when a left-click is outside the element
-	//nx::Log::inform("Left-click pressed outside the ComboBox '" + this->getIdentifier() + "'");
 	this->_isScrolled = false;
 }
 
@@ -116,6 +117,15 @@ void	ComboBox::setBorderThickness(int const thickness)
 	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
 	this->_body.setOutlineThickness(this->_borderThickness);
 }
+
+void	ComboBox::setFontSize(unsigned int const fontSize)
+{
+	this->_selected.setCharacterSize(fontSize);
+
+	for (auto text : this->_selectionTexts)
+		text.setCharacterSize(fontSize);
+}
+
 void	ComboBox::addSelection(std::string const& selection)
 {
 	sf::Text	text(selection, this->_font, this->_textInfo.fontSize);
@@ -137,12 +147,57 @@ void	ComboBox::addSelection(std::string const& selection)
 	this->setSize(sf::Vector2f(this->getSize().x, this->getSize().y + rect.getSize().y));
 }
 
+void	ComboBox::removeSelection(std::string const& selection, uint16_t const nbTimes)
+{
+	uint16_t nb = nbTimes;
+
+	this->_selectionTexts.erase(std::remove_if(this->_selectionTexts.begin(), this->_selectionTexts.end(),
+								 [&](sf::Text selectionText) {
+									std::string selectionStr = selectionText.getString().toAnsiString();
+									if (selectionStr == selection && nb != 0)
+									{
+										this->_idxSelected = -1;
+										this->_selected.setString("- Nothing selected -");
+										this->_recenteringSelectedText();
+										nb -= 1;
+									}
+									return (selectionStr == selection && nb != 0);
+								 }),
+								 this->_selectionTexts.end());
+}
+
+void	ComboBox::removeSelection(uint16_t const idx, uint16_t const nbTimes)
+{
+	if (idx >= this->_selectionTexts.size())
+	{
+		nx::Log::warning("The starting index given to remove selection(s) is out of range, ignoring..", "OUT_OF_RANGE");
+		return;
+	}
+	this->_selectionTexts.erase(this->_selectionTexts.begin() + idx,
+								(idx + nbTimes >= this->_selectionTexts.size()) ? (this->_selectionTexts.end()) : (this->_selectionTexts.begin() + idx + nbTimes));
+	if (this->_idxSelected >= idx && this->_idxSelected < idx + nbTimes)
+	{
+		this->_idxSelected = -1;
+		this->_selected.setString("- Nothing selected -");
+		this->_recenteringSelectedText();
+	}
+}
+
+void	ComboBox::clearSelections()
+{
+	this->_idxSelected = -1;
+	this->_selected.setString("- Nothing selected -");
+	this->_recenteringSelectedText();
+
+	this->_bgSelections.clear();
+	this->_selectionTexts.clear();
+}
+
 void	ComboBox::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(pos);
-	this->_selected.setPosition(pos.x + this->getSize().x / 2.0f - this->_selected.getLocalBounds().width / 2.0f,
-								pos.y + this->getSize().y / 2.0f - this->_selected.getLocalBounds().height / 2.0f - this->_borderThickness);
+	this->_recenteringSelectedText();
 }
 
 void	ComboBox::setSize(sf::Vector2f const& size)
@@ -178,4 +233,19 @@ sf::Color const &	ComboBox::getBorderColor() const
 int const			ComboBox::getBorderThickness() const
 {
 	return (this->_borderThickness);
+}
+
+unsigned int const	ComboBox::getFontSize() const
+{
+	return (this->_selected.getCharacterSize());
+}
+
+std::string const	ComboBox::getSelected() const
+{
+	return (this->_selected.getString().toAnsiString());
+}
+
+uint16_t			ComboBox::getIdxSelected() const
+{
+	return (this->_idxSelected);
 }
