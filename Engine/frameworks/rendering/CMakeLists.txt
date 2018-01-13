@@ -28,6 +28,8 @@ if(SFML_FOUND)
 	include_directories(
 		${SFML_INCLUDE_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}
+		${CMAKE_CURRENT_SOURCE_DIR}/gui
+		${CMAKE_CURRENT_SOURCE_DIR}/graphics
 		../../includes/
 	)
 
