@@ -2,26 +2,29 @@
 # define SPRITE_HPP_
 
 # include <string>
+# include <numeric>
 # include "Nexus/log.hpp"
 # include "GUIElement.hpp"
 # include "InvalidImageException.hpp"
 
 class Sprite : public GUIElement
 {
-	std::string		_spritesheetPath;
-	sf::Vector2f	_sheetGrid;
-	sf::Vector2f	_spriteSize;
+	std::string				_spritesheetPath;
+	sf::Vector2f			_sheetGrid;
+	sf::Vector2f			_spriteSize;
 
-	sf::Texture		_texture;
-	sf::Sprite		_sprite;
+	sf::Texture				_texture;
+	sf::Sprite				_sprite;
 
-	sf::Vector2f	_originalSize;
+	sf::Vector2f			_originalSize;
 
-	uint16_t		_spriteIdx;
-	uint16_t		_slowness;
-	uint16_t		_slownessLap;
+	uint16_t				_spriteIdx;
+	uint16_t				_slowness;
+	uint16_t				_slownessLap;
 
-	bool			_isAnimated;
+	bool					_isAnimated;
+	std::vector<uint16_t>	_spritesAnimated;
+	uint16_t				_animationIdx;
 
 
 	void _loadSpritesheet();
@@ -30,7 +33,7 @@ class Sprite : public GUIElement
 
 public:
 	Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, std::string const& spritesheetPath,
-		   sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize, uint16_t const spriteIdx, uint16_t const slowness);
+		   sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize);
 	~Sprite();
 
 	// GUIElement's mouse event methods overload
@@ -52,7 +55,11 @@ public:
 
 	// Setters
 	void	setSpritesheetPath(std::string const& spritesheetPath);
+	void	setSpriteIdx(uint16_t const spriteIdx);
+	void	setSlowness(uint16_t const slowness);
 	void	setAnimate(bool const animate);
+	void	setSpritesAnimated(std::vector<uint16_t> const& spritesAnimated);
+	void	setAnimationIdx(uint16_t const animationIdx);
 
 	void	setPos(sf::Vector2f const& pos);
 	void	setSize(sf::Vector2f const& size);
@@ -61,8 +68,12 @@ public:
 	virtual std::string const	getType() const;
 
 	// Specific getters
-	std::string const &		getSpritesheetPath() const;
-	bool const				getAnimate() const;
+	std::string const &				getSpritesheetPath() const;
+	uint16_t const					getSpriteIdx() const;
+	uint16_t const					getSlowness() const;
+	bool const						getAnimate() const;
+	std::vector<uint16_t> const &	getSpritesAnimated() const;
+	uint16_t const					getAnimationIdx() const;
 };
 
 #endif /* SPRITE_HPP_ */

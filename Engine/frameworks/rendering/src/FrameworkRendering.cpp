@@ -39,16 +39,23 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 														TextInfo("./fonts/Roboto-Regular.ttf", "Sample text", 16, sf::Color(0, 255, 0, 255)));
 	std::shared_ptr<Image> img = std::make_shared<Image>(sf::Vector2f(300, 580), sf::Vector2f(), "MyFirstImage", "./images/defaultgamelogo.png");
 	std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(sf::Vector2f(50, 600), sf::Vector2f(), "MyFirstSprite", "./images/guitarist.png",
-															  sf::Vector2f(3, 2), sf::Vector2f(103, 89), 0, 130);
+															  sf::Vector2f(3, 2), sf::Vector2f(103, 89));
 
 	progressbar->setFilled(50);
+
 	combobox->addSelection("First item");
 	combobox->addSelection("Second item");
 	combobox->addSelection("LEEERRROYYYY");
 	combobox->addSelection("JENKINSSSSS");
 	combobox->addSelection("Very long thing over thereeeee omggg");
+
 	img->setSize(sf::Vector2f(64, 64));
-	sprite->setAnimate(true);
+
+	sprite->setAnimate(false);
+	sprite->setSlowness(130);
+	sprite->setSpritesAnimated({0, 2, 4});
+	sprite->setSpriteIdx(1);
+	
 	layer->add(button);
 	layer->add(checkbox);
 	layer->add(progressbar);
