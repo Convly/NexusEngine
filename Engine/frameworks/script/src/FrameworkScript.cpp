@@ -67,19 +67,11 @@ void FrameworkScript::execMethod(const std::string& scriptPath, const std::strin
 
 void FrameworkScript::init(const std::string& scriptPath)
 {
-	if (this->_scripts.find(scriptPath) == this->_scripts.end()) {
-		throw nx::ScriptNotLoaded(scriptPath);
-	}
-
 	this->execMethod(scriptPath, "Init");
 }
 
 void FrameworkScript::update(const std::string& scriptPath)
 {
-	if (this->_scripts.find(scriptPath) == this->_scripts.end()) {
-		throw nx::ScriptNotLoaded(scriptPath);
-	}
-
 	this->execMethod(scriptPath, "Update");	
 }
 
