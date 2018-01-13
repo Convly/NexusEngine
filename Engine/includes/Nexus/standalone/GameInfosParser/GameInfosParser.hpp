@@ -71,9 +71,9 @@ namespace nx {
         {
             std::ifstream ifs(this->_path);
             rapidjson::IStreamWrapper isw(ifs);
-	        rapidjson::Document d;
+            rapidjson::Document d;
             d.ParseStream(isw);
-        	return d;
+            return d;
         }
 
         void getInfosTags(const rapidjson::Document& d)
