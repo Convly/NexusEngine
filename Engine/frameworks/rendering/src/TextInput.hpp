@@ -25,7 +25,6 @@ class TextInput : public GUIElement
 	sf::Time			_time;
 
 	// Specific functions for this element
-	void _onStateChanged();
 	void _repositioningCursor();
 	void _updateWrittenText();
 	void _updateTextFromEnd();

@@ -31,6 +31,7 @@ public:
 	void		setBorderThickness(int const thickness);
 	void		setFilled(int const percentage);
 	void		setLabel(sf::Text const& label);
+	void		setFontSize(unsigned int const fontSize);
 
 	void		setPos(sf::Vector2f const& pos);
 	void		setSize(sf::Vector2f const& size);
@@ -43,6 +44,7 @@ public:
 	sf::Color const	&	getBorderColor() const;
 	int const			getBorderThickness() const;
 	int const			getFilled() const;
+	unsigned int const	getFontSize() const;
 	sf::Text const &	getLabel() const;
 };
 
