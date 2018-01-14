@@ -1,7 +1,7 @@
 #include "Sprite.hpp"
 
-Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, std::string const& spritesheetPath,
-			   sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
+Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+			   std::string const& spritesheetPath, sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
 	GUIElement(pos, spriteSize, identifier), _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize),
 	_originalSize(spriteSize), _spriteIdx(0), _slowness(40), _slownessLap(40), _isAnimated(false), _animationIdx(0)
 {

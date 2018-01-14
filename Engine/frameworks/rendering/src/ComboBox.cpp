@@ -1,7 +1,8 @@
 #include "ComboBox.hpp"
 
-ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo) :
-	GUIElement(pos, size, identifier),
+ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+				   ColorInfo const& colorInfo, TextInfo const& textInfo) :
+	GUIElement(pos, size, identifier, events),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_font(sf::Font()), _colorInfo(ColorInfo(colorInfo)), _textInfo(TextInfo(textInfo)), _body(sf::RectangleShape(size)), _idxSelected(-1), _isScrolled(false)
 {
@@ -36,6 +37,9 @@ void	ComboBox::_recenteringSelectedText()
 void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
+
+	if (this->_selections.empty())
+		return;
 
 	sf::Rect<float> rectBody(this->_body.getPosition(), this->_body.getSize());
 

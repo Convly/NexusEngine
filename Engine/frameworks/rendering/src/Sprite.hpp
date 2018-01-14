@@ -32,8 +32,8 @@ class Sprite : public GUIElement
 	void _rescaleSprite();
 
 public:
-	Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, std::string const& spritesheetPath,
-		   sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize);
+	Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+		   std::string const& spritesheetPath, sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize);
 	~Sprite();
 
 	// Display

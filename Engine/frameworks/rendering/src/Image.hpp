@@ -19,7 +19,8 @@ class Image : public GUIElement
 	void _rescaleImage();
 
 public:
-	Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, std::string const& imgPath);
+	Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+		  std::string const& imgPath);
 	~Image();
 
 	// Display
