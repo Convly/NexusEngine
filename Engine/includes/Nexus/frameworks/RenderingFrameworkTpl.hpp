@@ -128,6 +128,29 @@ namespace nx {
 			nx::Vector2f sheetGrid;
 			nx::Vector2f spriteSize;
 		};
+
+
+		struct GraphicsElementInfos {
+			GraphicsElementInfos(const nx::Vector2f& _pos, const nx::Vector2f& _size, const std::string& _identifier, const nx::rendering::MouseEventsContainer& events_)
+				: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
+
+			GraphicsElementInfos(const GUIElementInfos& other)
+				: pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
+
+			nx::Vector2f pos;
+			nx::Vector2f size;
+			std::string identifier;
+			nx::rendering::MouseEventsContainer events;
+		};
+
+		struct GraphicsSpriteInfos {
+			GraphicsSpriteInfos(std::string const& spritesheetPath_, nx::Vector2f const& sheetGrid_, nx::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
+			GraphicsSpriteInfos(const GUISpriteInfos& other) : spritesheetPath(other.spritesheetPath), sheetGrid(other.sheetGrid), spriteSize(other.spriteSize) {}
+
+			std::string spritesheetPath;
+			nx::Vector2f sheetGrid;
+			nx::Vector2f spriteSize;
+		};
 	}
 
 	class RenderingFrameworkTpl
@@ -155,7 +178,9 @@ namespace nx {
 		virtual bool addTextInput(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUITextInputInfos&) = 0;
 		virtual bool addText(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUITextInfos&) = 0;
 		virtual bool addImage(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUIImageInfos&) = 0;
-		virtual bool addSprite(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUISpriteInfos&) = 0;
+		virtual bool addGUISprite(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUISpriteInfos&) = 0;
+
+		virtual bool addGraphicsSprite(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsSpriteInfos& spriteParams) = 0;
 	};	
 }
 

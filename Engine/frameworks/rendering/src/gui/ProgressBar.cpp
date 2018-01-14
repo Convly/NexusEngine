@@ -1,6 +1,6 @@
 #include "ProgressBar.hpp"
 
-ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+nx::gui::ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
 						 ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage) :
 	GUIElement(pos, size, identifier, events),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
@@ -15,7 +15,7 @@ ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std:
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
-	this->_body.setOutlineThickness(colorInfo.borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 
 	this->_filled.setPosition(pos);
@@ -24,7 +24,7 @@ ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std:
 	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 }
 
-ProgressBar::~ProgressBar()
+nx::gui::ProgressBar::~ProgressBar()
 {
 
 }
@@ -32,7 +32,7 @@ ProgressBar::~ProgressBar()
 
 // Display
 
-void ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 	{
@@ -45,26 +45,26 @@ void ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 // Setters
 
-void	ProgressBar::setBackgroundColor(sf::Color const& color)
+void	nx::gui::ProgressBar::setBackgroundColor(sf::Color const& color)
 {
 	this->_backgroundColor = color;
 	this->_body.setFillColor(this->_backgroundColor);
 }
 
-void	ProgressBar::setBorderColor(sf::Color const& color)
+void	nx::gui::ProgressBar::setBorderColor(sf::Color const& color)
 {
 	this->_borderColor = color;
 	this->_body.setOutlineColor(this->_borderColor);
 }
 
-void	ProgressBar::setBorderThickness(int const thickness)
+void	nx::gui::ProgressBar::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
 	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
-	this->_body.setOutlineThickness(this->_borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
 }
 
-void	ProgressBar::setFilled(int const percentage)
+void	nx::gui::ProgressBar::setFilled(int const percentage)
 {
 	if (percentage >= 0 && percentage <= 100)
 	{
@@ -76,7 +76,7 @@ void	ProgressBar::setFilled(int const percentage)
 	}
 }
 
-void	ProgressBar::setPos(sf::Vector2f const& pos)
+void	nx::gui::ProgressBar::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(pos);
@@ -85,7 +85,7 @@ void	ProgressBar::setPos(sf::Vector2f const& pos)
 							 pos.y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 }
 
-void	ProgressBar::setSize(sf::Vector2f const& size)
+void	nx::gui::ProgressBar::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness * 2, this->getSize().y - this->_borderThickness * 2));
@@ -94,12 +94,12 @@ void	ProgressBar::setSize(sf::Vector2f const& size)
 							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 }
 
-void	ProgressBar::setLabel(sf::Text const& label)
+void	nx::gui::ProgressBar::setLabel(sf::Text const& label)
 {
 	this->_label = label;
 }
 
-void	ProgressBar::setFontSize(unsigned int const fontSize)
+void	nx::gui::ProgressBar::setFontSize(unsigned int const fontSize)
 {
 	this->_label.setCharacterSize(fontSize);
 }
@@ -107,7 +107,7 @@ void	ProgressBar::setFontSize(unsigned int const fontSize)
 
 // Getters
 
-std::string	const	ProgressBar::getType() const
+std::string	const	nx::gui::ProgressBar::getType() const
 {
 	return ("ProgressBar");
 }
@@ -115,32 +115,32 @@ std::string	const	ProgressBar::getType() const
 
 // Specific getters
 
-sf::Color const	&	ProgressBar::getBackgroundColor() const
+sf::Color const	&	nx::gui::ProgressBar::getBackgroundColor() const
 {
 	return (this->_backgroundColor);
 }
 
-sf::Color const	&	ProgressBar::getBorderColor() const
+sf::Color const	&	nx::gui::ProgressBar::getBorderColor() const
 {
 	return (this->_borderColor);
 }
 
-int const			ProgressBar::getBorderThickness() const
+int const			nx::gui::ProgressBar::getBorderThickness() const
 {
 	return (this->_borderThickness);
 }
 
-int const			ProgressBar::getFilled() const
+int const			nx::gui::ProgressBar::getFilled() const
 {
 	return (this->_percentage);
 }
 
-sf::Text const &	ProgressBar::getLabel() const
+sf::Text const &	nx::gui::ProgressBar::getLabel() const
 {
 	return (this->_label);
 }
 
-unsigned int const	ProgressBar::getFontSize() const
+unsigned int const	nx::gui::ProgressBar::getFontSize() const
 {
 	return (this->_label.getCharacterSize());
 }

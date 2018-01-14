@@ -1,6 +1,6 @@
 #include "Button.hpp"
 
-Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+nx::gui::Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
 			   bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events), _state(false), _isPushButton(isPushButton),
 	_borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
@@ -14,13 +14,13 @@ Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string co
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
-	this->_body.setOutlineThickness(colorInfo.borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 
 	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 }
 
-Button::~Button()
+nx::gui::Button::~Button()
 {
 
 }
@@ -28,7 +28,7 @@ Button::~Button()
 
 // Specific functions for this element
 
-void Button::_onStateChanged()
+void nx::gui::Button::_onStateChanged()
 {
 	//Will be called when the button's state has been changed
 	if (this->_state)
@@ -37,7 +37,7 @@ void Button::_onStateChanged()
 		this->_body.setFillColor(this->_colorNotSelected);
 }
 
-void Button::_recenteringLabelText()
+void nx::gui::Button::_recenteringLabelText()
 {
 	this->_label.setPosition(this->getPos().x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f,
 							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
@@ -45,7 +45,7 @@ void Button::_recenteringLabelText()
 
 // GUIElement's mouse event methods overload
 
-void Button::onLeftClickPressedInside(sf::Vector2i const& pos)
+void nx::gui::Button::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
 	
@@ -54,7 +54,7 @@ void Button::onLeftClickPressedInside(sf::Vector2i const& pos)
 	this->_onStateChanged();
 }
 
-void Button::onLeftClickReleasedInside(sf::Vector2i const& pos)
+void nx::gui::Button::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickReleasedInside");
 
@@ -69,7 +69,7 @@ void Button::onLeftClickReleasedInside(sf::Vector2i const& pos)
 	}
 }
 
-void Button::onLeftClickReleasedOutside(sf::Vector2i const& pos)
+void nx::gui::Button::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickReleasedOutside");
 
@@ -86,7 +86,7 @@ void Button::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 
 // Display
 
-void Button::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::Button::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 	{
@@ -97,61 +97,61 @@ void Button::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 
 // Setters
-void	Button::setState(bool const state)
+void	nx::gui::Button::setState(bool const state)
 {
 	this->_state = state;
 }
 
-void	Button::setLabel(sf::Text const& label)
+void	nx::gui::Button::setLabel(sf::Text const& label)
 {
 	this->_label = label;
 }
 
-void	Button::setText(std::string const& text)
+void	nx::gui::Button::setText(std::string const& text)
 {
 	this->_label.setString(text);
 	this->_recenteringLabelText();
 }
 
-void	Button::setFontSize(unsigned int const fontSize)
+void	nx::gui::Button::setFontSize(unsigned int const fontSize)
 {
 	this->_label.setCharacterSize(fontSize);
 	this->_recenteringLabelText();
 }
 
-void	Button::setColorNotSelected(sf::Color const& color)
+void	nx::gui::Button::setColorNotSelected(sf::Color const& color)
 {
 	this->_colorNotSelected = color;
 	this->_body.setFillColor(this->_colorNotSelected);
 }
 
-void	Button::setColorSelected(sf::Color const& color)
+void	nx::gui::Button::setColorSelected(sf::Color const& color)
 {
 	this->_colorSelected = color;
 	this->_body.setFillColor(this->_colorSelected);
 }
 
-void	Button::setBorderColor(sf::Color const& color)
+void	nx::gui::Button::setBorderColor(sf::Color const& color)
 {
 	this->_borderColor = color;
 	this->_body.setOutlineColor(this->_borderColor);
 }
 
-void	Button::setBorderThickness(int const thickness)
+void	nx::gui::Button::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
 	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
-	this->_body.setOutlineThickness(this->_borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
 }
 
-void	Button::setPos(sf::Vector2f const& pos)
+void	nx::gui::Button::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(pos);
 	this->_recenteringLabelText();
 }
 
-void	Button::setSize(sf::Vector2f const& size)
+void	nx::gui::Button::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness * 2, size.y - this->_borderThickness * 2));
@@ -160,7 +160,7 @@ void	Button::setSize(sf::Vector2f const& size)
 
 // Getters
 
-std::string	const	Button::getType() const
+std::string	const	nx::gui::Button::getType() const
 {
 	return ("Button");
 }
@@ -168,42 +168,42 @@ std::string	const	Button::getType() const
 
 // Specific getters
 
-bool const			Button::getState() const
+bool const			nx::gui::Button::getState() const
 {
 	return (this->_state);
 }
 
-sf::Text const &	Button::getLabel() const
+sf::Text const &	nx::gui::Button::getLabel() const
 {
 	return (this->_label);
 }
 
-std::string const	Button::getText() const
+std::string const	nx::gui::Button::getText() const
 {
 	return (this->_label.getString().toAnsiString());
 }
 
-unsigned int const	Button::getFontSize() const
+unsigned int const	nx::gui::Button::getFontSize() const
 {
 	return (this->_label.getCharacterSize());
 }
 
-sf::Color const &	Button::getColorNotSelected() const
+sf::Color const &	nx::gui::Button::getColorNotSelected() const
 {
 	return (this->_colorNotSelected);
 }
 
-sf::Color const &	Button::getColorSelected() const
+sf::Color const &	nx::gui::Button::getColorSelected() const
 {
 	return (this->_colorSelected);
 }
 
-sf::Color const &	Button::getBorderColor() const
+sf::Color const &	nx::gui::Button::getBorderColor() const
 {
 	return (this->_borderColor);
 }
 
-int const			Button::getBorderThickness() const
+int const			nx::gui::Button::getBorderThickness() const
 {
 	return (this->_borderThickness);
 }

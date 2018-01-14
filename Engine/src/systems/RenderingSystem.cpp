@@ -95,13 +95,20 @@ void nx::RenderingSystem::init()
 			}),
 			nx::rendering::GUIImageInfos("./images/defaultgamelogo.png")
 			);
-		f->addSprite(
+		f->addGUISprite(
 			"Menu",
 			nx::rendering::GUIElementInfos(nx::Vector2f(50, 600), nx::Vector2f(0, 0), "MyCauvinSprite",
 			{
 
 			}),
 			nx::rendering::GUISpriteInfos("./images/guitarist.png", nx::Vector2f(3, 2), nx::Vector2f(103, 89))
+			);
+		f->addGraphicsSprite(
+			nx::rendering::GraphicsElementInfos(nx::Vector2f(400, 620), nx::Vector2f(0, 0), "MyCauvinSprite",
+			{
+
+			}),
+			nx::rendering::GraphicsSpriteInfos("./images/guitarist.png", nx::Vector2f(3, 2), nx::Vector2f(103, 89))
 			);
 	}
 }

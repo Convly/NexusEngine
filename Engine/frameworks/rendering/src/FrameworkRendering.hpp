@@ -1,7 +1,8 @@
 #ifndef FRAMEWORK_RENDERING
 # define FRAMEWORK_RENDERING
 
-# include "GUIHandler.hpp"
+# include "./gui/GUIHandler.hpp"
+# include "./graphics/GraphicsHandler.hpp"
 # include "Nexus/engine.hpp"
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
@@ -21,7 +22,9 @@ public:
 	bool addTextInput(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUITextInputInfos& textInputParams);
 	bool addText(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUITextInfos& textParams);
 	bool addImage(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIImageInfos& imageParams);
-	bool addSprite(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUISpriteInfos& spriteParams);
+	bool addGUISprite(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUISpriteInfos& spriteParams);
+
+	bool addGraphicsSprite(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsSpriteInfos& spriteParams);
 	
 protected:
 	nx::Engine	*_engine;
@@ -30,8 +33,9 @@ public:
 	static sf::Color RGBa_to_sfColor(const nx::rendering::RGBa&);
 
 private:
-	std::shared_ptr<sf::RenderWindow>	_win;
-	std::shared_ptr<GUIHandler>			_handler;
+	std::shared_ptr<sf::RenderWindow>		_win;
+	std::shared_ptr<nx::gui::GUIHandler>	_guiHandler;
+	std::shared_ptr<nx::graphics::GraphicsHandler>	_graphicsHandler;
 };
 
 #if  defined(_MSC_VER)
