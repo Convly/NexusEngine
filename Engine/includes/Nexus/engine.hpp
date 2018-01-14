@@ -7,7 +7,12 @@
 #include <functional>
 #include <algorithm>
 
+#include "Nexus/modules/maths.hpp"
+
 #include "Nexus/systems/SystemTpl.hpp"
+
+#include "Nexus/standalone/GameInfosParser/GameInfosParser.hpp"
+
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
 
@@ -27,7 +32,7 @@ namespace nx {
   private:
 		bool											_run;
 		bool											_debug;
-		std::vector<std::shared_ptr<nx::SystemTpl>>	_systems;
+		std::vector<std::shared_ptr<nx::SystemTpl>>		_systems;
 
 	private:
 		Engine(const std::vector<std::shared_ptr<nx::SystemTpl>>& systems, const bool debug = false);

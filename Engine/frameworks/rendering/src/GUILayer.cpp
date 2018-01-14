@@ -81,3 +81,16 @@ std::shared_ptr<GUIElement>&		GUILayer::getElementByName(std::string const& iden
 
 	return *it;
 }
+
+bool GUILayer::object_exists(const std::string& identifier) const
+{
+	auto it = std::find_if(
+		this->_guiElements.begin(),
+		this->_guiElements.end(),
+		[&](auto &element){
+			return element->getIdentifier() == identifier;
+		}
+	);
+
+	return it != this->_guiElements.end();
+}

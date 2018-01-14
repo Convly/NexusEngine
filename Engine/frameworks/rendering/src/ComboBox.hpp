@@ -18,7 +18,7 @@ class ComboBox : public GUIElement
 
 	sf::RectangleShape				_body;
 
-	int								_idxSelected;
+	uint16_t						_idxSelected;
 	sf::Text						_selected;
 
 	std::vector<std::string>		_selections;
@@ -27,24 +27,15 @@ class ComboBox : public GUIElement
 
 	bool							_isScrolled;
 
+	void	_recenteringSelectedText();
+
 public:
 	ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo);
 	~ComboBox();
 
 	// GUIElement's mouse event methods overload
-	virtual void onMoveInside(sf::Vector2i const& pos);
-	virtual void onMoveOutside(sf::Vector2i const& pos);
 	virtual void onLeftClickPressedInside(sf::Vector2i const& pos);
-	virtual void onLeftClickReleasedInside(sf::Vector2i const& pos);
-	virtual void onRightClickPressedInside(sf::Vector2i const& pos);
-	virtual void onRightClickReleasedInside(sf::Vector2i const& pos);
 	virtual void onLeftClickPressedOutside(sf::Vector2i const& pos);
-	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
-	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
-	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
-
-	// Specific functions for this element
-	virtual void onStateChanged();
 
 	// Display
 	void		show(std::shared_ptr<sf::RenderWindow> const& win);
@@ -54,7 +45,12 @@ public:
 	void setBackgroundColor(sf::Color const& color);
 	void setBorderColor(sf::Color const& color);
 	void setBorderThickness(int const thickness);
+	void setFontSize(unsigned int const fontSize);
+
 	void addSelection(std::string const& selection);
+	void removeSelection(std::string const& selection, uint16_t const nbTimes);
+	void removeSelection(uint16_t const idx, uint16_t const nbTimes);
+	void clearSelections();
 
 	void setPos(sf::Vector2f const& pos);
 	void setSize(sf::Vector2f const& size);
@@ -67,6 +63,9 @@ public:
 	sf::Color const &	getBackgroundColor() const;
 	sf::Color const &	getBorderColor() const;
 	int const			getBorderThickness() const;
+	unsigned int const	getFontSize() const;
+	std::string const	getSelected() const;
+	uint16_t			getIdxSelected() const;
 };
 
 #endif /* COMBOBOX_HPP_ */

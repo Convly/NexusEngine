@@ -11,6 +11,7 @@ nx::ScriptSystem::ScriptSystem()
 	this->connect(nx::EVENT::SCRIPT_LOAD, nx::ScriptSystem::event_ScriptLoad);
 	this->connect(nx::EVENT::SCRIPT_INIT, nx::ScriptSystem::event_ScriptInit);
 	this->connect(nx::EVENT::SCRIPT_UPDATE, nx::ScriptSystem::event_ScriptUpdate);
+	this->connect(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::ScriptSystem::event_ScriptExecFunction);
 }
 
 nx::ScriptSystem::~ScriptSystem() {
@@ -90,4 +91,24 @@ void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
 		f->update(e.data.data());
+}
+
+void nx::ScriptSystem::event_ScriptExecFunction(const nx::Event& e)
+{
+	auto& engine = nx::Engine::Instance();
+	auto self = nx::Engine::cast<nx::ScriptSystem>(engine.getSystemByName(__NX_SCRIPT_KEY__));
+	if (!self) return;
+	
+	auto f = self->getFramework();
+	if (!f)
+		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
+	else
+	{
+		const nx::script::ScriptInfos* st = reinterpret_cast<const nx::script::ScriptInfos*>(e.data.data());
+		if (!st) {
+			nx::Log::error("The data is corrupted", "BAD_SCRIPT_INFORMATIONS", 300);
+			return;
+		}
+		f->execFunction(st->file, st->func);
+	}
 }

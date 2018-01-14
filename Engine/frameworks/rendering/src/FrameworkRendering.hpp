@@ -14,9 +14,13 @@ public:
 	void InitializeWindow(int width, int height, std::string titleWin);
 	void RefreshRendering();
 	bool addLayer(const std::string&);
+	bool addButton(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIButtonInfos& buttonsParams);
 	
 protected:
 	nx::Engine	*_engine;
+
+public:
+	static sf::Color RGBa_to_sfColor(const nx::rendering::RGBa&);
 
 private:
 	std::shared_ptr<sf::RenderWindow>	_win;

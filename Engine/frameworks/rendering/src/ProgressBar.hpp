@@ -22,21 +22,6 @@ public:
 	ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage = true);
 	~ProgressBar();
 
-	// GUIElement's mouse event methods overload
-	virtual void onMoveInside(sf::Vector2i const& pos);
-	virtual void onMoveOutside(sf::Vector2i const& pos);
-	virtual void onLeftClickPressedInside(sf::Vector2i const& pos);
-	virtual void onLeftClickReleasedInside(sf::Vector2i const& pos);
-	virtual void onRightClickPressedInside(sf::Vector2i const& pos);
-	virtual void onRightClickReleasedInside(sf::Vector2i const& pos);
-	virtual void onLeftClickPressedOutside(sf::Vector2i const& pos);
-	virtual void onLeftClickReleasedOutside(sf::Vector2i const& pos);
-	virtual void onRightClickPressedOutside(sf::Vector2i const& pos);
-	virtual void onRightClickReleasedOutside(sf::Vector2i const& pos);
-
-	// Specific functions for this element
-	virtual void onStateChanged();
-
 	// Display
 	void		show(std::shared_ptr<sf::RenderWindow> const& win);
 
@@ -46,6 +31,7 @@ public:
 	void		setBorderThickness(int const thickness);
 	void		setFilled(int const percentage);
 	void		setLabel(sf::Text const& label);
+	void		setFontSize(unsigned int const fontSize);
 
 	void		setPos(sf::Vector2f const& pos);
 	void		setSize(sf::Vector2f const& size);
@@ -58,6 +44,7 @@ public:
 	sf::Color const	&	getBorderColor() const;
 	int const			getBorderThickness() const;
 	int const			getFilled() const;
+	unsigned int const	getFontSize() const;
 	sf::Text const &	getLabel() const;
 };
 

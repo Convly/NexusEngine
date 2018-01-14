@@ -29,68 +29,6 @@ ProgressBar::~ProgressBar()
 }
 
 
-// GUIElement's mouse event methods overload
-
-void ProgressBar::onMoveInside(sf::Vector2i const& pos)
-{
-	//Will be called when mouse is moving into the element
-	nx::Log::inform("Mouse moving inside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onMoveOutside(sf::Vector2i const& pos)
-{
-	//Will be called when mouse is moving outside the element
-	nx::Log::inform("Mouse moving outside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onLeftClickPressedInside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-click is inside the element
-	nx::Log::inform("Left-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onLeftClickReleasedInside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-release is inside the element
-	nx::Log::inform("Left-click released inside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onRightClickPressedInside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-click is inside the element
-	nx::Log::inform("Right-click pressed inside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onRightClickReleasedInside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-release is inside the element
-	nx::Log::inform("Right-click released inside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onLeftClickPressedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onLeftClickReleasedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-release is outside the element
-	nx::Log::inform("Left-click released outside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onRightClickPressedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-click is outside the element
-	nx::Log::inform("Right-click pressed outside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
-void ProgressBar::onRightClickReleasedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-release is outside the element
-	nx::Log::inform("Right-click released outside the ProgressBar '" + this->getIdentifier() + "'");
-}
-
 // Display
 
 void ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)
@@ -101,14 +39,6 @@ void ProgressBar::show(std::shared_ptr<sf::RenderWindow> const& win)
 		win->draw(this->_filled);
 		win->draw(this->_label);
 	}
-}
-
-
-// Specific functions for this element
-
-void ProgressBar::onStateChanged()
-{
-	//Will be called when the button's state has been changed
 }
 
 
@@ -168,6 +98,12 @@ void	ProgressBar::setLabel(sf::Text const& label)
 	this->_label = label;
 }
 
+void	ProgressBar::setFontSize(unsigned int const fontSize)
+{
+	this->_label.setCharacterSize(fontSize);
+}
+
+
 // Getters
 
 std::string	const	ProgressBar::getType() const
@@ -201,4 +137,9 @@ int const			ProgressBar::getFilled() const
 sf::Text const &	ProgressBar::getLabel() const
 {
 	return (this->_label);
+}
+
+unsigned int const	ProgressBar::getFontSize() const
+{
+	return (this->_label.getCharacterSize());
 }

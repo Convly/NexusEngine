@@ -47,68 +47,15 @@ Checkbox::~Checkbox()
 
 // GUIElement's mouse event methods overload
 
-void Checkbox::onMoveInside(sf::Vector2i const& pos)
-{
-	//Will be called when mouse is moving into the element
-	nx::Log::inform("Mouse moving inside the checkbox '" + this->getIdentifier() + "'");
-}
-
-void Checkbox::onMoveOutside(sf::Vector2i const& pos)
-{
-	//Will be called when mouse is moving outside the element
-	nx::Log::inform("Mouse moving outside the checkbox '" + this->getIdentifier() + "'");
-}
-
 void Checkbox::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
+	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
+
 	//Will be called when a left-click is inside the element
-	nx::Log::inform("Left-click pressed inside the checkbox '" + this->getIdentifier() + "'");
 	if (this->_state != State::UNCHECKED)
 		this->_state = State::UNCHECKED;
 	else
 		this->_state = State::CHECKED;
-}
-
-void Checkbox::onLeftClickReleasedInside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-release is inside the element
-	nx::Log::inform("Left-click released inside the checkbox '" + this->getIdentifier() + "'");
-}
-
-void Checkbox::onRightClickPressedInside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-click is inside the element
-	nx::Log::inform("Right-click pressed inside the checkbox '" + this->getIdentifier() + "'");
-}
-
-void Checkbox::onRightClickReleasedInside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-release is inside the element
-	nx::Log::inform("Right-click released inside the checkbox '" + this->getIdentifier() + "'");
-}
-
-void Checkbox::onLeftClickPressedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the checkbox '" + this->getIdentifier() + "'");
-}
-
-void Checkbox::onLeftClickReleasedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a left-release is outside the element
-	nx::Log::inform("Left-click released outside the checkbox '" + this->getIdentifier() + "'");
-}
-
-void Checkbox::onRightClickPressedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-click is outside the element
-	nx::Log::inform("Right-click pressed outside the checkbox '" + this->getIdentifier() + "'");
-}
-
-void Checkbox::onRightClickReleasedOutside(sf::Vector2i const& pos)
-{
-	//Will be called when a right-release is outside the element
-	nx::Log::inform("Right-click released outside the checkbox '" + this->getIdentifier() + "'");
 }
 
 // Display
@@ -126,14 +73,6 @@ void Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
 		else if (this->_state == State::PARTIAL)
 			win->draw(this->_lines[2]);
 	}
-}
-
-
-// Specific functions for this element
-
-void Checkbox::onStateChanged()
-{
-	//Will be called when the button's state has been changed
 }
 
 
