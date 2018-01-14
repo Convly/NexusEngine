@@ -7,6 +7,9 @@
 # include "GraphicsElement.hpp"
 
 # include "Sprite.hpp"
+# include "RectShape.hpp"
+# include "CircleShape.hpp"
+# include "ConvexShape.hpp"
 
 # include "../LayerNotFoundException.hpp"
 

@@ -320,23 +320,90 @@ bool FrameworkRendering::addGUISprite(const std::string& layerId, const nx::rend
 	return (true);
 }
 
-bool FrameworkRendering::addGraphicsSprite(const nx::rendering::GraphicsElementInfos& guiParams, const nx::rendering::GraphicsSpriteInfos& spriteParams)
+bool FrameworkRendering::addGraphicsSprite(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsSpriteInfos& spriteParams)
 {
-	if (this->_graphicsHandler->object_exists(guiParams.identifier)) {
+	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::graphics::Sprite> sprite = std::make_shared<nx::graphics::Sprite>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
+		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
+		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
+		graphicsParams.identifier,
+		graphicsParams.events,
 		spriteParams.spritesheetPath,
 		sf::Vector2f(spriteParams.sheetGrid.x, spriteParams.sheetGrid.y),
 		sf::Vector2f(spriteParams.spriteSize.x, spriteParams.spriteSize.y)
 		);
 
 	this->_graphicsHandler->addElement(sprite);
-	std::cout << "Adding new graphicsSprite (" << guiParams.identifier << ")" << std::endl;
+	std::cout << "Adding new graphicsSprite (" << graphicsParams.identifier << ")" << std::endl;
+	return (true);
+}
+
+bool FrameworkRendering::addGraphicsCirleShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsCircleInfos& circleShapeParams)
+{
+	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
+		return (false);
+	}
+	
+	std::shared_ptr<nx::graphics::CircleShape> circle = std::make_shared<nx::graphics::CircleShape>(
+		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
+		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
+		graphicsParams.identifier,
+		graphicsParams.events,
+		circleShapeParams.radius,
+		nx::ColorInfo(
+			FrameworkRendering::RGBa_to_sfColor(circleShapeParams.colorInfo.backgroundColor),
+			FrameworkRendering::RGBa_to_sfColor(circleShapeParams.colorInfo.borderColor),
+			circleShapeParams.colorInfo.borderThickness)
+		);
+
+	this->_graphicsHandler->addElement(circle);
+	std::cout << "Adding new graphicsCircle (" << graphicsParams.identifier << ")" << std::endl;
+	return (true);
+}
+
+bool FrameworkRendering::addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams)
+{
+	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
+		return (false);
+	}
+
+	std::shared_ptr<nx::graphics::RectShape> rect = std::make_shared<nx::graphics::RectShape>(
+		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
+		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
+		graphicsParams.identifier,
+		graphicsParams.events,
+		nx::ColorInfo(
+			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.backgroundColor),
+			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.borderColor),
+			rectShapeParams.colorInfo.borderThickness)
+		);
+
+	this->_graphicsHandler->addElement(rect);
+	std::cout << "Adding new graphicsRect (" << graphicsParams.identifier << ")" << std::endl;
+	return (true);
+}
+
+bool FrameworkRendering::addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams)
+{
+	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
+		return (false);
+	}
+
+	std::shared_ptr<nx::graphics::ConvexShape> convex = std::make_shared<nx::graphics::ConvexShape>(
+		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
+		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
+		graphicsParams.identifier,
+		graphicsParams.events,
+		nx::ColorInfo(
+			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.backgroundColor),
+			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.borderColor),
+			convexShapeParams.colorInfo.borderThickness)
+		);
+
+	this->_graphicsHandler->addElement(convex);
+	std::cout << "Adding new graphicsConvex (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }

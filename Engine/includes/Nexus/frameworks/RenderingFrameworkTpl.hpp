@@ -151,6 +151,28 @@ namespace nx {
 			nx::Vector2f sheetGrid;
 			nx::Vector2f spriteSize;
 		};
+
+		struct GraphicsCircleInfos {
+			GraphicsCircleInfos(float const radius_, nx::rendering::ColorInfo const& colorInfo_) : radius(radius_), colorInfo(colorInfo_) {}
+			GraphicsCircleInfos(const GraphicsCircleInfos& other) : colorInfo(other.colorInfo) {}
+
+			float radius;
+			nx::rendering::ColorInfo colorInfo;
+		};
+
+		struct GraphicsRectInfos {
+			GraphicsRectInfos(nx::rendering::ColorInfo const& colorInfo_) : colorInfo(colorInfo_) {}
+			GraphicsRectInfos(const GraphicsRectInfos& other) : colorInfo(other.colorInfo) {}
+
+			nx::rendering::ColorInfo colorInfo;
+		};
+
+		struct GraphicsConvexInfos {
+			GraphicsConvexInfos(nx::rendering::ColorInfo const& colorInfo_) : colorInfo(colorInfo_) {}
+			GraphicsConvexInfos(const GraphicsConvexInfos& other) : colorInfo(other.colorInfo) {}
+
+			nx::rendering::ColorInfo colorInfo;
+		};
 	}
 
 	class RenderingFrameworkTpl
@@ -181,6 +203,9 @@ namespace nx {
 		virtual bool addGUISprite(const std::string&, const nx::rendering::GUIElementInfos&, const nx::rendering::GUISpriteInfos&) = 0;
 
 		virtual bool addGraphicsSprite(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsSpriteInfos& spriteParams) = 0;
+		virtual bool addGraphicsCirleShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsCircleInfos& circleShapeParams) = 0;
+		virtual bool addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams) = 0;
+		virtual bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams) = 0;
 	};	
 }
 
