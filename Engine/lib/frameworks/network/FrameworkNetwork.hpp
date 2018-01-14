@@ -27,12 +27,16 @@ class FrameworkNetwork : public nx::NetworkFrameworkTpl, ANetworkTransport {
   ~FrameworkNetwork();
 
  protected:
-  nx::Engine *_engine;
+	 nx::Engine *_engine;
 
- public:
-  void tcpStartAccept(unsigned short port);
-  void tcpStartConnect(std::string ip, unsigned short port);
-  void tcpSend(unsigned int id, nx::Event event);
+public:
+	void tcpStartAccept(unsigned short port);
+	void tcpStartConnect(std::string ip, unsigned short port);
+	void tcpSend(unsigned int id, nx::Event event);
+
+public:
+	void udpReceive(unsigned short port);
+	void udpSend(const std::string &ip, unsigned short port, nx::Event event);
 };
 
 #if  defined(_MSC_VER)

@@ -40,6 +40,16 @@ class NetworkSystem : public SystemTpl {
 	nx::Event 			&event;
   };
 
+  struct UdpSendEvent {
+	  std::string		_ip;
+	  unsigned int		_port;
+	  nx::Event			&_event;
+  };
+
+  struct UdpReceiveEvent {
+	  unsigned int		_port;
+  };
+
  public:
   void update();
   void init();
@@ -50,6 +60,8 @@ class NetworkSystem : public SystemTpl {
   static void event_NetworkTcpAccept(const nx::Event &);
   static void event_NetworkTcpConnect(const nx::Event &);
   static void event_NetworkTcpSend(const nx::Event &);
+  static void event_NetworkUdpReceive(const nx::Event &);
+  static void event_NetworkUdpSend(const nx::Event &);
 };
 }
 

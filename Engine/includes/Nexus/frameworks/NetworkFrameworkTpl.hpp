@@ -22,6 +22,10 @@ class NetworkFrameworkTpl {
   virtual void tcpStartConnect(std::string ip, unsigned short port) = 0;
 
   virtual void tcpSend(unsigned int id, Event event) = 0;
+  
+  virtual void udpReceive(unsigned short port) = 0;
+  
+  virtual void udpSend(const std::string &ip, unsigned short port, Event event) = 0;
 };
 }
 

@@ -48,16 +48,11 @@ protected:
 	short               _port;
 	char				_buff[MAX_BUFFER_SIZE];
 	struct addrinfo		*_addrInfo;
-	bool				_init;
+	bool				_sendMode;
 
 protected:
-	std::unordered_map<unsigned int, std::shared_ptr<std::thread>>			_thClients;
-
-	//Server Mode
+	// Server mode
 	std::shared_ptr<std::thread>	_thReceive;
-
-	//Send
-	std::shared_ptr<std::thread>	_thSend;
 
 public:
 	explicit	NetworkUdp(nx::Engine *engine);

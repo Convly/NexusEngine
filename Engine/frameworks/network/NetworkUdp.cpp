@@ -8,7 +8,9 @@ NetworkUdp::NetworkUdp(nx::Engine *engine) :
 	_engine(engine),
 	_socket(0),
 	_addrInfo(nullptr),
-	_init(false)
+	_ip(""),
+	_port(0),
+	_sendMode(false)
 {
 	__initSocket();
 }
@@ -27,9 +29,12 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vec
 	char	decimal_port[16];
 	struct	addrinfo hints;
 
-	if (!_init)
+	if (!_sendMode || _ip != ip || _port != port)
 	{
-		_init = true;
+		if (_sendMode == true)
+			freeaddrinfo(_addrInfo);
+		_sendMode = true;
+		nx::Log::inform("init before send");
 		_ip = ip;
 		_port = port;
 
@@ -51,7 +56,7 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vec
 			throw nx::NetworkUdpException("could not create socket for: \"" + _ip + ":" + decimal_port + "\"");
 		}
 	}
-	this->_thSend = std::make_shared<std::thread>(&NetworkUdp::send, this, data);
+	send(data);
 }
 
 void		NetworkUdp::startReceive(unsigned short port)
@@ -61,6 +66,8 @@ void		NetworkUdp::startReceive(unsigned short port)
 
 void		NetworkUdp::send(std::vector<char> data)
 {
+	nx::Log::inform("Ready to send");
+
 	std::string	msg;
 	std::string body;
 	std::string header;
@@ -72,15 +79,24 @@ void		NetworkUdp::send(std::vector<char> data)
 		for (auto it : data)
 			body += it;
 		msg = header + body + footer;
-		sendto(_socket, msg.c_str(), msg.size(), 0, _addrInfo->ai_addr, _addrInfo->ai_addrlen);
+
+		if (sendto(_socket, msg.c_str(), msg.size(), 0, _addrInfo->ai_addr, _addrInfo->ai_addrlen) == -1)
+			nx::Log::inform("ERROR ON SEEEEEEEND !!");
+
 		run = false;
 	}
+	nx::Log::inform("send ok");
 }
 
 void		NetworkUdp::receive(unsigned short port)
 {
 	_ip = "127.0.0.1";
 	_port = port;
+
+	nx::Log::inform("Init before recv");
+
+	_sendMode = false;
+
 	socklen_t addrlen = sizeof(_clientAddr);
 
 	if ((_socket = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
@@ -95,23 +111,40 @@ void		NetworkUdp::receive(unsigned short port)
 	if (bind(_socket, (struct sockaddr *)&_serverAddr, sizeof(_serverAddr)) < 0)
 		throw nx::NetworkUdpException("bind failed");
 
+	nx::Log::inform("[UDP RECV] : starting listening");
+
 	while (1)
 	{
-		std::vector<char> data(MAX_BUFFER_SIZE);
-		recvfrom(_socket, data.data(), MAX_BUFFER_SIZE, 0, (struct sockaddr *)&_clientAddr, &addrlen);
+		nx::Log::debug("-- a");
+		std::vector<char> data(4000);
+		nx::Log::debug("-- b");
+
+		nx::Log::debug("before recvfrom");
+		if (recvfrom(_socket, data.data(), 4000, 0, (struct sockaddr *)&_clientAddr, &addrlen) == -1)
+			nx::Log::debug("ERROR ERROR ERROR (recv from)");
+			//throw nx::NetworkUdpException("recvfrom failed");
+		nx::Log::debug("after recvfrom");
+		nx::Log::debug("-- c");
 
 		nx::Log::debug("[Network] Data:");
 		nx::Log::debug(data.data());
 		nx::Log::debug("--\n");
+		nx::Log::debug("-- d");
 
 		const nx::Event event = this->convertNetworkDataToEvent(data);
+		nx::Log::debug("-- e");
 
 		nx::Log::debug("Event type: " + std::to_string(event.type));
+
+		nx::Log::debug("-- f");
 
 		std::future<void> eventEmit(std::async([&]() {
 			this->_engine->emit(event);
 		}));
+		nx::Log::debug("-- g");
 
 		eventEmit.get();
+		nx::Log::debug("-- h");
 	}
+	nx::Log::debug("STOP RECEIVE");
 }

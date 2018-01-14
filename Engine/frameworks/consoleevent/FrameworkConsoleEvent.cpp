@@ -62,4 +62,30 @@ void FrameworkConsoleEvent::runEvent(std::string event) {
 	nx::Log::inform("[ConsoleEvent] Data send: [" + std::string(data_r.data()) + "]");
 	nx::Log::inform("[ConsoleEvent] Send data (TCP) to localhost");
   }
+  else if (event == "recv")
+  {
+	  nx::NetworkSystem::UdpReceiveEvent receiveDataEvent;
+
+	  receiveDataEvent._port = 4242;
+
+	  auto const ptr = reinterpret_cast<char*>(&receiveDataEvent);
+	  std::vector<char> data(ptr, ptr + sizeof receiveDataEvent);
+	  this->_engine->emit(nx::EVENT::NETWORK_UDP_RECEIVE, data);
+	  nx::Log::inform("[ConsoleEvent] startReceive (UDP) on localhost");
+  }
+  else if (event == "send")
+  {
+	  std::vector<char> data_r = { 'y', 'e', 's' };
+
+	  auto eventR = nx::Event(nx::EVENT::SCRIPT_INIT, data_r);
+	  nx::Log::inform("[ConsoleEvent] send Data (UDP)");
+
+	  nx::NetworkSystem::UdpSendEvent sendDataEvent = { "127.0.0.1", 4242, eventR };
+
+	  auto const ptr = reinterpret_cast<char*>(&sendDataEvent);
+	  std::vector<char> data(ptr, ptr + sizeof sendDataEvent);
+	  this->_engine->emit(nx::EVENT::NETWORK_UDP_SEND, data);
+	  nx::Log::inform("[ConsoleEvent] Data send: [" + std::string(data_r.data()) + "]");
+	  nx::Log::inform("[ConsoleEvent] Send data (UDP) to localhost (hope it work)");
+  }
 }
