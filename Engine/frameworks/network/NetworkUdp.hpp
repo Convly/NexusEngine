@@ -18,7 +18,6 @@
 
 #include "Nexus/errors/NetworkUdpException.hpp"
 #include "ANetworkTransport.hpp"
-#include "Nexus/engine.hpp"
 
 #ifdef _WIN32
 #include <ws2tcpip.h>
@@ -41,14 +40,23 @@ class NetworkUdp : public ANetworkTransport
 {
 protected:
 	nx::Engine			*_engine;
-	int                 _socket;
-	struct sockaddr_in 	_serverAddr;
+
+	// Server variables
+protected:
+	struct sockaddr_in	_serverAddr;
 	struct sockaddr_in 	_clientAddr;
-	std::string         _ip;
-	short               _port;
+	std::string         _ipS;
+	short               _portS;
 	char				_buff[MAX_BUFFER_SIZE];
+	int                 _socketS;
+
+	// Client variables
+protected:
 	struct addrinfo		*_addrInfo;
+	std::string         _ipC;
 	bool				_sendMode;
+	short               _portC;
+	int                 _socketC;
 
 protected:
 	// Server mode

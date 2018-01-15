@@ -75,7 +75,8 @@ void FrameworkConsoleEvent::runEvent(std::string event) {
   }
   else if (event == "send")
   {
-	  std::vector<char> data_r = { 'y', 'e', 's' };
+	  std::string random = "hey";
+	  std::vector<char> data_r = nx::Event::stringToVector(random.c_str());
 
 	  auto eventR = nx::Event(nx::EVENT::SCRIPT_INIT, data_r);
 	  nx::Log::inform("[ConsoleEvent] send Data (UDP)");

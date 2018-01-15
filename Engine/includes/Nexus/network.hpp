@@ -37,13 +37,13 @@ class NetworkSystem : public SystemTpl {
 
   struct TcpSendEvent {
 	unsigned int		id;
-	nx::Event 			&event;
+	nx::Event 			event;
   };
 
   struct UdpSendEvent {
 	  std::string		_ip;
 	  unsigned int		_port;
-	  nx::Event			&_event;
+	  nx::Event			_event;
   };
 
   struct UdpReceiveEvent {

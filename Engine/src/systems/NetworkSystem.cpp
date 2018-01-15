@@ -173,12 +173,6 @@ void nx::NetworkSystem::event_NetworkUdpSend(const nx::Event &e) {
 	if (!self)
 		return;
 
-	// We can now use public member functions of the System
-	self->getName();
-	// As well as the public functions of the engine.
-	engine.ping();
-	// Finally we obviously also have access to the name and the data of the Event
-
 	const nx::NetworkSystem::UdpSendEvent *event;
 
 	event = reinterpret_cast<const nx::NetworkSystem::UdpSendEvent*>(e.data.data());
