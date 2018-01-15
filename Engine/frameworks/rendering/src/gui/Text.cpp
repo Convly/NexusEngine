@@ -1,6 +1,6 @@
 #include "Text.hpp"
 
-Text::Text(sf::Vector2f const& pos, std::string const& identifier, nx::rendering::MouseEventsContainer const& events, TextInfo const& textInfo) :
+nx::gui::Text::Text(sf::Vector2f const& pos, std::string const& identifier, nx::rendering::MouseEventsContainer const& events, TextInfo const& textInfo) :
 	GUIElement(pos, sf::Vector2f(), identifier), _font(sf::Font())
 {
 	if (!this->_font.loadFromFile(textInfo.fontPath))
@@ -12,7 +12,7 @@ Text::Text(sf::Vector2f const& pos, std::string const& identifier, nx::rendering
 	GUIElement::setSize(sf::Vector2f(this->_label.getLocalBounds().width, this->_label.getLocalBounds().height));
 }
 
-Text::~Text()
+nx::gui::Text::~Text()
 {
 
 }
@@ -20,7 +20,7 @@ Text::~Text()
 
 // Display
 
-void Text::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::Text::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 		win->draw(this->_label);
@@ -29,38 +29,38 @@ void Text::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 // Setters
 
-void	Text::setLabel(sf::Text const& label)
+void	nx::gui::Text::setLabel(sf::Text const& label)
 {
 	this->_label = label;
 	GUIElement::setSize(sf::Vector2f(this->_label.getLocalBounds().width, this->_label.getLocalBounds().height));
 }
 
-void	Text::setText(std::string const& text)
+void	nx::gui::Text::setText(std::string const& text)
 {
 	this->_label.setString(text);
 	GUIElement::setSize(sf::Vector2f(this->_label.getLocalBounds().width, this->_label.getLocalBounds().height));
 }
 
-void	Text::setFontSize(unsigned int const fontSize)
+void	nx::gui::Text::setFontSize(unsigned int const fontSize)
 {
 	this->_label.setCharacterSize(fontSize);
 }
 
 
-void	Text::setPos(sf::Vector2f const& pos)
+void	nx::gui::Text::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
 	this->_label.setPosition(pos);
 }
 
-void	Text::setSize(sf::Vector2f const& size)
+void	nx::gui::Text::setSize(sf::Vector2f const& size)
 {
 	// Can't modify a text size
 }
 
 // Getters
 
-std::string	const	Text::getType() const
+std::string	const	nx::gui::Text::getType() const
 {
 	return ("Text");
 }
@@ -68,17 +68,17 @@ std::string	const	Text::getType() const
 
 // Specific getters
 
-sf::Text const &	Text::getLabel() const
+sf::Text const &	nx::gui::Text::getLabel() const
 {
 	return (this->_label);
 }
 
-std::string const	Text::getText() const
+std::string const	nx::gui::Text::getText() const
 {
 	return (this->_label.getString().toAnsiString());
 }
 
-unsigned int const	Text::getFontSize() const
+unsigned int const	nx::gui::Text::getFontSize() const
 {
 	return (this->_label.getCharacterSize());
 }

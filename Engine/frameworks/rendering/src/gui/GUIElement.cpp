@@ -1,7 +1,7 @@
 #include "GUIElement.hpp"
 #include "Nexus/errors/ScriptNotLoadedException.hpp"
 
-GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::rendering::MouseEventsContainer& events) :
+nx::gui::GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::rendering::MouseEventsContainer& events) :
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true), _events(events)
 {	
 	for (auto it : this->_events) {
@@ -15,20 +15,20 @@ GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::s
 	}
 }
 
-GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier) :
+nx::gui::GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier) :
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true)
 {
 
 }
 
-GUIElement::~GUIElement()
+nx::gui::GUIElement::~GUIElement()
 {
 
 }
 
 // Tools
 
-void GUIElement::dispatchMouseEvent(sf::Vector2i const& pos, std::string const& eventName)
+void nx::gui::GUIElement::dispatchMouseEvent(sf::Vector2i const& pos, std::string const& eventName)
 {
 	std::for_each(
 		this->_events.begin(),
@@ -44,62 +44,62 @@ void GUIElement::dispatchMouseEvent(sf::Vector2i const& pos, std::string const& 
 
 // Mouse events
 
-void	GUIElement::onMoveInside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onMoveInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onMoveInside");
 }
 
-void	GUIElement::onMoveOutside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onMoveOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onMoveOutside");
 }
 
-void	GUIElement::onLeftClickPressedInside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
 }
 
-void	GUIElement::onLeftClickReleasedInside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onLeftClickReleasedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickReleasedInside");
 }
 
-void	GUIElement::onRightClickPressedInside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onRightClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onRightClickPressedInside");
 }
 
-void	GUIElement::onRightClickReleasedInside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onRightClickReleasedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onRightClickReleasedInside");
 }
 
-void	GUIElement::onLeftClickPressedOutside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");
 }
 
-void	GUIElement::onLeftClickReleasedOutside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onLeftClickReleasedOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickReleasedOutside");
 }
 
-void	GUIElement::onRightClickPressedOutside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onRightClickPressedOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onRightClickPressedOutside");	
 }
 
-void	GUIElement::onRightClickReleasedOutside(sf::Vector2i const& pos)
+void	nx::gui::GUIElement::onRightClickReleasedOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onRightClickReleasedOutside");
 }
 
-void	GUIElement::keyTextEntered(char const charEntered)
+void	nx::gui::GUIElement::keyTextEntered(char const charEntered)
 {
 	this->dispatchMouseEvent({}, "keyTextEntered");
 }
 
-void	GUIElement::keyPressed(sf::Keyboard::Key const& keyPressed)
+void	nx::gui::GUIElement::keyPressed(sf::Keyboard::Key const& keyPressed)
 {
 	this->dispatchMouseEvent({}, "keyPressed");
 }
@@ -107,44 +107,44 @@ void	GUIElement::keyPressed(sf::Keyboard::Key const& keyPressed)
 
 // Setters
 
-void	GUIElement::setPos(sf::Vector2f const& pos)
+void	nx::gui::GUIElement::setPos(sf::Vector2f const& pos)
 {
 	this->_pos = pos;
 }
 
-void	GUIElement::setSize(sf::Vector2f const& size)
+void	nx::gui::GUIElement::setSize(sf::Vector2f const& size)
 {
 	this->_size = size;
 }
 
-void	GUIElement::setVisible(bool const state)
+void	nx::gui::GUIElement::setVisible(bool const state)
 {
 	this->_isVisible = state;
 }
 
 // Getters
 
-sf::Vector2f const &	GUIElement::getPos() const
+sf::Vector2f const &	nx::gui::GUIElement::getPos() const
 {
 	return (this->_pos);
 }
 
-sf::Vector2f const &	GUIElement::getSize() const
+sf::Vector2f const &	nx::gui::GUIElement::getSize() const
 {
 	return (this->_size);
 }
 
-std::string	const &		GUIElement::getIdentifier() const
+std::string	const &		nx::gui::GUIElement::getIdentifier() const
 {
 	return (this->_identifier);
 }
 
-bool					GUIElement::isVisible() const
+bool					nx::gui::GUIElement::isVisible() const
 {
 	return (this->_isVisible);
 }
 
-nx::rendering::MouseEventsContainer const& GUIElement::getEvents() const
+nx::rendering::MouseEventsContainer const& nx::gui::GUIElement::getEvents() const
 {
 	return this->_events;
 }

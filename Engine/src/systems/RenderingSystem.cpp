@@ -95,13 +95,41 @@ void nx::RenderingSystem::init()
 			}),
 			nx::rendering::GUIImageInfos("./images/defaultgamelogo.png")
 			);
-		f->addSprite(
+		f->addGUISprite(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(50, 600), nx::Vector2f(0, 0), "MyCauvinSprite",
+			nx::rendering::GUIElementInfos(nx::Vector2f(50, 600), nx::Vector2f(0, 0), "MyCauvinGUISprite",
 			{
 
 			}),
 			nx::rendering::GUISpriteInfos("./images/guitarist.png", nx::Vector2f(3, 2), nx::Vector2f(103, 89))
+			);
+		f->addGraphicsSprite(
+			nx::rendering::GraphicsElementInfos(nx::Vector2f(400, 620), nx::Vector2f(0, 0), "MyCauvinGraphicsSprite",
+			{
+
+			}),
+			nx::rendering::GraphicsSpriteInfos("./images/guitarist.png", nx::Vector2f(3, 2), nx::Vector2f(103, 89))
+			);
+		f->addGraphicsCirleShape(
+			nx::rendering::GraphicsElementInfos(nx::Vector2f(550, 640), nx::Vector2f(0, 0), "MyCauvinGraphicsCircle",
+			{
+
+			}),
+			nx::rendering::GraphicsCircleInfos(30, nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
+			);
+		f->addGraphicsRectShape(
+			nx::rendering::GraphicsElementInfos(nx::Vector2f(550, 540), nx::Vector2f(20, 40), "MyCauvinGraphicsRect",
+			{
+
+			}),
+			nx::rendering::GraphicsRectInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
+			);
+		f->addGraphicsConvexShape(
+			nx::rendering::GraphicsElementInfos(nx::Vector2f(550, 440), nx::Vector2f(0, 0), "MyCauvinGraphicsConvex",
+			{
+
+			}),
+			nx::rendering::GraphicsConvexInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
 			);
 	}
 }

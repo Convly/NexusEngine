@@ -1,6 +1,6 @@
 #include "ComboBox.hpp"
 
-ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+nx::gui::ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
 				   ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
@@ -13,20 +13,20 @@ ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::strin
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
-	this->_body.setOutlineThickness(colorInfo.borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 
 	this->_recenteringSelectedText();
 }
 
-ComboBox::~ComboBox()
+nx::gui::ComboBox::~ComboBox()
 {
 
 }
 
 
-void	ComboBox::_recenteringSelectedText()
+void	nx::gui::ComboBox::_recenteringSelectedText()
 {
 	this->_selected.setPosition(this->_body.getPosition().x + this->_body.getSize().x / 2.0f - this->_selected.getLocalBounds().width / 2.0f,
 								this->_body.getPosition().y + this->_body.getSize().y / 2.0f - this->_selected.getLocalBounds().height / 2.0f - this->_borderThickness);
@@ -34,7 +34,7 @@ void	ComboBox::_recenteringSelectedText()
 
 // GUIElement's mouse event methods overload
 
-void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
+void nx::gui::ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
 
@@ -44,18 +44,18 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 	sf::Rect<float> rectBody(this->_body.getPosition(), this->_body.getSize());
 
 	//Will be called when the element has been left-clicked
-	if (!this->_isScrolled && rectBody.contains(pos.x, pos.y))
+	if (!this->_isScrolled && rectBody.contains(static_cast<float>(pos.x), static_cast<float>(pos.y)))
 	{
 		this->_isScrolled = true;
 		nx::Log::inform("Wasn't scrolled, clicked on body");
 	}
-	else if (this->_isScrolled && !rectBody.contains(pos.x, pos.y))
+	else if (this->_isScrolled && !rectBody.contains(static_cast<float>(pos.x), static_cast<float>(pos.y)))
 	{
 		//Clicked on an elem..
-		for (int i = 0; i < this->_bgSelections.size(); i++)
+		for (int i = 0; i < static_cast<int>(this->_bgSelections.size()); i++)
 		{
 			sf::Rect<float> rectElem(this->_bgSelections[i].getPosition(), this->_bgSelections[i].getSize());
-			if (rectElem.contains(pos.x, pos.y))
+			if (rectBody.contains(static_cast<float>(pos.x), static_cast<float>(pos.y)))
 			{
 				this->_idxSelected = i;
 				this->_selected.setString(this->_selections[i]);
@@ -69,7 +69,7 @@ void ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 		this->_isScrolled = false;
 }
 
-void ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
+void nx::gui::ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");	
 
@@ -79,7 +79,7 @@ void ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
 
 // Display
 
-void ComboBox::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::ComboBox::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 	{
@@ -98,31 +98,31 @@ void ComboBox::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 // Setters
 
-void	ComboBox::setLabel(sf::Text const& label)
+void	nx::gui::ComboBox::setLabel(sf::Text const& label)
 {
 	this->_selected = label;
 }
 
-void	ComboBox::setBackgroundColor(sf::Color const& color)
+void	nx::gui::ComboBox::setBackgroundColor(sf::Color const& color)
 {
 	this->_backgroundColor = color;
 	this->_body.setFillColor(this->_backgroundColor);
 }
 
-void	ComboBox::setBorderColor(sf::Color const& color)
+void	nx::gui::ComboBox::setBorderColor(sf::Color const& color)
 {
 	this->_borderColor = color;
 	this->_body.setOutlineColor(this->_borderColor);
 }
 
-void	ComboBox::setBorderThickness(int const thickness)
+void	nx::gui::ComboBox::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
 	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
-	this->_body.setOutlineThickness(this->_borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
 }
 
-void	ComboBox::setFontSize(unsigned int const fontSize)
+void	nx::gui::ComboBox::setFontSize(unsigned int const fontSize)
 {
 	this->_selected.setCharacterSize(fontSize);
 
@@ -130,7 +130,7 @@ void	ComboBox::setFontSize(unsigned int const fontSize)
 		text.setCharacterSize(fontSize);
 }
 
-void	ComboBox::addSelection(std::string const& selection)
+void	nx::gui::ComboBox::addSelection(std::string const& selection)
 {
 	sf::Text	text(selection, this->_font, this->_textInfo.fontSize);
 	sf::RectangleShape rect(this->_body.getSize());
@@ -151,7 +151,7 @@ void	ComboBox::addSelection(std::string const& selection)
 	this->setSize(sf::Vector2f(this->getSize().x, this->getSize().y + rect.getSize().y));
 }
 
-void	ComboBox::removeSelection(std::string const& selection, uint16_t const nbTimes)
+void	nx::gui::ComboBox::removeSelection(std::string const& selection, uint16_t const nbTimes)
 {
 	uint16_t nb = nbTimes;
 
@@ -170,7 +170,7 @@ void	ComboBox::removeSelection(std::string const& selection, uint16_t const nbTi
 								 this->_selectionTexts.end());
 }
 
-void	ComboBox::removeSelection(uint16_t const idx, uint16_t const nbTimes)
+void	nx::gui::ComboBox::removeSelection(uint16_t const idx, uint16_t const nbTimes)
 {
 	if (idx >= this->_selectionTexts.size())
 	{
@@ -178,7 +178,7 @@ void	ComboBox::removeSelection(uint16_t const idx, uint16_t const nbTimes)
 		return;
 	}
 	this->_selectionTexts.erase(this->_selectionTexts.begin() + idx,
-								(idx + nbTimes >= this->_selectionTexts.size()) ? (this->_selectionTexts.end()) : (this->_selectionTexts.begin() + idx + nbTimes));
+								(idx + nbTimes >= static_cast<uint16_t>(this->_selectionTexts.size())) ? (this->_selectionTexts.end()) : (this->_selectionTexts.begin() + idx + nbTimes));
 	if (this->_idxSelected >= idx && this->_idxSelected < idx + nbTimes)
 	{
 		this->_idxSelected = -1;
@@ -187,7 +187,7 @@ void	ComboBox::removeSelection(uint16_t const idx, uint16_t const nbTimes)
 	}
 }
 
-void	ComboBox::clearSelections()
+void	nx::gui::ComboBox::clearSelections()
 {
 	this->_idxSelected = -1;
 	this->_selected.setString("- Nothing selected -");
@@ -197,21 +197,21 @@ void	ComboBox::clearSelections()
 	this->_selectionTexts.clear();
 }
 
-void	ComboBox::setPos(sf::Vector2f const& pos)
+void	nx::gui::ComboBox::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(pos);
 	this->_recenteringSelectedText();
 }
 
-void	ComboBox::setSize(sf::Vector2f const& size)
+void	nx::gui::ComboBox::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 }
 
 // Getters
 
-std::string	const	ComboBox::getType() const
+std::string	const	nx::gui::ComboBox::getType() const
 {
 	return ("ComboBox");
 }
@@ -219,37 +219,37 @@ std::string	const	ComboBox::getType() const
 
 // Specific getters
 
-sf::Text const &	ComboBox::getLabel() const
+sf::Text const &	nx::gui::ComboBox::getLabel() const
 {
 	return (this->_selected);
 }
 
-sf::Color const &	ComboBox::getBackgroundColor() const
+sf::Color const &	nx::gui::ComboBox::getBackgroundColor() const
 {
 	return (this->_backgroundColor);
 }
 
-sf::Color const &	ComboBox::getBorderColor() const
+sf::Color const &	nx::gui::ComboBox::getBorderColor() const
 {
 	return (this->_borderColor);
 }
 
-int const			ComboBox::getBorderThickness() const
+int const			nx::gui::ComboBox::getBorderThickness() const
 {
 	return (this->_borderThickness);
 }
 
-unsigned int const	ComboBox::getFontSize() const
+unsigned int const	nx::gui::ComboBox::getFontSize() const
 {
 	return (this->_selected.getCharacterSize());
 }
 
-std::string const	ComboBox::getSelected() const
+std::string const	nx::gui::ComboBox::getSelected() const
 {
 	return (this->_selected.getString().toAnsiString());
 }
 
-uint16_t			ComboBox::getIdxSelected() const
+uint16_t			nx::gui::ComboBox::getIdxSelected() const
 {
 	return (this->_idxSelected);
 }

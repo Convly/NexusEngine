@@ -1,6 +1,6 @@
 #include "Image.hpp"
 
-Image::Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+nx::gui::Image::Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
 			 std::string const& imgPath) :
 	GUIElement(pos, size, identifier, events), _imgPath(imgPath)
 {
@@ -8,12 +8,12 @@ Image::Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string cons
 	this->_rescaleImage();
 }
 
-Image::~Image()
+nx::gui::Image::~Image()
 {
 
 }
 
-void Image::_loadImage()
+void nx::gui::Image::_loadImage()
 {
 	if (!this->_texture.loadFromFile(this->_imgPath))
 		throw nx::InvalidImageException(this->_imgPath);
@@ -22,7 +22,7 @@ void Image::_loadImage()
 	this->_originalSize = sf::Vector2f(this->_img.getLocalBounds().width, this->_img.getLocalBounds().height);
 }
 
-void Image::_rescaleImage()
+void nx::gui::Image::_rescaleImage()
 {
 	if (this->getSize().x != 0 && this->getSize().y != 0)
 		this->_img.setScale(this->getSize().x / this->_originalSize.x, this->getSize().y / this->_originalSize.y);
@@ -31,7 +31,7 @@ void Image::_rescaleImage()
 
 // Display
 
-void Image::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::Image::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 		win->draw(this->_img);
@@ -40,20 +40,20 @@ void Image::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 // Setters
 
-void	Image::setImagePath(std::string const& imagePath)
+void	nx::gui::Image::setImagePath(std::string const& imagePath)
 {
 	this->_imgPath = imagePath;
 	this->_loadImage();
 	this->_rescaleImage();
 }
 
-void	Image::setPos(sf::Vector2f const& pos)
+void	nx::gui::Image::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
 	this->_img.setPosition(pos);
 }
 
-void	Image::setSize(sf::Vector2f const& size)
+void	nx::gui::Image::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_rescaleImage();
@@ -63,7 +63,7 @@ void	Image::setSize(sf::Vector2f const& size)
 
 // Getters
 
-std::string	const	Image::getType() const
+std::string	const	nx::gui::Image::getType() const
 {
 	return ("Image");
 }
@@ -71,7 +71,7 @@ std::string	const	Image::getType() const
 
 // Specific getters
 
-std::string const & Image::getImagePath() const
+std::string const & nx::gui::Image::getImagePath() const
 {
 	return (this->_imgPath);
 }
