@@ -1,7 +1,8 @@
 #include "TextInput.hpp"
 
-TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo, TextInfo const& textInfo) :
-	GUIElement(pos, size, identifier), _state(false),
+nx::gui::TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+					 ColorInfo const& colorInfo, TextInfo const& textInfo) :
+	GUIElement(pos, size, identifier, events), _state(false),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_font(sf::Font()), _body(sf::RectangleShape(size)), _textData(textInfo.textLabel),
 	_cursor(sf::VertexArray(sf::LinesStrip, 2)), _cursorIdx(textInfo.textLabel.length())
@@ -15,7 +16,7 @@ TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::str
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
-	this->_body.setOutlineThickness(colorInfo.borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 
 	this->_cursor[0].color = textInfo.textColor;
@@ -25,7 +26,7 @@ TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::str
 	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 }
 
-TextInput::~TextInput()
+nx::gui::TextInput::~TextInput()
 {
 
 }
@@ -33,39 +34,34 @@ TextInput::~TextInput()
 
 // GUIElement's mouse event methods overload
 
-void TextInput::onLeftClickPressedInside(sf::Vector2i const& pos)
+void nx::gui::TextInput::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");	
 	
 	//Will be called when the element has been left-clicked
-	nx::Log::inform("Left-click pressed inside the TextInput '" + this->getIdentifier() + "'");
 	if (!this->_state)
 	{
 		this->_time = this->_clock.restart();
 		this->_state = true;
-		this->_onStateChanged();
 	}
 }
 
-void TextInput::onLeftClickPressedOutside(sf::Vector2i const& pos)
+void nx::gui::TextInput::onLeftClickPressedOutside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");	
 	
 	//Will be called when a left-click is outside the element
-	nx::Log::inform("Left-click pressed outside the TextInput '" + this->getIdentifier() + "'");
 	if (this->_state)
 	{
 		this->_state = false;
-		this->_onStateChanged();
 	}
 }
 
-void TextInput::keyTextEntered(char const charEntered)
+void nx::gui::TextInput::keyTextEntered(char const charEntered)
 {
 	this->dispatchMouseEvent({}, "keyTextEntered");	
 	
 	//Will be called when text in entered
-	nx::Log::inform("Char pressed for the TextInput '" + this->getIdentifier() + "' is " + std::to_string(static_cast<int>(charEntered)) + " [" + charEntered + "]");
 	if (!this->_state)
 		return;
 	if (charEntered != '\b' && charEntered != '\r' && charEntered != '\n')
@@ -79,12 +75,11 @@ void TextInput::keyTextEntered(char const charEntered)
 	}
 }
 
-void TextInput::keyPressed(sf::Keyboard::Key const& keyPressed)
+void nx::gui::TextInput::keyPressed(sf::Keyboard::Key const& keyPressed)
 {
 	this->dispatchMouseEvent({}, "keyPressed");	
 	
 	//Will be called when a key is pressed
-	nx::Log::inform("Key pressed for the TextInput '" + this->getIdentifier());
 	if (!this->_state)
 		return;
 	if (keyPressed == sf::Keyboard::BackSpace && !this->_textData.empty() && this->_cursorIdx > 0)
@@ -118,7 +113,7 @@ void TextInput::keyPressed(sf::Keyboard::Key const& keyPressed)
 
 // Display
 
-void TextInput::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::TextInput::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 	{
@@ -134,20 +129,12 @@ void TextInput::show(std::shared_ptr<sf::RenderWindow> const& win)
 }
 
 
-// Specific functions for this element
-
-void TextInput::_onStateChanged()
-{
-	//Will be called when the TextInput's state has been changed
-	nx::Log::inform("The TextInput '" + this->getIdentifier() + "' state is now " + std::to_string(this->_state));
-}
-
-void TextInput::_repositioningCursor()
+void nx::gui::TextInput::_repositioningCursor()
 {
 	// Repositioning the cursor
 	sf::Text text("", this->_font, this->_label.getCharacterSize());
 
-	for (int i = this->_cursorIdx; i < this->_textData.length() && text.getLocalBounds().width + 13 <= this->_body.getSize().x; ++i)
+	for (int i = this->_cursorIdx; i < static_cast<int>(this->_textData.length()) && text.getLocalBounds().width + 13 <= this->_body.getSize().x; ++i)
 		text.setString(text.getString() + this->_textData[i]);
 
 	this->_cursor[0].position = sf::Vector2f(this->_label.getPosition().x + this->_label.getLocalBounds().width - text.getLocalBounds().width,	
@@ -163,11 +150,11 @@ void TextInput::_repositioningCursor()
 	}
 }
 
-void TextInput::_updateWrittenText()
+void nx::gui::TextInput::_updateWrittenText()
 {
 	// Setting the scrolling text if needed
 	this->_label.setString("");
-	for (int i = this->_cursorIdx; i < this->_textData.length(); ++i)
+	for (int i = this->_cursorIdx; i < static_cast<int>(this->_textData.length()); ++i)
 	{
 		this->_label.setString(this->_label.getString() + this->_textData[i]);
 		if (i + 1 == this->_textData.length())
@@ -184,7 +171,7 @@ void TextInput::_updateWrittenText()
 		this->_updateTextFromEnd();
 }
 
-void TextInput::_updateTextFromEnd()
+void nx::gui::TextInput::_updateTextFromEnd()
 {
 	std::string rTextDataCpy(this->_textData);
 	std::reverse(rTextDataCpy.begin(), rTextDataCpy.end());
@@ -203,36 +190,36 @@ void TextInput::_updateTextFromEnd()
 }
 
 // Setters
-void	TextInput::setState(bool const state)
+void	nx::gui::TextInput::setState(bool const state)
 {
 	this->_state = state;
 }
 
-void	TextInput::setLabel(sf::Text const& label)
+void	nx::gui::TextInput::setLabel(sf::Text const& label)
 {
 	this->_label = label;
 }
 
-void	TextInput::setBackgroundColor(sf::Color const& color)
+void	nx::gui::TextInput::setBackgroundColor(sf::Color const& color)
 {
 	this->_backgroundColor = color;
 	this->_body.setFillColor(this->_backgroundColor);
 }
 
-void	TextInput::setBorderColor(sf::Color const& color)
+void	nx::gui::TextInput::setBorderColor(sf::Color const& color)
 {
 	this->_borderColor = color;
 	this->_body.setOutlineColor(this->_borderColor);
 }
 
-void	TextInput::setBorderThickness(int const thickness)
+void	nx::gui::TextInput::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
 	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
-	this->_body.setOutlineThickness(this->_borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
 }
 
-void	TextInput::setText(std::string const& text)
+void	nx::gui::TextInput::setText(std::string const& text)
 {
 	this->_cursorIdx = 0;
 	this->_textData = text;
@@ -240,14 +227,14 @@ void	TextInput::setText(std::string const& text)
 	this->_repositioningCursor();
 }
 
-void	TextInput::setCursorIdx(unsigned int const idx)
+void	nx::gui::TextInput::setCursorIdx(unsigned int const idx)
 {
 	this->_cursorIdx = idx;
 	this->_updateWrittenText();
 	this->_repositioningCursor();
 }
 
-void	TextInput::setPos(sf::Vector2f const& pos)
+void	nx::gui::TextInput::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(pos);
@@ -257,7 +244,7 @@ void	TextInput::setPos(sf::Vector2f const& pos)
 	this->_repositioningCursor();
 }
 
-void	TextInput::setSize(sf::Vector2f const& size)
+void	nx::gui::TextInput::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness * 2, size.y - this->_borderThickness * 2));
@@ -269,7 +256,7 @@ void	TextInput::setSize(sf::Vector2f const& size)
 
 // Getters
 
-std::string	const	TextInput::getType() const
+std::string	const	nx::gui::TextInput::getType() const
 {
 	return ("TextInput");
 }
@@ -277,37 +264,37 @@ std::string	const	TextInput::getType() const
 
 // Specific getters
 
-bool const			TextInput::getState() const
+bool const			nx::gui::TextInput::getState() const
 {
 	return (this->_state);
 }
 
-sf::Text const &	TextInput::getLabel() const
+sf::Text const &	nx::gui::TextInput::getLabel() const
 {
 	return (this->_label);
 }
 
-sf::Color const &	TextInput::getBackgroundColor() const
+sf::Color const &	nx::gui::TextInput::getBackgroundColor() const
 {
 	return (this->_backgroundColor);
 }
 
-sf::Color const &	TextInput::getBorderColor() const
+sf::Color const &	nx::gui::TextInput::getBorderColor() const
 {
 	return (this->_borderColor);
 }
 
-int const			TextInput::getBorderThickness() const
+int const			nx::gui::TextInput::getBorderThickness() const
 {
 	return (this->_borderThickness);
 }
 
-std::string const & TextInput::getText() const
+std::string const & nx::gui::TextInput::getText() const
 {
 	return (this->_textData);
 }
 
-unsigned int const	TextInput::getCursorIdx() const
+unsigned int const	nx::gui::TextInput::getCursorIdx() const
 {
 	return (this->_cursorIdx);
 }
