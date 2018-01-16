@@ -48,6 +48,7 @@ void nx::RenderingSystem::init()
 			}),
 			nx::rendering::GUICheckboxInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(0, 0, 255, 255), 2))
 		);
+		f->setStateToCheckbox("Menu", "MyCauvinButton", nx::rendering::CheckboxState::PARTIAL);
 		f->addProgressBar(
 			"Menu",
 			nx::rendering::GUIElementInfos(nx::Vector2f(240, 500), nx::Vector2f(300, 50), "MyCauvinProgressBar",

@@ -53,17 +53,17 @@ public:
 	int const						getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const;
 
 	//Checkbox
-	void		setStateToCheckbox(nx::rendering::CheckboxState const state);
-	void		setBackgroundColorToCheckbox(nx::rendering::RGBa const& color);
-	void		setBorderColorToCheckbox(nx::rendering::RGBa const& color);
-	void		setBorderThicknessToCheckbox(int const thickness);
-	void		setPosToCheckbox(nx::Vector2f const& pos);
-	void		setSizeToCheckbox(nx::Vector2f const& size);
+	void		setStateToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::CheckboxState const state);
+	void		setBackgroundColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color);
+	void		setBorderColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color);
+	void		setBorderThicknessToCheckbox(std::string const& layerId, std::string const& checkboxId, int const thickness);
+	void		setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& pos);
+	void		setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& size);
 
-	nx::rendering::CheckboxState const	getStateFromCheckbox() const;
-	nx::rendering::RGBa const			getBackgroundColorFromCheckbox() const;
-	nx::rendering::RGBa const			getBorderColorFromCheckbox() const;
-	int const							getBorderThicknessFromCheckbox() const;
+	nx::rendering::CheckboxState const	getStateFromCheckbox(std::string const& layerId, std::string const& checkboxId) const;
+	nx::rendering::RGBa const			getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const;
+	nx::rendering::RGBa const			getBorderColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const;
+	int const							getBorderThicknessFromCheckbox(std::string const& layerId, std::string const& checkboxId) const;
 	
 protected:
 	nx::Engine	*_engine;

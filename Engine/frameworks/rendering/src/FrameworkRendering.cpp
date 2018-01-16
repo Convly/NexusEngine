@@ -725,46 +725,160 @@ int const					FrameworkRendering::getBorderThicknessFromButton(std::string const
 }
 
 //Checkbox
-void		FrameworkRendering::setStateToCheckbox(nx::rendering::CheckboxState const state)
+void		FrameworkRendering::setStateToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::CheckboxState const state)
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	checkbox->setState(static_cast<nx::gui::Checkbox::State>(state));
 }
 
-void		FrameworkRendering::setBackgroundColorToCheckbox(nx::rendering::RGBa const& color)
+void		FrameworkRendering::setBackgroundColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color)
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	checkbox->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void		FrameworkRendering::setBorderColorToCheckbox(nx::rendering::RGBa const& color)
+void		FrameworkRendering::setBorderColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color)
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	checkbox->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
-void		FrameworkRendering::setBorderThicknessToCheckbox(int const thickness)
+void		FrameworkRendering::setBorderThicknessToCheckbox(std::string const& layerId, std::string const& checkboxId, int const thickness)
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	checkbox->setBorderThickness(thickness);
 }
-void		FrameworkRendering::setPosToCheckbox(nx::Vector2f const& pos)
+void		FrameworkRendering::setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& pos)
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	checkbox->setPos(sf::Vector2f(pos.x, pos.y));
 }
-void		FrameworkRendering::setSizeToCheckbox(nx::Vector2f const& size)
+void		FrameworkRendering::setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& size)
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	checkbox->setSize(sf::Vector2f(size.x, size.y));
 }
 
-nx::rendering::CheckboxState const	FrameworkRendering::getStateFromCheckbox() const
+nx::rendering::CheckboxState const	FrameworkRendering::getStateFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	return (static_cast<nx::rendering::CheckboxState>(checkbox->getState()));
 }
-nx::rendering::RGBa const			FrameworkRendering::getBackgroundColorFromCheckbox() const
+nx::rendering::RGBa const			FrameworkRendering::getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	sf::Color const &color = checkbox->getBackgroundColor();
+
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
-nx::rendering::RGBa const			FrameworkRendering::getBorderColorFromCheckbox() const
+nx::rendering::RGBa const			FrameworkRendering::getBorderColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	sf::Color const &color = checkbox->getBorderColor();
+
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
-int const							FrameworkRendering::getBorderThicknessFromCheckbox() const
+int const							FrameworkRendering::getBorderThicknessFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
 
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	return (checkbox->getBorderThickness());
 }

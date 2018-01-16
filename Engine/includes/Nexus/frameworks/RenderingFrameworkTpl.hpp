@@ -236,17 +236,17 @@ namespace nx {
 		virtual int const					getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
 
 		//Checkbox
-		virtual void	setStateToCheckbox(nx::rendering::CheckboxState const state) = 0;
-		virtual void	setBackgroundColorToCheckbox(nx::rendering::RGBa const& color) = 0;
-		virtual void	setBorderColorToCheckbox(nx::rendering::RGBa const& color) = 0;
-		virtual void	setBorderThicknessToCheckbox(int const thickness) = 0;
-		virtual void	setPosToCheckbox(nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToCheckbox(nx::Vector2f const& size) = 0;
+		virtual void	setStateToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::CheckboxState const state) = 0;
+		virtual void	setBackgroundColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderThicknessToCheckbox(std::string const& layerId, std::string const& checkboxId, int const thickness) = 0;
+		virtual void	setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& pos) = 0;
+		virtual void	setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& size) = 0;
 
-		virtual nx::rendering::CheckboxState const	getStateFromCheckbox() const = 0;
-		virtual nx::rendering::RGBa const			getBackgroundColorFromCheckbox() const = 0;
-		virtual nx::rendering::RGBa const			getBorderColorFromCheckbox() const = 0;
-		virtual int const							getBorderThicknessFromCheckbox() const = 0;
+		virtual nx::rendering::CheckboxState const	getStateFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
+		virtual nx::rendering::RGBa const			getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
+		virtual nx::rendering::RGBa const			getBorderColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
+		virtual int const							getBorderThicknessFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
 	};	
 }
 
