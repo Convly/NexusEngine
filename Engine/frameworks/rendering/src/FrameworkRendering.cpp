@@ -424,6 +424,42 @@ std::string const	FrameworkRendering::getTypeFromElement(std::string const& laye
 	return (elem->getType());
 }
 
+nx::Vector2f const	FrameworkRendering::getPosFromElement(std::string const& layerId, std::string const& elemId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(elemId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(elemId))
+		throw nx::ElementNotFoundException(elemId);
+
+	nx::gui::GUIElement *elem = this->_guiHandler->getLayerByName(layerId)->getElementByName(elemId).get();
+
+	if (!elem)
+		throw nx::NullElementException(elemId);
+
+	sf::Vector2f const& pos = elem->getPos();
+
+	return (nx::Vector2f(pos.x, pos.y));
+}
+
+nx::Vector2f const	FrameworkRendering::getSizeFromElement(std::string const& layerId, std::string const& elemId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(elemId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(elemId))
+		throw nx::ElementNotFoundException(elemId);
+
+	nx::gui::GUIElement *elem = this->_guiHandler->getLayerByName(layerId)->getElementByName(elemId).get();
+
+	if (!elem)
+		throw nx::NullElementException(elemId);
+
+	sf::Vector2f const& size = elem->getSize();
+
+	return (nx::Vector2f(size.x, size.y));
+}
+
 // Button
 
 void FrameworkRendering::setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state)
@@ -618,7 +654,7 @@ unsigned int const			FrameworkRendering::getFontSizeFromButton(std::string const
 	return (button->getFontSize());
 }
 
-nx::rendering::RGBa const &	FrameworkRendering::getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
+nx::rendering::RGBa const	FrameworkRendering::getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
 {
 	if (!this->_guiHandler->layer_exists(layerId))
 		throw nx::LayerNotFoundException(buttonId);
@@ -636,7 +672,7 @@ nx::rendering::RGBa const &	FrameworkRendering::getColorNotSelectedFromButton(st
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const &	FrameworkRendering::getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
+nx::rendering::RGBa const	FrameworkRendering::getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
 {
 	if (!this->_guiHandler->layer_exists(layerId))
 		throw nx::LayerNotFoundException(buttonId);
@@ -654,7 +690,7 @@ nx::rendering::RGBa const &	FrameworkRendering::getColorSelectedFromButton(std::
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const &	FrameworkRendering::getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const
+nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const
 {
 	if (!this->_guiHandler->layer_exists(layerId))
 		throw nx::LayerNotFoundException(buttonId);
@@ -686,4 +722,49 @@ int const					FrameworkRendering::getBorderThicknessFromButton(std::string const
 		throw nx::NullElementException(buttonId);
 
 	return (button->getBorderThickness());
+}
+
+//Checkbox
+void		FrameworkRendering::setStateToCheckbox(nx::rendering::CheckboxState const state)
+{
+
+}
+
+void		FrameworkRendering::setBackgroundColorToCheckbox(nx::rendering::RGBa const& color)
+{
+
+}
+
+void		FrameworkRendering::setBorderColorToCheckbox(nx::rendering::RGBa const& color)
+{
+
+}
+void		FrameworkRendering::setBorderThicknessToCheckbox(int const thickness)
+{
+
+}
+void		FrameworkRendering::setPosToCheckbox(nx::Vector2f const& pos)
+{
+
+}
+void		FrameworkRendering::setSizeToCheckbox(nx::Vector2f const& size)
+{
+
+}
+
+nx::rendering::CheckboxState const	FrameworkRendering::getStateFromCheckbox() const
+{
+
+}
+nx::rendering::RGBa const			FrameworkRendering::getBackgroundColorFromCheckbox() const
+{
+
+}
+nx::rendering::RGBa const			FrameworkRendering::getBorderColorFromCheckbox() const
+{
+
+}
+int const							FrameworkRendering::getBorderThicknessFromCheckbox() const
+{
+
 }

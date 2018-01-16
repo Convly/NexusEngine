@@ -14,6 +14,13 @@ namespace nx {
 
 		typedef std::vector<std::pair<std::string, nx::script::ScriptInfos> > MouseEventsContainer;
 
+		enum CheckboxState : int
+		{
+			UNCHECKED = 0,
+			PARTIAL = 1,
+			CHECKED
+		};
+
 		struct RGBa {
 			RGBa(const uint32_t red_, const uint32_t green_, const uint32_t blue_, const uint32_t alpha_)
 			: red(red_), green(green_), blue(blue_), alpha(alpha_) {}
@@ -223,10 +230,23 @@ namespace nx {
 		virtual bool const					getStateFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
 		virtual std::string const			getTextFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
 		virtual unsigned int const			getFontSizeFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
-		virtual nx::rendering::RGBa const &	getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
-		virtual nx::rendering::RGBa const &	getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
-		virtual nx::rendering::RGBa const &	getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual nx::rendering::RGBa const	getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual nx::rendering::RGBa const	getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual nx::rendering::RGBa const	getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
 		virtual int const					getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+
+		//Checkbox
+		virtual void	setStateToCheckbox(nx::rendering::CheckboxState const state) = 0;
+		virtual void	setBackgroundColorToCheckbox(nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderColorToCheckbox(nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderThicknessToCheckbox(int const thickness) = 0;
+		virtual void	setPosToCheckbox(nx::Vector2f const& pos) = 0;
+		virtual void	setSizeToCheckbox(nx::Vector2f const& size) = 0;
+
+		virtual nx::rendering::CheckboxState const	getStateFromCheckbox() const = 0;
+		virtual nx::rendering::RGBa const			getBackgroundColorFromCheckbox() const = 0;
+		virtual nx::rendering::RGBa const			getBorderColorFromCheckbox() const = 0;
+		virtual int const							getBorderThicknessFromCheckbox() const = 0;
 	};	
 }
 

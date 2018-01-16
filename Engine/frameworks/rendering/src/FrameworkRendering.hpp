@@ -30,25 +30,40 @@ public:
 	bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams);
 
 	std::string const	getTypeFromElement(std::string const& layerId, std::string const& elemId) const;
+	nx::Vector2f const	getPosFromElement(std::string const& layerId, std::string const& elemId) const;
+	nx::Vector2f const	getSizeFromElement(std::string const& layerId, std::string const& elemId) const;
 
 	//Button
-	void				setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state);
-	void				setTextToButton(std::string const& layerId, std::string const& buttonId, std::string const& text);
-	void				setFontSizeToButton(std::string const& layerId, std::string const& buttonId, unsigned int const fontSize);
-	void				setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
-	void				setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
-	void				setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
-	void				setBorderThicknessToButton(std::string const& layerId, std::string const& buttonId, int const thickness);
-	void				setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos);
-	void				setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size);
+	void		setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state);
+	void		setTextToButton(std::string const& layerId, std::string const& buttonId, std::string const& text);
+	void		setFontSizeToButton(std::string const& layerId, std::string const& buttonId, unsigned int const fontSize);
+	void		setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
+	void		setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
+	void		setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
+	void		setBorderThicknessToButton(std::string const& layerId, std::string const& buttonId, int const thickness);
+	void		setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos);
+	void		setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size);
 
-	bool const					getStateFromButton(std::string const& layerId, std::string const& buttonId) const;
-	std::string const			getTextFromButton(std::string const& layerId, std::string const& buttonId) const;
-	unsigned int const			getFontSizeFromButton(std::string const& layerId, std::string const& buttonId) const;
-	nx::rendering::RGBa const &	getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const;
-	nx::rendering::RGBa const &	getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const;
-	nx::rendering::RGBa const &	getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const;
-	int const					getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const;
+	bool const						getStateFromButton(std::string const& layerId, std::string const& buttonId) const;
+	std::string const				getTextFromButton(std::string const& layerId, std::string const& buttonId) const;
+	unsigned int const				getFontSizeFromButton(std::string const& layerId, std::string const& buttonId) const;
+	nx::rendering::RGBa const		getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const;
+	nx::rendering::RGBa const		getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const;
+	nx::rendering::RGBa const		getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const;
+	int const						getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const;
+
+	//Checkbox
+	void		setStateToCheckbox(nx::rendering::CheckboxState const state);
+	void		setBackgroundColorToCheckbox(nx::rendering::RGBa const& color);
+	void		setBorderColorToCheckbox(nx::rendering::RGBa const& color);
+	void		setBorderThicknessToCheckbox(int const thickness);
+	void		setPosToCheckbox(nx::Vector2f const& pos);
+	void		setSizeToCheckbox(nx::Vector2f const& size);
+
+	nx::rendering::CheckboxState const	getStateFromCheckbox() const;
+	nx::rendering::RGBa const			getBackgroundColorFromCheckbox() const;
+	nx::rendering::RGBa const			getBorderColorFromCheckbox() const;
+	int const							getBorderThicknessFromCheckbox() const;
 	
 protected:
 	nx::Engine	*_engine;
