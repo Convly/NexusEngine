@@ -247,6 +247,40 @@ namespace nx {
 		virtual nx::rendering::RGBa const			getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
 		virtual nx::rendering::RGBa const			getBorderColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
 		virtual int const							getBorderThicknessFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
+
+		//CircleShape
+		virtual void	setBackgroundColorToCircleShape(std::string const& circleShapeId, nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderColorToCircleShape(std::string const& circleShapeId, nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderThicknessToCircleShape(std::string const& circleShapeId, int const thickness) = 0;
+		virtual void	setRotationToCircleShape(std::string const& circleShapeId, float const angle) = 0;
+		virtual void	setRadiusToCircleShape(std::string const& circleShapeId, float const radius) = 0;
+		virtual void	setPosToCircleShape(std::string const& circleShapeId, nx::Vector2f const& pos) = 0;
+		virtual void	setSizeToCircleShape(std::string const& circleShapeId, nx::Vector2f const& size) = 0;
+
+		virtual nx::rendering::RGBa const	getBackgroundColorFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual nx::rendering::RGBa const	getBorderColorFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual int const					getBorderThicknessFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual float const					getRotationFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual float const					getRadiusFromCircleShape(std::string const& circleShapeId) const = 0;
+
+		//ComboBox
+		virtual void	setBackgroundColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color) = 0;
+		virtual void	setBorderThicknessToComboBox(std::string const& layerId, std::string const& comboBoxId, int const thickness) = 0;
+		virtual void	setFontSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, unsigned int const fontSize) = 0;
+		virtual void	addSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, std::string const& selection) = 0;
+		virtual void	removeSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, std::string const& selection, uint16_t const nbTimes) = 0;
+		virtual void	removeSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, uint16_t const idx, uint16_t const nbTimes) = 0;
+		virtual void	clearSelectionsToComboBox(std::string const& layerId, std::string const& comboBoxId) = 0;
+		virtual void	setPosToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& pos) = 0;
+		virtual void	setSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& size) = 0;
+
+		virtual nx::rendering::RGBa const	getBackgroundColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
+		virtual nx::rendering::RGBa const	getBorderColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
+		virtual int const					getBorderThicknessFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
+		virtual unsigned int const			getFontSizeFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
+		virtual std::string const			getSelectedFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
+		virtual uint16_t const				getIdxSelectedFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
 	};	
 }
 

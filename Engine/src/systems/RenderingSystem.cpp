@@ -68,6 +68,10 @@ void nx::RenderingSystem::init()
 			nx::rendering::GUIComboBoxInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(255, 255, 0, 255), 2),
 											nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::rendering::RGBa(0, 0, 0, 255), 0))
 		);
+		f->addSelectionToComboBox("Menu", "MyCauvinComboBox", "First item");
+		f->addSelectionToComboBox("Menu", "MyCauvinComboBox", "Second item");
+		f->addSelectionToComboBox("Menu", "MyCauvinComboBox", "LEEERRROYYYY");
+		f->addSelectionToComboBox("Menu", "MyCauvinComboBox", "JENKINSSSSS");
 		f->addTextInput(
 			"Menu",
 			nx::rendering::GUIElementInfos(nx::Vector2f(400, 350), nx::Vector2f(230, 30), "MyCauvinTextInput",
@@ -118,6 +122,7 @@ void nx::RenderingSystem::init()
 			}),
 			nx::rendering::GraphicsCircleInfos(30, nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
 			);
+		f->setBackgroundColorToCircleShape("MyCauvinGraphicsCircle", nx::rendering::RGBa(255, 255, 255, 255));
 		f->addGraphicsRectShape(
 			nx::rendering::GraphicsElementInfos(nx::Vector2f(550, 540), nx::Vector2f(20, 40), "MyCauvinGraphicsRect",
 			{
