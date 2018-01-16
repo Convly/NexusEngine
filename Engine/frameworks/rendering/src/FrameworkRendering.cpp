@@ -407,3 +407,283 @@ bool FrameworkRendering::addGraphicsConvexShape(const nx::rendering::GraphicsEle
 	std::cout << "Adding new graphicsConvex (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
+
+std::string const	FrameworkRendering::getTypeFromElement(std::string const& layerId, std::string const& elemId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(elemId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(elemId))
+		throw nx::ElementNotFoundException(elemId);
+
+	nx::gui::GUIElement *elem = this->_guiHandler->getLayerByName(layerId)->getElementByName(elemId).get();
+
+	if (!elem)
+		throw nx::NullElementException(elemId);
+
+	return (elem->getType());
+}
+
+// Button
+
+void FrameworkRendering::setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setState(state);
+}
+
+void FrameworkRendering::setTextToButton(std::string const& layerId, std::string const& buttonId, std::string const& text)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setText(text);
+}
+
+void FrameworkRendering::setFontSizeToButton(std::string const& layerId, std::string const& buttonId, unsigned int const fontSize)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setFontSize(fontSize);
+}
+
+void FrameworkRendering::setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setColorNotSelected(FrameworkRendering::RGBa_to_sfColor(color));
+}
+
+void FrameworkRendering::setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setColorSelected(FrameworkRendering::RGBa_to_sfColor(color));
+}
+
+void FrameworkRendering::setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+}
+
+void FrameworkRendering::setBorderThicknessToButton(std::string const& layerId, std::string const& buttonId, int const thickness)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setBorderThickness(thickness);
+}
+
+void FrameworkRendering::setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void FrameworkRendering::setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size)
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	button->setSize(sf::Vector2f(size.x, size.y));
+}
+
+bool const					FrameworkRendering::getStateFromButton(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	return (button->getState());
+}
+
+std::string const			FrameworkRendering::getTextFromButton(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	return (button->getText());
+}
+
+unsigned int const			FrameworkRendering::getFontSizeFromButton(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	return (button->getFontSize());
+}
+
+nx::rendering::RGBa const &	FrameworkRendering::getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	sf::Color const &color = button->getColorNotSelected();
+
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+nx::rendering::RGBa const &	FrameworkRendering::getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	sf::Color const &color = button->getColorSelected();
+
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+nx::rendering::RGBa const &	FrameworkRendering::getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	sf::Color const &color = button->getBorderColor();
+
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+int const					FrameworkRendering::getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	return (button->getBorderThickness());
+}

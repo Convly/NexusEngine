@@ -206,6 +206,27 @@ namespace nx {
 		virtual bool addGraphicsCirleShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsCircleInfos& circleShapeParams) = 0;
 		virtual bool addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams) = 0;
 		virtual bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams) = 0;
+
+		virtual std::string const	getTypeFromElement(std::string const& layerId, std::string const& elemId) const = 0;
+
+		//Button
+		virtual void setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state) = 0;
+		virtual void setTextToButton(std::string const& layerId, std::string const& buttonId, std::string const& text) = 0;
+		virtual void setFontSizeToButton(std::string const& layerId, std::string const& buttonId, unsigned int const fontSize) = 0;
+		virtual void setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color) = 0;
+		virtual void setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color) = 0;
+		virtual void setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color) = 0;
+		virtual void setBorderThicknessToButton(std::string const& layerId, std::string const& buttonId, int const thickness) = 0;
+		virtual void setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos) = 0;
+		virtual void setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size) = 0;
+
+		virtual bool const					getStateFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual std::string const			getTextFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual unsigned int const			getFontSizeFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual nx::rendering::RGBa const &	getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual nx::rendering::RGBa const &	getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual nx::rendering::RGBa const &	getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
+		virtual int const					getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
 	};	
 }
 

@@ -28,6 +28,27 @@ public:
 	bool addGraphicsCirleShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsCircleInfos& circleShapeParams);
 	bool addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams);
 	bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams);
+
+	std::string const	getTypeFromElement(std::string const& layerId, std::string const& elemId) const;
+
+	//Button
+	void				setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state);
+	void				setTextToButton(std::string const& layerId, std::string const& buttonId, std::string const& text);
+	void				setFontSizeToButton(std::string const& layerId, std::string const& buttonId, unsigned int const fontSize);
+	void				setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
+	void				setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
+	void				setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color);
+	void				setBorderThicknessToButton(std::string const& layerId, std::string const& buttonId, int const thickness);
+	void				setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos);
+	void				setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size);
+
+	bool const					getStateFromButton(std::string const& layerId, std::string const& buttonId) const;
+	std::string const			getTextFromButton(std::string const& layerId, std::string const& buttonId) const;
+	unsigned int const			getFontSizeFromButton(std::string const& layerId, std::string const& buttonId) const;
+	nx::rendering::RGBa const &	getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const;
+	nx::rendering::RGBa const &	getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const;
+	nx::rendering::RGBa const &	getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const;
+	int const					getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const;
 	
 protected:
 	nx::Engine	*_engine;
