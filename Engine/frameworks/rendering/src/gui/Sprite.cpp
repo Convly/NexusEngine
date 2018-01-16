@@ -1,7 +1,7 @@
 #include "Sprite.hpp"
 
-Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, std::string const& spritesheetPath,
-			   sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
+nx::gui::Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+			   std::string const& spritesheetPath, sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
 	GUIElement(pos, spriteSize, identifier), _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize),
 	_originalSize(spriteSize), _spriteIdx(0), _slowness(40), _slownessLap(40), _isAnimated(false), _animationIdx(0)
 {
@@ -12,12 +12,12 @@ Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string co
 	this->_rescaleSprite();
 }
 
-Sprite::~Sprite()
+nx::gui::Sprite::~Sprite()
 {
 
 }
 
-void Sprite::_loadSpritesheet()
+void nx::gui::Sprite::_loadSpritesheet()
 {
 	if (!this->_texture.loadFromFile(this->_spritesheetPath))
 		throw nx::InvalidImageException(this->_spritesheetPath);
@@ -27,19 +27,19 @@ void Sprite::_loadSpritesheet()
 	this->_originalSize = this->_spriteSize;
 }
 
-void Sprite::_refreshSprite()
+void nx::gui::Sprite::_refreshSprite()
 {
 	if (this->_spriteIdx == 0)
-		this->_sprite.setTextureRect(sf::IntRect(0, 0, this->_spriteSize.x, this->_spriteSize.y));
+		this->_sprite.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->_spriteSize.x), static_cast<int>(this->_spriteSize.y)));
 	else
 	{
-		this->_sprite.setTextureRect(sf::IntRect(this->_spriteSize.x * (this->_spriteIdx % static_cast<int>(this->_sheetGrid.x)),
-												 this->_spriteSize.y * (this->_spriteIdx / static_cast<int>(this->_sheetGrid.x)),
-												 this->_spriteSize.x, this->_spriteSize.y));
+		this->_sprite.setTextureRect(sf::IntRect(static_cast<int>(this->_spriteSize.x * (this->_spriteIdx % static_cast<int>(this->_sheetGrid.x))),
+												 static_cast<int>(this->_spriteSize.y * (this->_spriteIdx / static_cast<int>(this->_sheetGrid.x))),
+												 static_cast<int>(this->_spriteSize.x), static_cast<int>(this->_spriteSize.y)));
 	}
 }
 
-void Sprite::_rescaleSprite()
+void nx::gui::Sprite::_rescaleSprite()
 {
 	if (this->getSize().x != 0 && this->getSize().y != 0)
 		this->_sprite.setScale(this->getSize().x / this->_originalSize.x, this->getSize().y / this->_originalSize.y);
@@ -48,7 +48,7 @@ void Sprite::_rescaleSprite()
 
 // Display
 
-void Sprite::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::Sprite::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 	{
@@ -57,7 +57,7 @@ void Sprite::show(std::shared_ptr<sf::RenderWindow> const& win)
 		{
 			if (this->_slownessLap == 0)
 			{
-				this->_animationIdx = ((this->_animationIdx + 1 >= this->_spritesAnimated.size()) ? (0) : (this->_animationIdx + 1));
+				this->_animationIdx = ((this->_animationIdx + 1 >= static_cast<uint16_t>(this->_spritesAnimated.size())) ? (0) : (this->_animationIdx + 1));
 				this->_spriteIdx = this->_spritesAnimated[this->_animationIdx];
 				this->_refreshSprite();
 				this->_slownessLap = this->_slowness;
@@ -70,14 +70,14 @@ void Sprite::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 // Setters
 
-void	Sprite::setSpritesheetPath(std::string const& spritePath)
+void	nx::gui::Sprite::setSpritesheetPath(std::string const& spritePath)
 {
 	this->_spritesheetPath = spritePath;
 	this->_loadSpritesheet();
 	this->_rescaleSprite();
 }
 
-void	Sprite::setAnimate(bool const isAnimated)
+void	nx::gui::Sprite::setAnimate(bool const isAnimated)
 {
 	if (this->_isAnimated != isAnimated)
 	{
@@ -92,7 +92,7 @@ void	Sprite::setAnimate(bool const isAnimated)
 	}
 }
 
-void	Sprite::setSpriteIdx(uint16_t const spriteIdx)
+void	nx::gui::Sprite::setSpriteIdx(uint16_t const spriteIdx)
 {
 	if (spriteIdx >= this->_sheetGrid.x * this->_sheetGrid.y)
 	{
@@ -103,13 +103,13 @@ void	Sprite::setSpriteIdx(uint16_t const spriteIdx)
 		this->_spriteIdx = spriteIdx;
 }
 
-void	Sprite::setSlowness(uint16_t const slowness)
+void	nx::gui::Sprite::setSlowness(uint16_t const slowness)
 {
 	this->_slowness = slowness;
 	this->_slownessLap = slowness;
 }
 
-void	Sprite::setSpritesAnimated(std::vector<uint16_t> const& spritesAnimated)
+void	nx::gui::Sprite::setSpritesAnimated(std::vector<uint16_t> const& spritesAnimated)
 {
 	if (spritesAnimated.empty())
 	{
@@ -132,7 +132,7 @@ void	Sprite::setSpritesAnimated(std::vector<uint16_t> const& spritesAnimated)
 }
 
 
-void	Sprite::setAnimationIdx(uint16_t const animationIdx)
+void	nx::gui::Sprite::setAnimationIdx(uint16_t const animationIdx)
 {
 	if (animationIdx >= this->_spritesAnimated.size())
 	{
@@ -143,13 +143,13 @@ void	Sprite::setAnimationIdx(uint16_t const animationIdx)
 		this->_animationIdx = animationIdx;
 }
 
-void	Sprite::setPos(sf::Vector2f const& pos)
+void	nx::gui::Sprite::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(pos);
 	this->_sprite.setPosition(pos);
 }
 
-void	Sprite::setSize(sf::Vector2f const& size)
+void	nx::gui::Sprite::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_rescaleSprite();
@@ -159,7 +159,7 @@ void	Sprite::setSize(sf::Vector2f const& size)
 
 // Getters
 
-std::string	const	Sprite::getType() const
+std::string	const	nx::gui::Sprite::getType() const
 {
 	return ("Sprite");
 }
@@ -167,32 +167,32 @@ std::string	const	Sprite::getType() const
 
 // Specific getters
 
-std::string const &				Sprite::getSpritesheetPath() const
+std::string const &				nx::gui::Sprite::getSpritesheetPath() const
 {
 	return (this->_spritesheetPath);
 }
 
-uint16_t const					Sprite::getSpriteIdx() const
+uint16_t const					nx::gui::Sprite::getSpriteIdx() const
 {
 	return (this->_spriteIdx);
 }
 
-uint16_t const					Sprite::getSlowness() const
+uint16_t const					nx::gui::Sprite::getSlowness() const
 {
 	return (this->_slowness);
 }
 
-bool const						Sprite::getAnimate() const
+bool const						nx::gui::Sprite::getAnimate() const
 {
 	return (this->_isAnimated);
 }
 
-std::vector<uint16_t> const &	Sprite::getSpritesAnimated() const
+std::vector<uint16_t> const &	nx::gui::Sprite::getSpritesAnimated() const
 {
 	return (this->_spritesAnimated);
 }
 
-uint16_t const					Sprite::getAnimationIdx() const
+uint16_t const					nx::gui::Sprite::getAnimationIdx() const
 {
 	return (this->_animationIdx);
 }

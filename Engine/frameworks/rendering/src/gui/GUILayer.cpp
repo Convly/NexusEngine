@@ -1,17 +1,17 @@
 #include "GUILayer.hpp"
 
-GUILayer::GUILayer(std::string const & identifier) :
+nx::gui::GUILayer::GUILayer(std::string const & identifier) :
 	_identifier(identifier), _isVisible(true)
 {
 
 }
 
-GUILayer::~GUILayer()
+nx::gui::GUILayer::~GUILayer()
 {
 
 }
 
-void GUILayer::add(std::shared_ptr<GUIElement> elem)
+void nx::gui::GUILayer::add(std::shared_ptr<GUIElement> elem)
 {
 	this->_guiElements.push_back(elem);
 }
@@ -19,7 +19,7 @@ void GUILayer::add(std::shared_ptr<GUIElement> elem)
 
 // Setters
 
-void										GUILayer::setVisible(bool const state)
+void										nx::gui::GUILayer::setVisible(bool const state)
 {
 	this->_isVisible = state;
 }
@@ -27,28 +27,28 @@ void										GUILayer::setVisible(bool const state)
 
 // Getters
 
-std::string const &							GUILayer::getIdentifier() const
+std::string const &							nx::gui::GUILayer::getIdentifier() const
 {
 	return (this->_identifier);
 }
 
-bool	GUILayer::isVisible() const
+bool	nx::gui::GUILayer::isVisible() const
 {
 	return (this->_isVisible);
 }
 
-std::vector<std::shared_ptr<GUIElement>> const & GUILayer::getElements() const
+std::vector<std::shared_ptr<nx::gui::GUIElement>> const & nx::gui::GUILayer::getElements() const
 {
 	return (this->_guiElements);
 }
 
-std::vector<std::shared_ptr<GUIElement>>&		 GUILayer::getElements()
+std::vector<std::shared_ptr<nx::gui::GUIElement>>&		 nx::gui::GUILayer::getElements()
 {
 	return (this->_guiElements);
 }
 
 
-std::shared_ptr<GUIElement> const &	GUILayer::getElementByName(std::string const& identifier) const
+std::shared_ptr<nx::gui::GUIElement> const &	nx::gui::GUILayer::getElementByName(std::string const& identifier) const
 {
 	auto it = std::find_if(
 		this->_guiElements.begin(),
@@ -65,7 +65,7 @@ std::shared_ptr<GUIElement> const &	GUILayer::getElementByName(std::string const
 	return *it;
 }
 
-std::shared_ptr<GUIElement>&		GUILayer::getElementByName(std::string const& identifier)
+std::shared_ptr<nx::gui::GUIElement>&		nx::gui::GUILayer::getElementByName(std::string const& identifier)
 {
 	auto it = std::find_if(
 		this->_guiElements.begin(),
@@ -82,7 +82,7 @@ std::shared_ptr<GUIElement>&		GUILayer::getElementByName(std::string const& iden
 	return *it;
 }
 
-bool GUILayer::object_exists(const std::string& identifier) const
+bool nx::gui::GUILayer::object_exists(const std::string& identifier) const
 {
 	auto it = std::find_if(
 		this->_guiElements.begin(),

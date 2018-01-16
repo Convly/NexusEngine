@@ -1,13 +1,13 @@
 #include "Checkbox.hpp"
 
-Checkbox::Checkbox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, ColorInfo const& colorInfo) :
-	GUIElement(pos, size, identifier), _state(State::UNCHECKED),
+nx::gui::Checkbox::Checkbox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events, ColorInfo const& colorInfo) :
+	GUIElement(pos, size, identifier, events), _state(State::UNCHECKED),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
 	_body(sf::RectangleShape(size))
 {
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
-	this->_body.setOutlineThickness(colorInfo.borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 
 	sf::VertexArray half1(sf::LinesStrip, 2);
@@ -39,7 +39,7 @@ Checkbox::Checkbox(sf::Vector2f const& pos, sf::Vector2f const& size, std::strin
 	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
 }
 
-Checkbox::~Checkbox()
+nx::gui::Checkbox::~Checkbox()
 {
 
 }
@@ -47,7 +47,7 @@ Checkbox::~Checkbox()
 
 // GUIElement's mouse event methods overload
 
-void Checkbox::onLeftClickPressedInside(sf::Vector2i const& pos)
+void nx::gui::Checkbox::onLeftClickPressedInside(sf::Vector2i const& pos)
 {
 	this->dispatchMouseEvent(pos, "onLeftClickPressedInside");
 
@@ -60,7 +60,7 @@ void Checkbox::onLeftClickPressedInside(sf::Vector2i const& pos)
 
 // Display
 
-void Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
+void nx::gui::Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
 	{
@@ -77,18 +77,18 @@ void Checkbox::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 
 // Setters
-void	Checkbox::setState(State const state)
+void	nx::gui::Checkbox::setState(State const state)
 {
 	this->_state = state;
 }
 
-void	Checkbox::setBackgroundColor(sf::Color const& color)
+void	nx::gui::Checkbox::setBackgroundColor(sf::Color const& color)
 {
 	this->_backgroundColor = color;
 	this->_body.setFillColor(this->_backgroundColor);
 }
 
-void	Checkbox::setBorderColor(sf::Color const& color)
+void	nx::gui::Checkbox::setBorderColor(sf::Color const& color)
 {
 	this->_borderColor = color;
 	this->_body.setOutlineColor(this->_borderColor);
@@ -99,14 +99,14 @@ void	Checkbox::setBorderColor(sf::Color const& color)
 	}
 }
 
-void	Checkbox::setBorderThickness(int const thickness)
+void	nx::gui::Checkbox::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
 	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
-	this->_body.setOutlineThickness(this->_borderThickness);
+	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
 }
 
-void	Checkbox::setPos(sf::Vector2f const& pos)
+void	nx::gui::Checkbox::setPos(sf::Vector2f const& pos)
 {
 	GUIElement::setPos(sf::Vector2f(pos.x - this->_borderThickness, pos.y - this->_borderThickness));
 	this->_body.setPosition(this->getPos());
@@ -124,7 +124,7 @@ void	Checkbox::setPos(sf::Vector2f const& pos)
 											   pos.y + (this->getSize().y - this->_borderThickness) / 2.0f);
 }
 
-void	Checkbox::setSize(sf::Vector2f const& size)
+void	nx::gui::Checkbox::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness * 2, this->getSize().y - this->_borderThickness * 2));
@@ -140,7 +140,7 @@ void	Checkbox::setSize(sf::Vector2f const& size)
 
 // Getters
 
-std::string	const	Checkbox::getType() const
+std::string	const	nx::gui::Checkbox::getType() const
 {
 	return ("Checkbox");
 }
@@ -148,22 +148,22 @@ std::string	const	Checkbox::getType() const
 
 // Specific getters
 
-Checkbox::State const Checkbox::getState() const
+nx::gui::Checkbox::State const nx::gui::Checkbox::getState() const
 {
 	return (this->_state);
 }
 
-sf::Color const	&	Checkbox::getBackgroundColor() const
+sf::Color const	&	nx::gui::Checkbox::getBackgroundColor() const
 {
 	return (this->_backgroundColor);
 }
 
-sf::Color const	&	Checkbox::getBorderColor() const
+sf::Color const	&	nx::gui::Checkbox::getBorderColor() const
 {
 	return (this->_borderColor);
 }
 
-int const			Checkbox::getBorderThickness() const
+int const			nx::gui::Checkbox::getBorderThickness() const
 {
 	return (this->_borderThickness);
 }

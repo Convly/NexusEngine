@@ -1,7 +1,8 @@
 #ifndef FRAMEWORK_RENDERING
 # define FRAMEWORK_RENDERING
 
-# include "GUIHandler.hpp"
+# include "./gui/GUIHandler.hpp"
+# include "./graphics/GraphicsHandler.hpp"
 # include "Nexus/engine.hpp"
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
@@ -15,6 +16,18 @@ public:
 	void RefreshRendering();
 	bool addLayer(const std::string&);
 	bool addButton(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIButtonInfos& buttonsParams);
+	bool addCheckbox(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUICheckboxInfos& checkboxParams);
+	bool addProgressBar(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIProgressBarInfos& progressBarParams);
+	bool addComboBox(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIComboBoxInfos& comboBoxParams);
+	bool addTextInput(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUITextInputInfos& textInputParams);
+	bool addText(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUITextInfos& textParams);
+	bool addImage(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIImageInfos& imageParams);
+	bool addGUISprite(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUISpriteInfos& spriteParams);
+
+	bool addGraphicsSprite(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsSpriteInfos& spriteParams);
+	bool addGraphicsCirleShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsCircleInfos& circleShapeParams);
+	bool addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams);
+	bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams);
 	
 protected:
 	nx::Engine	*_engine;
@@ -23,8 +36,9 @@ public:
 	static sf::Color RGBa_to_sfColor(const nx::rendering::RGBa&);
 
 private:
-	std::shared_ptr<sf::RenderWindow>	_win;
-	std::shared_ptr<GUIHandler>			_handler;
+	std::shared_ptr<sf::RenderWindow>		_win;
+	std::shared_ptr<nx::gui::GUIHandler>	_guiHandler;
+	std::shared_ptr<nx::graphics::GraphicsHandler>	_graphicsHandler;
 };
 
 #if  defined(_MSC_VER)
