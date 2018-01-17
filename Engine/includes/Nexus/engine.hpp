@@ -7,7 +7,8 @@
 #include <functional>
 #include <algorithm>
 
-#include "Nexus/modules/maths.hpp"
+#include "Nexus/modules/maths/maths.hpp"
+#include "Nexus/modules/physics/physics.hpp"
 
 #include "Nexus/systems/SystemTpl.hpp"
 

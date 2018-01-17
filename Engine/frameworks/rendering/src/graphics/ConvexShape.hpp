@@ -6,6 +6,7 @@
 # include "Nexus/log.hpp"
 # include "GraphicsElement.hpp"
 # include "../ColorInfo.hpp"
+# include "../InvalidImageException.hpp"
 
 namespace nx
 {
@@ -14,6 +15,7 @@ namespace nx
 		class ConvexShape : public GraphicsElement
 		{
 			sf::ConvexShape	_body;
+			sf::Texture		_texture;
 
 		public:
 			ConvexShape(sf::Vector2f const & pos, sf::Vector2f const & size, std::string const & identifier,
@@ -30,7 +32,14 @@ namespace nx
 			void	setRotation(float const angle);
 			void	setPointCount(size_t const pointCount);
 			void	setPoint(size_t const index, sf::Vector2f const& point);
-			//TODO: Others functions that can be used as a ConvexShape => https://www.sfml-dev.org/documentation/2.4.2/classsf_1_1ConvexShape.php
+
+			void	setScale(sf::Vector2f const& factor);
+			void	setOrigin(sf::Vector2f const& origin);
+			void	move(sf::Vector2f const& offset);
+			void	rotate(float const angle);
+			void	scale(sf::Vector2f const& factor);
+			void	setTexture(std::string const& texturePath, bool const resetRect = false);
+			void	setTextureRect(sf::IntRect const& rect);
 
 			void	setPos(sf::Vector2f const& pos);
 			void	setSize(sf::Vector2f const& size);
@@ -45,6 +54,9 @@ namespace nx
 			float const			getRotation() const;
 			size_t const		getPointCount() const;
 			sf::Vector2f const	getPoint(size_t const index) const;
+			sf::IntRect const &		getTextureRect() const;
+			sf::Vector2f const &	getScale() const;
+			sf::Vector2f const &	getOrigin() const;
 		};
 	}
 }

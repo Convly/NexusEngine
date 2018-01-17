@@ -31,7 +31,6 @@ namespace nx
 			void	setBorderThickness(int const thickness);
 			void	setRotation(float const angle);
 			void	setRadius(float const radius);
-
 			void	setPointCount(size_t const count);
 			void	setScale(sf::Vector2f const& factor);
 			void	setOrigin(sf::Vector2f const& origin);
@@ -53,7 +52,6 @@ namespace nx
 			int const			getBorderThickness() const;
 			float const			getRotation() const;
 			float const			getRadius() const;
-
 			size_t const			getPointCount() const;
 			sf::Vector2f const		getPoint(size_t const index) const;
 			sf::IntRect const &		getTextureRect() const;

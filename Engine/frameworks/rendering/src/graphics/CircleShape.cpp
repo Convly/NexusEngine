@@ -89,7 +89,7 @@ void	nx::graphics::CircleShape::scale(sf::Vector2f const& factor)
 	this->_body.scale(factor);
 }
 
-void	nx::graphics::CircleShape::setTexture(std::string const& texturePath, bool const resetRect = false)
+void	nx::graphics::CircleShape::setTexture(std::string const& texturePath, bool const resetRect)
 {
 	if (!this->_texture.loadFromFile(texturePath))
 		throw nx::InvalidImageException(texturePath);
