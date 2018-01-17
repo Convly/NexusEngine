@@ -31,7 +31,7 @@ void nx::RenderingSystem::init()
 		f->addLayer("Inventory");
 		f->addButton(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(100, 150), nx::Vector2f(300, 50), "MyHerbauxButton",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(100, 150), nx::maths::Vector2f(300, 50), "MyHerbauxButton",
 			{
 				{ "onLeftClickPressedInside",{ "alert.lua", "onClick" } },
 			}),
@@ -40,7 +40,7 @@ void nx::RenderingSystem::init()
 		);
 		f->addCheckbox(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(640, 30), nx::Vector2f(30, 30), "MyCauvinButton",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(640, 30), nx::maths::Vector2f(30, 30), "MyCauvinButton",
 			{
 
 			}),
@@ -48,7 +48,7 @@ void nx::RenderingSystem::init()
 		);
 		f->addProgressBar(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(240, 500), nx::Vector2f(300, 50), "MyCauvinProgressBar",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(240, 500), nx::maths::Vector2f(300, 50), "MyCauvinProgressBar",
 			{
 
 			}),
@@ -57,7 +57,7 @@ void nx::RenderingSystem::init()
 		);
 		f->addComboBox(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(70, 250), nx::Vector2f(140, 30), "MyCauvinComboBox",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(70, 250), nx::maths::Vector2f(140, 30), "MyCauvinComboBox",
 			{
 
 			}),
@@ -66,7 +66,7 @@ void nx::RenderingSystem::init()
 		);
 		f->addTextInput(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(400, 350), nx::Vector2f(230, 30), "MyCauvinTextInput",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(400, 350), nx::maths::Vector2f(230, 30), "MyCauvinTextInput",
 			{
 
 			}),
@@ -75,7 +75,7 @@ void nx::RenderingSystem::init()
 		);
 		f->addText(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(500, 30), nx::Vector2f(0, 0), "MyCauvinText",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(500, 30), nx::maths::Vector2f(0, 0), "MyCauvinText",
 			{
 
 			}),
@@ -83,7 +83,7 @@ void nx::RenderingSystem::init()
 		);
 		f->addImage(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(300, 580), nx::Vector2f(64, 64), "MyCauvinImage",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(300, 580), nx::maths::Vector2f(64, 64), "MyCauvinImage",
 			{
 
 			}),
@@ -91,35 +91,35 @@ void nx::RenderingSystem::init()
 			);
 		f->addGUISprite(
 			"Menu",
-			nx::rendering::GUIElementInfos(nx::Vector2f(50, 600), nx::Vector2f(0, 0), "MyCauvinGUISprite",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(50, 600), nx::maths::Vector2f(0, 0), "MyCauvinGUISprite",
 			{
 
 			}),
-			nx::rendering::GUISpriteInfos("./images/guitarist.png", nx::Vector2f(3, 2), nx::Vector2f(103, 89))
+			nx::rendering::GUISpriteInfos("./images/guitarist.png", nx::maths::Vector2f(3, 2), nx::maths::Vector2f(103, 89))
 			);
 		f->addGraphicsSprite(
-			nx::rendering::GraphicsElementInfos(nx::Vector2f(400, 620), nx::Vector2f(0, 0), "MyCauvinGraphicsSprite",
+			nx::rendering::GraphicsElementInfos(nx::maths::Vector2f(400, 620), nx::maths::Vector2f(0, 0), "MyCauvinGraphicsSprite",
 			{
 
 			}),
-			nx::rendering::GraphicsSpriteInfos("./images/guitarist.png", nx::Vector2f(3, 2), nx::Vector2f(103, 89))
+			nx::rendering::GraphicsSpriteInfos("./images/guitarist.png", nx::maths::Vector2f(3, 2), nx::maths::Vector2f(103, 89))
 			);
 		f->addGraphicsCirleShape(
-			nx::rendering::GraphicsElementInfos(nx::Vector2f(550, 640), nx::Vector2f(0, 0), "MyCauvinGraphicsCircle",
+			nx::rendering::GraphicsElementInfos(nx::maths::Vector2f(550, 640), nx::maths::Vector2f(0, 0), "MyCauvinGraphicsCircle",
 			{
 
 			}),
 			nx::rendering::GraphicsCircleInfos(30, nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
 			);
 		f->addGraphicsRectShape(
-			nx::rendering::GraphicsElementInfos(nx::Vector2f(550, 540), nx::Vector2f(20, 40), "MyCauvinGraphicsRect",
+			nx::rendering::GraphicsElementInfos(nx::maths::Vector2f(550, 540), nx::maths::Vector2f(20, 40), "MyCauvinGraphicsRect",
 			{
 
 			}),
 			nx::rendering::GraphicsRectInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
 			);
 		f->addGraphicsConvexShape(
-			nx::rendering::GraphicsElementInfos(nx::Vector2f(550, 440), nx::Vector2f(0, 0), "MyCauvinGraphicsConvex",
+			nx::rendering::GraphicsElementInfos(nx::maths::Vector2f(550, 440), nx::maths::Vector2f(0, 0), "MyCauvinGraphicsConvex",
 			{
 
 			}),

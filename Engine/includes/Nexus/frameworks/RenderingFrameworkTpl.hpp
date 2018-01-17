@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "Nexus/frameworks/ScriptFrameworkTpl.hpp"
-#include "Nexus/modules/maths.hpp"
+#include "Nexus/modules/maths/maths.hpp"
 
 namespace nx {
 
@@ -54,14 +54,14 @@ namespace nx {
 		};
 
 		struct GUIElementInfos {
-			GUIElementInfos(const nx::Vector2f& _pos, const nx::Vector2f& _size, const std::string& _identifier, const nx::rendering::MouseEventsContainer& events_)
+			GUIElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier, const nx::rendering::MouseEventsContainer& events_)
 			: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
 			
 			GUIElementInfos(const GUIElementInfos& other)
 			: pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
 
-			nx::Vector2f pos;
-			nx::Vector2f size;
+			nx::maths::Vector2f pos;
+			nx::maths::Vector2f size;
 			std::string identifier;
 			nx::rendering::MouseEventsContainer events;
 		};
@@ -121,35 +121,35 @@ namespace nx {
 		};
 
 		struct GUISpriteInfos {
-			GUISpriteInfos(std::string const& spritesheetPath_, nx::Vector2f const& sheetGrid_, nx::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
+			GUISpriteInfos(std::string const& spritesheetPath_, nx::maths::Vector2f const& sheetGrid_, nx::maths::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
 			GUISpriteInfos(const GUISpriteInfos& other) : spritesheetPath(other.spritesheetPath), sheetGrid(other.sheetGrid), spriteSize(other.spriteSize) {}
 
 			std::string spritesheetPath;
-			nx::Vector2f sheetGrid;
-			nx::Vector2f spriteSize;
+			nx::maths::Vector2f sheetGrid;
+			nx::maths::Vector2f spriteSize;
 		};
 
 
 		struct GraphicsElementInfos {
-			GraphicsElementInfos(const nx::Vector2f& _pos, const nx::Vector2f& _size, const std::string& _identifier, const nx::rendering::MouseEventsContainer& events_)
+			GraphicsElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier, const nx::rendering::MouseEventsContainer& events_)
 				: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
 
 			GraphicsElementInfos(const GUIElementInfos& other)
 				: pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
 
-			nx::Vector2f pos;
-			nx::Vector2f size;
+			nx::maths::Vector2f pos;
+			nx::maths::Vector2f size;
 			std::string identifier;
 			nx::rendering::MouseEventsContainer events;
 		};
 
 		struct GraphicsSpriteInfos {
-			GraphicsSpriteInfos(std::string const& spritesheetPath_, nx::Vector2f const& sheetGrid_, nx::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
+			GraphicsSpriteInfos(std::string const& spritesheetPath_, nx::maths::Vector2f const& sheetGrid_, nx::maths::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
 			GraphicsSpriteInfos(const GUISpriteInfos& other) : spritesheetPath(other.spritesheetPath), sheetGrid(other.sheetGrid), spriteSize(other.spriteSize) {}
 
 			std::string spritesheetPath;
-			nx::Vector2f sheetGrid;
-			nx::Vector2f spriteSize;
+			nx::maths::Vector2f sheetGrid;
+			nx::maths::Vector2f spriteSize;
 		};
 
 		struct GraphicsCircleInfos {
