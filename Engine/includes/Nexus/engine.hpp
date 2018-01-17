@@ -33,7 +33,7 @@ namespace nx {
 		std::vector<std::shared_ptr<nx::SystemTpl>>		_systems;
 
 	private:
-		Engine(const std::vector<std::shared_ptr<nx::SystemTpl>>& systems, const bool debug = false);
+		Engine(const bool debug = false);
 		virtual ~Engine ();
 
   public:
@@ -69,6 +69,7 @@ namespace nx {
 		}
 
   public:
+		void startup(bool serverOnly = false);
 		void setup(void);
 		void stop(void);
 		int run(const std::function<void(void)>&);
