@@ -256,12 +256,25 @@ namespace nx {
 		virtual void	setRadiusToCircleShape(std::string const& circleShapeId, float const radius) = 0;
 		virtual void	setPosToCircleShape(std::string const& circleShapeId, nx::Vector2f const& pos) = 0;
 		virtual void	setSizeToCircleShape(std::string const& circleShapeId, nx::Vector2f const& size) = 0;
+		virtual void	setPointCountToCircleShape(std::string const& circleShapeId, size_t const count) = 0;
+		virtual void	setScaleToCircleShape(std::string const& circleShapeId, nx::Vector2f const& factor) = 0;
+		virtual void	setOriginToCircleShape(std::string const& circleShapeId, nx::Vector2f const& origin) = 0;
+		virtual void	moveToCircleShape(std::string const& circleShapeId, nx::Vector2f const& offset) = 0;
+		virtual void	rotateToCircleShape(std::string const& circleShapeId, float const angle) = 0;
+		virtual void	scaleToCircleShape(std::string const& circleShapeId, nx::Vector2f const& factor) = 0;
+		virtual void	setTextureToCircleShape(std::string const& circleShapeId, std::string const& texturePath, bool const resetRect = false) = 0;
+		virtual void	setTextureRectToCircleShape(std::string const& circleShapeId, nx::maths::geometry::IntRect const& rect) = 0;
 
-		virtual nx::rendering::RGBa const	getBackgroundColorFromCircleShape(std::string const& circleShapeId) const = 0;
-		virtual nx::rendering::RGBa const	getBorderColorFromCircleShape(std::string const& circleShapeId) const = 0;
-		virtual int const					getBorderThicknessFromCircleShape(std::string const& circleShapeId) const = 0;
-		virtual float const					getRotationFromCircleShape(std::string const& circleShapeId) const = 0;
-		virtual float const					getRadiusFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual nx::rendering::RGBa const			getBackgroundColorFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual nx::rendering::RGBa const			getBorderColorFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual int const							getBorderThicknessFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual float const							getRotationFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual float const							getRadiusFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual size_t const						getPointCountFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual nx::Vector2f const					getPointFromCircleShape(std::string const& circleShapeId, size_t const index) const = 0;
+		virtual nx::maths::geometry::IntRect const	getTextureRectFromCircleShape(std::string const& circleShapeId) const = 0;
+		virtual nx::Vector2f const					getScaleFromCircleShape(std::string const& circleShapeId const = 0;
+		virtual nx::Vector2f const					getOriginFromCircleShape(std::string const& circleShapeId) const = 0;
 
 		//ComboBox
 		virtual void	setBackgroundColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color) = 0;

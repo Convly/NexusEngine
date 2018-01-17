@@ -703,6 +703,45 @@ void	FrameworkRendering::setSizeToCircleShape(std::string const& circleShapeId, 
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
+void	FrameworkRendering::setPointCountToCircleShape(std::string const& circleShapeId, size_t const count)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setPointCount(count);
+}
+
+void	FrameworkRendering::setScaleToCircleShape(std::string const& circleShapeId, nx::Vector2f const& factor)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setScale(sf::Vector2f(factor.x, factor.y));
+}
+void	FrameworkRendering::setOriginToCircleShape(std::string const& circleShapeId, nx::Vector2f const& origin)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setOrigin(sf::Vector2f(origin.x, origin.y));
+}
+
+void	FrameworkRendering::moveToCircleShape(std::string const& circleShapeId, nx::Vector2f const& offset)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->move(sf::Vector2f(offset.x, offset.y));
+}
+
+void	FrameworkRendering::rotateToCircleShape(std::string const& circleShapeId, float const angle)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->rotate(angle);
+}
+
+void	FrameworkRendering::scaleToCircleShape(std::string const& circleShapeId, nx::Vector2f const& factor)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->scale(sf::Vector2f(factor.x, factor.y));
+}
+
+void	FrameworkRendering::setTextureToCircleShape(std::string const& circleShapeId, std::string const& texturePath, bool const resetRect = false)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setTexture(texturePath);
+}
+
+void	FrameworkRendering::setTextureRectToCircleShape(std::string const& circleShapeId, nx::maths::geometry::IntRect const& rect)
+{
+
+}
+
 nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromCircleShape(std::string const& circleShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getBackgroundColor();
@@ -728,6 +767,34 @@ float const					FrameworkRendering::getRotationFromCircleShape(std::string const
 float const					FrameworkRendering::getRadiusFromCircleShape(std::string const& circleShapeId) const
 {
 	return (this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getRadius());
+}
+
+size_t const						FrameworkRendering::getPointCountFromCircleShape(std::string const& circleShapeId) const
+{
+	return (this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getPointCount());
+}
+
+nx::Vector2f const					FrameworkRendering::getPointFromCircleShape(std::string const& circleShapeId, size_t const index) const
+{
+	sf::Vector2f point = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getPoint(index);
+	return (nx::Vector2f(point.x, point.y));
+}
+
+nx::maths::geometry::IntRect const	FrameworkRendering::getTextureRectFromCircleShape(std::string const& circleShapeId) const
+{
+
+}
+
+nx::Vector2f const					FrameworkRendering::getScaleFromCircleShape(std::string const& circleShapeId) const
+{
+	sf::Vector2f const& scale = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getScale();
+	return (nx::Vector2f(scale.x, scale.y));
+}
+
+nx::Vector2f const					FrameworkRendering::getOriginFromCircleShape(std::string const& circleShapeId) const
+{
+	sf::Vector2f const& origin = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getOrigin();
+	return (nx::Vector2f(origin.x, origin.y));
 }
 
 

@@ -6,6 +6,7 @@
 # include "Nexus/log.hpp"
 # include "GraphicsElement.hpp"
 # include "../ColorInfo.hpp"
+# include "../InvalidImageException.hpp"
 
 namespace nx
 {
@@ -14,6 +15,7 @@ namespace nx
 		class CircleShape : public GraphicsElement
 		{
 			sf::CircleShape	_body;
+			sf::Texture		_texture;
 
 		public:
 			CircleShape(sf::Vector2f const & pos, sf::Vector2f const & size, std::string const & identifier,
@@ -29,7 +31,15 @@ namespace nx
 			void	setBorderThickness(int const thickness);
 			void	setRotation(float const angle);
 			void	setRadius(float const radius);
-			//TODO: Others functions that can be used as a CircleShape => https://www.sfml-dev.org/documentation/2.4.2/classsf_1_1CircleShape.php
+
+			void	setPointCount(size_t const count);
+			void	setScale(sf::Vector2f const& factor);
+			void	setOrigin(sf::Vector2f const& origin);
+			void	move(sf::Vector2f const& offset);
+			void	rotate(float const angle);
+			void	scale(sf::Vector2f const& factor);
+			void	setTexture(std::string const& texturePath, bool const resetRect = false);
+			void	setTextureRect(sf::IntRect const& rect);
 
 			void	setPos(sf::Vector2f const& pos);
 			void	setSize(sf::Vector2f const& size);
@@ -43,6 +53,12 @@ namespace nx
 			int const			getBorderThickness() const;
 			float const			getRotation() const;
 			float const			getRadius() const;
+
+			size_t const			getPointCount() const;
+			sf::Vector2f const		getPoint(size_t const index) const;
+			sf::IntRect const &		getTextureRect() const;
+			sf::Vector2f const &	getScale() const;
+			sf::Vector2f const &	getOrigin() const;
 		};
 	}
 }

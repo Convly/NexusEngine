@@ -73,12 +73,25 @@ public:
 	void	setRadiusToCircleShape(std::string const& circleShapeId, float const radius);
 	void	setPosToCircleShape(std::string const& circleShapeId, nx::Vector2f const& pos);
 	void	setSizeToCircleShape(std::string const& circleShapeId, nx::Vector2f const& size);
+	void	setPointCountToCircleShape(std::string const& circleShapeId, size_t const count);
+	void	setScaleToCircleShape(std::string const& circleShapeId, nx::Vector2f const& factor);
+	void	setOriginToCircleShape(std::string const& circleShapeId, nx::Vector2f const& origin);
+	void	moveToCircleShape(std::string const& circleShapeId, nx::Vector2f const& offset);
+	void	rotateToCircleShape(std::string const& circleShapeId, float const angle);
+	void	scaleToCircleShape(std::string const& circleShapeId, nx::Vector2f const& factor);
+	void	setTextureToCircleShape(std::string const& circleShapeId, std::string const& texturePath, bool const resetRect = false);
+	void	setTextureRectToCircleShape(std::string const& circleShapeId, nx::maths::geometry::IntRect const& rect);
 
-	nx::rendering::RGBa const	getBackgroundColorFromCircleShape(std::string const& circleShapeId) const;
-	nx::rendering::RGBa const	getBorderColorFromCircleShape(std::string const& circleShapeId) const;
-	int const					getBorderThicknessFromCircleShape(std::string const& circleShapeId) const;
-	float const					getRotationFromCircleShape(std::string const& circleShapeId) const;
-	float const					getRadiusFromCircleShape(std::string const& circleShapeId) const;
+	nx::rendering::RGBa const			getBackgroundColorFromCircleShape(std::string const& circleShapeId) const;
+	nx::rendering::RGBa const			getBorderColorFromCircleShape(std::string const& circleShapeId) const;
+	int const							getBorderThicknessFromCircleShape(std::string const& circleShapeId) const;
+	float const							getRotationFromCircleShape(std::string const& circleShapeId) const;
+	float const							getRadiusFromCircleShape(std::string const& circleShapeId) const;
+	size_t const						getPointCountFromCircleShape(std::string const& circleShapeId) const;
+	nx::Vector2f const					getPointFromCircleShape(std::string const& circleShapeId, size_t const index) const;
+	nx::maths::geometry::IntRect const	getTextureRectFromCircleShape(std::string const& circleShapeId) const;
+	nx::Vector2f const					getScaleFromCircleShape(std::string const& circleShapeId const;
+	nx::Vector2f const					getOriginFromCircleShape(std::string const& circleShapeId) const;
 
 	//ComboBox
 	void	setBackgroundColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color);
