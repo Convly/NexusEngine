@@ -33,9 +33,7 @@ void nx::RenderingSystem::init()
 			"Menu",
 			nx::rendering::GUIElementInfos(nx::Vector2f(100, 150), nx::Vector2f(300, 50), "MyHerbauxButton",
 			{
-				{ "onLeftClickPressedInside",{ "alert.lua", "click" } },
-				{ "onLeftClickReleasedInside",{ "alert.lua", "clickRelease" } },
-				{ "keyPressed",{ "alert.lua", "keyPressed" } }
+				{ "onLeftClickPressedInside",{ "alert.lua", "onClick" } },
 			}),
 			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(100, 200, 100, 50), nx::rendering::RGBa(255, 0, 0, 150), 2),
 										  nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Herbaux is a true God", 20, nx::rendering::RGBa(50, 50, 200, 255), 0))
@@ -44,7 +42,7 @@ void nx::RenderingSystem::init()
 			"Menu",
 			nx::rendering::GUIElementInfos(nx::Vector2f(640, 30), nx::Vector2f(30, 30), "MyCauvinButton",
 			{
-				{ "onLeftClickPressedInside",{ "alert.lua", "click" } }
+
 			}),
 			nx::rendering::GUICheckboxInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(0, 0, 255, 255), 2))
 		);
@@ -61,8 +59,7 @@ void nx::RenderingSystem::init()
 			"Menu",
 			nx::rendering::GUIElementInfos(nx::Vector2f(70, 250), nx::Vector2f(140, 30), "MyCauvinComboBox",
 			{
-				{ "onLeftClickPressedInside",{ "alert.lua", "click" } },
-				{ "onLeftClickPressedOutside",{ "alert.lua", "clickOutside" } }
+
 			}),
 			nx::rendering::GUIComboBoxInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(255, 255, 0, 255), 2),
 											nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::rendering::RGBa(0, 0, 0, 255), 0))
@@ -71,10 +68,7 @@ void nx::RenderingSystem::init()
 			"Menu",
 			nx::rendering::GUIElementInfos(nx::Vector2f(400, 350), nx::Vector2f(230, 30), "MyCauvinTextInput",
 			{
-				{ "onLeftClickPressedInside",{ "alert.lua", "click" } },
-				{ "onLeftClickPressedOutside",{ "alert.lua", "clickOutside" } },
-				{ "keyTextEntered",{ "alert.lua", "keyTextEntered" } },
-				{ "keyPressed",{ "alert.lua", "keyPressed" } }
+
 			}),
 			nx::rendering::GUITextInputInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(255, 0, 255, 255), 2),
 				nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "A default text..", 12, nx::rendering::RGBa(0, 0, 0, 255), 0))
