@@ -74,12 +74,13 @@ void NetworkTcp::accept(unsigned short port) {
 
   sin_size = sizeof(struct sockaddr_in);
 
+  NetworkTcpTunnel networkTcpTunnel;
+
   while (1)
   {
-	if ((new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size)) == -1)
+	if ((new_fd = ::accept(sockfd, (struct sockaddr*)&their_addr, &sin_size)) < 0)
 		error(sockfd);
 
-	NetworkTcpTunnel networkTcpTunnel;
 
 	networkTcpTunnel.id = idMax;
 	networkTcpTunnel.fd = new_fd;
@@ -117,7 +118,7 @@ void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel)
   while (1)
   {
 	std::vector<char> data(4000);
-	if (::recv(tunnel.fd, data.data(), data.size(), 0) == -1)
+	if (::recv(tunnel.fd, data.data(), data.size(), 0) <= 0)
 		break;
 
 	nx::Log::debug("[Network] Data:");
@@ -143,7 +144,7 @@ void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data
 {
   nx::Log::debug("New data write");
 
-  if (::send(networkTcpTunnel.fd, data.data(), data.size(), 0) == -1)
+  if (::send(networkTcpTunnel.fd, data.data(), data.size(), 0) <= 0)
 	  error(networkTcpTunnel.fd);
 }
 // End - Linux
