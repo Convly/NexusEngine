@@ -46,7 +46,6 @@ namespace nx
 			void		show(std::shared_ptr<sf::RenderWindow> const& win);
 
 			// Setters
-			void setLabel(sf::Text const& label);
 			void setBackgroundColor(sf::Color const& color);
 			void setBorderColor(sf::Color const& color);
 			void setBorderThickness(int const thickness);
@@ -64,13 +63,12 @@ namespace nx
 			virtual std::string const		getType() const;
 
 			// Specific getters
-			sf::Text const &	getLabel() const;
 			sf::Color const &	getBackgroundColor() const;
 			sf::Color const &	getBorderColor() const;
 			int const			getBorderThickness() const;
 			unsigned int const	getFontSize() const;
 			std::string const	getSelected() const;
-			uint16_t			getIdxSelected() const;
+			uint16_t const		getIdxSelected() const;
 		};
 	}
 }
