@@ -426,130 +426,42 @@ nx::gui::GUIElement	*FrameworkRendering::_getGUIElementFromHandler(std::string c
 
 nx::gui::Button		*FrameworkRendering::_getGUIButtonFromHandler(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	return (button);
+	return (dynamic_cast<nx::gui::Button *>(this->_getGUIElementFromHandler(layerId, buttonId)));
 }
 
 nx::gui::Checkbox		*FrameworkRendering::_getGUICheckboxFromHandler(std::string const& layerId, std::string const& checkboxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	return (checkbox);
+	return (dynamic_cast<nx::gui::Checkbox *>(this->_getGUIElementFromHandler(layerId, checkboxId)));
 }
 
 nx::gui::ProgressBar	*FrameworkRendering::_getGUIProgressBarFromHandler(std::string const& layerId, std::string const& progressBarId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(progressBarId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(progressBarId))
-		throw nx::ElementNotFoundException(progressBarId);
-
-	nx::gui::ProgressBar *progressBar = dynamic_cast<nx::gui::ProgressBar *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(progressBarId).get());
-
-	if (!progressBar)
-		throw nx::NullElementException(progressBarId);
-
-	return (progressBar);
+	return (dynamic_cast<nx::gui::ProgressBar *>(this->_getGUIElementFromHandler(layerId, progressBarId)));
 }
 
 nx::gui::ComboBox		*FrameworkRendering::_getGUIComboBoxFromHandler(std::string const& layerId, std::string const& comboBoxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	return (comboBox);
+	return (dynamic_cast<nx::gui::ComboBox *>(this->_getGUIElementFromHandler(layerId, comboBoxId)));
 }
 
 nx::gui::TextInput		*FrameworkRendering::_getGUITextInputFromHandler(std::string const& layerId, std::string const& textInputId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(textInputId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(textInputId))
-		throw nx::ElementNotFoundException(textInputId);
-
-	nx::gui::TextInput *textInput = dynamic_cast<nx::gui::TextInput *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(textInputId).get());
-
-	if (!textInput)
-		throw nx::NullElementException(textInputId);
-
-	return (textInput);
+	return (dynamic_cast<nx::gui::TextInput *>(this->_getGUIElementFromHandler(layerId, textInputId)));
 }
 
 nx::gui::Text			*FrameworkRendering::_getGUITextFromHandler(std::string const& layerId, std::string const& textId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(textId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(textId))
-		throw nx::ElementNotFoundException(textId);
-
-	nx::gui::Text *text = dynamic_cast<nx::gui::Text *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(textId).get());
-
-	if (!text)
-		throw nx::NullElementException(textId);
-
-	return (text);
+	return (dynamic_cast<nx::gui::Text *>(this->_getGUIElementFromHandler(layerId, textId)));
 }
 
 nx::gui::Image			*FrameworkRendering::_getGUIImageFromHandler(std::string const& layerId, std::string const& imageId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(imageId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(imageId))
-		throw nx::ElementNotFoundException(imageId);
-
-	nx::gui::Image *image = dynamic_cast<nx::gui::Image *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(imageId).get());
-
-	if (!image)
-		throw nx::NullElementException(imageId);
-
-	return (image);
+	return (dynamic_cast<nx::gui::Image *>(this->_getGUIElementFromHandler(layerId, imageId)));
 }
 
 nx::gui::Sprite			*FrameworkRendering::_getGUISpriteFromHandler(std::string const& layerId, std::string const& spriteId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(spriteId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(spriteId))
-		throw nx::ElementNotFoundException(spriteId);
-
-	nx::gui::Sprite *sprite = dynamic_cast<nx::gui::Sprite *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(spriteId).get());
-
-	if (!sprite)
-		throw nx::NullElementException(spriteId);
-
-	return (sprite);
+	return (dynamic_cast<nx::gui::Sprite *>(this->_getGUIElementFromHandler(layerId, spriteId)));
 }
 
 
@@ -568,54 +480,22 @@ nx::graphics::GraphicsElement	*FrameworkRendering::_getGraphicsElementFromHandle
 
 nx::graphics::Sprite			*FrameworkRendering::_getGraphicsSpriteFromHandler(std::string const& spriteId) const
 {
-	if (!this->_graphicsHandler->object_exists(spriteId))
-		throw nx::ElementNotFoundException(spriteId);
-
-	nx::graphics::Sprite *sprite = dynamic_cast<nx::graphics::Sprite *>(this->_graphicsHandler->getElementByName(spriteId).get());
-
-	if (!sprite)
-		throw nx::NullElementException(spriteId);
-
-	return (sprite);
+	return (dynamic_cast<nx::graphics::Sprite *>(this->_getGraphicsElementFromHandler(spriteId)));
 }
 
 nx::graphics::CircleShape		*FrameworkRendering::_getGraphicsCircleShapeFromHandler(std::string const& circleShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	return (circleShape);
+	return (dynamic_cast<nx::graphics::CircleShape *>(this->_getGraphicsElementFromHandler(circleShapeId)));
 }
 
 nx::graphics::RectShape			*FrameworkRendering::_getGraphicsRectShapeFromHandler(std::string const& rectShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(rectShapeId))
-		throw nx::ElementNotFoundException(rectShapeId);
-
-	nx::graphics::RectShape *rectShape = dynamic_cast<nx::graphics::RectShape *>(this->_graphicsHandler->getElementByName(rectShapeId).get());
-
-	if (!rectShape)
-		throw nx::NullElementException(rectShapeId);
-
-	return (rectShape);
+	return (dynamic_cast<nx::graphics::RectShape *>(this->_getGraphicsElementFromHandler(rectShapeId)));
 }
 
 nx::graphics::ConvexShape		*FrameworkRendering::_getGraphicsConvexShapeFromHandler(std::string const& convexShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(convexShapeId))
-		throw nx::ElementNotFoundException(convexShapeId);
-
-	nx::graphics::ConvexShape *convexShape = dynamic_cast<nx::graphics::ConvexShape *>(this->_graphicsHandler->getElementByName(convexShapeId).get());
-
-	if (!convexShape)
-		throw nx::NullElementException(convexShapeId);
-
-	return (convexShape);
+	return (dynamic_cast<nx::graphics::ConvexShape *>(this->_getGraphicsElementFromHandler(convexShapeId)));
 }
 
 
