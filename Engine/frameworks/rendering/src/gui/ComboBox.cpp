@@ -55,7 +55,7 @@ void nx::gui::ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 		for (int i = 0; i < static_cast<int>(this->_bgSelections.size()); i++)
 		{
 			sf::Rect<float> rectElem(this->_bgSelections[i].getPosition(), this->_bgSelections[i].getSize());
-			if (rectBody.contains(static_cast<float>(pos.x), static_cast<float>(pos.y)))
+			if (rectElem.contains(static_cast<float>(pos.x), static_cast<float>(pos.y)))
 			{
 				this->_idxSelected = i;
 				this->_selected.setString(this->_selections[i]);
@@ -97,11 +97,6 @@ void nx::gui::ComboBox::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 
 // Setters
-
-void	nx::gui::ComboBox::setLabel(sf::Text const& label)
-{
-	this->_selected = label;
-}
 
 void	nx::gui::ComboBox::setBackgroundColor(sf::Color const& color)
 {
@@ -219,11 +214,6 @@ std::string	const	nx::gui::ComboBox::getType() const
 
 // Specific getters
 
-sf::Text const &	nx::gui::ComboBox::getLabel() const
-{
-	return (this->_selected);
-}
-
 sf::Color const &	nx::gui::ComboBox::getBackgroundColor() const
 {
 	return (this->_backgroundColor);
@@ -249,7 +239,7 @@ std::string const	nx::gui::ComboBox::getSelected() const
 	return (this->_selected.getString().toAnsiString());
 }
 
-uint16_t			nx::gui::ComboBox::getIdxSelected() const
+uint16_t const		nx::gui::ComboBox::getIdxSelected() const
 {
 	return (this->_idxSelected);
 }

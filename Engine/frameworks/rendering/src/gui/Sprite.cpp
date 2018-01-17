@@ -3,13 +3,15 @@
 nx::gui::Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
 			   std::string const& spritesheetPath, sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
 	GUIElement(pos, spriteSize, identifier), _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize),
-	_originalSize(spriteSize), _spriteIdx(0), _slowness(40), _slownessLap(40), _isAnimated(false), _animationIdx(0)
+	_originalSize(spriteSize), _spriteIdx(0), _slowness(40), _isAnimated(false), _animationIdx(0)
 {
 	this->_spritesAnimated.clear();
-	for (int i = 0; i < spriteSize.x * spriteSize.y; ++i)
+	for (int i = 0; i < sheetGrid.x * sheetGrid.y; ++i)
 		this->_spritesAnimated.push_back(i);
 	this->_loadSpritesheet();
 	this->_rescaleSprite();
+
+	this->_time = this->_clock.restart();
 }
 
 nx::gui::Sprite::~Sprite()
@@ -55,14 +57,16 @@ void nx::gui::Sprite::show(std::shared_ptr<sf::RenderWindow> const& win)
 		win->draw(this->_sprite);
 		if (this->_isAnimated)
 		{
-			if (this->_slownessLap == 0)
+			this->_time = this->_clock.getElapsedTime();
+			if (this->_time.asMilliseconds() >= this->_slowness)
 			{
-				this->_animationIdx = ((this->_animationIdx + 1 >= static_cast<uint16_t>(this->_spritesAnimated.size())) ? (0) : (this->_animationIdx + 1));
+				this->_animationIdx += 1;
+				if (this->_animationIdx >= this->_spritesAnimated.size())
+					this->_animationIdx = 0;
 				this->_spriteIdx = this->_spritesAnimated[this->_animationIdx];
 				this->_refreshSprite();
-				this->_slownessLap = this->_slowness;
+				this->_time = this->_clock.restart();
 			}
-			this->_slownessLap -= 1;
 		}
 	}
 }
@@ -81,7 +85,6 @@ void	nx::gui::Sprite::setAnimate(bool const isAnimated)
 {
 	if (this->_isAnimated != isAnimated)
 	{
-		this->_slownessLap = this->_slowness;
 		this->_isAnimated = isAnimated;
 		if (std::find(this->_spritesAnimated.begin(), this->_spritesAnimated.end(), this->_spriteIdx) == this->_spritesAnimated.end() &&
 			this->_isAnimated)
@@ -89,6 +92,7 @@ void	nx::gui::Sprite::setAnimate(bool const isAnimated)
 			nx::Log::warning("The sprite index is out of the sprites animated list, now set at the first sprites animated list value", "OUT_OF_RANGE");
 			this->_spriteIdx = this->_spritesAnimated[0];
 		}
+		this->_time = this->_clock.restart();
 	}
 }
 
@@ -106,7 +110,7 @@ void	nx::gui::Sprite::setSpriteIdx(uint16_t const spriteIdx)
 void	nx::gui::Sprite::setSlowness(uint16_t const slowness)
 {
 	this->_slowness = slowness;
-	this->_slownessLap = slowness;
+	this->_time = this->_clock.restart();
 }
 
 void	nx::gui::Sprite::setSpritesAnimated(std::vector<uint16_t> const& spritesAnimated)

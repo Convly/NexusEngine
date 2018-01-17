@@ -43,7 +43,6 @@ namespace nx
 
 			// Setters
 			void setState(bool const state);
-			void setLabel(sf::Text const& label);
 			void setText(std::string const& text);
 			void setFontSize(unsigned int const fontSize);
 			void setColorNotSelected(sf::Color const& color);
@@ -59,7 +58,6 @@ namespace nx
 
 			// Specific getters
 			bool const			getState() const;
-			sf::Text const &	getLabel() const;
 			std::string const	getText() const;
 			unsigned int const	getFontSize() const;
 			sf::Color const &	getColorNotSelected() const;

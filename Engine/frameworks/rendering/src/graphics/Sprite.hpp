@@ -24,11 +24,13 @@ namespace nx
 
 			uint16_t				_spriteIdx;
 			uint16_t				_slowness;
-			uint16_t				_slownessLap;
 
 			bool					_isAnimated;
 			std::vector<uint16_t>	_spritesAnimated;
 			uint16_t				_animationIdx;
+
+			sf::Clock				_clock;
+			sf::Time				_time;
 
 
 			void _loadSpritesheet();
