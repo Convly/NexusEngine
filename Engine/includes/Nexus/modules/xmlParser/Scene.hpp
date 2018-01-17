@@ -8,9 +8,12 @@
 ** Last update Tue Dec 26 20:46:11 2017 Quentin Metge
 */
 
+#ifndef SCENE_HPP_
+# define SCENE_HPP_
+
 #include <unordered_map>
 
-#include "Layout.hpp"
+#include "Layer.hpp"
 
 namespace nx
 {
@@ -19,18 +22,18 @@ namespace nx
   {
   private:
     std::string _name = "";
-    std::unordered_map<std::string, GameObject&>  _gameObjects;
-    std::unordered_map<std::string, Layout&>      _layouts;
+    std::unordered_map<std::string, GameObject>  _gameObjects;
     std::vector<Component>                        _components;
 
   public:
     std::string&                                    getName() { return _name; }
-    std::unordered_map<std::string, GameObject&>&   getGameObjects() { return _gameObjects; }
-    std::unordered_map<std::string, Layout&>&       getLayouts() { return _layouts; }
+    std::unordered_map<std::string, GameObject>&    getGameObjects() { return _gameObjects; }
     std::vector<Component>&                         getComponents() { return _components; }
 
   public:
     Scene() {}
     virtual ~Scene() {}
-  };
-} /* Scene */
+  }; /* Scene */
+} 
+
+#endif

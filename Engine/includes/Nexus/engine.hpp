@@ -19,6 +19,8 @@
 #include "Nexus/rendering.hpp"
 #include "Nexus/script.hpp"
 
+#include "Nexus/modules/xmlParser/xmlParser.hpp"
+
 namespace nx {
   class Engine {
   private:

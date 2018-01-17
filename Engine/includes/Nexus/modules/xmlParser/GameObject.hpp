@@ -8,6 +8,9 @@
 ** Last update Mon Jan 08 14:58:58 2018 Quentin Metge
 */
 
+#ifndef GAMEOBJECT_HPP_
+# define GAMEOBJECT_HPP_
+
 #include <memory>
 #include <unordered_map>
 
@@ -30,18 +33,16 @@ namespace nx
   {
   private:
     std::string _type = "";
-    std::string _tag = "";
     std::string _src = "";
     int         _opacity = 0;
-    Vector2d    _position;
+    Vector2d    _pos;
     Vector2d    _rotation;
 
   public:
     std::string&  getType() { return _type; }
-    std::string&  getTag() { return _tag; }
     std::string&  getSrc() { return _src; }
     int&          getOpacity() { return _opacity; }
-    Vector2d&     getPosition() { return _position; }
+    Vector2d&     getPos() { return _pos; }
     Vector2d&     getRotation() { return _rotation; }
 
   public:
@@ -51,11 +52,10 @@ namespace nx
   public:
     Component& operator=(Component other)
     {
-      _tag = other.getTag();
       _type = other.getType();
       _src = other.getSrc();
       _opacity = other.getOpacity();
-      _position = other.getPosition();
+      _pos = other.getPos();
       _rotation = other.getRotation();
     }
   }; /* Component */
@@ -65,10 +65,12 @@ namespace nx
   {
   private:
     std::string _name = "";
+    std::string _tag = "";
     std::vector<Component> _components;
 
   public:
     std::string&  getName() { return _name; }
+    std::string&  getTag() { return _tag; }
     std::vector<Component>& getComponents() { return _components; }
 
   public:
@@ -79,7 +81,10 @@ namespace nx
     GameObject& operator=(GameObject other)
     {
       _name = other.getName();
-      _components = other._components;
+      _tag = other.getTag();
+      _components = other.getComponents();
     }
   }; /* GameObject */
 } /* nx */
+
+#endif

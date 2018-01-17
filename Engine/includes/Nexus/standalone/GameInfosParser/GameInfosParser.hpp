@@ -29,6 +29,8 @@ namespace nx {
         const std::vector<std::string>	GameRessourcesAttrs = {
             "scenes",
             "gameobjects",
+            "layouts",
+            "layers",
             "components",
             "scripts",
             "medias"

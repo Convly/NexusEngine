@@ -8,6 +8,9 @@
 ** Last update Mon Jan 08 14:58:36 2018 Quentin Metge
 */
 
+#ifndef LAYOUT_HPP_
+# define LAYOUT_HPP_
+
 #include <unordered_map>
 
 #include "GameObject.hpp"
@@ -20,10 +23,12 @@ namespace nx
   private:
     std::unordered_map<std::string, GameObject> _gameObjects;
     std::vector<Component> _components;
+    std::string _name;
 
   public:
     std::unordered_map<std::string, GameObject>&  getGameObjects() { return _gameObjects; }
     std::vector<Component>&  getComponents() { return _components; }
+    std::string& getName() { return _name; }
 
   public:
     Layout() {}
@@ -37,3 +42,5 @@ namespace nx
     }
   };
 } /* nx */
+
+#endif

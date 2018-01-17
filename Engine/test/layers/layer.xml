@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nx>
+	<layer name="layer1">
+		<guiElement name="monbouton1" type="button" width="340" onLeftClickReleasedInside="alert.lua:release" onLeftClickPressedInside="alert.lua:click" height="120" pos="130;340" background-color="10,20,30,40" border-color="0,0,0,255" press-button="true" text="Click me" text-color="0,150,0,255" />
+	</layer>
+</nx>

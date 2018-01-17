@@ -101,7 +101,7 @@ private:
   DIR *dirent;
 };
 
-void getComponentFilesNames(const Directory &dir, std::vector<std::string>& filesNames)
+inline void getComponentFilesNames(const Directory &dir, std::vector<std::string>& filesNames)
 {
   std::vector<std::string> filesDir;
 
@@ -126,7 +126,7 @@ void getComponentFilesNames(const Directory &dir, std::vector<std::string>& file
     }
 }
 
-bool getComponentFilesName(const std::string& path, std::vector<std::string>& filesNames)
+inline bool getComponentFilesName(const std::string& path, std::vector<std::string>& filesNames)
 {
   filesNames.clear();
   if (path.empty())
