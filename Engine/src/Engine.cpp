@@ -2,25 +2,19 @@
 #include "Nexus/log.hpp"
 #include "Nexus/rendering.hpp"
 
-nx::Engine nx::Engine::_instance = nx::Engine({
-	std::make_shared<nx::ScriptSystem>(),
-	std::make_shared<nx::RenderingSystem>()
-});
+nx::Engine nx::Engine::_instance = nx::Engine();
 
 nx::Engine&  				nx::Engine::Instance()
 {
 	return nx::Engine::_instance;
 }
 
-nx::Engine::Engine(const std::vector<std::shared_ptr<nx::SystemTpl>>& systems, const bool debug)
+nx::Engine::Engine(const bool debug)
 :
 	_run(false),
-	_debug(debug),
-	_systems(systems)
+	_debug(debug)
 {
-	for (auto system : this->_systems) {
-		system->init();
-	}
+
 }
 
 nx::Engine::~Engine()
@@ -93,6 +87,21 @@ bool nx::Engine::checkEngineIntegrity() const
 }
 
 /* MAIN */
+
+void nx::Engine::startup(bool serverOnly)
+{
+	this->_systems = 
+	{
+		std::make_shared<nx::ScriptSystem>()
+	};
+
+	if (!serverOnly)
+		this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
+
+	for (auto system : this->_systems) {
+		system->init();
+	}
+}
 
 void nx::Engine::setup() {
 	this->_run = this->checkEngineIntegrity();
