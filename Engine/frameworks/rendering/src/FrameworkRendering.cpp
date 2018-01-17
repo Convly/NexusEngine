@@ -518,16 +518,16 @@ std::string const	FrameworkRendering::getTypeFromElement(std::string const& laye
 	return (this->_getGUIElementFromHandler(layerId, elemId)->getType());
 }
 
-nx::Vector2f const	FrameworkRendering::getPosFromElement(std::string const& layerId, std::string const& elemId) const
+nx::maths::Vector2f const	FrameworkRendering::getPosFromElement(std::string const& layerId, std::string const& elemId) const
 {
 	sf::Vector2f const& pos = this->_getGUIElementFromHandler(layerId, elemId)->getPos();
-	return (nx::Vector2f(pos.x, pos.y));
+	return (nx::maths::Vector2f(pos.x, pos.y));
 }
 
-nx::Vector2f const	FrameworkRendering::getSizeFromElement(std::string const& layerId, std::string const& elemId) const
+nx::maths::Vector2f const	FrameworkRendering::getSizeFromElement(std::string const& layerId, std::string const& elemId) const
 {
 	sf::Vector2f const& size = this->_getGUIElementFromHandler(layerId, elemId)->getPos();
-	return (nx::Vector2f(size.x, size.y));
+	return (nx::maths::Vector2f(size.x, size.y));
 }
 
 
@@ -568,12 +568,12 @@ void FrameworkRendering::setBorderThicknessToButton(std::string const& layerId, 
 	this->_getGUIButtonFromHandler(layerId, buttonId)->setBorderThickness(thickness);
 }
 
-void FrameworkRendering::setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos)
+void FrameworkRendering::setPosToButton(std::string const& layerId, std::string const& buttonId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUIButtonFromHandler(layerId, buttonId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void FrameworkRendering::setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size)
+void FrameworkRendering::setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::maths::Vector2f const& size)
 {
 	this->_getGUIButtonFromHandler(layerId, buttonId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -637,11 +637,11 @@ void		FrameworkRendering::setBorderThicknessToCheckbox(std::string const& layerI
 {
 	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setBorderThickness(thickness);
 }
-void		FrameworkRendering::setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& pos)
+void		FrameworkRendering::setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
-void		FrameworkRendering::setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& size)
+void		FrameworkRendering::setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::maths::Vector2f const& size)
 {
 	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -693,12 +693,12 @@ void	FrameworkRendering::setRadiusToCircleShape(std::string const& circleShapeId
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setRadius(radius);
 }
 
-void	FrameworkRendering::setPosToCircleShape(std::string const& circleShapeId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& pos)
 {
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToCircleShape(std::string const& circleShapeId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& size)
 {
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -773,12 +773,12 @@ void	FrameworkRendering::clearSelectionsToComboBox(std::string const& layerId, s
 	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->clearSelections();
 }
 
-void	FrameworkRendering::setPosToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::maths::Vector2f const& size)
 {
 	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -841,17 +841,17 @@ void	FrameworkRendering::setPointCountToConvexShape(std::string const& convexSha
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPointCount(pointCount);
 }
 
-void	FrameworkRendering::setPointToConvexShape(std::string const& convexShapeId, size_t const index, nx::Vector2f const& point)
+void	FrameworkRendering::setPointToConvexShape(std::string const& convexShapeId, size_t const index, nx::maths::Vector2f const& point)
 {
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPoint(index, sf::Vector2f(point.x, point.y));
 }
 
-void	FrameworkRendering::setPosToConvexShape(std::string const& convexShapeId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& pos)
 {
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToConvexShape(std::string const& convexShapeId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& size)
 {
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -884,10 +884,10 @@ size_t const				FrameworkRendering::getPointCountFromConvexShape(std::string con
 	return (this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getPointCount());
 }
 
-nx::Vector2f const			FrameworkRendering::getPointFromConvexShape(std::string const& convexShapeId, size_t const index) const
+nx::maths::Vector2f const			FrameworkRendering::getPointFromConvexShape(std::string const& convexShapeId, size_t const index) const
 {
 	sf::Vector2f point(this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getPoint(index));
-	return (nx::Vector2f(point.x, point.y));
+	return (nx::maths::Vector2f(point.x, point.y));
 }
 
 
@@ -898,12 +898,12 @@ void	FrameworkRendering::setImagePathToImage(std::string const& layerId, std::st
 	this->_getGUIImageFromHandler(layerId, imageId)->setImagePath(spritePath);
 }
 
-void	FrameworkRendering::setPosToImage(std::string const& layerId, std::string const& imageId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToImage(std::string const& layerId, std::string const& imageId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUIImageFromHandler(layerId, imageId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToImage(std::string const& layerId, std::string const& imageId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToImage(std::string const& layerId, std::string const& imageId, nx::maths::Vector2f const& size)
 {
 	this->_getGUIImageFromHandler(layerId, imageId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -940,12 +940,12 @@ void		FrameworkRendering::setFontSizeToProgressBar(std::string const& layerId, s
 	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setFontSize(fontSize);
 }
 
-void		FrameworkRendering::setPosToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::Vector2f const& pos)
+void		FrameworkRendering::setPosToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void		FrameworkRendering::setSizeToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::Vector2f const& size)
+void		FrameworkRendering::setSizeToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::maths::Vector2f const& size)
 {
 	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -1000,12 +1000,12 @@ void	FrameworkRendering::setRotationToRectShape(std::string const& rectShapeId, 
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setRotation(angle);
 }
 
-void	FrameworkRendering::setPosToRectShape(std::string const& rectShapeId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& pos)
 {
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToRectShape(std::string const& rectShapeId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& size)
 {
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -1065,12 +1065,12 @@ void	FrameworkRendering::setAnimationIdxToGraphicsSprite(std::string const& spri
 	this->_getGraphicsSpriteFromHandler(spriteId)->setAnimationIdx(animationIdx);
 }
 
-void	FrameworkRendering::setPosToGraphicsSprite(std::string const& spriteId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToGraphicsSprite(std::string const& spriteId, nx::maths::Vector2f const& pos)
 {
 	this->_getGraphicsSpriteFromHandler(spriteId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToGraphicsSprite(std::string const& spriteId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToGraphicsSprite(std::string const& spriteId, nx::maths::Vector2f const& size)
 {
 	this->_getGraphicsSpriteFromHandler(spriteId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -1139,12 +1139,12 @@ void	FrameworkRendering::setAnimationIdxToGUISprite(std::string const& layerId, 
 	this->_getGUISpriteFromHandler(layerId, spriteId)->setAnimationIdx(animationIdx);
 }
 
-void	FrameworkRendering::setPosToGUISprite(std::string const& layerId, std::string const& spriteId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToGUISprite(std::string const& layerId, std::string const& spriteId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUISpriteFromHandler(layerId, spriteId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToGUISprite(std::string const& layerId, std::string const& spriteId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToGUISprite(std::string const& layerId, std::string const& spriteId, nx::maths::Vector2f const& size)
 {
 	this->_getGUISpriteFromHandler(layerId, spriteId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -1193,12 +1193,12 @@ void FrameworkRendering::setFontSizeToText(std::string const& layerId, std::stri
 	this->_getGUITextFromHandler(layerId, textId)->setFontSize(fontSize);
 }
 
-void FrameworkRendering::setPosToText(std::string const& layerId, std::string const& textId, nx::Vector2f const& pos)
+void FrameworkRendering::setPosToText(std::string const& layerId, std::string const& textId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUITextFromHandler(layerId, textId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void FrameworkRendering::setSizeToText(std::string const& layerId, std::string const& textId, nx::Vector2f const& size)
+void FrameworkRendering::setSizeToText(std::string const& layerId, std::string const& textId, nx::maths::Vector2f const& size)
 {
 	this->_getGUITextFromHandler(layerId, textId)->setSize(sf::Vector2f(size.x, size.y));
 }
@@ -1245,12 +1245,12 @@ void	FrameworkRendering::setCursorIdxToTextInput(std::string const& layerId, std
 	this->_getGUITextInputFromHandler(layerId, textInputId)->setCursorIdx(idx);
 }
 
-void	FrameworkRendering::setPosToTextInput(std::string const& layerId, std::string const& textInputId, nx::Vector2f const& pos)
+void	FrameworkRendering::setPosToTextInput(std::string const& layerId, std::string const& textInputId, nx::maths::Vector2f const& pos)
 {
 	this->_getGUITextInputFromHandler(layerId, textInputId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
-void	FrameworkRendering::setSizeToTextInput(std::string const& layerId, std::string const& textInputId, nx::Vector2f const& size)
+void	FrameworkRendering::setSizeToTextInput(std::string const& layerId, std::string const& textInputId, nx::maths::Vector2f const& size)
 {
 	this->_getGUITextInputFromHandler(layerId, textInputId)->setSize(sf::Vector2f(size.x, size.y));
 }
