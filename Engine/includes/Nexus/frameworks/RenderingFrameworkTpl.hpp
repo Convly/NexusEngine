@@ -224,8 +224,8 @@ namespace nx {
 		virtual void setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color) = 0;
 		virtual void setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color) = 0;
 		virtual void setBorderThicknessToButton(std::string const& layerId, std::string const& buttonId, int const thickness) = 0;
-		virtual void setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos) = 0;
-		virtual void setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size) = 0;
+		virtual void setPosToButton(std::string const& layerId, std::string const& buttonId, nx::maths::Vector2f const& pos) = 0;
+		virtual void setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::maths::Vector2f const& size) = 0;
 
 		virtual bool const					getStateFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
 		virtual std::string const			getTextFromButton(std::string const& layerId, std::string const& buttonId) const = 0;
@@ -240,8 +240,8 @@ namespace nx {
 		virtual void	setBackgroundColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color) = 0;
 		virtual void	setBorderColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color) = 0;
 		virtual void	setBorderThicknessToCheckbox(std::string const& layerId, std::string const& checkboxId, int const thickness) = 0;
-		virtual void	setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::maths::Vector2f const& size) = 0;
 
 		virtual nx::rendering::CheckboxState const	getStateFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
 		virtual nx::rendering::RGBa const			getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const = 0;
@@ -254,8 +254,8 @@ namespace nx {
 		virtual void	setBorderThicknessToCircleShape(std::string const& circleShapeId, int const thickness) = 0;
 		virtual void	setRotationToCircleShape(std::string const& circleShapeId, float const angle) = 0;
 		virtual void	setRadiusToCircleShape(std::string const& circleShapeId, float const radius) = 0;
-		virtual void	setPosToCircleShape(std::string const& circleShapeId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToCircleShape(std::string const& circleShapeId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& size) = 0;
 
 		virtual nx::rendering::RGBa const	getBackgroundColorFromCircleShape(std::string const& circleShapeId) const = 0;
 		virtual nx::rendering::RGBa const	getBorderColorFromCircleShape(std::string const& circleShapeId) const = 0;
@@ -272,8 +272,8 @@ namespace nx {
 		virtual void	removeSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, std::string const& selection, uint16_t const nbTimes) = 0;
 		virtual void	removeSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, uint16_t const idx, uint16_t const nbTimes) = 0;
 		virtual void	clearSelectionsToComboBox(std::string const& layerId, std::string const& comboBoxId) = 0;
-		virtual void	setPosToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::maths::Vector2f const& size) = 0;
 
 		virtual nx::rendering::RGBa const	getBackgroundColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
 		virtual nx::rendering::RGBa const	getBorderColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const = 0;
@@ -288,21 +288,21 @@ namespace nx {
 		virtual void	setBorderThicknessToConvexShape(std::string const& convexShapeId, int const thickness) = 0;
 		virtual void	setRotationToConvexShape(std::string const& convexShapeId, float const angle) = 0;
 		virtual void	setPointCountToConvexShape(std::string const& convexShapeId, size_t const pointCount) = 0;
-		virtual void	setPointToConvexShape(std::string const& convexShapeId, size_t const index, nx::Vector2f const& point) = 0;
-		virtual void	setPosToConvexShape(std::string const& convexShapeId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToConvexShape(std::string const& convexShapeId, nx::Vector2f const& size) = 0;
+		virtual void	setPointToConvexShape(std::string const& convexShapeId, size_t const index, nx::maths::Vector2f const& point) = 0;
+		virtual void	setPosToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& size) = 0;
 
 		virtual nx::rendering::RGBa const	getBackgroundColorFromConvexShape(std::string const& convexShapeId) const = 0;
 		virtual nx::rendering::RGBa const	getBorderColorFromConvexShape(std::string const& convexShapeId) const = 0;
 		virtual int const					getBorderThicknessFromConvexShape(std::string const& convexShapeId) const = 0;
 		virtual float const					getRotationFromConvexShape(std::string const& convexShapeId) const = 0;
 		virtual size_t const				getPointCountFromConvexShape(std::string const& convexShapeId) const = 0;
-		virtual nx::Vector2f const			getPointFromConvexShape(std::string const& convexShapeId, size_t const index) const = 0;
+		virtual nx::maths::Vector2f const			getPointFromConvexShape(std::string const& convexShapeId, size_t const index) const = 0;
 
 		//Image
 		virtual void	setImagePathToImage(std::string const& layerId, std::string const& imageId, std::string const& spritePath) = 0;
-		virtual void	setPosToImage(std::string const& layerId, std::string const& imageId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToImage(std::string const& layerId, std::string const& imageId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToImage(std::string const& layerId, std::string const& imageId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToImage(std::string const& layerId, std::string const& imageId, nx::maths::Vector2f const& size) = 0;
 
 		virtual std::string const	getImagePathFromImage(std::string const& layerId, std::string const& imageId) const = 0;
 
@@ -312,8 +312,8 @@ namespace nx {
 		virtual void		setBorderThicknessToProgressBar(std::string const& layerId, std::string const& progressBarId, int const thickness) = 0;
 		virtual void		setFilledToProgressBar(std::string const& layerId, std::string const& progressBarId, int const percentage) = 0;
 		virtual void		setFontSizeToProgressBar(std::string const& layerId, std::string const& progressBarId, unsigned int const fontSize) = 0;
-		virtual void		setPosToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::Vector2f const& pos) = 0;
-		virtual void		setSizeToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::Vector2f const& size) = 0;
+		virtual void		setPosToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::maths::Vector2f const& pos) = 0;
+		virtual void		setSizeToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::maths::Vector2f const& size) = 0;
 
 		virtual nx::rendering::RGBa const	getBackgroundColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const = 0;
 		virtual nx::rendering::RGBa const	getBorderColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const = 0;
@@ -326,8 +326,8 @@ namespace nx {
 		virtual void	setBorderColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color) = 0;
 		virtual void	setBorderThicknessToRectShape(std::string const& rectShapeId, int const thickness) = 0;
 		virtual void	setRotationToRectShape(std::string const& rectShapeId, float const angle) = 0;
-		virtual void	setPosToRectShape(std::string const& rectShapeId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToRectShape(std::string const& rectShapeId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& size) = 0;
 
 		virtual nx::rendering::RGBa const	getBackgroundColorFromRectShape(std::string const& rectShapeId) const = 0;
 		virtual nx::rendering::RGBa const	getBorderColorFromRectShape(std::string const& rectShapeId) const = 0;
@@ -341,8 +341,8 @@ namespace nx {
 		virtual void	setAnimateToGraphicsSprite(std::string const& spriteId, bool const animate) = 0;
 		virtual void	setSpritesAnimatedToGraphicsSprite(std::string const& spriteId, std::vector<uint16_t> const& spritesAnimated) = 0;
 		virtual void	setAnimationIdxToGraphicsSprite(std::string const& spriteId, uint16_t const animationIdx) = 0;
-		virtual void	setPosToGraphicsSprite(std::string const& spriteId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToGraphicsSprite(std::string const& spriteId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToGraphicsSprite(std::string const& spriteId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToGraphicsSprite(std::string const& spriteId, nx::maths::Vector2f const& size) = 0;
 
 		virtual std::string const &				getSpritesheetPathFromGraphicsSprite(std::string const& spriteId) const = 0;
 		virtual uint16_t const					getSpriteIdxFromGraphicsSprite(std::string const& spriteId) const = 0;
@@ -358,8 +358,8 @@ namespace nx {
 		virtual void	setAnimateToGUISprite(std::string const& layerId, std::string const& spriteId, bool const animate) = 0;
 		virtual void	setSpritesAnimatedToGUISprite(std::string const& layerId, std::string const& spriteId, std::vector<uint16_t> const& spritesAnimated) = 0;
 		virtual void	setAnimationIdxToGUISprite(std::string const& layerId, std::string const& spriteId, uint16_t const animationIdx) = 0;
-		virtual void	setPosToGUISprite(std::string const& layerId, std::string const& spriteId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToGUISprite(std::string const& layerId, std::string const& spriteId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToGUISprite(std::string const& layerId, std::string const& spriteId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToGUISprite(std::string const& layerId, std::string const& spriteId, nx::maths::Vector2f const& size) = 0;
 
 		virtual std::string const &				getSpritesheetPathFromGUISprite(std::string const& layerId, std::string const& spriteId) const = 0;
 		virtual uint16_t const					getSpriteIdxFromGUISprite(std::string const& layerId, std::string const& spriteId) const = 0;
@@ -371,8 +371,8 @@ namespace nx {
 		//Text
 		virtual void setTextToText(std::string const& layerId, std::string const& textId, std::string const& text) = 0;
 		virtual void setFontSizeToText(std::string const& layerId, std::string const& textId, unsigned int const fontSize) = 0;
-		virtual void setPosToText(std::string const& layerId, std::string const& textId, nx::Vector2f const& pos) = 0;
-		virtual void setSizeToText(std::string const& layerId, std::string const& textId, nx::Vector2f const& size) = 0;
+		virtual void setPosToText(std::string const& layerId, std::string const& textId, nx::maths::Vector2f const& pos) = 0;
+		virtual void setSizeToText(std::string const& layerId, std::string const& textId, nx::maths::Vector2f const& size) = 0;
 
 		virtual std::string const	getTextFromText(std::string const& layerId, std::string const& textId) const = 0;
 		virtual unsigned int const	getFontSizeFromText(std::string const& layerId, std::string const& textId) const = 0;
@@ -384,8 +384,8 @@ namespace nx {
 		virtual void	setBorderThicknessToTextInput(std::string const& layerId, std::string const& textInputId, int const thickness) = 0;
 		virtual void	setTextToTextInput(std::string const& layerId, std::string const& textInputId, std::string const& text) = 0;
 		virtual void	setCursorIdxToTextInput(std::string const& layerId, std::string const& textInputId, unsigned int idx) = 0;
-		virtual void	setPosToTextInput(std::string const& layerId, std::string const& textInputId, nx::Vector2f const& pos) = 0;
-		virtual void	setSizeToTextInput(std::string const& layerId, std::string const& textInputId, nx::Vector2f const& size) = 0;
+		virtual void	setPosToTextInput(std::string const& layerId, std::string const& textInputId, nx::maths::Vector2f const& pos) = 0;
+		virtual void	setSizeToTextInput(std::string const& layerId, std::string const& textInputId, nx::maths::Vector2f const& size) = 0;
 
 		virtual bool const					getStateFromTextInput(std::string const& layerId, std::string const& textInputId) const = 0;
 		virtual nx::rendering::RGBa const	getBackgroundColorFromTextInput(std::string const& layerId, std::string const& textInputId) const = 0;
