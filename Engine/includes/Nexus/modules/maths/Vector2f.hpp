@@ -10,7 +10,7 @@ struct Vector2f {
 	/* Constructors / Destructors */
 	Vector2f(double x_, double y_) : x(x_), y(y_) {}
 	Vector2f(double value) : x(value), y(value) {}
-    Vector2f(const Vector2f& other) : x(other.x), y(other.y) {}
+	Vector2f(const Vector2f& other) : x(other.x), y(other.y) {}
 	Vector2f() : x(0), y(0) {}
 	~Vector2f() {}
 
