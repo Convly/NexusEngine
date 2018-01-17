@@ -33,6 +33,7 @@ public:
 	void loadFile(const std::string& scriptPath);
 	void update(const std::string& scriptPath);
 	void init(const std::string& scriptPath);
+	void execFunction(const std::string& scriptPath, const std::string& funcName);
 	
 
 private:
