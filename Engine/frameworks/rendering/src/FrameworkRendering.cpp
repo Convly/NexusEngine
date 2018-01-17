@@ -426,42 +426,82 @@ nx::gui::GUIElement	*FrameworkRendering::_getGUIElementFromHandler(std::string c
 
 nx::gui::Button		*FrameworkRendering::_getGUIButtonFromHandler(std::string const& layerId, std::string const& buttonId) const
 {
-	return (dynamic_cast<nx::gui::Button *>(this->_getGUIElementFromHandler(layerId, buttonId)));
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_getGUIElementFromHandler(layerId, buttonId));
+
+	if (!button)
+		throw nx::InvalidCastElementException(buttonId, "nx::gui::Button");
+
+	return (button);
 }
 
 nx::gui::Checkbox		*FrameworkRendering::_getGUICheckboxFromHandler(std::string const& layerId, std::string const& checkboxId) const
 {
-	return (dynamic_cast<nx::gui::Checkbox *>(this->_getGUIElementFromHandler(layerId, checkboxId)));
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_getGUIElementFromHandler(layerId, checkboxId));
+
+	if (!checkbox)
+		throw nx::InvalidCastElementException(checkboxId, "nx::gui::Checkbox");
+
+	return (checkbox);
 }
 
 nx::gui::ProgressBar	*FrameworkRendering::_getGUIProgressBarFromHandler(std::string const& layerId, std::string const& progressBarId) const
 {
-	return (dynamic_cast<nx::gui::ProgressBar *>(this->_getGUIElementFromHandler(layerId, progressBarId)));
+	nx::gui::ProgressBar *progressBar = dynamic_cast<nx::gui::ProgressBar *>(this->_getGUIElementFromHandler(layerId, progressBarId));
+
+	if (!progressBar)
+		throw nx::InvalidCastElementException(progressBarId, "nx::gui::ProgressBar");
+
+	return (progressBar);
 }
 
 nx::gui::ComboBox		*FrameworkRendering::_getGUIComboBoxFromHandler(std::string const& layerId, std::string const& comboBoxId) const
 {
-	return (dynamic_cast<nx::gui::ComboBox *>(this->_getGUIElementFromHandler(layerId, comboBoxId)));
+	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_getGUIElementFromHandler(layerId, comboBoxId));
+
+	if (!comboBox)
+		throw nx::InvalidCastElementException(comboBoxId, "nx::gui::ComboBox");
+
+	return (comboBox);
 }
 
 nx::gui::TextInput		*FrameworkRendering::_getGUITextInputFromHandler(std::string const& layerId, std::string const& textInputId) const
 {
-	return (dynamic_cast<nx::gui::TextInput *>(this->_getGUIElementFromHandler(layerId, textInputId)));
+	nx::gui::TextInput *textInput = dynamic_cast<nx::gui::TextInput *>(this->_getGUIElementFromHandler(layerId, textInputId));
+
+	if (!textInput)
+		throw nx::InvalidCastElementException(textInputId, "nx::gui::TextInput");
+
+	return (textInput);
 }
 
 nx::gui::Text			*FrameworkRendering::_getGUITextFromHandler(std::string const& layerId, std::string const& textId) const
 {
-	return (dynamic_cast<nx::gui::Text *>(this->_getGUIElementFromHandler(layerId, textId)));
+	nx::gui::Text *text = dynamic_cast<nx::gui::Text *>(this->_getGUIElementFromHandler(layerId, textId));
+
+	if (!text)
+		throw nx::InvalidCastElementException(textId, "nx::gui::Text");
+
+	return (text);
 }
 
 nx::gui::Image			*FrameworkRendering::_getGUIImageFromHandler(std::string const& layerId, std::string const& imageId) const
 {
-	return (dynamic_cast<nx::gui::Image *>(this->_getGUIElementFromHandler(layerId, imageId)));
+	nx::gui::Image *image = dynamic_cast<nx::gui::Image *>(this->_getGUIElementFromHandler(layerId, imageId));
+
+	if (!image)
+		throw nx::InvalidCastElementException(imageId, "nx::gui::Image");
+
+	return (image);
 }
 
 nx::gui::Sprite			*FrameworkRendering::_getGUISpriteFromHandler(std::string const& layerId, std::string const& spriteId) const
 {
-	return (dynamic_cast<nx::gui::Sprite *>(this->_getGUIElementFromHandler(layerId, spriteId)));
+	nx::gui::Sprite *sprite = dynamic_cast<nx::gui::Sprite *>(this->_getGUIElementFromHandler(layerId, spriteId));
+
+	if (!sprite)
+		throw nx::InvalidCastElementException(spriteId, "nx::gui::Sprite");
+
+	return (sprite);
 }
 
 
@@ -480,22 +520,42 @@ nx::graphics::GraphicsElement	*FrameworkRendering::_getGraphicsElementFromHandle
 
 nx::graphics::Sprite			*FrameworkRendering::_getGraphicsSpriteFromHandler(std::string const& spriteId) const
 {
-	return (dynamic_cast<nx::graphics::Sprite *>(this->_getGraphicsElementFromHandler(spriteId)));
+	nx::graphics::Sprite *sprite = dynamic_cast<nx::graphics::Sprite *>(this->_getGraphicsElementFromHandler(spriteId));
+
+	if (!sprite)
+		throw nx::InvalidCastElementException(spriteId, "nx::graphics::Sprite");
+
+	return (sprite);
 }
 
 nx::graphics::CircleShape		*FrameworkRendering::_getGraphicsCircleShapeFromHandler(std::string const& circleShapeId) const
 {
-	return (dynamic_cast<nx::graphics::CircleShape *>(this->_getGraphicsElementFromHandler(circleShapeId)));
+	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_getGraphicsElementFromHandler(circleShapeId));
+
+	if (!circleShape)
+		throw nx::InvalidCastElementException(circleShapeId, "nx::graphics::CircleShape");
+
+	return (circleShape);
 }
 
 nx::graphics::RectShape			*FrameworkRendering::_getGraphicsRectShapeFromHandler(std::string const& rectShapeId) const
 {
-	return (dynamic_cast<nx::graphics::RectShape *>(this->_getGraphicsElementFromHandler(rectShapeId)));
+	nx::graphics::RectShape *rectShape = dynamic_cast<nx::graphics::RectShape *>(this->_getGraphicsElementFromHandler(rectShapeId));
+
+	if (!rectShape)
+		throw nx::InvalidCastElementException(rectShapeId, "nx::graphics::RectShape");
+
+	return (rectShape);
 }
 
 nx::graphics::ConvexShape		*FrameworkRendering::_getGraphicsConvexShapeFromHandler(std::string const& convexShapeId) const
 {
-	return (dynamic_cast<nx::graphics::ConvexShape *>(this->_getGraphicsElementFromHandler(convexShapeId)));
+	nx::graphics::ConvexShape *convexShape = dynamic_cast<nx::graphics::ConvexShape *>(this->_getGraphicsElementFromHandler(convexShapeId));
+
+	if (!convexShape)
+		throw nx::InvalidCastElementException(convexShapeId, "nx::graphics::ConvexShape");
+
+	return (convexShape);
 }
 
 

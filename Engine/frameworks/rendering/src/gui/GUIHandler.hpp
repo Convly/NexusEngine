@@ -15,6 +15,7 @@
 # include "Sprite.hpp"
 
 # include "../LayerNotFoundException.hpp"
+# include "../InvalidCastElementException.hpp"
 
 namespace nx
 {
