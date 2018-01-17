@@ -164,29 +164,31 @@ void nx::NetworkSystem::event_NetworkUdpReceive(const nx::Event &e) {
 	nx::Log::inform("E, comme END");
 }
 
-void nx::NetworkSystem::event_NetworkUdpSend(const nx::Event &e) {
+void nx::NetworkSystem::event_NetworkUdpSend(const nx::Event &e)
+{
+// ------- init engine
 	auto &engine = nx::Engine::Instance();
-	// We use the getSystemByName method to get a shared_ptr on the SystemTpl* instance of our choice.
-	// Then we cast it into the system of our choice
 	auto self = nx::Engine::cast<nx::NetworkSystem>(engine.getSystemByName(__NX_NETWORK_KEY__));
-	// If the cast fails, our self variable is set to nullptr
 	if (!self)
 		return;
 
+// ------- get Event
+	
 	const nx::NetworkSystem::UdpSendEvent *event;
-
 	event = reinterpret_cast<const nx::NetworkSystem::UdpSendEvent*>(e.data.data());
 
-	std::vector<char> data;
+	nx::Log::inform("[NETWORK SYSTEM] event.type: [" + std::to_string(event->_event.type) + "]");
+	nx::Log::inform("[NETWORK SYSTEM] event.arg: [" + std::string(event->_event.data.data()) + "]");
 
+// ------- send event
 	try
 	{
-		nx::Log::inform("before udpSend");
+		nx::Log::inform("before udpSend__");
 		self->getFramework()->udpSend(event->_ip, event->_port, event->_event);
 		nx::Log::inform("after udpSend");
 	}
-	catch (...)//const nx::NetworkUdpException &e)
+	catch (const std::exception &e) //...)//const nx::NetworkUdpException &e)
 	{
-		nx::Log::debug("[UDP SEND] error: ");// +std::string(e.what()));
+		nx::Log::debug("[UDP SEND] error: " + std::string(e.what()));
 	}
 }

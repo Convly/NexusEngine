@@ -75,18 +75,29 @@ void FrameworkConsoleEvent::runEvent(std::string event) {
   }
   else if (event == "send")
   {
+// -------- create event to send
+
+	  // create argument
 	  std::string random = "hey";
 	  std::vector<char> data_r = nx::Event::stringToVector(random.c_str());
 
+	  // create event with argument inside
 	  auto eventR = nx::Event(nx::EVENT::SCRIPT_INIT, data_r);
-	  nx::Log::inform("[ConsoleEvent] send Data (UDP)");
 
+// -------- create event to trigger
+
+	  // create event for system
 	  nx::NetworkSystem::UdpSendEvent sendDataEvent = { "127.0.0.1", 4242, eventR };
 
+	  // convert event to vector<char>
 	  auto const ptr = reinterpret_cast<char*>(&sendDataEvent);
 	  std::vector<char> data(ptr, ptr + sizeof sendDataEvent);
+
+	  nx::Log::inform("[ConsoleEvent] event.type: [" + std::to_string(sendDataEvent._event.type) + "]");
+	  nx::Log::inform("[ConsoleEvent] event.arg: [" + std::string(sendDataEvent._event.data.data()) + "]");
+
+// -------- emit the event
 	  this->_engine->emit(nx::EVENT::NETWORK_UDP_SEND, data);
-	  nx::Log::inform("[ConsoleEvent] Data send: [" + std::string(data_r.data()) + "]");
-	  nx::Log::inform("[ConsoleEvent] Send data (UDP) to localhost (hope it work)");
+	  nx::Log::inform("[ConsoleEvent] Send data (UDP) to localhost");
   }
 }

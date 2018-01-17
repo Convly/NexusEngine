@@ -33,6 +33,14 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vec
 	char	decimal_port[16];
 	struct	addrinfo hints;
 
+	const nx::Event e = this->convertNetworkDataToEvent(data);
+
+	nx::Log::inform("[UDP START SEND] event.type: [" + std::to_string(e.type) + "]");
+	nx::Log::inform("[UDP START SEND] event.arg: [" + std::string(e.data.data()) + "]");
+	nx::Log::inform("[UDP START SEND] size = " + std::to_string(data.size()));
+
+	std::cout << "must init" << std::endl;
+
 	if (_ipC != ip || _portC != port)
 	{
 		if (_ipC != "" || _portC != 0)
@@ -49,13 +57,18 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vec
 		hints.ai_socktype = SOCK_DGRAM;
 		hints.ai_protocol = IPPROTO_UDP;
 
+		std::cout << "get addr info to pass" << std::endl;
+
 		if (getaddrinfo(_ipC.c_str(), decimal_port, &hints, &_addrInfo) != 0 || _addrInfo == NULL)
 			throw nx::NetworkUdpException("invalid address or port: \"" + _ipC + ":" + decimal_port + "\"");
+
+		std::cout << "get addr info done" << std::endl;
 
 		_socketC = socket(_addrInfo->ai_family, SOCK_DGRAM, IPPROTO_UDP);
 		if (_socketC == -1)
 		{
 			freeaddrinfo(_addrInfo);
+			std::cout << "error on socket creation" << std::endl;
 			throw nx::NetworkUdpException("could not create socket for: \"" + _ipC + ":" + decimal_port + "\"");
 		}
 	}
@@ -74,21 +87,27 @@ void		NetworkUdp::startReceive(unsigned short port)
 
 void		NetworkUdp::send(std::vector<char> data)
 {
+	const nx::Event e = this->convertNetworkDataToEvent(data);
+
+	nx::Log::inform("[UDP SEND] event.type: [" + std::to_string(e.type) + "]");
+	nx::Log::inform("[UDP SEND] event.arg: [" + std::string(e.data.data()) + "]");
+
 	nx::Log::inform("Ready to send");
 
-	std::string	msg;
-	std::string body;
-	std::string header;
 	bool		run = true;
-
 	while (run)
 	{
-		for (auto it : data)
-			body += it;
-		msg = header + body;
+		std::vector<char>	toSend(4000, 0);
+		for (size_t i = 0; i < data.size() && i < toSend.size(); ++i)
+			toSend[i] = data[i];
+		nx::Log::inform("[UDP SEND] Raw Data: [" + std::string(data.data()) + "]");
 
-		if (sendto(_socketC, msg.c_str(), msg.size(), 0, _addrInfo->ai_addr, _addrInfo->ai_addrlen) == -1)
+		int r = 0;
+
+		if ((r = sendto(_socketC, toSend.data(), toSend.size(), 0, _addrInfo->ai_addr, _addrInfo->ai_addrlen)) == -1)
 			nx::Log::inform("ERROR ON SEEEEEEEND !!");
+
+		nx::Log::inform("[UDP SEND] send ok " + std::to_string(r));
 
 		run = false;
 	}
@@ -124,27 +143,26 @@ void		NetworkUdp::receive(unsigned short port)
 
 	int r = 0;
 
+	std::vector<char> data;
+	data.reserve(4000);
+	
 	while (1)
 	{
-		std::vector<char> data(4000);
-
+		data.clear();
 		nx::Log::debug("before recvfrom");
 		if ((r = ::recvfrom(_socketS, data.data(), 4000, 0, (struct sockaddr *)&_clientAddr, &addrlen)) == -1)
 			nx::Log::debug("ERROR ERROR ERROR (recv from)");
 			//throw nx::NetworkUdpException("recvfrom failed");
 		nx::Log::debug("after recvfrom " + std::to_string(r));
 
-		nx::Log::inform("[UDP RECEIVE] Data: [" + std::string(data.data()) + "]");
+		nx::Log::inform("[UDP RECEIVE] Raw Data: [" + std::string(data.data()) + "]");
 		nx::Log::debug("--\n");
 
 		if (data.data() == nullptr)
 			nx::Log::inform(":D :) :| :[ :( :G :'G");
-		std::cout << "ici_" << std::endl;
-		const nx::Event * ev = reinterpret_cast<const nx::Event*>(data.data());
-		std::cout << "ici_2" << std::endl;
-		//const nx::Event event = this->convertNetworkDataToEvent(data);
-		const nx::Event event = *ev;
-		std::cout << "ici_3" << std::endl;
+		std::cout << "before NETWORK DATA to EVENT" << std::endl;
+		const nx::Event event = this->convertNetworkDataToEvent(data);
+		std::cout << "after NETWORK DATA to EVENT" << std::endl;
 
 		std::cout << "string of data = " << event.stringFromVector(data) << std::endl;
 

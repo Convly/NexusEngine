@@ -32,5 +32,7 @@ void FrameworkNetwork::udpReceive(unsigned short port)
 
 void FrameworkNetwork::udpSend(const std::string &ip, unsigned short port, nx::Event event)
 {
+	std::cout << "before udp start" << std::endl;
 	this->_udp.startSend(ip, port, this->convertEventToNetworkData(event));
+	std::cout << "after udp start" << std::endl;
 }
