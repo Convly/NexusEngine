@@ -102,6 +102,8 @@ void nx::RenderingSystem::init()
 			}),
 			nx::rendering::GUISpriteInfos("./images/guitarist.png", nx::Vector2f(3, 2), nx::Vector2f(103, 89))
 			);
+		f->setAnimateToGUISprite("Menu", "MyCauvinGUISprite", true);
+		f->setSlownessToGUISprite("Menu", "MyCauvinGUISprite", 70);
 		f->addGraphicsSprite(
 			nx::rendering::GraphicsElementInfos(nx::Vector2f(400, 620), nx::Vector2f(0, 0), "MyCauvinGraphicsSprite",
 			{
