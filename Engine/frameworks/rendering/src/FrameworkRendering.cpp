@@ -408,7 +408,7 @@ bool FrameworkRendering::addGraphicsConvexShape(const nx::rendering::GraphicsEle
 	return (true);
 }
 
-std::string const	FrameworkRendering::getTypeFromElement(std::string const& layerId, std::string const& elemId) const
+nx::gui::GUIElement	*FrameworkRendering::_getGUIElementFromHandler(std::string const& layerId, std::string const& elemId) const
 {
 	if (!this->_guiHandler->layer_exists(layerId))
 		throw nx::LayerNotFoundException(elemId);
@@ -421,42 +421,218 @@ std::string const	FrameworkRendering::getTypeFromElement(std::string const& laye
 	if (!elem)
 		throw nx::NullElementException(elemId);
 
-	return (elem->getType());
+	return (elem);
+}
+
+nx::gui::Button		*FrameworkRendering::_getGUIButtonFromHandler(std::string const& layerId, std::string const& buttonId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(buttonId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
+		throw nx::ElementNotFoundException(buttonId);
+
+	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
+
+	if (!button)
+		throw nx::NullElementException(buttonId);
+
+	return (button);
+}
+
+nx::gui::Checkbox		*FrameworkRendering::_getGUICheckboxFromHandler(std::string const& layerId, std::string const& checkboxId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(checkboxId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
+		throw nx::ElementNotFoundException(checkboxId);
+
+	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
+
+	if (!checkbox)
+		throw nx::NullElementException(checkboxId);
+
+	return (checkbox);
+}
+
+nx::gui::ProgressBar	*FrameworkRendering::_getGUIProgressBarFromHandler(std::string const& layerId, std::string const& progressBarId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(progressBarId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(progressBarId))
+		throw nx::ElementNotFoundException(progressBarId);
+
+	nx::gui::ProgressBar *progressBar = dynamic_cast<nx::gui::ProgressBar *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(progressBarId).get());
+
+	if (!progressBar)
+		throw nx::NullElementException(progressBarId);
+
+	return (progressBar);
+}
+
+nx::gui::ComboBox		*FrameworkRendering::_getGUIComboBoxFromHandler(std::string const& layerId, std::string const& comboBoxId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(comboBoxId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
+		throw nx::ElementNotFoundException(comboBoxId);
+
+	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
+
+	if (!comboBox)
+		throw nx::NullElementException(comboBoxId);
+
+	return (comboBox);
+}
+
+nx::gui::TextInput		*FrameworkRendering::_getGUITextInputFromHandler(std::string const& layerId, std::string const& textInputId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(textInputId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(textInputId))
+		throw nx::ElementNotFoundException(textInputId);
+
+	nx::gui::TextInput *textInput = dynamic_cast<nx::gui::TextInput *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(textInputId).get());
+
+	if (!textInput)
+		throw nx::NullElementException(textInputId);
+
+	return (textInput);
+}
+
+nx::gui::Text			*FrameworkRendering::_getGUITextFromHandler(std::string const& layerId, std::string const& textId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(textId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(textId))
+		throw nx::ElementNotFoundException(textId);
+
+	nx::gui::Text *text = dynamic_cast<nx::gui::Text *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(textId).get());
+
+	if (!text)
+		throw nx::NullElementException(textId);
+
+	return (text);
+}
+
+nx::gui::Image			*FrameworkRendering::_getGUIImageFromHandler(std::string const& layerId, std::string const& imageId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(imageId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(imageId))
+		throw nx::ElementNotFoundException(imageId);
+
+	nx::gui::Image *image = dynamic_cast<nx::gui::Image *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(imageId).get());
+
+	if (!image)
+		throw nx::NullElementException(imageId);
+
+	return (image);
+}
+
+nx::gui::Sprite			*FrameworkRendering::_getGUISpriteFromHandler(std::string const& layerId, std::string const& spriteId) const
+{
+	if (!this->_guiHandler->layer_exists(layerId))
+		throw nx::LayerNotFoundException(spriteId);
+
+	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(spriteId))
+		throw nx::ElementNotFoundException(spriteId);
+
+	nx::gui::Sprite *sprite = dynamic_cast<nx::gui::Sprite *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(spriteId).get());
+
+	if (!sprite)
+		throw nx::NullElementException(spriteId);
+
+	return (sprite);
+}
+
+
+nx::graphics::GraphicsElement	*FrameworkRendering::_getGraphicsElementFromHandler(std::string const& elemId) const
+{
+	if (!this->_graphicsHandler->object_exists(elemId))
+		throw nx::ElementNotFoundException(elemId);
+
+	nx::graphics::GraphicsElement *elem = this->_graphicsHandler->getElementByName(elemId).get();
+
+	if (!elem)
+		throw nx::NullElementException(elemId);
+
+	return (elem);
+}
+
+nx::graphics::Sprite			*FrameworkRendering::_getGraphicsSpriteFromHandler(std::string const& spriteId) const
+{
+	if (!this->_graphicsHandler->object_exists(spriteId))
+		throw nx::ElementNotFoundException(spriteId);
+
+	nx::graphics::Sprite *sprite = dynamic_cast<nx::graphics::Sprite *>(this->_graphicsHandler->getElementByName(spriteId).get());
+
+	if (!sprite)
+		throw nx::NullElementException(spriteId);
+
+	return (sprite);
+}
+
+nx::graphics::CircleShape		*FrameworkRendering::_getGraphicsCircleShapeFromHandler(std::string const& circleShapeId) const
+{
+	if (!this->_graphicsHandler->object_exists(circleShapeId))
+		throw nx::ElementNotFoundException(circleShapeId);
+
+	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
+
+	if (!circleShape)
+		throw nx::NullElementException(circleShapeId);
+
+	return (circleShape);
+}
+
+nx::graphics::RectShape			*FrameworkRendering::_getGraphicsRectShapeFromHandler(std::string const& rectShapeId) const
+{
+	if (!this->_graphicsHandler->object_exists(rectShapeId))
+		throw nx::ElementNotFoundException(rectShapeId);
+
+	nx::graphics::RectShape *rectShape = dynamic_cast<nx::graphics::RectShape *>(this->_graphicsHandler->getElementByName(rectShapeId).get());
+
+	if (!rectShape)
+		throw nx::NullElementException(rectShapeId);
+
+	return (rectShape);
+}
+
+nx::graphics::ConvexShape		*FrameworkRendering::_getGraphicsConvexShapeFromHandler(std::string const& convexShapeId) const
+{
+	if (!this->_graphicsHandler->object_exists(convexShapeId))
+		throw nx::ElementNotFoundException(convexShapeId);
+
+	nx::graphics::ConvexShape *convexShape = dynamic_cast<nx::graphics::ConvexShape *>(this->_graphicsHandler->getElementByName(convexShapeId).get());
+
+	if (!convexShape)
+		throw nx::NullElementException(convexShapeId);
+
+	return (convexShape);
+}
+
+
+std::string const	FrameworkRendering::getTypeFromElement(std::string const& layerId, std::string const& elemId) const
+{
+	return (this->_getGUIElementFromHandler(layerId, elemId)->getType());
 }
 
 nx::Vector2f const	FrameworkRendering::getPosFromElement(std::string const& layerId, std::string const& elemId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(elemId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(elemId))
-		throw nx::ElementNotFoundException(elemId);
-
-	nx::gui::GUIElement *elem = this->_guiHandler->getLayerByName(layerId)->getElementByName(elemId).get();
-
-	if (!elem)
-		throw nx::NullElementException(elemId);
-
-	sf::Vector2f const& pos = elem->getPos();
-
+	sf::Vector2f const& pos = this->_getGUIElementFromHandler(layerId, elemId)->getPos();
 	return (nx::Vector2f(pos.x, pos.y));
 }
 
 nx::Vector2f const	FrameworkRendering::getSizeFromElement(std::string const& layerId, std::string const& elemId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(elemId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(elemId))
-		throw nx::ElementNotFoundException(elemId);
-
-	nx::gui::GUIElement *elem = this->_guiHandler->getLayerByName(layerId)->getElementByName(elemId).get();
-
-	if (!elem)
-		throw nx::NullElementException(elemId);
-
-	sf::Vector2f const& size = elem->getSize();
-
+	sf::Vector2f const& size = this->_getGUIElementFromHandler(layerId, elemId)->getPos();
 	return (nx::Vector2f(size.x, size.y));
 }
 
@@ -465,264 +641,85 @@ nx::Vector2f const	FrameworkRendering::getSizeFromElement(std::string const& lay
 
 void FrameworkRendering::setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setState(state);
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setState(state);
 }
 
 void FrameworkRendering::setTextToButton(std::string const& layerId, std::string const& buttonId, std::string const& text)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setText(text);
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setText(text);
 }
 
 void FrameworkRendering::setFontSizeToButton(std::string const& layerId, std::string const& buttonId, unsigned int const fontSize)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setFontSize(fontSize);
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setFontSize(fontSize);
 }
 
 void FrameworkRendering::setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setColorNotSelected(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setColorNotSelected(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void FrameworkRendering::setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setColorSelected(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setColorSelected(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void FrameworkRendering::setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void FrameworkRendering::setBorderThicknessToButton(std::string const& layerId, std::string const& buttonId, int const thickness)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setBorderThickness(thickness);
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setBorderThickness(thickness);
 }
 
 void FrameworkRendering::setPosToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& pos)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setPos(sf::Vector2f(pos.x, pos.y));
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
 void FrameworkRendering::setSizeToButton(std::string const& layerId, std::string const& buttonId, nx::Vector2f const& size)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	button->setSize(sf::Vector2f(size.x, size.y));
+	this->_getGUIButtonFromHandler(layerId, buttonId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
 bool const					FrameworkRendering::getStateFromButton(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	return (button->getState());
+	return (this->_getGUIButtonFromHandler(layerId, buttonId)->getState());
 }
 
 std::string const			FrameworkRendering::getTextFromButton(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	return (button->getText());
+	return (this->_getGUIButtonFromHandler(layerId, buttonId)->getText());
 }
 
 unsigned int const			FrameworkRendering::getFontSizeFromButton(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	return (button->getFontSize());
+	return (this->_getGUIButtonFromHandler(layerId, buttonId)->getFontSize());
 }
 
 nx::rendering::RGBa const	FrameworkRendering::getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	sf::Color const &color = button->getColorNotSelected();
-
+	sf::Color const &color = this->_getGUIButtonFromHandler(layerId, buttonId)->getColorNotSelected();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
 nx::rendering::RGBa const	FrameworkRendering::getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	sf::Color const &color = button->getColorSelected();
-
+	sf::Color const &color = this->_getGUIButtonFromHandler(layerId, buttonId)->getColorSelected();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
 nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	sf::Color const &color = button->getBorderColor();
-
+	sf::Color const &color = this->_getGUIButtonFromHandler(layerId, buttonId)->getBorderColor();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(buttonId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(buttonId))
-		throw nx::ElementNotFoundException(buttonId);
-
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(buttonId).get());
-
-	if (!button)
-		throw nx::NullElementException(buttonId);
-
-	return (button->getBorderThickness());
+	return (this->_getGUIButtonFromHandler(layerId, buttonId)->getBorderThickness());
 }
 
 
@@ -730,160 +727,48 @@ int const					FrameworkRendering::getBorderThicknessFromButton(std::string const
 
 void		FrameworkRendering::setStateToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::CheckboxState const state)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	checkbox->setState(static_cast<nx::gui::Checkbox::State>(state));
+	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setState(static_cast<nx::gui::Checkbox::State>(state));
 }
 
 void		FrameworkRendering::setBackgroundColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	checkbox->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void		FrameworkRendering::setBorderColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	checkbox->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 void		FrameworkRendering::setBorderThicknessToCheckbox(std::string const& layerId, std::string const& checkboxId, int const thickness)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	checkbox->setBorderThickness(thickness);
+	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setBorderThickness(thickness);
 }
 void		FrameworkRendering::setPosToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& pos)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	checkbox->setPos(sf::Vector2f(pos.x, pos.y));
+	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 void		FrameworkRendering::setSizeToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::Vector2f const& size)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	checkbox->setSize(sf::Vector2f(size.x, size.y));
+	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
 nx::rendering::CheckboxState const	FrameworkRendering::getStateFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	return (static_cast<nx::rendering::CheckboxState>(checkbox->getState()));
+	return (static_cast<nx::rendering::CheckboxState>(this->_getGUICheckboxFromHandler(layerId, checkboxId)->getState()));
 }
 nx::rendering::RGBa const			FrameworkRendering::getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	sf::Color const &color = checkbox->getBackgroundColor();
-
+	sf::Color const &color = this->_getGUICheckboxFromHandler(layerId, checkboxId)->getBackgroundColor();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 nx::rendering::RGBa const			FrameworkRendering::getBorderColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	sf::Color const &color = checkbox->getBorderColor();
-
+	sf::Color const &color = this->_getGUICheckboxFromHandler(layerId, checkboxId)->getBorderColor();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 int const							FrameworkRendering::getBorderThicknessFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(checkboxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(checkboxId))
-		throw nx::ElementNotFoundException(checkboxId);
-
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(checkboxId).get());
-
-	if (!checkbox)
-		throw nx::NullElementException(checkboxId);
-
-	return (checkbox->getBorderThickness());
+	return (this->_getGUICheckboxFromHandler(layerId, checkboxId)->getBorderThickness());
 }
 
 
@@ -891,162 +776,64 @@ int const							FrameworkRendering::getBorderThicknessFromCheckbox(std::string c
 
 void	FrameworkRendering::setBackgroundColorToCircleShape(std::string const& circleShapeId, nx::rendering::RGBa const& color)
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	circleShape->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void	FrameworkRendering::setBorderColorToCircleShape(std::string const& circleShapeId, nx::rendering::RGBa const& color)
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	circleShape->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void	FrameworkRendering::setBorderThicknessToCircleShape(std::string const& circleShapeId, int const thickness)
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	circleShape->setBorderThickness(thickness);
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setBorderThickness(thickness);
 }
 
 void	FrameworkRendering::setRotationToCircleShape(std::string const& circleShapeId, float const angle)
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	circleShape->setRotation(angle);
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setRotation(angle);
 }
 
 void	FrameworkRendering::setRadiusToCircleShape(std::string const& circleShapeId, float const radius)
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	circleShape->setRadius(radius);
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setRadius(radius);
 }
 
 void	FrameworkRendering::setPosToCircleShape(std::string const& circleShapeId, nx::Vector2f const& pos)
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	circleShape->setPos(sf::Vector2f(pos.x, pos.y));
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
 void	FrameworkRendering::setSizeToCircleShape(std::string const& circleShapeId, nx::Vector2f const& size)
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	circleShape->setSize(sf::Vector2f(size.x, size.y));
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
 nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromCircleShape(std::string const& circleShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	sf::Color const &color = circleShape->getBackgroundColor();
-
+	sf::Color const &color = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getBackgroundColor();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
 nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromCircleShape(std::string const& circleShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	sf::Color const &color = circleShape->getBorderColor();
-
+	sf::Color const &color = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getBorderColor();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromCircleShape(std::string const& circleShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	return (circleShape->getBorderThickness());
+	return (this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getBorderThickness());
 }
 
 float const					FrameworkRendering::getRotationFromCircleShape(std::string const& circleShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	return (circleShape->getRotation());
+	return (this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getRotation());
 }
 
 float const					FrameworkRendering::getRadiusFromCircleShape(std::string const& circleShapeId) const
 {
-	if (!this->_graphicsHandler->object_exists(circleShapeId))
-		throw nx::ElementNotFoundException(circleShapeId);
-
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_graphicsHandler->getElementByName(circleShapeId).get());
-
-	if (!circleShape)
-		throw nx::NullElementException(circleShapeId);
-
-	return (circleShape->getRadius());
+	return (this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getRadius());
 }
 
 
@@ -1054,260 +841,554 @@ float const					FrameworkRendering::getRadiusFromCircleShape(std::string const& 
 
 void	FrameworkRendering::setBackgroundColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void	FrameworkRendering::setBorderColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
 void	FrameworkRendering::setBorderThicknessToComboBox(std::string const& layerId, std::string const& comboBoxId, int const thickness)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->setBorderThickness(thickness);
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setBorderThickness(thickness);
 }
 
 void	FrameworkRendering::setFontSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, unsigned int const fontSize)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->setFontSize(fontSize);
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setFontSize(fontSize);
 }
 
 void	FrameworkRendering::addSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, std::string const& selection)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->addSelection(selection);
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->addSelection(selection);
 }
 
 void	FrameworkRendering::removeSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, std::string const& selection, uint16_t const nbTimes)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->removeSelection(selection, nbTimes);
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->removeSelection(selection, nbTimes);
 }
 
 void	FrameworkRendering::removeSelectionToComboBox(std::string const& layerId, std::string const& comboBoxId, uint16_t const idx, uint16_t const nbTimes)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->removeSelection(idx, nbTimes);
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->removeSelection(idx, nbTimes);
 }
 
 void	FrameworkRendering::clearSelectionsToComboBox(std::string const& layerId, std::string const& comboBoxId)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->clearSelections();
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->clearSelections();
 }
 
 void	FrameworkRendering::setPosToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& pos)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->setPos(sf::Vector2f(pos.x, pos.y));
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setPos(sf::Vector2f(pos.x, pos.y));
 }
 
 void	FrameworkRendering::setSizeToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::Vector2f const& size)
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	comboBox->setSize(sf::Vector2f(size.x, size.y));
+	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
 nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	sf::Color const &color = comboBox->getBackgroundColor();
-
+	sf::Color const &color = this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getBackgroundColor();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
 nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	sf::Color const &color = comboBox->getBorderColor();
-
+	sf::Color const &color = this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getBorderColor();
 	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	return (comboBox->getBorderThickness());
+	return (this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getBorderThickness());
 }
 
 unsigned int const			FrameworkRendering::getFontSizeFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	return (comboBox->getFontSize());
+	return (this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getFontSize());
 }
 
 std::string const			FrameworkRendering::getSelectedFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
-
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
-
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
-
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
-
-	return (comboBox->getSelected());
+	return (this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getSelected());
 }
 
 uint16_t const				FrameworkRendering::getIdxSelectedFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
-	if (!this->_guiHandler->layer_exists(layerId))
-		throw nx::LayerNotFoundException(comboBoxId);
+	return (this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getIdxSelected());
+}
 
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(comboBoxId))
-		throw nx::ElementNotFoundException(comboBoxId);
 
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_guiHandler->getLayerByName(layerId)->getElementByName(comboBoxId).get());
+//ConvexShape
 
-	if (!comboBox)
-		throw nx::NullElementException(comboBoxId);
+void	FrameworkRendering::setBackgroundColorToConvexShape(std::string const& convexShapeId, nx::rendering::RGBa const& color)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
+}
 
-	return (comboBox->getIdxSelected());
+void	FrameworkRendering::setBorderColorToConvexShape(std::string const& convexShapeId, nx::rendering::RGBa const& color)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+}
+void	FrameworkRendering::setBorderThicknessToConvexShape(std::string const& convexShapeId, int const thickness)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setBorderThickness(thickness);
+;}
+void	FrameworkRendering::setRotationToConvexShape(std::string const& convexShapeId, float const angle)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setRotation(angle);
+}
+
+void	FrameworkRendering::setPointCountToConvexShape(std::string const& convexShapeId, size_t const pointCount)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPointCount(pointCount);
+}
+
+void	FrameworkRendering::setPointToConvexShape(std::string const& convexShapeId, size_t const index, nx::Vector2f const& point)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPoint(index, sf::Vector2f(point.x, point.y));
+}
+
+void	FrameworkRendering::setPosToConvexShape(std::string const& convexShapeId, nx::Vector2f const& pos)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void	FrameworkRendering::setSizeToConvexShape(std::string const& convexShapeId, nx::Vector2f const& size)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+
+nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromConvexShape(std::string const& convexShapeId) const
+{
+	sf::Color const &color = this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getBackgroundColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromConvexShape(std::string const& convexShapeId) const
+{
+	sf::Color const &color = this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getBorderColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+int const					FrameworkRendering::getBorderThicknessFromConvexShape(std::string const& convexShapeId) const
+{
+	return (this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getBorderThickness());
+}
+
+float const					FrameworkRendering::getRotationFromConvexShape(std::string const& convexShapeId) const
+{
+	return (this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getRotation());
+}
+
+size_t const				FrameworkRendering::getPointCountFromConvexShape(std::string const& convexShapeId) const
+{
+	return (this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getPointCount());
+}
+
+nx::Vector2f const			FrameworkRendering::getPointFromConvexShape(std::string const& convexShapeId, size_t const index) const
+{
+	sf::Vector2f point(this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getPoint(index));
+	return (nx::Vector2f(point.x, point.y));
+}
+
+
+//Image
+
+void	FrameworkRendering::setImagePathToImage(std::string const& layerId, std::string const& imageId, std::string const& spritePath)
+{
+	this->_getGUIImageFromHandler(layerId, imageId)->setImagePath(spritePath);
+}
+
+void	FrameworkRendering::setPosToImage(std::string const& layerId, std::string const& imageId, nx::Vector2f const& pos)
+{
+	this->_getGUIImageFromHandler(layerId, imageId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void	FrameworkRendering::setSizeToImage(std::string const& layerId, std::string const& imageId, nx::Vector2f const& size)
+{
+	this->_getGUIImageFromHandler(layerId, imageId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+std::string const		FrameworkRendering::getImagePathFromImage(std::string const& layerId, std::string const& imageId) const
+{
+	return (std::string(this->_getGUIImageFromHandler(layerId, imageId)->getImagePath()));
+}
+
+
+//ProgressBar
+void		FrameworkRendering::setBackgroundColorToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::rendering::RGBa const& color)
+{
+	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
+}
+
+void		FrameworkRendering::setBorderColorToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::rendering::RGBa const& color)
+{
+	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+}
+
+void		FrameworkRendering::setBorderThicknessToProgressBar(std::string const& layerId, std::string const& progressBarId, int const thickness)
+{
+	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setBorderThickness(thickness);
+}
+
+void		FrameworkRendering::setFilledToProgressBar(std::string const& layerId, std::string const& progressBarId, int const percentage)
+{
+	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setFilled(percentage);
+}
+
+void		FrameworkRendering::setFontSizeToProgressBar(std::string const& layerId, std::string const& progressBarId, unsigned int const fontSize)
+{
+	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setFontSize(fontSize);
+}
+
+void		FrameworkRendering::setPosToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::Vector2f const& pos)
+{
+	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void		FrameworkRendering::setSizeToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::Vector2f const& size)
+{
+	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
+{
+	sf::Color const &color = this->_getGUIProgressBarFromHandler(layerId, progressBarId)->getBackgroundColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
+{
+	sf::Color const &color = this->_getGUIProgressBarFromHandler(layerId, progressBarId)->getBorderColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+int const					FrameworkRendering::getBorderThicknessFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
+{
+	return (this->_getGUIProgressBarFromHandler(layerId, progressBarId)->getBorderThickness());
+}
+
+int const					FrameworkRendering::getFilledFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
+{
+	return (this->_getGUIProgressBarFromHandler(layerId, progressBarId)->getFilled());
+}
+
+unsigned int const			FrameworkRendering::getFontSizeFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
+{
+	return (this->_getGUIProgressBarFromHandler(layerId, progressBarId)->getFontSize());
+}
+
+
+//RectShape
+
+void	FrameworkRendering::setBackgroundColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setBackgroundColor(RGBa_to_sfColor(color));
+}
+
+void	FrameworkRendering::setBorderColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setBorderColor(RGBa_to_sfColor(color));
+}
+
+void	FrameworkRendering::setBorderThicknessToRectShape(std::string const& rectShapeId, int const thickness)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setBorderThickness(thickness);
+}
+
+void	FrameworkRendering::setRotationToRectShape(std::string const& rectShapeId, float const angle)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setRotation(angle);
+}
+
+void	FrameworkRendering::setPosToRectShape(std::string const& rectShapeId, nx::Vector2f const& pos)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void	FrameworkRendering::setSizeToRectShape(std::string const& rectShapeId, nx::Vector2f const& size)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromRectShape(std::string const& rectShapeId) const
+{
+	sf::Color const &color = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getBackgroundColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromRectShape(std::string const& rectShapeId) const
+{
+	sf::Color const &color = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getBorderColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+int const					FrameworkRendering::getBorderThicknessFromRectShape(std::string const& rectShapeId) const
+{
+	return (this->_getGraphicsRectShapeFromHandler(rectShapeId)->getBorderThickness());
+}
+
+float const					FrameworkRendering::getRotationFromRectShape(std::string const& rectShapeId) const
+{
+	return (this->_getGraphicsRectShapeFromHandler(rectShapeId)->getRotation());
+}
+
+
+//GraphicsSprite
+
+void	FrameworkRendering::setSpritesheetPathToGraphicsSprite(std::string const& spriteId, std::string const& spritesheetPath)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setSpritesheetPath(spritesheetPath);
+}
+
+void	FrameworkRendering::setSpriteIdxToGraphicsSprite(std::string const& spriteId, uint16_t const spriteIdx)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setSpriteIdx(spriteIdx);
+}
+
+void	FrameworkRendering::setSlownessToGraphicsSprite(std::string const& spriteId, uint16_t const slowness)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setSlowness(slowness);
+}
+
+void	FrameworkRendering::setAnimateToGraphicsSprite(std::string const& spriteId, bool const animate)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setAnimate(animate);
+}
+
+void	FrameworkRendering::setSpritesAnimatedToGraphicsSprite(std::string const& spriteId, std::vector<uint16_t> const& spritesAnimated)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setSpritesAnimated(spritesAnimated);
+}
+
+void	FrameworkRendering::setAnimationIdxToGraphicsSprite(std::string const& spriteId, uint16_t const animationIdx)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setAnimationIdx(animationIdx);
+}
+
+void	FrameworkRendering::setPosToGraphicsSprite(std::string const& spriteId, nx::Vector2f const& pos)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void	FrameworkRendering::setSizeToGraphicsSprite(std::string const& spriteId, nx::Vector2f const& size)
+{
+	this->_getGraphicsSpriteFromHandler(spriteId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+
+std::string const &				FrameworkRendering::getSpritesheetPathFromGraphicsSprite(std::string const& spriteId) const
+{
+	return (this->_getGraphicsSpriteFromHandler(spriteId)->getSpritesheetPath());
+}
+
+uint16_t const					FrameworkRendering::getSpriteIdxFromGraphicsSprite(std::string const& spriteId) const
+{
+	return (this->_getGraphicsSpriteFromHandler(spriteId)->getSpriteIdx());
+}
+
+uint16_t const					FrameworkRendering::getSlownessFromGraphicsSprite(std::string const& spriteId) const
+{
+	return (this->_getGraphicsSpriteFromHandler(spriteId)->getSlowness());
+}
+
+bool const						FrameworkRendering::getAnimateFromGraphicsSprite(std::string const& spriteId) const
+{
+	return (this->_getGraphicsSpriteFromHandler(spriteId)->getAnimate());
+}
+
+std::vector<uint16_t> const &	FrameworkRendering::getSpritesAnimatedFromGraphicsSprite(std::string const& spriteId) const
+{
+	return (this->_getGraphicsSpriteFromHandler(spriteId)->getSpritesAnimated());
+}
+
+uint16_t const					FrameworkRendering::getAnimationIdxFromGraphicsSprite(std::string const& spriteId) const
+{
+	return (this->_getGraphicsSpriteFromHandler(spriteId)->getAnimationIdx());
+}
+
+
+//GUISprite
+
+void	FrameworkRendering::setSpritesheetPathToGUISprite(std::string const& layerId, std::string const& spriteId, std::string const& spritesheetPath)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setSpritesheetPath(spritesheetPath);
+}
+
+void	FrameworkRendering::setSpriteIdxToGUISprite(std::string const& layerId, std::string const& spriteId, uint16_t const spriteIdx)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setSpriteIdx(spriteIdx);
+}
+
+void	FrameworkRendering::setSlownessToGUISprite(std::string const& layerId, std::string const& spriteId, uint16_t const slowness)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setSlowness(slowness);
+}
+
+void	FrameworkRendering::setAnimateToGUISprite(std::string const& layerId, std::string const& spriteId, bool const animate)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setAnimate(animate);
+}
+
+void	FrameworkRendering::setSpritesAnimatedToGUISprite(std::string const& layerId, std::string const& spriteId, std::vector<uint16_t> const& spritesAnimated)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setSpritesAnimated(spritesAnimated);
+}
+
+void	FrameworkRendering::setAnimationIdxToGUISprite(std::string const& layerId, std::string const& spriteId, uint16_t const animationIdx)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setAnimationIdx(animationIdx);
+}
+
+void	FrameworkRendering::setPosToGUISprite(std::string const& layerId, std::string const& spriteId, nx::Vector2f const& pos)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void	FrameworkRendering::setSizeToGUISprite(std::string const& layerId, std::string const& spriteId, nx::Vector2f const& size)
+{
+	this->_getGUISpriteFromHandler(layerId, spriteId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+
+std::string const &				FrameworkRendering::getSpritesheetPathFromGUISprite(std::string const& layerId, std::string const& spriteId) const
+{
+	return (this->_getGUISpriteFromHandler(layerId, spriteId)->getSpritesheetPath());
+}
+
+uint16_t const					FrameworkRendering::getSpriteIdxFromGUISprite(std::string const& layerId, std::string const& spriteId) const
+{
+	return (this->_getGUISpriteFromHandler(layerId, spriteId)->getSpriteIdx());
+}
+
+uint16_t const					FrameworkRendering::getSlownessFromGUISprite(std::string const& layerId, std::string const& spriteId) const
+{
+	return (this->_getGUISpriteFromHandler(layerId, spriteId)->getSlowness());
+}
+
+bool const						FrameworkRendering::getAnimateFromGUISprite(std::string const& layerId, std::string const& spriteId) const
+{
+	return (this->_getGUISpriteFromHandler(layerId, spriteId)->getAnimate());
+}
+
+std::vector<uint16_t> const &	FrameworkRendering::getSpritesAnimatedFromGUISprite(std::string const& layerId, std::string const& spriteId) const
+{
+	return (this->_getGUISpriteFromHandler(layerId, spriteId)->getSpritesAnimated());
+}
+
+uint16_t const					FrameworkRendering::getAnimationIdxFromGUISprite(std::string const& layerId, std::string const& spriteId) const
+{
+	return (this->_getGUISpriteFromHandler(layerId, spriteId)->getAnimationIdx());
+}
+
+
+//Text
+
+void FrameworkRendering::setTextToText(std::string const& layerId, std::string const& textId, std::string const& text)
+{
+	this->_getGUITextFromHandler(layerId, textId)->setText(text);
+}
+
+void FrameworkRendering::setFontSizeToText(std::string const& layerId, std::string const& textId, unsigned int const fontSize)
+{
+	this->_getGUITextFromHandler(layerId, textId)->setFontSize(fontSize);
+}
+
+void FrameworkRendering::setPosToText(std::string const& layerId, std::string const& textId, nx::Vector2f const& pos)
+{
+	this->_getGUITextFromHandler(layerId, textId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void FrameworkRendering::setSizeToText(std::string const& layerId, std::string const& textId, nx::Vector2f const& size)
+{
+	this->_getGUITextFromHandler(layerId, textId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+std::string const	FrameworkRendering::getTextFromText(std::string const& layerId, std::string const& textId) const
+{
+	return (this->_getGUITextFromHandler(layerId, textId)->getText());
+}
+
+unsigned int const	FrameworkRendering::getFontSizeFromText(std::string const& layerId, std::string const& textId) const
+{
+	return (this->_getGUITextFromHandler(layerId, textId)->getFontSize());
+}
+
+//TextInput
+
+void	FrameworkRendering::setStateToTextInput(std::string const& layerId, std::string const& textInputId, bool const state)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setState(state);
+}
+
+void	FrameworkRendering::setBackgroundColorToTextInput(std::string const& layerId, std::string const& textInputId, nx::rendering::RGBa const& color)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
+}
+
+void	FrameworkRendering::setBorderColorToTextInput(std::string const& layerId, std::string const& textInputId, nx::rendering::RGBa const& color)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
+}
+
+void	FrameworkRendering::setBorderThicknessToTextInput(std::string const& layerId, std::string const& textInputId, int const thickness)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setBorderThickness(thickness);
+}
+
+void	FrameworkRendering::setTextToTextInput(std::string const& layerId, std::string const& textInputId, std::string const& text)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setText(text);
+}
+
+void	FrameworkRendering::setCursorIdxToTextInput(std::string const& layerId, std::string const& textInputId, unsigned int idx)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setCursorIdx(idx);
+}
+
+void	FrameworkRendering::setPosToTextInput(std::string const& layerId, std::string const& textInputId, nx::Vector2f const& pos)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setPos(sf::Vector2f(pos.x, pos.y));
+}
+
+void	FrameworkRendering::setSizeToTextInput(std::string const& layerId, std::string const& textInputId, nx::Vector2f const& size)
+{
+	this->_getGUITextInputFromHandler(layerId, textInputId)->setSize(sf::Vector2f(size.x, size.y));
+}
+
+bool const					FrameworkRendering::getStateFromTextInput(std::string const& layerId, std::string const& textInputId) const
+{
+	return (this->_getGUITextInputFromHandler(layerId, textInputId)->getState());
+}
+
+nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromTextInput(std::string const& layerId, std::string const& textInputId) const
+{
+	sf::Color const &color = this->_getGUITextInputFromHandler(layerId, textInputId)->getBackgroundColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromTextInput(std::string const& layerId, std::string const& textInputId) const
+{
+	sf::Color const &color = this->_getGUITextInputFromHandler(layerId, textInputId)->getBorderColor();
+	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+}
+
+int const					FrameworkRendering::getBorderThicknessFromTextInput(std::string const& layerId, std::string const& textInputId) const
+{
+	return (this->_getGUITextInputFromHandler(layerId, textInputId)->getBorderThickness());
+}
+
+std::string const &			FrameworkRendering::getTextFromTextInput(std::string const& layerId, std::string const& textInputId) const
+{
+	return (this->_getGUITextInputFromHandler(layerId, textInputId)->getText());
+}
+
+unsigned int const			FrameworkRendering::getCursorIdxFromTextInput(std::string const& layerId, std::string const& textInputId) const
+{
+	return (this->_getGUITextInputFromHandler(layerId, textInputId)->getCursorIdx());
 }
