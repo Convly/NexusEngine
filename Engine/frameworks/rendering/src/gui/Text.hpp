@@ -24,7 +24,6 @@ namespace nx
 			void		show(std::shared_ptr<sf::RenderWindow> const& win);
 
 			// Setters
-			void setLabel(sf::Text const& label);
 			void setText(std::string const& text);
 			void setFontSize(unsigned int const fontSize);
 
@@ -35,7 +34,6 @@ namespace nx
 			virtual std::string const		getType() const;
 
 			// Specific getters
-			sf::Text const &	getLabel() const;
 			std::string const	getText() const;
 			unsigned int const	getFontSize() const;
 		};

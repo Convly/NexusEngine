@@ -12,6 +12,7 @@
 # include "ConvexShape.hpp"
 
 # include "../LayerNotFoundException.hpp"
+# include "../InvalidCastElementException.hpp"
 
 namespace nx
 {

@@ -29,12 +29,6 @@ void nx::gui::Text::show(std::shared_ptr<sf::RenderWindow> const& win)
 
 // Setters
 
-void	nx::gui::Text::setLabel(sf::Text const& label)
-{
-	this->_label = label;
-	GUIElement::setSize(sf::Vector2f(this->_label.getLocalBounds().width, this->_label.getLocalBounds().height));
-}
-
 void	nx::gui::Text::setText(std::string const& text)
 {
 	this->_label.setString(text);
@@ -67,11 +61,6 @@ std::string	const	nx::gui::Text::getType() const
 
 
 // Specific getters
-
-sf::Text const &	nx::gui::Text::getLabel() const
-{
-	return (this->_label);
-}
 
 std::string const	nx::gui::Text::getText() const
 {

@@ -12,6 +12,7 @@ namespace nx
 	{
 		class Checkbox : public GUIElement
 		{
+		public:
 			enum State : int
 			{
 				UNCHECKED = 0,
@@ -19,6 +20,7 @@ namespace nx
 				CHECKED
 			};
 
+		private:
 			State							_state;
 			sf::Color						_backgroundColor;
 			sf::Color						_borderColor;

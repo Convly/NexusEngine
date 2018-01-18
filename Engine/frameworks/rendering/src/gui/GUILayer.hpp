@@ -7,6 +7,7 @@
 # include "GUIElement.hpp"
 
 # include "../ElementNotFoundException.hpp"
+# include "../NullElementException.hpp"
 
 namespace nx
 {

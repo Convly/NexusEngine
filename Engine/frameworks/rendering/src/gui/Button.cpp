@@ -102,11 +102,6 @@ void	nx::gui::Button::setState(bool const state)
 	this->_state = state;
 }
 
-void	nx::gui::Button::setLabel(sf::Text const& label)
-{
-	this->_label = label;
-}
-
 void	nx::gui::Button::setText(std::string const& text)
 {
 	this->_label.setString(text);
@@ -171,11 +166,6 @@ std::string	const	nx::gui::Button::getType() const
 bool const			nx::gui::Button::getState() const
 {
 	return (this->_state);
-}
-
-sf::Text const &	nx::gui::Button::getLabel() const
-{
-	return (this->_label);
 }
 
 std::string const	nx::gui::Button::getText() const

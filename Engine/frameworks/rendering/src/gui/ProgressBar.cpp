@@ -94,11 +94,6 @@ void	nx::gui::ProgressBar::setSize(sf::Vector2f const& size)
 							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 }
 
-void	nx::gui::ProgressBar::setLabel(sf::Text const& label)
-{
-	this->_label = label;
-}
-
 void	nx::gui::ProgressBar::setFontSize(unsigned int const fontSize)
 {
 	this->_label.setCharacterSize(fontSize);
@@ -133,11 +128,6 @@ int const			nx::gui::ProgressBar::getBorderThickness() const
 int const			nx::gui::ProgressBar::getFilled() const
 {
 	return (this->_percentage);
-}
-
-sf::Text const &	nx::gui::ProgressBar::getLabel() const
-{
-	return (this->_label);
 }
 
 unsigned int const	nx::gui::ProgressBar::getFontSize() const
