@@ -26,16 +26,16 @@ namespace nx
   class Environment
   {
   private:
-    std::unordered_map<std::string, GameObject> _gameObjects;
-    std::unordered_map<std::string, Layout>     _layouts;
-    std::unordered_map<std::string, Layer>      _layers;
-    std::unordered_map<std::string, Scene>      _scenes;
+    std::vector<GameObject> _gameObjects;
+    std::vector<Layout>     _layouts;
+    std::vector<Layer>      _layers;
+    std::vector<Scene>      _scenes;
 
   public:
-    std::unordered_map<std::string, Scene>&       getScenes() { return _scenes; }
-    std::unordered_map<std::string, GameObject>&  getGameObjects() { return _gameObjects; }
-    std::unordered_map<std::string, Layout>&      getLayouts() { return _layouts; }
-    std::unordered_map<std::string, Layer>&       getLayers() { return _layers; }
+    std::vector<Scene>&       getScenes() { return _scenes; }
+    std::vector<GameObject>&  getGameObjects() { return _gameObjects; }
+    std::vector<Layout>&      getLayouts() { return _layouts; }
+    std::vector<Layer>&       getLayers() { return _layers; }
 
   public:
     Environment(){}

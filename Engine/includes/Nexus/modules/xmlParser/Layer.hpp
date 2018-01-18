@@ -46,11 +46,11 @@ namespace nx
   {
   private:
     std::string _name = "";
-    std::unordered_map<std::string, GuiElement> _guiElements;
+    std::vector<GuiElement> _guiElements;
 
   public:
     std::string&   getName() { return _name; }
-    std::unordered_map<std::string, GuiElement>&  getGuiElements() { return _guiElements; }
+    std::vector<GuiElement>&  getGuiElements() { return _guiElements; }
 
   public:
     Layer() {}

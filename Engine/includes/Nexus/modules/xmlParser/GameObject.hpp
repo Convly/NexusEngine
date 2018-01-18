@@ -69,9 +69,12 @@ namespace nx
     std::vector<Component> _components;
 
   public:
-    std::string&  getName() { return _name; }
+    std::string   getName() const { return _name; }
     std::string&  getTag() { return _tag; }
     std::vector<Component>& getComponents() { return _components; }
+
+  public:
+    void      setName(const std::string& name) { _name = name; }
 
   public:
     GameObject() {}

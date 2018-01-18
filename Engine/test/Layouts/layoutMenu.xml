@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nx>
+	<layout name="Menu">
+		<component type="script" src="animation.lua"/>
+		<component type="script" src="hover.lua"/>
+		<gameObject name="enemy1"/>
+	</layout>
+</nx>

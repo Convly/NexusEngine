@@ -126,7 +126,7 @@ namespace nx
 
           if (gameObjectNode->first_attribute("name")){
             gameObjectName = gameObjectNode->first_attribute("name")->value();
-            gameObject.getName() = gameObjectName;
+            gameObject.setName(gameObjectName);
           }
           else{
             error += "Error: A game object doesn't have name\n";
@@ -137,13 +137,22 @@ namespace nx
           // Browse components
           for (auto componentNode = gameObjectNode->first_node("component"); componentNode; componentNode = componentNode->next_sibling("component"))
             error += mapComponentsGameObject(env, gameObject, componentNode);
-          env.getGameObjects()[gameObjectName] = gameObject;
+          env.getGameObjects().push_back(gameObject);
         }
       }
       catch (std::exception e){
         error += "Error: Invalid game object argument";
       }
       return error;
+    }
+
+    template<typename T>
+    static int nameExistInVec(const std::string& name, const std::vector<T>& vec){
+      for (int i = 0; i < vec.size(); i++){
+        if (vec.at(i).getName() == name)
+          return i;
+      }
+      return -1;
     }
 
     static std::string mapLayoutAttribute(Environment& env, xml_node<>* attributeNode, Layout& layout){
@@ -162,9 +171,9 @@ namespace nx
       }
       else if (std::string(attributeNode->name()).compare("gameObject") == 0){
         if (attributeNode->first_attribute("name")){                
-          auto it = env.getGameObjects().find(attributeNode->first_attribute("name")->value());
-          if (it != env.getGameObjects().end())
-            layout.getGameObjects().insert({ it->first, it->second });
+          int i;
+          if ((i = nameExistInVec(attributeNode->first_attribute("name")->value(), env.getGameObjects())) != -1)
+            layout.getGameObjects().push_back(env.getGameObjects().at(i));
           else{                  
             error += "Error: this game object doesn't exist ";
             error += attributeNode->first_attribute("name")->value();
@@ -181,14 +190,14 @@ namespace nx
       std::string layoutName;
 
       if (layoutNode->first_attribute("name"))
-        layout.getName() = layoutNode->first_attribute("name")->value();
+        layout.setName(layoutNode->first_attribute("name")->value());
       else{
         error += "Error: A layout doesn't have name\n";
         return error;
       }
       for (auto attributeNode = layoutNode->first_node(); attributeNode; attributeNode = attributeNode->next_sibling())
         error += mapLayoutAttribute(env, attributeNode, layout);
-      env.getLayouts()[layoutName] = layout;
+      env.getLayouts().push_back(layout);
     }
 
     // Parse and add a layout to env
@@ -268,7 +277,7 @@ namespace nx
         if (attributeNode->first_attribute("text-color"))
           guiElement.getTextColor() = attributeNode->first_attribute("text-color")->value();                                                      
         error += mapGuiEvents(attributeNode, guiElement);
-        layer.getGuiElements()[guiElement.getName()] = guiElement;
+        layer.getGuiElements().push_back(guiElement);
       }
       return error;
     }
@@ -292,7 +301,7 @@ namespace nx
           for (auto attributeNode = layerNode->first_node(); attributeNode; attributeNode = attributeNode->next_sibling()){
             error += mapGuiElementAttribute(attributeNode, layer);
           }
-          env.getLayers()[layer.getName()] = layer;
+          env.getLayers().push_back(layer);
         }
       }
       catch (std::exception e){
@@ -321,9 +330,9 @@ namespace nx
 
       if (attributeNode->first_attribute("name"))
       {                
-        auto it = env.getGameObjects().find(attributeNode->first_attribute("name")->value());
-        if (it != env.getGameObjects().end())
-          scene.getGameObjects().insert({ it->first, it->second });
+        int i;
+        if ((i = nameExistInVec(attributeNode->first_attribute("name")->value(), env.getGameObjects())) != -1)
+          scene.getGameObjects().push_back(env.getGameObjects().at(i));
         else
         {                  
           error += "Error: this game object doesn't exist ";
@@ -337,13 +346,13 @@ namespace nx
       static std::string mapSceneLayouts(Environment& env, xml_node<>* attributeNode, Scene& scene){
         std::string error = "";
 
-        if (attributeNode->first_attribute("name")){                
-          auto it = env.getLayouts().find(attributeNode->first_attribute("name")->value());
-          if (it != env.getLayouts().end()){     
-            for (auto it1 : it->second.getGameObjects())
-              scene.getGameObjects()[it1.first] = it1.second;  
-            for (auto it1 : it->second.getComponents())
-              scene.getComponents().push_back(it1);  
+        if (attributeNode->first_attribute("name")){         
+                  int i;
+          if ((i = nameExistInVec(attributeNode->first_attribute("name")->value(), env.getLayouts())) != -1){
+            for (auto value : env.getLayouts().at(i).getGameObjects())
+              scene.getGameObjects().push_back(value);  
+            for (auto value : env.getLayouts().at(i).getComponents())
+              scene.getComponents().push_back(value);  
           }
           else{                  
             error += "Error: this layout doesn't exist ";
@@ -393,7 +402,7 @@ namespace nx
           {
             error += mapSceneAttributes(env, attributeNode, scene);
           }
-          env.getScenes()[sceneName] = scene;
+          env.getScenes().push_back(scene);
         }
       }
       catch (std::exception e){

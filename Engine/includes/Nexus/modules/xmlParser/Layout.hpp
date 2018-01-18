@@ -21,14 +21,17 @@ namespace nx
   class Layout
   {
   private:
-    std::unordered_map<std::string, GameObject> _gameObjects;
-    std::vector<Component> _components;
     std::string _name;
+    std::vector<GameObject> _gameObjects;
+    std::vector<Component> _components;
 
   public:
-    std::unordered_map<std::string, GameObject>&  getGameObjects() { return _gameObjects; }
+    std::string                getName() const { return _name; }
+    std::vector<GameObject>&  getGameObjects() { return _gameObjects; }
     std::vector<Component>&  getComponents() { return _components; }
-    std::string& getName() { return _name; }
+
+  public:
+    void      setName(const std::string& name) { _name = name; }
 
   public:
     Layout() {}

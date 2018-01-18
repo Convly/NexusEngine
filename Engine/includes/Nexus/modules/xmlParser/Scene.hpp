@@ -22,12 +22,12 @@ namespace nx
   {
   private:
     std::string _name = "";
-    std::unordered_map<std::string, GameObject>  _gameObjects;
+    std::vector<GameObject>  _gameObjects;
     std::vector<Component>                        _components;
 
   public:
     std::string&                                    getName() { return _name; }
-    std::unordered_map<std::string, GameObject>&    getGameObjects() { return _gameObjects; }
+    std::vector<GameObject>&                        getGameObjects() { return _gameObjects; }
     std::vector<Component>&                         getComponents() { return _components; }
 
   public:
