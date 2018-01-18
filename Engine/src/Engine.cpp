@@ -53,6 +53,16 @@ const std::shared_ptr<nx::SystemTpl>& nx::Engine::getSystemByName(const std::str
 	return *it;
 }
 
+const nx::Environment& nx::Engine::getEnv() const
+{
+	return this->_env;
+}
+
+nx::Environment& nx::Engine::getEnv()
+{
+	return this->_env;
+}
+
 
 /* SETTERS */
 
@@ -88,7 +98,7 @@ bool nx::Engine::checkEngineIntegrity() const
 
 /* MAIN */
 
-void nx::Engine::startup(bool serverOnly)
+void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 {
 	this->_systems = 
 	{
@@ -101,10 +111,17 @@ void nx::Engine::startup(bool serverOnly)
 	for (auto system : this->_systems) {
 		system->init();
 	}
-}
 
-void nx::Engine::setup() {
 	this->_run = this->checkEngineIntegrity();
+
+	nx::GameInfosParser confParser(confPath);
+	nx::XmlParser xmlParser;
+
+	confParser.dump();
+	std::string res;
+	if (!(res = nx::XmlParser::fillEnvironment(this->_env, confParser.getFields()._ressources)).empty()){
+		std::cerr << res;
+	}
 }
 
 void nx::Engine::stop() {

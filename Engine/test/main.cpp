@@ -4,30 +4,20 @@
 void userMainLoop() {
 }
 
-int main()
+int main(int ac, char** av)
 {
-  auto& engine = nx::Engine::Instance();
+	if (ac != 2)
+		return -1;
 
-  engine.startup();
-  engine.ping();
-  engine.setup();
+	auto& engine = nx::Engine::Instance();
 
-  try {
-    return (engine.run(&userMainLoop));
-  } catch (const nx::RunWithoutSetupException& e) {
-    nx::Log::error(e.what(), "RUNTIME_ERROR", 1);
-    return -1;
-  }
-  // nx::GameInfosParser resources("build/.nx-game-conf.json");
-  // std::string res;
-	// nx::Environment env = nx::Environment();
+	engine.ping();
+	engine.setup(av[1]);
 
-  // resources.dump();
-
-	// if (!(res = nx::XmlParser::fillEnvironment(env, resources.getFields()._ressources)).empty()){
-	// 	std::cerr << res;
-	// }
-  // std::cout << "--> " << env.getScenes()["MyScene"].getComponents().front().getSrc() << std::endl;
-  // std::cout << "--> " << env.getLayers()["layer1"].getGuiElements()["monbouton1"].getEvents().front().second.func << std::endl;
-  // return 0;
+	try {
+		return (engine.run(&userMainLoop));
+	} catch (const nx::RunWithoutSetupException& e) {
+		nx::Log::error(e.what(), "RUNTIME_ERROR", 1);
+		return -1;
+	}
 }

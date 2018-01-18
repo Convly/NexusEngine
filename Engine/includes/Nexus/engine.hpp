@@ -34,6 +34,7 @@ namespace nx {
 		bool											_run;
 		bool											_debug;
 		std::vector<std::shared_ptr<nx::SystemTpl>>		_systems;
+		nx::Environment									_env;
 
 	private:
 		Engine(const bool debug = false);
@@ -72,8 +73,7 @@ namespace nx {
 		}
 
   public:
-		void startup(bool serverOnly = false);
-		void setup(void);
+		void setup(const std::string&, bool serverOnly = false);
 		void stop(void);
 		int run(const std::function<void(void)>&);
   public:
@@ -82,6 +82,8 @@ namespace nx {
 		void setDebugFlag(const bool);
 		const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
 		const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
+		const nx::Environment& getEnv() const;
+		nx::Environment& getEnv();
   };
 } /* nx */
 
