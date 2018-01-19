@@ -51,6 +51,44 @@ void	nx::graphics::RectShape::setRotation(float const angle)
 	this->_body.setRotation(angle);
 }
 
+void	nx::graphics::RectShape::setScale(sf::Vector2f const& factor)
+{
+	this->_body.setScale(factor);
+}
+
+void	nx::graphics::RectShape::setOrigin(sf::Vector2f const& origin)
+{
+	this->_body.setOrigin(origin);
+}
+
+void	nx::graphics::RectShape::move(sf::Vector2f const& offset)
+{
+	this->_body.move(offset);
+}
+
+void	nx::graphics::RectShape::rotate(float const angle)
+{
+	this->_body.rotate(angle);
+}
+
+void	nx::graphics::RectShape::scale(sf::Vector2f const& factor)
+{
+	this->_body.scale(factor);
+}
+
+void	nx::graphics::RectShape::setTexture(std::string const& texturePath, bool const resetRect)
+{
+	if (!this->_texture.loadFromFile(texturePath))
+		throw nx::InvalidImageException(texturePath);
+
+	this->_body.setTexture(&this->_texture, resetRect);
+}
+
+void	nx::graphics::RectShape::setTextureRect(sf::IntRect const& rect)
+{
+	this->_body.setTextureRect(rect);
+}
+
 void	nx::graphics::RectShape::setPos(sf::Vector2f const& pos)
 {
 	float thickness = this->_body.getOutlineThickness();
@@ -96,4 +134,29 @@ int const			nx::graphics::RectShape::getBorderThickness() const
 float const			nx::graphics::RectShape::getRotation() const
 {
 	return (this->_body.getRotation());
+}
+
+size_t const		nx::graphics::RectShape::getPointCount() const
+{
+	return (this->_body.getPointCount());
+}
+
+sf::Vector2f const	nx::graphics::RectShape::getPoint(size_t const index) const
+{
+	return (this->_body.getPoint(index));
+}
+
+sf::IntRect const &		nx::graphics::RectShape::getTextureRect() const
+{
+	return (this->_body.getTextureRect());
+}
+
+sf::Vector2f const &	nx::graphics::RectShape::getScale() const
+{
+	return (this->_body.getScale());
+}
+
+sf::Vector2f const &	nx::graphics::RectShape::getOrigin() const
+{
+	return (this->_body.getOrigin());
 }

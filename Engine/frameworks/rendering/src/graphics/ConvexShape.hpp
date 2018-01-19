@@ -32,7 +32,6 @@ namespace nx
 			void	setRotation(float const angle);
 			void	setPointCount(size_t const pointCount);
 			void	setPoint(size_t const index, sf::Vector2f const& point);
-
 			void	setScale(sf::Vector2f const& factor);
 			void	setOrigin(sf::Vector2f const& origin);
 			void	move(sf::Vector2f const& offset);

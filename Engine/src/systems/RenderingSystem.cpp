@@ -126,6 +126,7 @@ void nx::RenderingSystem::init()
 			}),
 			nx::rendering::GraphicsRectInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
 			);
+		f->setBackgroundColorToRectShape("MyCauvinGraphicsRect", nx::rendering::RGBa(255, 255, 255, 255));
 		f->addGraphicsConvexShape(
 			nx::rendering::GraphicsElementInfos(nx::maths::Vector2f(550, 440), nx::maths::Vector2f(0, 0), "MyCauvinGraphicsConvex",
 			{

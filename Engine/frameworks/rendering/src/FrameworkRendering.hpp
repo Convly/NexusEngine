@@ -166,6 +166,14 @@ public:
 	void	setBorderColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color);
 	void	setBorderThicknessToRectShape(std::string const& rectShapeId, int const thickness);
 	void	setRotationToRectShape(std::string const& rectShapeId, float const angle);
+	void	setScaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor);
+	void	setOriginToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& origin);
+	void	moveToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& offset);
+	void	rotateToRectShape(std::string const& rectShapeId, float const angle);
+	void	scaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor);
+	void	setTextureToRectShape(std::string const& rectShapeId, std::string const& texturePath, bool const resetRect = false);
+	void	setTextureRectToRectShape(std::string const& rectShapeId, nx::maths::Rect const& rect);
+
 	void	setPosToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& pos);
 	void	setSizeToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& size);
 	
@@ -173,6 +181,11 @@ public:
 	nx::rendering::RGBa const	getBorderColorFromRectShape(std::string const& rectShapeId) const;
 	int const					getBorderThicknessFromRectShape(std::string const& rectShapeId) const;
 	float const					getRotationFromRectShape(std::string const& rectShapeId) const;
+	size_t const				getPointCountFromRectShape(std::string const& rectShapeId) const;
+	nx::maths::Vector2f const	getPointFromRectShape(std::string const& rectShapeId, size_t const index) const;
+	nx::maths::Rect const		getTextureRectFromRectShape(std::string const& rectShapeId) const;
+	nx::maths::Vector2f const	getScaleFromRectShape(std::string const& rectShapeId) const;
+	nx::maths::Vector2f const	getOriginFromRectShape(std::string const& rectShapeId) const;
 
 	//GraphicsSprite
 	void	setSpritesheetPathToGraphicsSprite(std::string const& spriteId, std::string const& spritesheetPath);

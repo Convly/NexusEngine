@@ -349,6 +349,13 @@ namespace nx {
 		virtual void	setBorderColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color) = 0;
 		virtual void	setBorderThicknessToRectShape(std::string const& rectShapeId, int const thickness) = 0;
 		virtual void	setRotationToRectShape(std::string const& rectShapeId, float const angle) = 0;
+		virtual void	setScaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor) = 0;
+		virtual void	setOriginToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& origin) = 0;
+		virtual void	moveToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& offset) = 0;
+		virtual void	rotateToRectShape(std::string const& rectShapeId, float const angle) = 0;
+		virtual void	scaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor) = 0;
+		virtual void	setTextureToRectShape(std::string const& rectShapeId, std::string const& texturePath, bool const resetRect = false) = 0;
+		virtual void	setTextureRectToRectShape(std::string const& rectShapeId, nx::maths::Rect const& rect) = 0;
 		virtual void	setPosToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& pos) = 0;
 		virtual void	setSizeToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& size) = 0;
 
@@ -356,6 +363,11 @@ namespace nx {
 		virtual nx::rendering::RGBa const	getBorderColorFromRectShape(std::string const& rectShapeId) const = 0;
 		virtual int const					getBorderThicknessFromRectShape(std::string const& rectShapeId) const = 0;
 		virtual float const					getRotationFromRectShape(std::string const& rectShapeId) const = 0;
+		virtual size_t const				getPointCountFromRectShape(std::string const& rectShapeId) const = 0;
+		virtual nx::maths::Vector2f const	getPointFromRectShape(std::string const& rectShapeId, size_t const index) const = 0;
+		virtual nx::maths::Rect const		getTextureRectFromRectShape(std::string const& rectShapeId) const = 0;
+		virtual nx::maths::Vector2f const	getScaleFromRectShape(std::string const& rectShapeId) const = 0;
+		virtual nx::maths::Vector2f const	getOriginFromRectShape(std::string const& rectShapeId) const = 0;
 
 		//GraphicsSprite
 		virtual void	setSpritesheetPathToGraphicsSprite(std::string const& spriteId, std::string const& spritesheetPath) = 0;
