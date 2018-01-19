@@ -26,41 +26,66 @@ void FrameworkConsoleEvent::start() {
   std::cout << "[consoleEvent] END START" << std::endl;
 }
 
+struct MaStruct {
+  MaStruct(int id_, const nx::Event& event_) : id(id_), event(event_) {}
+  int id;
+  nx::Event event;
+};
+
+struct MyData {
+  std::string name;
+  int id;
+};
+
 void FrameworkConsoleEvent::runEvent(std::string event) {
   if (event == "listen") {
-	nx::Log::inform("[ConsoleEvent] Listen (TCP) on localhost");
+	{
+	  nx::Log::inform("[ConsoleEvent] Listen (TCP) on localhost");
 
-	nx::NetworkSystem::TcpAcceptEvent waitDataEvent;
+	  nx::NetworkSystem::TcpAcceptEvent waitDataEvent;
 
-	waitDataEvent._localhost = false;
-	waitDataEvent._port = 4242;
+	  waitDataEvent._localhost = false;
+	  waitDataEvent._port = 4242;
 
-	auto const ptr = reinterpret_cast<char*>(&waitDataEvent);
-	std::vector<char> data(ptr, ptr + sizeof waitDataEvent);
-	this->_engine->emit(nx::EVENT::NETWORK_TCP_ACCEPT, data);
+	  auto const ptr = reinterpret_cast<char *>(&waitDataEvent);
+	  std::vector<char> data(ptr, ptr + sizeof waitDataEvent);
+	  this->_engine->emit(nx::EVENT::NETWORK_TCP_ACCEPT, data);
+	}
   } else if (event == "connect") {
-	nx::NetworkSystem::TcpConnectEvent connectEvent;
+	  {
+	  nx::NetworkSystem::TcpConnectEvent connectEvent;
 
-	connectEvent._ip = "127.0.0.1";
-	connectEvent._port = 4242;
+	  connectEvent._ip = "192.168.65.2";
+	  connectEvent._port = 4242;
 
-	auto const ptr = reinterpret_cast<char*>(&connectEvent);
-	std::vector<char> data(ptr, ptr + sizeof connectEvent);
-	this->_engine->emit(nx::EVENT::NETWORK_TCP_CONNECT, data);
+	  auto const ptr = reinterpret_cast<char *>(&connectEvent);
+	  std::vector<char> data(ptr, ptr + sizeof connectEvent);
+	  this->_engine->emit(nx::EVENT::NETWORK_TCP_CONNECT, data);
 
-	nx::Log::inform("[ConsoleEvent] Connect (TCP) to localhost");
+	  nx::Log::inform("[ConsoleEvent] Connect (TCP) to localhost");
+	}
   } else if (event == "sendC") {
-	std::vector<char> data_r = {'e', 'r', 't'};
+	{
+	  std::string data_s = "scriptInit.c";
+	  auto const ptr2 = reinterpret_cast<char*>(&data_s);
+	  std::vector<char> data_r(ptr2, ptr2 + sizeof(data_s));
 
-	auto eventR = nx::Event(nx::EVENT::SCRIPT_INIT, data_r);
-	nx::NetworkSystem::TcpSendEvent tcpSendEvent = {1, eventR};
+	  nx::Event eventR = nx::Event(nx::EVENT::SCRIPT_INIT, data_r);
+	  nx::NetworkSystem::TcpSendEvent tcpSendEvent = {1, eventR};
 
-	auto const ptr = reinterpret_cast<char*>(&tcpSendEvent);
-	std::vector<char> data(ptr, ptr + sizeof tcpSendEvent);
-	this->_engine->emit(nx::EVENT::NETWORK_TCP_SEND, data);
+	  auto const ptr = reinterpret_cast<char *>(&tcpSendEvent);
+	  std::vector<char> data(ptr, ptr + sizeof(tcpSendEvent));
+	  nx::Event eventE(nx::EVENT::NETWORK_TCP_SEND, data);
+	  this->_engine->emit(eventE);
 
-	nx::Log::inform("[ConsoleEvent] Data send: [" + std::string(data_r.data()) + "]");
-	nx::Log::inform("[ConsoleEvent] Send data (TCP) to localhost");
+	  nx::Log::inform("[ConsoleEvent] Data send: [" + std::string(data_r.data()) + "]");
+	  nx::Log::inform("[ConsoleEvent] Send data (TCP) to localhost");
+
+	  const nx::NetworkSystem::TcpSendEvent *eventT;
+
+	  eventT = reinterpret_cast<const nx::NetworkSystem::TcpSendEvent *>(eventE.data.data());
+	}
+
   }
   else if (event == "recv")
   {
@@ -75,17 +100,29 @@ void FrameworkConsoleEvent::runEvent(std::string event) {
   }
   else if (event == "send")
   {
-	  std::vector<char> data_r = { 'y', 'e', 's' };
+// -------- create event to send
 
+	  // create argument
+	  std::string random = "hey";
+	  std::vector<char> data_r = nx::Event::stringToVector(random.c_str());
+
+	  // create event with argument inside
 	  auto eventR = nx::Event(nx::EVENT::SCRIPT_INIT, data_r);
-	  nx::Log::inform("[ConsoleEvent] send Data (UDP)");
 
+// -------- create event to trigger
+
+	  // create event for system
 	  nx::NetworkSystem::UdpSendEvent sendDataEvent = { "127.0.0.1", 4242, eventR };
 
+	  // convert event to vector<char>
 	  auto const ptr = reinterpret_cast<char*>(&sendDataEvent);
 	  std::vector<char> data(ptr, ptr + sizeof sendDataEvent);
+
+	  nx::Log::inform("[ConsoleEvent] event.type: [" + std::to_string(sendDataEvent._event.type) + "]");
+	  nx::Log::inform("[ConsoleEvent] event.arg: [" + std::string(sendDataEvent._event.data.data()) + "]");
+
+// -------- emit the event
 	  this->_engine->emit(nx::EVENT::NETWORK_UDP_SEND, data);
-	  nx::Log::inform("[ConsoleEvent] Data send: [" + std::string(data_r.data()) + "]");
-	  nx::Log::inform("[ConsoleEvent] Send data (UDP) to localhost (hope it work)");
+	  nx::Log::inform("[ConsoleEvent] Send data (UDP) to localhost");
   }
 }

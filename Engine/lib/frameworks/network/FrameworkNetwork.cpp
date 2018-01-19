@@ -22,7 +22,14 @@ void FrameworkNetwork::tcpStartConnect(std::string ip, unsigned short port) {
 }
 
 void FrameworkNetwork::tcpSend(unsigned int id, nx::Event event) {
-  this->_tcp.send(id, this->convertEventToNetworkData(event));
+  nx::Log::debug("Data in event:");
+  nx::Log::debug(event.data.data());
+  auto data = this->convertEventToNetworkData(event);
+
+  auto test = this->convertNetworkDataToEvent(data);
+  nx::Log::debug("Date test:");
+  nx::Log::debug(test->data.data());
+  this->_tcp.send(id, data);
 }
 
 void FrameworkNetwork::udpReceive(unsigned short port)
@@ -32,7 +39,14 @@ void FrameworkNetwork::udpReceive(unsigned short port)
 
 void FrameworkNetwork::udpSend(const std::string &ip, unsigned short port, nx::Event event)
 {
+	nx::Log::inform("[FRAMEWORK NETWORK] event.type: [" + std::to_string(event.type) + "]");
+	nx::Log::inform("[FRAMEWORK NETWORK] event.arg: [" + std::string(event.data.data()) + "]");
+
+	auto const ptr = reinterpret_cast<char*>(&event);
+	std::vector<char> data(ptr, ptr + sizeof event);
+	data.reserve(4000);
+
 	std::cout << "before udp start" << std::endl;
-	this->_udp.startSend(ip, port, this->convertEventToNetworkData(event));
+	this->_udp.startSend(ip, port, data);
 	std::cout << "after udp start" << std::endl;
 }

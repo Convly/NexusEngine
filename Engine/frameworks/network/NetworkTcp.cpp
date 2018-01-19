@@ -125,7 +125,7 @@ void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel)
 	nx::Log::debug(data.data());
 	nx::Log::debug("--\n");
 
-	const nx::Event event = this->convertNetworkDataToEvent(data);
+	const nx::Event event = *this->convertNetworkDataToEvent(data);
 
 	nx::Log::debug("Event type: " + std::to_string(event.type));
 
@@ -143,6 +143,8 @@ void NetworkTcp::handleOneTunnel(NetworkTcpTunnel tunnel)
 void NetworkTcp::write(NetworkTcpTunnel networkTcpTunnel, std::vector<char> data)
 {
   nx::Log::debug("New data write");
+
+  nx::Log::debug(data.data());
 
   if (::send(networkTcpTunnel.fd, data.data(), data.size(), 0) <= 0)
 	  error(networkTcpTunnel.fd);

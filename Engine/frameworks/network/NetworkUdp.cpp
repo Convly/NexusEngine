@@ -33,7 +33,7 @@ void		NetworkUdp::startSend(const std::string &ip, unsigned short port, std::vec
 	char	decimal_port[16];
 	struct	addrinfo hints;
 
-	const nx::Event e = this->convertNetworkDataToEvent(data);
+	const nx::Event e = *this->convertNetworkDataToEvent(data);
 
 	nx::Log::inform("[UDP START SEND] event.type: [" + std::to_string(e.type) + "]");
 	nx::Log::inform("[UDP START SEND] event.arg: [" + std::string(e.data.data()) + "]");
@@ -87,7 +87,7 @@ void		NetworkUdp::startReceive(unsigned short port)
 
 void		NetworkUdp::send(std::vector<char> data)
 {
-	const nx::Event e = this->convertNetworkDataToEvent(data);
+	const nx::Event e = *this->convertNetworkDataToEvent(data);
 
 	nx::Log::inform("[UDP SEND] event.type: [" + std::to_string(e.type) + "]");
 	nx::Log::inform("[UDP SEND] event.arg: [" + std::string(e.data.data()) + "]");
@@ -161,7 +161,7 @@ void		NetworkUdp::receive(unsigned short port)
 		if (data.data() == nullptr)
 			nx::Log::inform(":D :) :| :[ :( :G :'G");
 		std::cout << "before NETWORK DATA to EVENT" << std::endl;
-		const nx::Event event = this->convertNetworkDataToEvent(data);
+		const nx::Event event = *this->convertNetworkDataToEvent(data);
 		std::cout << "after NETWORK DATA to EVENT" << std::endl;
 
 		std::cout << "string of data = " << event.stringFromVector(data) << std::endl;

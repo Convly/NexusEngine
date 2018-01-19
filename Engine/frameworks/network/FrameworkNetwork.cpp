@@ -22,7 +22,14 @@ void FrameworkNetwork::tcpStartConnect(std::string ip, unsigned short port) {
 }
 
 void FrameworkNetwork::tcpSend(unsigned int id, nx::Event event) {
-  this->_tcp.send(id, this->convertEventToNetworkData(event));
+  nx::Log::debug("Data in event:");
+  nx::Log::debug(event.data.data());
+  auto data = this->convertEventToNetworkData(event);
+
+  auto test = this->convertNetworkDataToEvent(data);
+  nx::Log::debug("Date test:");
+  nx::Log::debug(test->data.data());
+  this->_tcp.send(id, data);
 }
 
 void FrameworkNetwork::udpReceive(unsigned short port)

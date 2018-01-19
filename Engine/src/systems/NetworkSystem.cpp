@@ -119,6 +119,9 @@ void nx::NetworkSystem::event_NetworkTcpSend(const nx::Event &e) {
 
   try
   {
+	nx::Log::debug("Data in Engine:");
+	std::cout << "ID:" << event->id << std::endl;
+	std::cout  << event->event.data.data() << std::endl;
 	  self->getFramework()->tcpSend(event->id, event->event);
   }
   catch (const nx::NetworkUdpException &e)

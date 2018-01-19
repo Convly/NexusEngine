@@ -7,15 +7,15 @@
 
 class ANetworkTransport {
  protected:
-  std::vector<char> convertEventToNetworkData(nx::Event event) {
+  std::vector<char> convertEventToNetworkData(nx::Event &event) {
 	auto const ptr = reinterpret_cast<char*>(&event);
-	std::vector<char> data(ptr, ptr + sizeof event);
+	std::vector<char> data(ptr, ptr + sizeof(event));
 	return (data);
   }
 
-  nx::Event convertNetworkDataToEvent(std::vector<char> data) {
+  const nx::Event* convertNetworkDataToEvent(std::vector<char> &data) {
 	const nx::Event * event = reinterpret_cast<const nx::Event*>(data.data());
-	return (*event);
+	return (event);
   }
 };
 
