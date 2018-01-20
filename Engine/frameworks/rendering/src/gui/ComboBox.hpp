@@ -31,7 +31,8 @@ namespace nx
 
 			bool							_isScrolled;
 
-			void	_recenteringSelectedText();
+			void			_recenteringSelectedText();
+			sf::Vector2f	_calculateTotalSize();
 
 		public:
 			ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
