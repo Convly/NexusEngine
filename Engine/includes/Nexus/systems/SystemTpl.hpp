@@ -31,6 +31,17 @@ namespace nx {
 		static std::string stringFromVector(const std::vector<T>& vec) {
 			return vec.data();
 		}
+
+		template <typename T>
+		static std::vector<char> serialize(const T& obj) {
+			auto const ptr = reinterpret_cast<const char*>(&obj);
+			return std::vector<char>(ptr, ptr + sizeof(T));
+		}
+
+		template <typename T>
+		static T deserialize(const std::vector<char>& data) {
+			return *reinterpret_cast<T*>(data.data());
+		}
 	};
 
 	struct EventLink
