@@ -17,7 +17,7 @@ nx::gui::Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::
 	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 
-	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 nx::gui::Button::~Button()
@@ -135,8 +135,8 @@ void	nx::gui::Button::setBorderColor(sf::Color const& color)
 void	nx::gui::Button::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
-	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
 	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::gui::Button::setPos(sf::Vector2f const& pos)
@@ -148,8 +148,8 @@ void	nx::gui::Button::setPos(sf::Vector2f const& pos)
 
 void	nx::gui::Button::setSize(sf::Vector2f const& size)
 {
-	GUIElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness * 2, size.y - this->_borderThickness * 2));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 	this->_recenteringLabelText();
 }
 

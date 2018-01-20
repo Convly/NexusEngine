@@ -68,6 +68,7 @@ void	nx::graphics::ConvexShape::setPoint(size_t const index, sf::Vector2f const&
 void	nx::graphics::ConvexShape::setScale(sf::Vector2f const& factor)
 {
 	this->_body.setScale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::graphics::ConvexShape::setOrigin(sf::Vector2f const& origin)
@@ -88,6 +89,7 @@ void	nx::graphics::ConvexShape::rotate(float const angle)
 void	nx::graphics::ConvexShape::scale(sf::Vector2f const& factor)
 {
 	this->_body.scale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::graphics::ConvexShape::setTexture(std::string const& texturePath, bool const resetRect)

@@ -9,7 +9,7 @@ nx::graphics::CircleShape::CircleShape(sf::Vector2f const & pos, sf::Vector2f co
 	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 
-	this->setRadius(radius);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 nx::graphics::CircleShape::~CircleShape()
@@ -67,6 +67,7 @@ void	nx::graphics::CircleShape::setPointCount(size_t const count)
 void	nx::graphics::CircleShape::setScale(sf::Vector2f const& factor)
 {
 	this->_body.setScale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::graphics::CircleShape::setOrigin(sf::Vector2f const& origin)
@@ -87,6 +88,7 @@ void	nx::graphics::CircleShape::rotate(float const angle)
 void	nx::graphics::CircleShape::scale(sf::Vector2f const& factor)
 {
 	this->_body.scale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::graphics::CircleShape::setTexture(std::string const& texturePath, bool const resetRect)

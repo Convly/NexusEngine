@@ -9,7 +9,7 @@ nx::graphics::RectShape::RectShape(sf::Vector2f const & pos, sf::Vector2f const 
 	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
 
-	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 nx::graphics::RectShape::~RectShape()
@@ -54,6 +54,7 @@ void	nx::graphics::RectShape::setRotation(float const angle)
 void	nx::graphics::RectShape::setScale(sf::Vector2f const& factor)
 {
 	this->_body.setScale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::graphics::RectShape::setOrigin(sf::Vector2f const& origin)
@@ -74,6 +75,7 @@ void	nx::graphics::RectShape::rotate(float const angle)
 void	nx::graphics::RectShape::scale(sf::Vector2f const& factor)
 {
 	this->_body.scale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::graphics::RectShape::setTexture(std::string const& texturePath, bool const resetRect)
@@ -101,8 +103,8 @@ void	nx::graphics::RectShape::setSize(sf::Vector2f const& size)
 {
 	float thickness = this->_body.getOutlineThickness();
 
-	GraphicsElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(size.x - thickness * 2, size.y - thickness * 2));
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 
