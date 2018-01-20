@@ -19,6 +19,7 @@
 
 #include "Nexus/rendering.hpp"
 #include "Nexus/script.hpp"
+#include "Nexus/network.hpp"
 
 namespace nx {
   class Engine {
