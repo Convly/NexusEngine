@@ -42,6 +42,13 @@ namespace nx {
 		static T deserialize(const std::vector<char>& data) {
 			return *reinterpret_cast<T*>(data.data());
 		}
+		
+		template <typename Archive>
+		void serialize(Archive& ar, const unsigned int version)
+		{
+			ar & type;
+			ar & data;
+		}
 	};
 
 	struct EventLink
