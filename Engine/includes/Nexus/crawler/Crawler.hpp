@@ -70,11 +70,15 @@ namespace nx {
 		
 	public:
 		const std::vector<fs::path>& getDirectoriesList(void);
+		const std::vector<fs::path>& getRecursiveEntriesList(void);
 		const std::vector<fs::path>& getEntriesListByType(const nx::Crawler::ENTRY_TYPE);
 
 	public:
 		const std::vector<fs::path>& getDirectoriesListByPath(const std::string&);
 		const std::vector<fs::path>& getEntriesListByTypeAndPath(const nx::Crawler::ENTRY_TYPE, const std::string&);
+
+	public:
+		static fs::path getAbsoluteDir(const std::string& path);
 
 	private:
 		bool archiveSearch(const nx::Crawler::ENTRY_TYPE = nx::Crawler::ENTRY_TYPE::ANY);

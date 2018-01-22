@@ -15,7 +15,7 @@
 #include <sstream>
 
 #include "rapidxml-1.13/rapidxml.hpp"
-#include "Directory.hpp"
+#include "Nexus/crawler/Crawler.hpp"
 #include "Environment.hpp"
 #include "Split.hpp"
 
@@ -343,23 +343,40 @@ namespace nx
       return error;
     }
 
-      static std::string mapSceneLayouts(Environment& env, xml_node<>* attributeNode, Scene& scene){
-        std::string error = "";
+    static std::string mapSceneLayouts(Environment& env, xml_node<>* attributeNode, Scene& scene){
+      std::string error = "";
 
-        if (attributeNode->first_attribute("name")){         
-                  int i;
-          if ((i = nameExistInVec(attributeNode->first_attribute("name")->value(), env.getLayouts())) != -1){
-            for (auto value : env.getLayouts().at(i).getGameObjects())
-              scene.getGameObjects().push_back(value);  
-            for (auto value : env.getLayouts().at(i).getComponents())
-              scene.getComponents().push_back(value);  
-          }
-          else{                  
-            error += "Error: this layout doesn't exist ";
-            error += attributeNode->first_attribute("name")->value();
-            error += "\n";
-          }
+      if (attributeNode->first_attribute("name")){         
+                int i;
+        if ((i = nameExistInVec(attributeNode->first_attribute("name")->value(), env.getLayouts())) != -1){
+          for (auto value : env.getLayouts().at(i).getGameObjects())
+            scene.getGameObjects().push_back(value);  
+          for (auto value : env.getLayouts().at(i).getComponents())
+            scene.getComponents().push_back(value);  
         }
+        else{                  
+          error += "Error: this layout doesn't exist ";
+          error += attributeNode->first_attribute("name")->value();
+          error += "\n";
+        }
+      }
+      return error;
+    }
+
+    static std::string mapSceneLayers(Environment& env, xml_node<>* attributeNode, Scene& scene){
+      std::string error = "";
+
+      if (attributeNode->first_attribute("name")){         
+        int i;
+        if ((i = nameExistInVec(attributeNode->first_attribute("name")->value(), env.getLayers())) != -1){
+          scene.getLayers().push_back(env.getLayers().at(i));  
+        }
+        else{                  
+          error += "Error: this layer doesn't exist ";
+          error += attributeNode->first_attribute("name")->value();
+          error += "\n";
+        }
+      }
       return error;
     }
 
@@ -372,6 +389,8 @@ namespace nx
         error += mapSceneGameObjects(env, attributeNode, scene);
       else if (std::string(attributeNode->name()).compare("layout") == 0)
         error += mapSceneLayouts(env, attributeNode, scene);
+      else if (std::string(attributeNode->name()).compare("layer") == 0)
+        error += mapSceneLayers(env, attributeNode, scene);
       return error;
     }
 
@@ -399,9 +418,7 @@ namespace nx
             break;
           }
           for (auto attributeNode = sceneNode->first_node(); attributeNode; attributeNode = attributeNode->next_sibling())
-          {
             error += mapSceneAttributes(env, attributeNode, scene);
-          }
           env.getScenes().push_back(scene);
         }
       }
@@ -415,14 +432,16 @@ namespace nx
     static std::string getNextXmlTree(Environment& env, const std::string xmlType, const std::vector<std::string>& dirPaths){
       std::string error = "";
       xml_node<>* rootNode = nullptr;
-      static std::vector<std::string> filesName;
+      static std::vector<fs::path> filesName;
       xml_document<> doc; 
       static int i = 0;
 
       while (i < dirPaths.size()){
         static int j = 0;
 
-        if (j == 0 && !getComponentFilesName(dirPaths[i], filesName)){
+        Crawler crawler(dirPaths[i]);
+        filesName = crawler.getRecursiveEntriesList();
+        if (j == 0 && filesName.empty()){
           error += "Error: " + xmlType + " in get files name " + dirPaths[i] + "\n";
           i = 0;
           j = 0;
@@ -435,7 +454,7 @@ namespace nx
           doc.parse<0>(&buffer[0]);
           rootNode = doc.first_node("nx");
           if (rootNode == nullptr){
-            error += "Error: nx tag not found in " + filesName[j - 1] + "\n";
+            error += "Error: nx tag not found in " + filesName[j - 1].string() + "\n";
             std::cerr << "Error: nx tag not found in " << filesName[j - 1] << std::endl;
           }
           else{            

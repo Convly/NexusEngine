@@ -49,8 +49,11 @@ namespace nx
     std::vector<GuiElement> _guiElements;
 
   public:
-    std::string&   getName() { return _name; }
+    std::string   getName() const { return _name; }
     std::vector<GuiElement>&  getGuiElements() { return _guiElements; }
+
+  public:
+    void setName(const std::string& name) { _name = name; }
 
   public:
     Layer() {}

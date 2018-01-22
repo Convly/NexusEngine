@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include "Nexus/errors/BadFormatGameJSONException.hpp"
+#include "Nexus/crawler/Crawler.hpp"
 
 namespace nx {
 
@@ -64,6 +65,7 @@ namespace nx {
             this->getRessourceTags(d);
 
             this->checkInfosIntegrity();
+            
         }
 
         virtual ~GameInfosParser() {}
@@ -98,7 +100,7 @@ namespace nx {
                 std::string name(item.name.GetString());
                 std::vector<std::string> value;
                 for (unsigned int i = 0; i < item.value.Size(); ++i)
-                    value.push_back(item.value[i].GetString());
+                    value.push_back(nx::Crawler::getAbsoluteDir(this->_path).string() + "/" + item.value[i].GetString());
                 bool validParam = (std::find_if(nx::GameInfosParser::GameRessourcesAttrs.begin(), nx::GameInfosParser::GameRessourcesAttrs.end(), [&](auto it){return it == name;}) != nx::GameInfosParser::GameRessourcesAttrs.end());
                 if (!validParam) {
                     std::string ret = "Unknown ressources parameter: " + name;

@@ -22,13 +22,15 @@ namespace nx
   {
   private:
     std::string _name = "";
-    std::vector<GameObject>  _gameObjects;
-    std::vector<Component>                        _components;
+    std::vector<GameObject>   _gameObjects;
+    std::vector<Component>    _components;
+    std::vector<Layer>        _layers;
 
   public:
     std::string&                                    getName() { return _name; }
     std::vector<GameObject>&                        getGameObjects() { return _gameObjects; }
     std::vector<Component>&                         getComponents() { return _components; }
+    std::vector<Layer>&                             getLayers() { return _layers; }
 
   public:
     Scene() {}

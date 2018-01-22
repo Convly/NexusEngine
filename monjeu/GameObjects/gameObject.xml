@@ -1,0 +1,33 @@
+<!-- Defines the root tag -->
+<nx>
+	<!-- Defines a game object for the first enemy -->
+	<gameObject name="enemy1" tag="enemy">
+		<!-- Add a transform component to the first enemy -->
+		<component type="transform">
+			<pos x="2" y="4"/>
+			<rotation x="89" y="34"/>
+		</component>
+		<!-- Add a renderer component to the first enemy -->
+		<compondent type="renderer">
+			<texture src="enemy1.png"/>
+			<opacity value="0.5"/>
+		</component>
+		
+	</gameObject>
+
+	<!-- Defines a game object for the second enemy -->
+	<gameObject name="enemy2" tag="enemy">
+		<!-- Add a transform component to the second enemy -->
+		<component type="transform2">
+			<pos x="4" y="2"/>
+			<rotation x="0" y="25"/>
+		</component>
+		<!-- Add a renderer component to the second enemy -->
+		<component type="renderer2">
+			<texture src="enemy2.png"/>
+			<opacity value="1"/>
+		</component>
+	</gameObject>
+
+	<button src="" onhover="fonction" />
+</nx>
