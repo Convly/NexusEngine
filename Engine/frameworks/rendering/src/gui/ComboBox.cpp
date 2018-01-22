@@ -15,7 +15,8 @@ nx::gui::ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, s
 	this->_body.setFillColor(colorInfo.backgroundColor);
 	this->_body.setOutlineThickness(static_cast<float>(colorInfo.borderThickness));
 	this->_body.setOutlineColor(colorInfo.borderColor);
-	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
+
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 
 	this->_recenteringSelectedText();
 }
@@ -25,6 +26,16 @@ nx::gui::ComboBox::~ComboBox()
 
 }
 
+
+sf::Vector2f nx::gui::ComboBox::_calculateTotalSize()
+{
+	sf::Vector2f size(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height);
+
+	for (auto shape : this->_bgSelections)
+		size.y += shape.getLocalBounds().height;
+
+	return (size);
+}
 
 void	nx::gui::ComboBox::_recenteringSelectedText()
 {
@@ -48,6 +59,7 @@ void nx::gui::ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 	{
 		this->_isScrolled = true;
 		nx::Log::inform("Wasn't scrolled, clicked on body");
+		GUIElement::setSize(this->_calculateTotalSize());
 	}
 	else if (this->_isScrolled && !rectBody.contains(static_cast<float>(pos.x), static_cast<float>(pos.y)))
 	{
@@ -63,10 +75,14 @@ void nx::gui::ComboBox::onLeftClickPressedInside(sf::Vector2i const& pos)
 				break;
 			}
 		}
+		GUIElement::setSize(this->_calculateTotalSize());
 		this->_isScrolled = false;
 	}
 	else
+	{
+		GUIElement::setSize(this->_calculateTotalSize());
 		this->_isScrolled = false;
+	}
 }
 
 void nx::gui::ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
@@ -74,7 +90,11 @@ void nx::gui::ComboBox::onLeftClickPressedOutside(sf::Vector2i const& pos)
 	this->dispatchMouseEvent(pos, "onLeftClickPressedOutside");	
 
 	//Will be called when a left-click is outside the element
-	this->_isScrolled = false;
+	if (this->_isScrolled)
+	{
+		this->_isScrolled = false;
+		GUIElement::setSize(this->_calculateTotalSize());
+	}
 }
 
 // Display
@@ -113,8 +133,8 @@ void	nx::gui::ComboBox::setBorderColor(sf::Color const& color)
 void	nx::gui::ComboBox::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
-	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
 	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
+	GUIElement::setSize(this->_calculateTotalSize());
 }
 
 void	nx::gui::ComboBox::setFontSize(unsigned int const fontSize)
@@ -143,7 +163,7 @@ void	nx::gui::ComboBox::addSelection(std::string const& selection)
 	this->_bgSelections.push_back(rect);
 	this->_selectionTexts.push_back(text);
 
-	this->setSize(sf::Vector2f(this->getSize().x, this->getSize().y + rect.getSize().y));
+	GUIElement::setSize(this->_calculateTotalSize());
 }
 
 void	nx::gui::ComboBox::removeSelection(std::string const& selection, uint16_t const nbTimes)
@@ -163,6 +183,7 @@ void	nx::gui::ComboBox::removeSelection(std::string const& selection, uint16_t c
 									return (selectionStr == selection && nb != 0);
 								 }),
 								 this->_selectionTexts.end());
+	GUIElement::setSize(this->_calculateTotalSize());
 }
 
 void	nx::gui::ComboBox::removeSelection(uint16_t const idx, uint16_t const nbTimes)
@@ -180,6 +201,7 @@ void	nx::gui::ComboBox::removeSelection(uint16_t const idx, uint16_t const nbTim
 		this->_selected.setString("- Nothing selected -");
 		this->_recenteringSelectedText();
 	}
+	GUIElement::setSize(this->_calculateTotalSize());
 }
 
 void	nx::gui::ComboBox::clearSelections()
@@ -190,6 +212,7 @@ void	nx::gui::ComboBox::clearSelections()
 
 	this->_bgSelections.clear();
 	this->_selectionTexts.clear();
+	GUIElement::setSize(this->_calculateTotalSize());
 }
 
 void	nx::gui::ComboBox::setPos(sf::Vector2f const& pos)
@@ -201,7 +224,8 @@ void	nx::gui::ComboBox::setPos(sf::Vector2f const& pos)
 
 void	nx::gui::ComboBox::setSize(sf::Vector2f const& size)
 {
-	GUIElement::setSize(size);
+	//TODO: Resize the body and selections
+	//GUIElement::setSize(this->_calculateTotalSize());
 }
 
 // Getters

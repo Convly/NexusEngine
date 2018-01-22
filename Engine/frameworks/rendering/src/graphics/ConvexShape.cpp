@@ -65,6 +65,46 @@ void	nx::graphics::ConvexShape::setPoint(size_t const index, sf::Vector2f const&
 	GraphicsElement::setSize(sf::Vector2f(bounds.width, bounds.height));
 }
 
+void	nx::graphics::ConvexShape::setScale(sf::Vector2f const& factor)
+{
+	this->_body.setScale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
+}
+
+void	nx::graphics::ConvexShape::setOrigin(sf::Vector2f const& origin)
+{
+	this->_body.setOrigin(origin);
+}
+
+void	nx::graphics::ConvexShape::move(sf::Vector2f const& offset)
+{
+	this->_body.move(offset);
+}
+
+void	nx::graphics::ConvexShape::rotate(float const angle)
+{
+	this->_body.rotate(angle);
+}
+
+void	nx::graphics::ConvexShape::scale(sf::Vector2f const& factor)
+{
+	this->_body.scale(factor);
+	GraphicsElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
+}
+
+void	nx::graphics::ConvexShape::setTexture(std::string const& texturePath, bool const resetRect)
+{
+	if (!this->_texture.loadFromFile(texturePath))
+		throw nx::InvalidImageException(texturePath);
+
+	this->_body.setTexture(&this->_texture, resetRect);
+}
+
+void	nx::graphics::ConvexShape::setTextureRect(sf::IntRect const& rect)
+{
+	this->_body.setTextureRect(rect);
+}
+
 void	nx::graphics::ConvexShape::setPos(sf::Vector2f const& pos)
 {
 	float thickness = this->_body.getOutlineThickness();
@@ -117,4 +157,19 @@ size_t const		nx::graphics::ConvexShape::getPointCount() const
 sf::Vector2f const	nx::graphics::ConvexShape::getPoint(size_t const index) const
 {
 	return (this->_body.getPoint(index));
+}
+
+sf::IntRect const &		nx::graphics::ConvexShape::getTextureRect() const
+{
+	return (this->_body.getTextureRect());
+}
+
+sf::Vector2f const &	nx::graphics::ConvexShape::getScale() const
+{
+	return (this->_body.getScale());
+}
+
+sf::Vector2f const &	nx::graphics::ConvexShape::getOrigin() const
+{
+	return (this->_body.getOrigin());
 }

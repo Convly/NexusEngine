@@ -703,6 +703,45 @@ void	FrameworkRendering::setSizeToCircleShape(std::string const& circleShapeId, 
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
+void	FrameworkRendering::setPointCountToCircleShape(std::string const& circleShapeId, size_t const count)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setPointCount(count);
+}
+
+void	FrameworkRendering::setScaleToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& factor)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setScale(sf::Vector2f(factor.x, factor.y));
+}
+void	FrameworkRendering::setOriginToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& origin)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setOrigin(sf::Vector2f(origin.x, origin.y));
+}
+
+void	FrameworkRendering::moveToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& offset)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->move(sf::Vector2f(offset.x, offset.y));
+}
+
+void	FrameworkRendering::rotateToCircleShape(std::string const& circleShapeId, float const angle)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->rotate(angle);
+}
+
+void	FrameworkRendering::scaleToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& factor)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->scale(sf::Vector2f(factor.x, factor.y));
+}
+
+void	FrameworkRendering::setTextureToCircleShape(std::string const& circleShapeId, std::string const& texturePath, bool const resetRect)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setTexture(texturePath);
+}
+
+void	FrameworkRendering::setTextureRectToCircleShape(std::string const& circleShapeId, nx::maths::Rect const& rect)
+{
+	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setTextureRect(sf::IntRect(static_cast<int>(rect.position().x), static_cast<int>(rect.position().y), static_cast<int>(rect.width()), static_cast<int>(rect.height())));
+}
+
 nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromCircleShape(std::string const& circleShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getBackgroundColor();
@@ -728,6 +767,35 @@ float const					FrameworkRendering::getRotationFromCircleShape(std::string const
 float const					FrameworkRendering::getRadiusFromCircleShape(std::string const& circleShapeId) const
 {
 	return (this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getRadius());
+}
+
+size_t const						FrameworkRendering::getPointCountFromCircleShape(std::string const& circleShapeId) const
+{
+	return (this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getPointCount());
+}
+
+nx::maths::Vector2f const					FrameworkRendering::getPointFromCircleShape(std::string const& circleShapeId, size_t const index) const
+{
+	sf::Vector2f point = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getPoint(index);
+	return (nx::maths::Vector2f(point.x, point.y));
+}
+
+nx::maths::Rect const						FrameworkRendering::getTextureRectFromCircleShape(std::string const& circleShapeId) const
+{
+	sf::IntRect const& rect = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getTextureRect();
+	return (nx::maths::Rect(nx::maths::Vector2f(static_cast<float>(rect.left), static_cast<float>(rect.top)), nx::maths::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height))));
+}
+
+nx::maths::Vector2f const					FrameworkRendering::getScaleFromCircleShape(std::string const& circleShapeId) const
+{
+	sf::Vector2f const& scale = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getScale();
+	return (nx::maths::Vector2f(scale.x, scale.y));
+}
+
+nx::maths::Vector2f const					FrameworkRendering::getOriginFromCircleShape(std::string const& circleShapeId) const
+{
+	sf::Vector2f const& origin = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getOrigin();
+	return (nx::maths::Vector2f(origin.x, origin.y));
 }
 
 
@@ -846,6 +914,41 @@ void	FrameworkRendering::setPointToConvexShape(std::string const& convexShapeId,
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPoint(index, sf::Vector2f(point.x, point.y));
 }
 
+void	FrameworkRendering::setScaleToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& factor)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setScale(sf::Vector2f(factor.x, factor.y));
+}
+
+void	FrameworkRendering::setOriginToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& origin)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setOrigin(sf::Vector2f(origin.x, origin.y));
+}
+
+void	FrameworkRendering::moveToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& offset)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->move(sf::Vector2f(offset.x, offset.y));
+}
+
+void	FrameworkRendering::rotateToConvexShape(std::string const& convexShapeId, float const angle)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->rotate(angle);
+}
+
+void	FrameworkRendering::scaleToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& factor)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->scale(sf::Vector2f(factor.x, factor.y));
+}
+
+void	FrameworkRendering::setTextureToConvexShape(std::string const& convexShapeId, std::string const& texturePath, bool const resetRect)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setTexture(texturePath, resetRect);
+}
+
+void	FrameworkRendering::setTextureRectToConvexShape(std::string const& convexShapeId, nx::maths::Rect const& rect)
+{
+	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setTextureRect(sf::IntRect(static_cast<int>(rect.position().x), static_cast<int>(rect.position().y), static_cast<int>(rect.width()), static_cast<int>(rect.height())));
+}
+
 void	FrameworkRendering::setPosToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& pos)
 {
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
@@ -890,6 +993,23 @@ nx::maths::Vector2f const			FrameworkRendering::getPointFromConvexShape(std::str
 	return (nx::maths::Vector2f(point.x, point.y));
 }
 
+nx::maths::Rect const			FrameworkRendering::getTextureRectFromConvexShape(std::string const& convexShapeId) const
+{
+	sf::IntRect const& rect = this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getTextureRect();
+	return (nx::maths::Rect(nx::maths::Vector2f(static_cast<float>(rect.left), static_cast<float>(rect.top)), nx::maths::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height))));
+}
+
+nx::maths::Vector2f const		FrameworkRendering::getScaleFromConvexShape(std::string const& convexShapeId) const
+{
+	sf::Vector2f const& scale = this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getScale();
+	return (nx::maths::Vector2f(scale.x, scale.y));
+}
+
+nx::maths::Vector2f const		FrameworkRendering::getOriginFromConvexShape(std::string const& convexShapeId) const
+{
+	sf::Vector2f const& origin = this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getOrigin();
+	return (nx::maths::Vector2f(origin.x, origin.y));
+}
 
 //Image
 
@@ -1000,6 +1120,41 @@ void	FrameworkRendering::setRotationToRectShape(std::string const& rectShapeId, 
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setRotation(angle);
 }
 
+void	FrameworkRendering::setScaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setScale(sf::Vector2f(factor.x, factor.y));
+}
+
+void	FrameworkRendering::setOriginToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& origin)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setOrigin(sf::Vector2f(origin.x, origin.y));
+}
+
+void	FrameworkRendering::moveToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& offset)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->move(sf::Vector2f(offset.x, offset.y));
+}
+
+void	FrameworkRendering::rotateToRectShape(std::string const& rectShapeId, float const angle)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->rotate(angle);
+}
+
+void	FrameworkRendering::scaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->scale(sf::Vector2f(factor.x, factor.y));
+}
+
+void	FrameworkRendering::setTextureToRectShape(std::string const& rectShapeId, std::string const& texturePath, bool const resetRect)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setTexture(texturePath, resetRect);
+}
+
+void	FrameworkRendering::setTextureRectToRectShape(std::string const& rectShapeId, nx::maths::Rect const& rect)
+{
+	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setTextureRect(sf::IntRect(static_cast<int>(rect.position().x), static_cast<int>(rect.position().y), static_cast<int>(rect.width()), static_cast<int>(rect.height())));
+}
+
 void	FrameworkRendering::setPosToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& pos)
 {
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setPos(sf::Vector2f(pos.x, pos.y));
@@ -1030,6 +1185,35 @@ int const					FrameworkRendering::getBorderThicknessFromRectShape(std::string co
 float const					FrameworkRendering::getRotationFromRectShape(std::string const& rectShapeId) const
 {
 	return (this->_getGraphicsRectShapeFromHandler(rectShapeId)->getRotation());
+}
+
+size_t const				FrameworkRendering::getPointCountFromRectShape(std::string const& rectShapeId) const
+{
+	return (this->_getGraphicsRectShapeFromHandler(rectShapeId)->getPointCount());
+}
+
+nx::maths::Vector2f const	FrameworkRendering::getPointFromRectShape(std::string const& rectShapeId, size_t const index) const
+{
+	sf::Vector2f const point = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getPoint(index);
+	return (nx::maths::Vector2f(point.x, point.y));
+}
+
+nx::maths::Rect const		FrameworkRendering::getTextureRectFromRectShape(std::string const& rectShapeId) const
+{
+	sf::IntRect const& textureRect = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getTextureRect();
+	return (nx::maths::Rect(nx::maths::Vector2f(static_cast<float>(textureRect.left), static_cast<float>(textureRect.top)), nx::maths::Vector2f(static_cast<float>(textureRect.width), static_cast<float>(textureRect.height))));
+}
+
+nx::maths::Vector2f const	FrameworkRendering::getScaleFromRectShape(std::string const& rectShapeId) const
+{
+	sf::Vector2f const& scale = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getScale();
+	return (nx::maths::Vector2f(scale.x, scale.y));
+}
+
+nx::maths::Vector2f const	FrameworkRendering::getOriginFromRectShape(std::string const& rectShapeId) const
+{
+	sf::Vector2f const& origin = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getOrigin();
+	return (nx::maths::Vector2f(origin.x, origin.y));
 }
 
 

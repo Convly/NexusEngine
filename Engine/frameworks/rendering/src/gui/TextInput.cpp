@@ -23,7 +23,7 @@ nx::gui::TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size,
 	this->_cursor[1].color = textInfo.textColor;
 	this->_repositioningCursor();
 
-	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 nx::gui::TextInput::~TextInput()
@@ -246,8 +246,8 @@ void	nx::gui::TextInput::setPos(sf::Vector2f const& pos)
 
 void	nx::gui::TextInput::setSize(sf::Vector2f const& size)
 {
-	GUIElement::setSize(size);
 	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness * 2, size.y - this->_borderThickness * 2));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 	this->_label.setPosition(this->getPos().x + 3,
 							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);
 	this->_updateWrittenText();

@@ -8,15 +8,15 @@ namespace maths {
 
 struct Vector2f {
 	/* Constructors / Destructors */
-	Vector2f(double x_, double y_) : x(x_), y(y_) {}
-	Vector2f(double value) : x(value), y(value) {}
+	Vector2f(float x_, float y_) : x(x_), y(y_) {}
+	Vector2f(float value) : x(value), y(value) {}
 	Vector2f(const Vector2f& other) : x(other.x), y(other.y) {}
 	Vector2f() : x(0), y(0) {}
 	~Vector2f() {}
 
 	/* Members */
-	double x;
-	double y;
+	float x;
+	float y;
 
 	/* Operators */
 	Vector2f& operator=(const Vector2f& other) {
@@ -32,7 +32,7 @@ struct Vector2f {
 		return Vector2f(x + other.x, y + other.y);
 	}
 
-	Vector2f operator+(const double k) {
+	Vector2f operator+(const float k) {
 		return Vector2f(x + k, y + k);
 	}
 
@@ -42,7 +42,7 @@ struct Vector2f {
 		return *this;
 	}
 
-	Vector2f& operator+=(const double k) {
+	Vector2f& operator+=(const float k) {
 		x += k;
 		y += k;
 		return *this;
@@ -52,7 +52,7 @@ struct Vector2f {
 		return Vector2f(x - other.x, y - other.y);
 	}
 
-	Vector2f operator-(const double value) {
+	Vector2f operator-(const float value) {
 		return Vector2f(x - value, y - value);
 	}
 
@@ -62,27 +62,27 @@ struct Vector2f {
 		return *this;
 	}
 
-	Vector2f& operator-=(const double value) {
+	Vector2f& operator-=(const float value) {
 		x -= value;
 		y -= value;
 		return *this;
 	}
 
-	Vector2f operator*(const double value) {
+	Vector2f operator*(const float value) {
 		return Vector2f(x * value, y * value);
 	}
 
-	Vector2f& operator*=(const double value) {
+	Vector2f& operator*=(const float value) {
 		x *= value;
 		y *= value;
 		return *this;
 	}
 
-	Vector2f operator/(const double value) {
+	Vector2f operator/(const float value) {
 		return Vector2f(x / value, y / value);
 	}
 
-	Vector2f& operator/=(const double value) {
+	Vector2f& operator/=(const float value) {
 		x /= value;
 		y /= value;
 		return *this;
@@ -98,11 +98,11 @@ struct Vector2f {
 
 	/* Tools */
 
-	void reset(const double value) {
+	void reset(const float value) {
 		x = y = value;
 	}
 
-	void reset(const double x_, const double y_) {
+	void reset(const float x_, const float y_) {
 		x = x_;
 		y = y_;
 	}
