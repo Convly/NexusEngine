@@ -63,6 +63,8 @@ namespace nx
         error += "Error: A transform component need a rotation in the game object " + gameObject.getName() + "\n";
         return error;
       }
+
+	  return error;
     }
 
     static std::string mapRendererAttributes(Component& component, GameObject& gameObject, xml_node<>* componentNode){
@@ -94,6 +96,8 @@ namespace nx
         error += "Error: A renderer component need an opacity in the game object " + gameObject.getName() + "\n";
         return error;
       }
+
+	  return error;
     }    
 
     static std::string mapComponentsGameObject(Environment& env, GameObject& gameObject, xml_node<>* componentNode){
@@ -112,6 +116,7 @@ namespace nx
       else if (component.getType() == "renderer")
         error += mapRendererAttributes(component, gameObject, componentNode);
       gameObject.getComponents().push_back(component);
+	  return error;
     }
 
     // Parse and add a gameObject to env
@@ -198,6 +203,8 @@ namespace nx
       for (auto attributeNode = layoutNode->first_node(); attributeNode; attributeNode = attributeNode->next_sibling())
         error += mapLayoutAttribute(env, attributeNode, layout);
       env.getLayouts().push_back(layout);
+
+	  return error;
     }
 
     // Parse and add a layout to env

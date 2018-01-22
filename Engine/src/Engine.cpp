@@ -100,19 +100,19 @@ bool nx::Engine::checkEngineIntegrity() const
 
 void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 {
-	// this->_systems = 
-	// {
-	// 	std::make_shared<nx::ScriptSystem>()
-	// };
+	 this->_systems = 
+	 {
+	 	std::make_shared<nx::ScriptSystem>()
+	 };
 
-	// if (!serverOnly)
-	// 	this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
+	 if (!serverOnly)
+	 	this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
 
-	// for (auto system : this->_systems) {
-	// 	system->init();
-	// }
+	 for (auto system : this->_systems) {
+	 	system->init();
+	 }
 
-	// this->_run = this->checkEngineIntegrity();
+	 this->_run = this->checkEngineIntegrity();
 
 	nx::GameInfosParser confParser(confPath);
 	nx::XmlParser xmlParser;
@@ -122,8 +122,6 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 	if (!(res = nx::XmlParser::fillEnvironment(this->_env, confParser.getFields()._ressources)).empty()){
 		std::cerr << res;
 	}
-
-	std::cout << _env.getGameObjects().front().getComponents().front().getType() << std::endl;
 }
 
 void nx::Engine::stop() {
