@@ -2,21 +2,9 @@
 # define SCRIPT_FRAMEWORK_TEMPLATE_HPP_
 
 #include <iostream>
+#include "../modules/environment/Environment.hpp"
 
 namespace nx {
-	namespace script {
-		struct ScriptInfos {
-			ScriptInfos(const std::string& file_, const std::string& func_)
-			: file(file_), func(func_) {}
-
-			ScriptInfos(const nx::script::ScriptInfos& other)
-			: file(other.file), func(other.func) {}
-
-			std::string file;
-			std::string func;
-		};
-	};
-
 	class ScriptFrameworkTpl
 	{
 	protected:
