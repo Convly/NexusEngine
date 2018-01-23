@@ -13,6 +13,7 @@
 #include "Nexus/systems/SystemTpl.hpp"
 
 #include "Nexus/standalone/GameInfosParser/GameInfosParser.hpp"
+#include "Nexus/standalone/thread/ScopedLock.hpp"
 
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
@@ -34,6 +35,7 @@ namespace nx {
 		bool											_run;
 		bool											_debug;
 		std::vector<std::shared_ptr<nx::SystemTpl>>		_systems;
+		bool 											_serverOnly;
 
 	private:
 		Engine(const bool debug = false);
@@ -58,8 +60,8 @@ namespace nx {
 			  this->_systems.begin(),
 			  this->_systems.end(),
 			  [&](const auto system) {
-			  system->emitter(event);
-		  }
+			  	system->emitter(event);
+		  	}
 		  );
 	  }
 
@@ -76,8 +78,10 @@ namespace nx {
 		void setup(void);
 		void stop(void);
 		int run(const std::function<void(void)>&);
+		void coreLoop();
   public:
 		bool isSetup(void) const;
+		const bool isServer(void) const;
 		bool debug(void) const;
 		void setDebugFlag(const bool);
 		const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;

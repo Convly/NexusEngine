@@ -33,6 +33,11 @@ bool nx::Engine::debug() const
 	return this->_debug;
 }
 
+const bool nx::Engine::isServer() const
+{
+	return this->_serverOnly;
+}
+
 const std::vector<std::shared_ptr<nx::SystemTpl>>& nx::Engine::getSystems() const
 {
 	return this->_systems;
@@ -97,6 +102,9 @@ void nx::Engine::startup(bool serverOnly)
 
 	if (!serverOnly)
 		this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
+	else {
+		this->_systems.push_back(std::make_shared<nx::NetworkServerSystem>());
+	}
 
 	for (auto system : this->_systems) {
 		system->init();
@@ -117,10 +125,25 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	}
 
 	while (this->_run) {
-		for (auto system : this->_systems) {
-			system->update();
+		if (this->isServer())
+			this->coreLoop();
+		else
+		{
+			for (auto& system : this->_systems) {
+				system->update();
+			}
 		}
 		userCallback();
 	}
+
 	return (0);
+}
+
+void nx::Engine::coreLoop()
+{
+	// 
+	//
+	//
+	//
+	//
 }

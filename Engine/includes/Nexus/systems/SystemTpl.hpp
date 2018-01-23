@@ -8,6 +8,7 @@
 
 #include "Nexus/events.hpp"
 #include "Nexus/log.hpp"
+#include "Nexus/errors/InvalidDeserialization.hpp"
 
 namespace nx {
 	class Engine;
@@ -23,24 +24,18 @@ namespace nx {
 		nx::EVENT			type;
 		std::vector<char>	data;
 
-		static std::vector<char> stringToVector(const std::string& str) {
-			return std::vector<char>(str.c_str(), str.c_str() + str.size() + 1);
-		}
-
 		template <typename T>
-		static std::string stringFromVector(const std::vector<T>& vec) {
-			return vec.data();
-		}
-
-		template <typename T>
-		static std::vector<char> serialize(const T& obj) {
+		static std::vector<char> serializer(const T& obj) {
 			auto const ptr = reinterpret_cast<const char*>(&obj);
 			return std::vector<char>(ptr, ptr + sizeof(T));
 		}
 
 		template <typename T>
-		static T deserialize(const std::vector<char>& data) {
-			return *reinterpret_cast<T*>(data.data());
+		static T deserializer(const std::vector<char>& data) {
+			const T* ist = reinterpret_cast<const T*>(data.data());
+			if (!ist)
+				throw nx::InvalidDeserializationException(typeid(ist).name());
+			return *ist;
 		}
 		
 		template <typename Archive>

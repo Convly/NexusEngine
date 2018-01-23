@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+#include "Nexus/engine.hpp"
 #include "Nexus/systems/SystemTpl.hpp"
 #include "Nexus/frameworks/NetworkServerFrameworkTpl.hpp"
 
@@ -29,6 +30,12 @@ namespace nx {
 		void init();
 		bool checkIntegrity() const;
 		nx::NetworkServerFrameworkTpl* getFramework();
+
+	public:
+		static void event_Send(const nx::Event& e);
+		static void event_SendAll(const nx::Event& e);
+		static void event_Disconnect(const nx::Event& e);
+		static void event_Connect(const nx::Event&);
 	};
 }
 
