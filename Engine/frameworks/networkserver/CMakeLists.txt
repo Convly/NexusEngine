@@ -7,10 +7,26 @@ set(LIBRARY_NAME "networkserver")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(Boost_USE_STATIC_LIBS   OFF)
+set(Boost_USE_MULTITHREADED ON)
+
+find_package(Boost 1.54.0 COMPONENTS system serialization filesystem thread REQUIRED)
+
+if(NOT Boost_FOUND)
+    message("Boost >= 1.54.0 is needed for build")
+    return()
+endif()
+
+
+message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
+message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+
 ### INCLUDES
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ../../includes/
+  ${Boost_INCLUDE_DIRS}
 )
 
 ### OUTPUT DIRECTORY
@@ -21,4 +37,6 @@ file(GLOB_RECURSE SOURCE_LIB_FILES		${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../include/Nexus/engine.hpp)
 
 add_library(${LIBRARY_NAME} SHARED ${SOURCE_LIB_FILES} ${HEADER_LIB_FILES} ${SOURCE_ENGINE_FILES})
+target_compile_definitions(${LIBRARY_NAME} PRIVATE -DBOOST_ALL_NO_LIB -DBOOST_ALL_DYN_LINK)
+target_link_libraries(${LIBRARY_NAME} ${Boost_LIBRARIES})
 SET_TARGET_PROPERTIES(${LIBRARY_NAME} PROPERTIES PREFIX "")
