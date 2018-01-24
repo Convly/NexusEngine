@@ -17,10 +17,10 @@ namespace nx
 
 		class RendererComponent
 		{
-			EntityInfos		_entityInfos;
-			uint8_t			_opacity;
-			std::string		_texturePath;
-			ShapeType		_shapeType;
+			EntityInfos				_entityInfos;
+			std::atomic<uint8_t>	_opacity;
+			std::string				_texturePath;
+			ShapeType				_shapeType;
 
 		public:
 			RendererComponent(std::string const& _name)
@@ -31,6 +31,8 @@ namespace nx
 				: _entityInfos(_name), _opacity(100), _texturePath(texturePath), _shapeType(shapeType) {}
 			RendererComponent(std::string const& _name, uint8_t const opacity, std::string const& texturePath, ShapeType const shapeType)
 				: _entityInfos(_name), _opacity(opacity), _texturePath(texturePath), _shapeType(shapeType) {}
+			RendererComponent(const RendererComponent & other)
+				: _entityInfos(other.getEntityInfosConst()), _opacity(other.getOpacityConst()), _texturePath(other.getTexturePathConst()), _shapeType(other.getShapeTypeConst()) {}
 			~RendererComponent() {}
 
 			// Setters
@@ -69,6 +71,41 @@ namespace nx
 			ShapeType &				getShapeType()
 			{
 				return (this->_shapeType);
+			}
+
+		public:
+			// Getters const
+			EntityInfos const & getEntityInfosConst() const
+			{
+				return (this->_entityInfos);
+			}
+
+			uint8_t	const				getOpacityConst() const
+			{
+				return (this->_opacity);
+			}
+
+			std::string const &			getTexturePathConst() const
+			{
+				return (this->_texturePath);
+			}
+
+			ShapeType const &				getShapeTypeConst() const
+			{
+				return (this->_shapeType);
+			}
+
+		public:
+			RendererComponent const &		operator=(const RendererComponent & other)
+			{
+				if (this != &other)
+				{
+					this->_entityInfos = other.getEntityInfosConst();
+					this->_opacity = other.getOpacityConst();
+					this->_texturePath = other.getTexturePathConst();
+					this->_shapeType = other.getShapeTypeConst();
+				}
+				return (*this);
 			}
 		};
 	}
