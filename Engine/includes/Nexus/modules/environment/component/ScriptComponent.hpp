@@ -9,6 +9,7 @@ namespace nx
 	{
 		class ScriptComponent
 		{
+		private:
 			EntityInfos		_entityInfos;
 			std::string		_scriptPath;
 

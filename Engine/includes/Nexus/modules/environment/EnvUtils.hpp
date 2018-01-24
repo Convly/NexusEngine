@@ -30,44 +30,292 @@ namespace nx
 			CHECKED
 		};
 
-		struct RGBa {
-			RGBa() : red(0), green(0), blue(0), alpha(255) {}
+		class RGBa {
+
+		private:
+			std::atomic<uint32_t> _red;
+			std::atomic<uint32_t> _green;
+			std::atomic<uint32_t> _blue;
+			std::atomic<uint32_t> _alpha;
+
+		public:
+			RGBa() : _red(0), _green(0), _blue(0), _alpha(255) {}
 			RGBa(const uint32_t red_, const uint32_t green_, const uint32_t blue_, const uint32_t alpha_)
-				: red(red_), green(green_), blue(blue_), alpha(alpha_) {}
+				: _red(red_), _green(green_), _blue(blue_), _alpha(alpha_) {}
 
 			RGBa(const RGBa& other)
-				: red(other.red), green(other.green), blue(other.blue), alpha(other.alpha) {}
+				: _red(other.getRedConst()), _green(other.getGreenConst()), _blue(other.getBlueConst()), _alpha(other.getAlphaConst()) {}
 
-			uint32_t red;
-			uint32_t green;
-			uint32_t blue;
-			uint32_t alpha;
+		public:
+			// Setters
+			void		setRed(const uint32_t red)
+			{
+				this->_red = red;
+			}
+
+			void		setGreen(const uint32_t green)
+			{
+				this->_green = green;
+			}
+
+			void		setBlue(const uint32_t blue)
+			{
+				this->_blue = blue;
+			}
+
+			void		setAlpha(const uint32_t alpha)
+			{
+				this->_alpha = alpha;
+			}
+
+		public:
+			// Getters
+			uint32_t	getRed()
+			{
+				return (this->_red);
+			}
+
+			uint32_t	getGreen()
+			{
+				return (this->_green);
+			}
+
+			uint32_t	getBlue()
+			{
+				return (this->_blue);
+			}
+
+			uint32_t	getAlpha()
+			{
+				return (this->_alpha);
+			}
+
+		public:
+			// Getters const
+			uint32_t const	getRedConst() const
+			{
+				return (this->_red);
+			}
+
+			uint32_t const	getGreenConst() const
+			{
+				return (this->_green);
+			}
+
+			uint32_t const	getBlueConst() const
+			{
+				return (this->_blue);
+			}
+
+			uint32_t const	getAlphaConst() const
+			{
+				return (this->_alpha);
+			}
+
+		public:
+			RGBa & operator=(const RGBa & other)
+			{
+				if (this != &other)
+				{
+					this->_red = other.getRedConst();
+					this->_green = other.getGreenConst();
+					this->_blue = other.getBlueConst();
+					this->_alpha = other.getAlphaConst();
+				}
+				return (*this);
+			}
+
 		};
 
-		struct ColorInfo {
+		class ColorInfo {
+
+		private:
+			nx::env::RGBa				_backgroundColor;
+			nx::env::RGBa				_borderColor;
+			std::atomic<unsigned int>	_borderThickness;
+
+		public:
 			ColorInfo(const nx::env::RGBa& backgroundColor_, const nx::env::RGBa& borderColor_, const unsigned int borderThickness_)
-				: backgroundColor(backgroundColor_), borderColor(borderColor_), borderThickness(borderThickness_) {}
+				: _backgroundColor(backgroundColor_), _borderColor(borderColor_), _borderThickness(borderThickness_) {}
 
 			ColorInfo(const nx::env::ColorInfo& other)
-				: backgroundColor(other.backgroundColor), borderColor(other.borderColor), borderThickness(other.borderThickness) {}
+				: _backgroundColor(other.getBackgroundColorConst()), _borderColor(other.getBorderColorConst()), _borderThickness(other.getBorderThicknessConst()) {}
 
-			nx::env::RGBa	backgroundColor;
-			nx::env::RGBa	borderColor;
-			unsigned int		borderThickness;
+		public:
+			// Setter
+			void	setBackgroundColor(const nx::env::RGBa & backgroundColor)
+			{
+				this->_backgroundColor = backgroundColor;
+			}
+
+			void	setBorderColor(const ::nx::env::RGBa & borderColor)
+			{
+				this->_borderColor = borderColor;
+			}
+
+			void 	setBorderThickness(const unsigned int borderThickness)
+			{
+				this->_borderThickness = borderThickness;
+			}
+
+		public:
+			// Getter
+			nx::env::RGBa &		getBackgroundColor()
+			{
+				return (this->_backgroundColor);
+			}
+
+			nx::env::RGBa &		getBorderColor()
+			{
+				return (this->_borderColor);
+			}
+
+			unsigned int 		getBorderThickness()
+			{
+				return (this->_borderThickness.load());
+			}
+
+		public:
+			// Getter const
+			nx::env::RGBa const &	getBackgroundColorConst() const
+			{
+				return (this->_backgroundColor);
+			}
+
+			nx::env::RGBa const &	getBorderColorConst() const
+			{
+				return (this->_borderColor);
+			}
+
+			unsigned int const 		getBorderThicknessConst() const
+			{
+				return (this->_borderThickness.load());
+			}
+
+		public:
+			ColorInfo & operator=(const ColorInfo & other)
+			{
+				if (this != &other)
+				{
+					this->_backgroundColor = other.getBackgroundColorConst();
+					this->_borderColor = other.getBorderColorConst();
+					this->_borderThickness = other.getBorderThicknessConst();
+				}
+				return (*this);
+			}
 		};
 
-		struct TextInfo {
+		class TextInfo {
+
+		private:
+			std::string					_fontPath;
+			std::string					_textLabel;
+			std::atomic<unsigned int>	_fontSize;
+			nx::env::RGBa				_textColor;
+			std::atomic<uint32_t>		_textStyle;
+
+		public:
 			TextInfo(const std::string& fontPath_, const std::string& textLabel_, const unsigned int fontSize_, const nx::env::RGBa& textColor_, const uint32_t textStyle_)
-				: fontPath(fontPath_), textLabel(textLabel_), fontSize(fontSize_), textColor(textColor_), textStyle(textStyle_) {}
+				: _fontPath(fontPath_), _textLabel(textLabel_), _fontSize(fontSize_), _textColor(textColor_), _textStyle(textStyle_) {}
 
 			TextInfo(const nx::env::TextInfo& other)
-				: fontPath(other.fontPath), textLabel(other.textLabel), fontSize(other.fontSize), textColor(other.textColor), textStyle(other.textStyle) {}
+				: _fontPath(other.getFontPathConst()), _textLabel(other.getTextLabelConst()), _fontSize(other.getFontSizeConst()), _textColor(other.getTextColorConst()), _textStyle(other.getTextStyleConst()) {}
 
-			std::string			fontPath;
-			std::string			textLabel;
-			unsigned int		fontSize;
-			nx::env::RGBa		textColor;
-			uint32_t			textStyle;
+		public:
+			//Setters
+			void	setFontPath(const std::string & fontPath)
+			{
+				this->_fontPath = fontPath;
+			}
+
+			void	setTextLabel(const std::string & textLabel)
+			{
+				this->_textLabel = textLabel;
+			}
+
+			void	setFontSize(unsigned int fontSize)
+			{
+				this->_fontSize = fontSize;
+			}
+
+			void	setTextColor(const nx::env::RGBa & textColor)
+			{
+				this->_textColor = textColor;
+			}
+
+			void	setTextStyle(const uint32_t textStyle)
+			{
+				this->_textStyle = textStyle;
+			}
+
+		public:
+			// Getters
+			std::string	&	getFontPath()
+			{
+				return (this->_fontPath);
+			}
+
+			std::string	&	getTextLabel()
+			{
+				return (this->_textLabel);
+			}
+
+			unsigned int	getFontSize()
+			{
+				return (this->_fontSize);
+			}
+
+			nx::env::RGBa &	getTextColor()
+			{
+				return (this->_textColor);
+			}
+
+			uint32_t		getTextStyle()
+			{
+				return (this->_textStyle);
+			}
+
+		public:
+			// Getters const
+			std::string	const &	getFontPathConst() const
+			{
+				return (this->_fontPath);
+			}
+
+			std::string	const &	getTextLabelConst() const
+			{
+				return (this->_textLabel);
+			}
+
+			unsigned int const	getFontSizeConst() const
+			{
+				return (this->_fontSize);
+			}
+
+			nx::env::RGBa const	getTextColorConst() const
+			{
+				return (this->_textColor);
+			}
+
+			uint32_t const		getTextStyleConst() const
+			{
+				return (this->_textStyle);
+			}
+
+		public:
+			TextInfo & operator=(const TextInfo & other)
+			{
+				if (this != &other)
+				{
+					this->_fontPath = other.getFontPathConst();
+					this->_textLabel = other.getTextLabelConst();
+					this->_fontSize = other.getFontSizeConst();
+					this->_textColor = other.getTextColorConst();
+					this->_textStyle = other.getTextStyleConst();
+				}
+				return (*this);
+			}
+
 		};
 
 		struct GUIElementInfos {
@@ -83,13 +331,79 @@ namespace nx
 			nx::env::MouseEventsContainer events;
 		};
 
-		struct GUIButtonInfos {
-			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : isPushButton(isPushButton_), colorInfo(colorInfo_), textInfo(textInfo_) {}
-			GUIButtonInfos(const GUIButtonInfos& other) : isPushButton(other.isPushButton), colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+		class GUIButtonInfos {
 
-			bool isPushButton;
-			nx::env::ColorInfo colorInfo;
-			nx::env::TextInfo textInfo;
+		private:
+			std::atomic<bool>	_isPushButton;
+			nx::env::ColorInfo	_colorInfo;
+			nx::env::TextInfo	_textInfo;
+
+		public:
+			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : _isPushButton(isPushButton_), _colorInfo(colorInfo_), _textInfo(textInfo_) {}
+			GUIButtonInfos(const GUIButtonInfos& other) : _isPushButton(other.getIsPushButtonConst()), _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()) {}
+
+		public:
+			//Setters
+			void	setIsPushButton(bool const isPushButton)
+			{
+				this->_isPushButton = isPushButton;
+			}
+
+			void	setColorInfo(const nx::env::ColorInfo & colorInfo)
+			{
+				this->_colorInfo = colorInfo;
+			}
+
+			void	setTextInfo(const nx::env::TextInfo & textInfo)
+			{
+				this->_textInfo = textInfo;
+			}
+
+		public:
+			//Getters
+			bool					getIsPushButton()
+			{
+				return (this->_isPushButton);
+			}
+
+			nx::env::ColorInfo &	getColorInfo()
+			{
+				return (this->_colorInfo);
+			}
+
+			nx::env::TextInfo &		getTextInfo()
+			{
+				return (this->_textInfo);
+			}
+
+		public:
+			//Getters const
+			bool const					getIsPushButtonConst() const
+			{
+				return (this->_isPushButton);
+			}
+
+			nx::env::ColorInfo const &	getColorInfoConst() const
+			{
+				return (this->_colorInfo);
+			}
+
+			nx::env::TextInfo const &	getTextInfoConst() const
+			{
+				return (this->_textInfo);
+			}
+
+		public:
+			GUIButtonInfos & operator=(const GUIButtonInfos & other)
+			{
+				if (this != &other)
+				{
+					this->_isPushButton = other.getIsPushButtonConst();
+					this->_colorInfo = other.getColorInfoConst();
+					this->_textInfo = other.getTextInfoConst();
+				}
+				return (*this);
+			}
 		};
 
 		struct GUICheckboxInfos {
@@ -169,12 +483,62 @@ namespace nx
 			nx::maths::Vector2f spriteSize;
 		};
 
-		struct GraphicsCircleInfos {
-			GraphicsCircleInfos(float const radius_, nx::env::ColorInfo const& colorInfo_) : radius(radius_), colorInfo(colorInfo_) {}
-			GraphicsCircleInfos(const GraphicsCircleInfos& other) : colorInfo(other.colorInfo) {}
+		class GraphicsCircleInfos {
 
-			float radius;
-			nx::env::ColorInfo colorInfo;
+		private:
+			std::atomic<float>	_radius;
+			nx::env::ColorInfo	_colorInfo;
+
+		public:
+			GraphicsCircleInfos(float const radius_, nx::env::ColorInfo const& colorInfo_) : _radius(radius_), _colorInfo(colorInfo_) {}
+			GraphicsCircleInfos(const GraphicsCircleInfos& other) : _radius(other.getRadiusConst()), _colorInfo(other.getColorInfoConst()) {}
+
+		public:
+			//Setters
+			void	setRadius(const float radius)
+			{
+				this->_radius = radius;
+			}
+
+			void	setColorInfo(const nx::env::ColorInfo & colorInfo)
+			{
+				this->_colorInfo = colorInfo;
+			}
+
+		public:
+			//Getters
+			float					getRadius()
+			{
+				return (this->_radius);
+			}
+
+			nx::env::ColorInfo &	getColorInfo()
+			{
+				return (this->_colorInfo);
+			}
+
+		public:
+			//Getters const
+			float const					getRadiusConst() const
+			{
+				return (this->_radius);
+			}
+
+			nx::env::ColorInfo const &	getColorInfoConst() const
+			{
+				return (this->_colorInfo);
+			}
+
+		public:
+			GraphicsCircleInfos & operator=(const GraphicsCircleInfos & other)
+			{
+				if (this != &other)
+				{
+					this->_colorInfo = other.getColorInfoConst();
+					this->_radius = other.getRadiusConst();
+				}
+				return (*this);
+			}
 		};
 
 		struct GraphicsRectInfos {
