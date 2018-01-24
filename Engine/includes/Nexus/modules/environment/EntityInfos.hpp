@@ -17,7 +17,7 @@ namespace nx
 			EntityInfos(std::string const& name_) : _name(name_), _active(true) {}
 			EntityInfos(std::string const& name_, bool const active_) : _name(name_), _active(active_) {}
 			EntityInfos() : _name(""), _active(true) {}
-			EntityInfos(const EntityInfos &obj) : _name(obj.getName()), _active(obj.getActive()) {}
+			EntityInfos(const EntityInfos & other) : _name(other.getName()), _active(other.getActive()) {}
 			~EntityInfos() {}
 
 		public:

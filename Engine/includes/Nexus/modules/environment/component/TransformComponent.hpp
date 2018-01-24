@@ -13,7 +13,7 @@ namespace nx
 		{
 			EntityInfos				_entityInfos;
 			nx::maths::Vector2f		_pos;
-			uint16_t				_rotation;
+			std::atomic<uint16_t>	_rotation;
 			nx::maths::Vector2f		_size;
 			nx::physics::Force2d	_direction;
 
@@ -28,6 +28,8 @@ namespace nx
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size) {}
 			TransformComponent(std::string const& _name, nx::maths::Vector2f const& pos, uint8_t const rotation, nx::maths::Vector2f const& size, nx::physics::Force2d const& direction)
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size), _direction(direction) {}
+			TransformComponent(TransformComponent & other) 
+				: _entityInfos(other.getEntityInfos()), _pos(other.getPos()), _rotation(other.getRotation()), _size(other.getSize()), _direction(other.getDirection()) {}
 			~TransformComponent() {}
 
 			// Setters
@@ -38,7 +40,7 @@ namespace nx
 
 			void					setRotation(uint16_t const rotation)
 			{
-				this->_rotation = (rotation >= 360) ? (rotation - 360) : (rotation);
+				this->_rotation.store((rotation >= 360) ? (rotation - 360) : (rotation));
 			}
 
 			void					setSize(nx::maths::Vector2f const& size)
@@ -64,7 +66,7 @@ namespace nx
 
 			uint16_t				getRotation()
 			{
-				return (this->_rotation);
+				return (this->_rotation.load());
 			}
 
 			nx::maths::Vector2f &	getSize()
@@ -75,6 +77,20 @@ namespace nx
 			nx::physics::Force2d &	getDirection()
 			{
 				return (this->_direction);
+			}
+
+		public:
+			TransformComponent & operator=(TransformComponent &other)
+			{
+				if (this != &other)
+				{
+					this->_entityInfos = other.getEntityInfos();
+					this->_pos = other.getPos();
+					this->_rotation = other.getRotation();
+					this->_size = other.getSize();
+					this->_direction = other.getDirection();
+				}
+				return (*this);
 			}
 		};
 	}
