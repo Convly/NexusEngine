@@ -28,8 +28,8 @@ namespace nx
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size) {}
 			TransformComponent(std::string const& _name, nx::maths::Vector2f const& pos, uint8_t const rotation, nx::maths::Vector2f const& size, nx::physics::Force2d const& direction)
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size), _direction(direction) {}
-			TransformComponent(TransformComponent & other) 
-				: _entityInfos(other.getEntityInfos()), _pos(other.getPos()), _rotation(other.getRotation()), _size(other.getSize()), _direction(other.getDirection()) {}
+			TransformComponent(const TransformComponent & other) 
+				: _entityInfos(other.getEntityInfosConst()), _pos(other.getPosConst()), _rotation(other.getRotationConst()), _size(other.getSizeConst()), _direction(other.getDirectionConst()) {}
 			~TransformComponent() {}
 
 			// Setters
@@ -80,15 +80,42 @@ namespace nx
 			}
 
 		public:
-			TransformComponent & operator=(TransformComponent &other)
+			// Getters const
+			EntityInfos const & getEntityInfosConst() const
+			{
+				return (this->_entityInfos);
+			}
+
+			nx::maths::Vector2f const &	getPosConst() const
+			{
+				return (this->_pos);
+			}
+
+			uint16_t const				getRotationConst() const
+			{
+				return (this->_rotation.load());
+			}
+
+			nx::maths::Vector2f const &	getSizeConst() const
+			{
+				return (this->_size);
+			}
+
+			nx::physics::Force2d const &	getDirectionConst() const
+			{
+				return (this->_direction);
+			}
+
+		public:
+			TransformComponent & operator=(const TransformComponent &other)
 			{
 				if (this != &other)
 				{
-					this->_entityInfos = other.getEntityInfos();
-					this->_pos = other.getPos();
-					this->_rotation = other.getRotation();
-					this->_size = other.getSize();
-					this->_direction = other.getDirection();
+					this->_entityInfos = other.getEntityInfosConst();
+					this->_pos = other.getPosConst();
+					this->_rotation = other.getRotationConst();
+					this->_size = other.getSizeConst();
+					this->_direction = other.getDirectionConst();
 				}
 				return (*this);
 			}
