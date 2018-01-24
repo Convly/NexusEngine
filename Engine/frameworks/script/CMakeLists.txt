@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ### INCLUDES
 include_directories(
+  ${LUA_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/
   ${CMAKE_CURRENT_SOURCE_DIR}/src/
   ../../includes/
