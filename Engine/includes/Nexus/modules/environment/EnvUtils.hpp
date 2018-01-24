@@ -103,16 +103,81 @@ namespace nx
 
 		};
 
-		struct ColorInfo {
+		class ColorInfo {
+
+			nx::env::RGBa				_backgroundColor;
+			nx::env::RGBa				_borderColor;
+			std::atomic<unsigned int>	_borderThickness;
+
+		public:
 			ColorInfo(const nx::env::RGBa& backgroundColor_, const nx::env::RGBa& borderColor_, const unsigned int borderThickness_)
-				: backgroundColor(backgroundColor_), borderColor(borderColor_), borderThickness(borderThickness_) {}
+				: _backgroundColor(backgroundColor_), _borderColor(borderColor_), _borderThickness(borderThickness_) {}
 
 			ColorInfo(const nx::env::ColorInfo& other)
-				: backgroundColor(other.backgroundColor), borderColor(other.borderColor), borderThickness(other.borderThickness) {}
+				: _backgroundColor(other.getBackgroundColorConst()), _borderColor(other.getBorderColorConst()), _borderThickness(other.getBorderThicknessConst()) {}
 
-			nx::env::RGBa	backgroundColor;
-			nx::env::RGBa	borderColor;
-			unsigned int		borderThickness;
+		public:
+			// Setter
+			void	setBackgroundColor(const nx::env::RGBa & backgroundColor)
+			{
+				this->_backgroundColor = backgroundColor;
+			}
+
+			void	setBorderColor(const ::nx::env::RGBa & borderColor)
+			{
+				this->_borderColor = borderColor;
+			}
+
+			void 	setBorderThickness(const unsigned int borderThickness)
+			{
+				this->_borderThickness = borderThickness;
+			}
+
+		public:
+			// Getter
+			nx::env::RGBa &		getBackgroundColor()
+			{
+				return (this->_backgroundColor);
+			}
+
+			nx::env::RGBa &		getBorderColor()
+			{
+				return (this->_borderColor);
+			}
+
+			unsigned int 		getBorderThickness()
+			{
+				return (this->_borderThickness.load());
+			}
+
+		public:
+			// Getter const
+			nx::env::RGBa const &	getBackgroundColorConst() const
+			{
+				return (this->_backgroundColor);
+			}
+
+			nx::env::RGBa const &	getBorderColorConst() const
+			{
+				return (this->_borderColor);
+			}
+
+			unsigned int const 		getBorderThicknessConst() const
+			{
+				return (this->_borderThickness.load());
+			}
+
+		public:
+			ColorInfo const & operator=(const ColorInfo & other)
+			{
+				if (this != &other)
+				{
+					this->_backgroundColor = other.getBackgroundColorConst();
+					this->_borderColor = other.getBorderColorConst();
+					this->_borderThickness = other.getBorderThicknessConst();
+				}
+				return (*this);
+			}
 		};
 
 		struct TextInfo {
