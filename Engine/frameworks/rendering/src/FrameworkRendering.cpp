@@ -513,20 +513,47 @@ nx::graphics::ConvexShape		*FrameworkRendering::_getGraphicsConvexShapeFromHandl
 }
 
 
-std::string const	FrameworkRendering::getTypeFromElement(std::string const& layerId, std::string const& elemId) const
+void		FrameworkRendering::setVisibleToGUIElement(std::string const& layerId, std::string const& elemId, bool const isVisible)
+{
+	this->_getGUIButtonFromHandler(layerId, elemId)->setVisible(isVisible);
+}
+
+void		FrameworkRendering::setVisibleToGraphicsElement(std::string const& elemId, bool const isVisible)
+{
+	this->_getGraphicsElementFromHandler(elemId)->setVisible(isVisible);
+}
+
+std::string const	FrameworkRendering::getTypeFromGUIElement(std::string const& layerId, std::string const& elemId) const
 {
 	return (this->_getGUIElementFromHandler(layerId, elemId)->getType());
 }
 
-nx::maths::Vector2f const	FrameworkRendering::getPosFromElement(std::string const& layerId, std::string const& elemId) const
+nx::maths::Vector2f const	FrameworkRendering::getPosFromGUIElement(std::string const& layerId, std::string const& elemId) const
 {
 	sf::Vector2f const& pos = this->_getGUIElementFromHandler(layerId, elemId)->getPos();
 	return (nx::maths::Vector2f(pos.x, pos.y));
 }
 
-nx::maths::Vector2f const	FrameworkRendering::getSizeFromElement(std::string const& layerId, std::string const& elemId) const
+nx::maths::Vector2f const	FrameworkRendering::getSizeFromGUIElement(std::string const& layerId, std::string const& elemId) const
 {
-	sf::Vector2f const& size = this->_getGUIElementFromHandler(layerId, elemId)->getPos();
+	sf::Vector2f const& size = this->_getGUIElementFromHandler(layerId, elemId)->getSize();
+	return (nx::maths::Vector2f(size.x, size.y));
+}
+
+std::string const			FrameworkRendering::getTypeFromGraphicsElement(std::string const& elemId) const
+{
+	return (this->_getGraphicsElementFromHandler(elemId)->getType());
+}
+
+nx::maths::Vector2f const	FrameworkRendering::getPosFromGraphicsElement(std::string const& elemId) const
+{
+	sf::Vector2f const& pos = this->_getGraphicsElementFromHandler(elemId)->getPos();
+	return (nx::maths::Vector2f(pos.x, pos.y));
+}
+
+nx::maths::Vector2f const	FrameworkRendering::getSizeFromGraphicsElement(std::string const& elemId) const
+{
+	sf::Vector2f const& size = this->_getGraphicsElementFromHandler(elemId)->getSize();
 	return (nx::maths::Vector2f(size.x, size.y));
 }
 

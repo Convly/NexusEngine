@@ -26,7 +26,99 @@ void nx::RenderingSystem::init()
 		nx::Log::print("Framework is nullptr");
 	else {
 		f->InitializeWindow(1024, 768, "R-Type");
-		f->addLayer("Menu");
+		//Home layer
+		f->addLayer("Home");
+		f->addText(
+			"Home",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(470, 225), nx::maths::Vector2f(0, 0), "IpAddressText",
+			{
+
+			}),
+			nx::rendering::GUITextInfos(nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "IP Address", 16, nx::rendering::RGBa(255, 255, 255, 255), 0))
+		);
+		f->addTextInput(
+			"Home",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(392, 260), nx::maths::Vector2f(240, 28), "IpAddressTextInput",
+				{
+
+				}),
+			nx::rendering::GUITextInputInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(255, 255, 255, 255), 2),
+											 nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::rendering::RGBa(0, 0, 0, 255), 0))
+		);
+		f->addText(
+			"Home",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(497, 315), nx::maths::Vector2f(0, 0), "PortText",
+				{
+
+				}),
+				nx::rendering::GUITextInfos(nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Port", 16, nx::rendering::RGBa(255, 255, 255, 255), 0))
+				);
+		f->addTextInput(
+			"Home",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(477, 350), nx::maths::Vector2f(70, 28), "PortTextInput",
+				{	
+
+				}),
+			nx::rendering::GUITextInputInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(255, 255, 255, 255), 2),
+											 nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::rendering::RGBa(0, 0, 0, 255), 0))
+		);
+		f->addButton(
+			"Home",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(432, 480), nx::maths::Vector2f(160, 30), "ConnectButton",
+			{
+				{ "onLeftClickPressedInside",{ "menu.lua", "displayAlertConnectionToServer" } }
+			}),
+			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(200, 200, 200, 255), nx::rendering::RGBa(255, 255, 255, 255), 2),
+										  nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Connect", 20, nx::rendering::RGBa(0, 0, 0, 255), 0))
+		);
+		// Waiting room
+		/*f->addLayer("WaitingRoom");
+		f->addButton(
+			"WaitingRoom",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(247, 300), nx::maths::Vector2f(80, 30), "Player1Status",
+			{
+
+			}),
+			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(180, 0, 0, 255), nx::rendering::RGBa(120, 120, 120, 255), 2),
+										  nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Player 1", 14, nx::rendering::RGBa(255, 255, 255, 255), 0))
+		);
+		f->addButton(
+			"WaitingRoom",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(397, 300), nx::maths::Vector2f(80, 30), "Player2Status",
+			{
+
+			}),
+			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(180, 0, 0, 255), nx::rendering::RGBa(120, 120, 120, 255), 2),
+										  nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Player 2", 14, nx::rendering::RGBa(255, 255, 255, 255), 0))
+		);
+		f->addButton(
+			"WaitingRoom",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(547, 300), nx::maths::Vector2f(80, 30), "Player3Status",
+			{
+
+			}),
+			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(180, 0, 0, 255), nx::rendering::RGBa(120, 120, 120, 255), 2),
+										  nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Player 3", 14, nx::rendering::RGBa(255, 255, 255, 255), 0))
+		); 
+		f->addButton(
+			"WaitingRoom",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(697, 300), nx::maths::Vector2f(80, 30), "Player4Status",
+			{
+
+			}),
+			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(180, 0, 0, 255), nx::rendering::RGBa(120, 120, 120, 255), 2),
+										  nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Player 4", 14, nx::rendering::RGBa(255, 255, 255, 255), 0))
+		);
+		f->addText(
+			"WaitingRoom",
+			nx::rendering::GUIElementInfos(nx::maths::Vector2f(410, 420), nx::maths::Vector2f(0, 0), "WaitingText",
+			{
+
+			}),
+			nx::rendering::GUITextInfos(nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "Waiting for players..", 22, nx::rendering::RGBa(255, 255, 255, 255), 0))
+		);*/
+		f->addLayer("HUD");
+		/*f->addLayer("Menu");
 		f->addLayer("HUD");
 		f->addLayer("Inventory");
 		f->addButton(
@@ -133,7 +225,7 @@ void nx::RenderingSystem::init()
 
 			}),
 			nx::rendering::GraphicsConvexInfos(nx::rendering::ColorInfo(nx::rendering::RGBa(255, 50, 50, 255), nx::rendering::RGBa(0, 255, 0, 255), 3))
-			);
+			);*/
 	}
 }
 
