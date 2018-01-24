@@ -487,6 +487,15 @@ namespace nx
 
 		public:
 			//Setters
+			void	setRadius(const float radius)
+			{
+				this->_radius = radius;
+			}
+
+			void	setColorInfo(const nx::env::ColorInfo & colorInfo)
+			{
+				this->_colorInfo = colorInfo;
+			}
 
 		public:
 			//Getters
