@@ -42,7 +42,7 @@ namespace nx
 				: _red(red_), _green(green_), _blue(blue_), _alpha(alpha_) {}
 
 			RGBa(const RGBa& other)
-				: _red(other.getRed()), _green(other.getGreen()), _blue(other.getBlue()), _alpha(other.getAlpha()) {}
+				: _red(other.getRedConst()), _green(other.getGreenConst()), _blue(other.getBlueConst()), _alpha(other.getAlphaConst()) {}
 
 		public:
 			// Setters
@@ -68,22 +68,43 @@ namespace nx
 
 		public:
 			// Getters
-			uint32_t	getRed() const
+			uint32_t	getRed()
 			{
 				return (this->_red);
 			}
 
-			uint32_t	getGreen() const
+			uint32_t	getGreen()
 			{
 				return (this->_green);
 			}
 
-			uint32_t	getBlue() const
 			{
 				return (this->_blue);
 			}
 
-			uint32_t	getAlpha() const
+			uint32_t	getAlpha()
+			{
+				return (this->_alpha);
+			}
+
+		public:
+			// Getters const
+			uint32_t const	getRedConst() const
+			{
+				return (this->_red);
+			}
+
+			uint32_t const	getGreenConst() const
+			{
+				return (this->_green);
+			}
+
+			uint32_t const	getBlueConst() const
+			{
+				return (this->_blue);
+			}
+
+			uint32_t const	getAlphaConst() const
 			{
 				return (this->_alpha);
 			}
@@ -93,10 +114,10 @@ namespace nx
 			{
 				if (this != &other)
 				{
-					this->_red = other.getRed();
-					this->_green = other.getGreen();
-					this->_blue = other.getBlue();
-					this->_alpha = other.getAlpha();
+					this->_red = other.getRedConst();
+					this->_green = other.getGreenConst();
+					this->_blue = other.getBlueConst();
+					this->_alpha = other.getAlphaConst();
 				}
 				return (*this);
 			}
