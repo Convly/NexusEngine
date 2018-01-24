@@ -477,12 +477,51 @@ namespace nx
 			nx::maths::Vector2f spriteSize;
 		};
 
-		struct GraphicsCircleInfos {
-			GraphicsCircleInfos(float const radius_, nx::env::ColorInfo const& colorInfo_) : radius(radius_), colorInfo(colorInfo_) {}
-			GraphicsCircleInfos(const GraphicsCircleInfos& other) : colorInfo(other.colorInfo) {}
+		class GraphicsCircleInfos {
+			std::atomic<float>	_radius;
+			nx::env::ColorInfo	_colorInfo;
 
-			float radius;
-			nx::env::ColorInfo colorInfo;
+		public:
+			GraphicsCircleInfos(float const radius_, nx::env::ColorInfo const& colorInfo_) : _radius(radius_), _colorInfo(colorInfo_) {}
+			GraphicsCircleInfos(const GraphicsCircleInfos& other) : _radius(other.getRadiusConst()), _colorInfo(other.getColorInfoConst()) {}
+
+		public:
+			//Setters
+
+		public:
+			//Getters
+			float					getRadius()
+			{
+				return (this->_radius);
+			}
+
+			nx::env::ColorInfo &	getColorInfo()
+			{
+				return (this->_colorInfo);
+			}
+
+		public:
+			//Getters const
+			float const					getRadiusConst() const
+			{
+				return (this->_radius);
+			}
+
+			nx::env::ColorInfo const &	getColorInfoConst() const
+			{
+				return (this->_colorInfo);
+			}
+
+		public:
+			GraphicsCircleInfos const & operator=(const GraphicsCircleInfos & other)
+			{
+				if (this != &other)
+				{
+					this->_colorInfo = other.getColorInfoConst();
+					this->_radius = other.getRadiusConst();
+				}
+				return (*this);
+			}
 		};
 
 		struct GraphicsRectInfos {
