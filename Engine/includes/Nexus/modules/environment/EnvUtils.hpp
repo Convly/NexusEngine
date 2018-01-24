@@ -30,18 +30,77 @@ namespace nx
 			CHECKED
 		};
 
-		struct RGBa {
-			RGBa() : red(0), green(0), blue(0), alpha(255) {}
+		class RGBa {
+			std::atomic<uint32_t> _red;
+			std::atomic<uint32_t> _green;
+			std::atomic<uint32_t> _blue;
+			std::atomic<uint32_t> _alpha;
+
+		public:
+			RGBa() : _red(0), _green(0), _blue(0), _alpha(255) {}
 			RGBa(const uint32_t red_, const uint32_t green_, const uint32_t blue_, const uint32_t alpha_)
-				: red(red_), green(green_), blue(blue_), alpha(alpha_) {}
+				: _red(red_), _green(green_), _blue(blue_), _alpha(alpha_) {}
 
 			RGBa(const RGBa& other)
-				: red(other.red), green(other.green), blue(other.blue), alpha(other.alpha) {}
+				: _red(other.getRed()), _green(other.getGreen()), _blue(other.getBlue()), _alpha(other.getAlpha()) {}
 
-			uint32_t red;
-			uint32_t green;
-			uint32_t blue;
-			uint32_t alpha;
+		public:
+			// Setters
+			void		setRed(const uint32_t red)
+			{
+				this->_red = red;
+			}
+
+			void		setGreen(const uint32_t green)
+			{
+				this->_green = green;
+			}
+
+			void		setBlue(const uint32_t blue)
+			{
+				this->_blue = blue;
+			}
+
+			void		setAlpha(const uint32_t alpha)
+			{
+				this->_alpha = alpha;
+			}
+
+		public:
+			// Getters
+			uint32_t	getRed() const
+			{
+				return (this->_red);
+			}
+
+			uint32_t	getGreen() const
+			{
+				return (this->_green);
+			}
+
+			uint32_t	getBlue() const
+			{
+				return (this->_blue);
+			}
+
+			uint32_t	getAlpha() const
+			{
+				return (this->_alpha);
+			}
+
+		public:
+			RGBa const & operator=(const RGBa & other)
+			{
+				if (this != &other)
+				{
+					this->_red = other.getRed();
+					this->_green = other.getGreen();
+					this->_blue = other.getBlue();
+					this->_alpha = other.getAlpha();
+				}
+				return (*this);
+			}
+
 		};
 
 		struct ColorInfo {
