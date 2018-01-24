@@ -71,6 +71,33 @@ namespace nx
 			{
 				return (this->_rigidBodyComponent);
 			}
+
+			// Getters const
+			EntityInfos const &			getEntityInfosConst() const
+			{
+				return (this->_entityInfos);
+			}
+
+			ScriptComponent const &		getScriptComponentConst() const
+			{
+				return (this->_scriptComponent);
+			}
+
+			TransformComponent const &	getTransformComponentConst() const
+			{
+				return (this->_transformComponent);
+			}
+
+			RendererComponent const &		getRendererComponentConst() const
+			{
+				return (this->_rendererComponent);
+			}
+
+			RigidBodyComponent const &	getRigidBodyComponentConst() const
+			{
+				return (this->_rigidBodyComponent);
+			}
+
 		};
 	}
 }
