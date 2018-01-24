@@ -202,18 +202,116 @@ namespace nx
 			}
 		};
 
-		struct TextInfo {
+		class TextInfo {
+
+			std::string					_fontPath;
+			std::string					_textLabel;
+			std::atomic<unsigned int>	_fontSize;
+			nx::env::RGBa				_textColor;
+			std::atomic<uint32_t>		_textStyle;
+
+		public:
 			TextInfo(const std::string& fontPath_, const std::string& textLabel_, const unsigned int fontSize_, const nx::env::RGBa& textColor_, const uint32_t textStyle_)
-				: fontPath(fontPath_), textLabel(textLabel_), fontSize(fontSize_), textColor(textColor_), textStyle(textStyle_) {}
+				: _fontPath(fontPath_), _textLabel(textLabel_), _fontSize(fontSize_), _textColor(textColor_), _textStyle(textStyle_) {}
 
 			TextInfo(const nx::env::TextInfo& other)
-				: fontPath(other.fontPath), textLabel(other.textLabel), fontSize(other.fontSize), textColor(other.textColor), textStyle(other.textStyle) {}
+				: _fontPath(other.getFontPathConst()), _textLabel(other.getTextLabelConst()), _fontSize(other.getFontSizeConst()), _textColor(other.getTextColorConst()), _textStyle(other.getTextStyleConst()) {}
 
-			std::string			fontPath;
-			std::string			textLabel;
-			unsigned int		fontSize;
-			nx::env::RGBa		textColor;
-			uint32_t			textStyle;
+		public:
+			//Setters
+			void	setFontPath(const std::string & fontPath)
+			{
+				this->_fontPath = fontPath;
+			}
+
+			void	setTextLabel(const std::string & textLabel)
+			{
+				this->_textLabel = textLabel;
+			}
+
+			void	setFontSize(unsigned int fontSize)
+			{
+				this->_fontSize = fontSize;
+			}
+
+			void	setTextColor(const nx::env::RGBa & textColor)
+			{
+				this->_textColor = textColor;
+			}
+
+			void	setTextStyle(const uint32_t textStyle)
+			{
+				this->_textStyle = textStyle;
+			}
+
+		public:
+			// Getters
+			std::string	&	getFontPath()
+			{
+				return (this->_fontPath);
+			}
+
+			std::string	&	getTextLabel()
+			{
+				return (this->_textLabel);
+			}
+
+			unsigned int	getFontSize()
+			{
+				return (this->_fontSize);
+			}
+
+			nx::env::RGBa &	getTextColor()
+			{
+				return (this->_textColor);
+			}
+
+			uint32_t		getTextStyle()
+			{
+				return (this->_textStyle);
+			}
+
+		public:
+			// Getters const
+			std::string	const &	getFontPathConst() const
+			{
+				return (this->_fontPath);
+			}
+
+			std::string	const &	getTextLabelConst() const
+			{
+				return (this->_textLabel);
+			}
+
+			unsigned int const	getFontSizeConst() const
+			{
+				return (this->_fontSize);
+			}
+
+			nx::env::RGBa const	getTextColorConst() const
+			{
+				return (this->_textColor);
+			}
+
+			uint32_t const		getTextStyleConst() const
+			{
+				return (this->_textStyle);
+			}
+
+		public:
+			const TextInfo & operator=(const TextInfo & other)
+			{
+				if (this != &other)
+				{
+					this->_fontPath = other.getFontPathConst();
+					this->_textLabel = other.getTextLabelConst();
+					this->_fontSize = other.getFontSizeConst();
+					this->_textColor = other.getTextColorConst();
+					this->_textStyle = other.getTextStyleConst();
+				}
+				return (*this);
+			}
+
 		};
 
 		struct GUIElementInfos {
