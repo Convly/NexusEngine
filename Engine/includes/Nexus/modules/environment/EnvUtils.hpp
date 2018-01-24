@@ -327,13 +327,77 @@ namespace nx
 			nx::env::MouseEventsContainer events;
 		};
 
-		struct GUIButtonInfos {
-			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : isPushButton(isPushButton_), colorInfo(colorInfo_), textInfo(textInfo_) {}
-			GUIButtonInfos(const GUIButtonInfos& other) : isPushButton(other.isPushButton), colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+		class GUIButtonInfos {
+			std::atomic<bool>	_isPushButton;
+			nx::env::ColorInfo	_colorInfo;
+			nx::env::TextInfo	_textInfo;
 
-			bool isPushButton;
-			nx::env::ColorInfo colorInfo;
-			nx::env::TextInfo textInfo;
+		public:
+			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : _isPushButton(isPushButton_), _colorInfo(colorInfo_), _textInfo(textInfo_) {}
+			GUIButtonInfos(const GUIButtonInfos& other) : _isPushButton(other.getIsPushButtonConst()), _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()) {}
+
+		public:
+			//Setters
+			void	setIsPushButton(bool const isPushButton)
+			{
+				this->_isPushButton = isPushButton;
+			}
+
+			void	setColorInfo(const nx::env::ColorInfo & colorInfo)
+			{
+				this->_colorInfo = colorInfo;
+			}
+
+			void	setTextInfo(const nx::env::TextInfo & textInfo)
+			{
+				this->_textInfo = textInfo;
+			}
+
+		public:
+			//Getters
+			bool					getIsPushButton()
+			{
+				return (this->_isPushButton);
+			}
+
+			nx::env::ColorInfo &	getColorInfo()
+			{
+				return (this->_colorInfo);
+			}
+
+			nx::env::TextInfo &		getTextInfo()
+			{
+				return (this->_textInfo);
+			}
+
+		public:
+			//Getters const
+			bool const					getIsPushButtonConst() const
+			{
+				return (this->_isPushButton);
+			}
+
+			nx::env::ColorInfo const &	getColorInfoConst() const
+			{
+				return (this->_colorInfo);
+			}
+
+			nx::env::TextInfo const &	getTextInfoConst() const
+			{
+				return (this->_textInfo);
+			}
+
+		public:
+			GUIButtonInfos const & operator=(const GUIButtonInfos & other)
+			{
+				if (this != &other)
+				{
+					this->_isPushButton = other.getIsPushButtonConst();
+					this->_colorInfo = other.getColorInfoConst();
+					this->_textInfo = other.getTextInfoConst();
+				}
+				return (*this);
+			}
 		};
 
 		struct GUICheckboxInfos {
