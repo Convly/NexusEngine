@@ -53,6 +53,16 @@ const std::shared_ptr<nx::SystemTpl>& nx::Engine::getSystemByName(const std::str
 	return *it;
 }
 
+const nx::env::Environment& nx::Engine::getEnv() const
+{
+	return this->_env;
+}
+
+nx::env::Environment& nx::Engine::getEnv()
+{
+	return this->_env;
+}
+
 
 /* SETTERS */
 
@@ -88,23 +98,28 @@ bool nx::Engine::checkEngineIntegrity() const
 
 /* MAIN */
 
-void nx::Engine::startup(bool serverOnly)
+void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 {
-	this->_systems = 
-	{
-		//std::make_shared<nx::ScriptSystem>()
-	};
+	 this->_systems = 
+	 {
+	 	std::make_shared<nx::ScriptSystem>()
+	 };
 
-	if (!serverOnly)
-		this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
+	 if (!serverOnly)
+	 	this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
 
-	for (auto system : this->_systems) {
-		system->init();
-	}
-}
+	 for (auto system : this->_systems) {
+	 	system->init();
+	 }
 
-void nx::Engine::setup() {
-	this->_run = this->checkEngineIntegrity();
+	 this->_run = this->checkEngineIntegrity();
+
+	nx::GameInfosParser confParser(confPath);
+
+	confParser.dump();
+	std::string error;
+	if (!(error = nx::xml::Parser::fillEnvironment(this->_env, confParser)).empty())
+		std::cerr << error;
 }
 
 void nx::Engine::stop() {

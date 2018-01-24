@@ -10,7 +10,7 @@ namespace physics {
     /* Constructors / Destructor */
     public:
         Force2d() : velocity_(0), inertia_(0) {}
-        Force2d(const double vx, const double vy) : velocity_(vx, vy), inertia_(0) {}
+        Force2d(const float vx, const float vy) : velocity_(vx, vy), inertia_(0) {}
         Force2d(const nx::maths::Vector2f& velocity) : velocity_(velocity), inertia_(0) {}
         Force2d(const nx::maths::Vector2f& velocity, const nx::maths::Vector2f& inertia) : velocity_(velocity), inertia_(inertia) {}
         ~Force2d() {}
@@ -38,7 +38,7 @@ namespace physics {
             return Force2d(velocity_ + other.velocity());
         }
 
-        Force2d operator+(const double value) {
+        Force2d operator+(const float value) {
             return Force2d(velocity_ + value);
         }
 
@@ -50,38 +50,38 @@ namespace physics {
             return Force2d(velocity_ - other.velocity());
         }
 
-        Force2d operator-(const double value) {
+        Force2d operator-(const float value) {
             return Force2d(velocity_ - value);
         }
 
-        Force2d operator*(const double k) {
+        Force2d operator*(const float k) {
             return Force2d(velocity_ * k);
         }
 
-        Force2d operator/(const double k) {
+        Force2d operator/(const float k) {
             return Force2d(velocity_ / k);
         }
 
-        Force2d& operator/=(const double k) {
+        Force2d& operator/=(const float k) {
             velocity_ /= k;
             return *this;
         }
         
     /* Getters */
     public:
-        const double& vx() const {
+        const float vx() const {
             return velocity_.x;
         }
 
-        double vx() {
+        float vx() {
             return velocity_.x;
         }
 
-        const double& vy() const {
+        const float vy() const {
             return velocity_.y;
         }
 
-        double vy() {
+        float vy() {
             return velocity_.y;
         }
 
@@ -95,11 +95,11 @@ namespace physics {
 
     /* Setters */
     public:
-        void setVX(const double value) {
+        void setVX(const float value) {
             velocity_.x = value;
         }
 
-        void setVY(const double value) {
+        void setVY(const float value) {
             velocity_.y = value;
         }
 
