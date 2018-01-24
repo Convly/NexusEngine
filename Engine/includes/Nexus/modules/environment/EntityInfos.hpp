@@ -17,20 +17,11 @@ namespace nx
 			EntityInfos(std::string const& name_) : _name(name_), _active(true) {}
 			EntityInfos(std::string const& name_, bool const active_) : _name(name_), _active(active_) {}
 			EntityInfos() : _name(""), _active(true) {}
-			EntityInfos(const EntityInfos & other) : _name(other.getName()), _active(other.getActive()) {}
+			EntityInfos(const EntityInfos & other) : _name(other.getNameConst()), _active(other.getActiveConst()) {}
 			~EntityInfos() {}
 
 		public:
-			const std::string &	getName() const
-			{
-				return (_name);
-			}
-			bool				getActive() const
-			{
-				return (_active.load());
-			}
-
-		public:
+			//Setters
 			void				setName(const std::string &name)
 			{
 				this->_name = name;
@@ -41,12 +32,34 @@ namespace nx
 			}
 
 		public:
+			//Getters
+			std::string &	getName()
+			{
+				return (this->_name);
+			}
+			bool			getActive()
+			{
+				return (this->_active.load());
+			}
+
+		public:
+			//Getters Const
+			const std::string &	getNameConst() const
+			{
+				return (this->_name);
+			}
+			bool const			getActiveConst() const
+			{
+				return (this->_active.load());
+			}
+
+		public:
 			EntityInfos & operator=(const EntityInfos &other)
 			{
 				if (this != &other)
 				{
-					this->_name = other.getName();
-					this->_active= other.getActive();
+					this->_name = other.getNameConst();
+					this->_active= other.getActiveConst();
 				}
 				return (*this);
 			}
