@@ -41,7 +41,7 @@ namespace nx
 
 			void					setRotation(uint16_t const rotation)
 			{
-				this->_rotation.store((rotation >= 360) ? (rotation - 360) : (rotation));
+				this->_rotation = (rotation >= 360) ? (rotation - 360) : (rotation);
 			}
 
 			void					setSize(nx::maths::Vector2f const& size)
@@ -67,7 +67,7 @@ namespace nx
 
 			uint16_t				getRotation()
 			{
-				return (this->_rotation.load());
+				return (this->_rotation);
 			}
 
 			nx::maths::Vector2f &	getSize()

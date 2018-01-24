@@ -96,7 +96,7 @@ namespace nx
 			}
 
 		public:
-			RendererComponent const &		operator=(const RendererComponent & other)
+			RendererComponent &		operator=(const RendererComponent & other)
 			{
 				if (this != &other)
 				{
