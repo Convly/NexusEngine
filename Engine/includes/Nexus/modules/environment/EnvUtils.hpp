@@ -78,6 +78,7 @@ namespace nx
 				return (this->_green);
 			}
 
+			uint32_t	getBlue()
 			{
 				return (this->_blue);
 			}
