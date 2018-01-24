@@ -11,6 +11,7 @@ namespace nx
 	{
 		class TransformComponent
 		{
+		private:
 			EntityInfos				_entityInfos;
 			nx::maths::Vector2f		_pos;
 			std::atomic<uint16_t>	_rotation;

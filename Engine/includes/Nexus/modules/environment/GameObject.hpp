@@ -13,6 +13,7 @@ namespace nx
 	{
 		class GameObject
 		{
+		private:
 			EntityInfos			_entityInfos;
 			ScriptComponent		_scriptComponent;
 			TransformComponent	_transformComponent;

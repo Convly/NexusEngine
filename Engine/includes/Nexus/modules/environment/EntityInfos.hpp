@@ -10,6 +10,7 @@ namespace nx
 	{
 		class EntityInfos
 		{
+		private:
 			std::string			_name;
 			std::atomic<bool>	_active;
 
@@ -26,9 +27,10 @@ namespace nx
 			{
 				this->_name = name;
 			}
+			
 			void				setActive(const bool active)
 			{
-				this->_active.store(active);
+				this->_active = active;
 			}
 
 		public:
@@ -37,9 +39,10 @@ namespace nx
 			{
 				return (this->_name);
 			}
+
 			bool			getActive()
 			{
-				return (this->_active.load());
+				return (this->_active);
 			}
 
 		public:
@@ -48,9 +51,10 @@ namespace nx
 			{
 				return (this->_name);
 			}
+
 			bool const			getActiveConst() const
 			{
-				return (this->_active.load());
+				return (this->_active);
 			}
 
 		public:

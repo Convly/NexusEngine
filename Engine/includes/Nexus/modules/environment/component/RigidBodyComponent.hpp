@@ -10,6 +10,7 @@ namespace nx
 	{
 		class RigidBodyComponent
 		{
+		private:
 			EntityInfos			_entityInfos;
 			std::atomic<double>	_mass;
 			std::atomic<double>	_bounciness;

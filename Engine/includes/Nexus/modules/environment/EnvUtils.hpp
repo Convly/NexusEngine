@@ -31,6 +31,8 @@ namespace nx
 		};
 
 		class RGBa {
+
+		private:
 			std::atomic<uint32_t> _red;
 			std::atomic<uint32_t> _green;
 			std::atomic<uint32_t> _blue;
@@ -111,7 +113,7 @@ namespace nx
 			}
 
 		public:
-			RGBa const & operator=(const RGBa & other)
+			RGBa & operator=(const RGBa & other)
 			{
 				if (this != &other)
 				{
@@ -127,6 +129,7 @@ namespace nx
 
 		class ColorInfo {
 
+		private:
 			nx::env::RGBa				_backgroundColor;
 			nx::env::RGBa				_borderColor;
 			std::atomic<unsigned int>	_borderThickness;
@@ -190,7 +193,7 @@ namespace nx
 			}
 
 		public:
-			ColorInfo const & operator=(const ColorInfo & other)
+			ColorInfo & operator=(const ColorInfo & other)
 			{
 				if (this != &other)
 				{
@@ -204,6 +207,7 @@ namespace nx
 
 		class TextInfo {
 
+		private:
 			std::string					_fontPath;
 			std::string					_textLabel;
 			std::atomic<unsigned int>	_fontSize;
@@ -299,7 +303,7 @@ namespace nx
 			}
 
 		public:
-			const TextInfo & operator=(const TextInfo & other)
+			TextInfo & operator=(const TextInfo & other)
 			{
 				if (this != &other)
 				{
@@ -328,6 +332,8 @@ namespace nx
 		};
 
 		class GUIButtonInfos {
+
+		private:
 			std::atomic<bool>	_isPushButton;
 			nx::env::ColorInfo	_colorInfo;
 			nx::env::TextInfo	_textInfo;
@@ -388,7 +394,7 @@ namespace nx
 			}
 
 		public:
-			GUIButtonInfos const & operator=(const GUIButtonInfos & other)
+			GUIButtonInfos & operator=(const GUIButtonInfos & other)
 			{
 				if (this != &other)
 				{
@@ -478,6 +484,8 @@ namespace nx
 		};
 
 		class GraphicsCircleInfos {
+
+		private:
 			std::atomic<float>	_radius;
 			nx::env::ColorInfo	_colorInfo;
 
@@ -522,7 +530,7 @@ namespace nx
 			}
 
 		public:
-			GraphicsCircleInfos const & operator=(const GraphicsCircleInfos & other)
+			GraphicsCircleInfos & operator=(const GraphicsCircleInfos & other)
 			{
 				if (this != &other)
 				{
