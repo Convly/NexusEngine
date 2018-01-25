@@ -10,9 +10,10 @@ namespace nx
 	{
 		class RigidBodyComponent
 		{
+		private:
 			EntityInfos			_entityInfos;
-			double				_mass;
-			double				_bounciness;
+			std::atomic<double>	_mass;
+			std::atomic<double>	_bounciness;
 			nx::maths::Vector2f	_size;
 
 		public:
@@ -24,6 +25,8 @@ namespace nx
 				: _entityInfos(_name), _mass(mass), _bounciness(bouciness) {}
 			RigidBodyComponent(std::string const& _name, double const mass, double const bouciness, nx::maths::Vector2f const& size)
 				: _entityInfos(_name), _mass(mass), _bounciness(bouciness), _size(size) {}
+			RigidBodyComponent(const RigidBodyComponent & other)
+				: _entityInfos(other.getEntityInfosConst()), _mass(other.getMassConst()), _bounciness(other.getBouncinessConst()), _size(other.getSizeConst()) {}
 			~RigidBodyComponent() {}
 
 			// Setters
@@ -61,6 +64,41 @@ namespace nx
 			nx::maths::Vector2f &	getSize()
 			{
 				return (this->_size);
+			}
+
+		public:
+			// Getters const
+			EntityInfos const &			getEntityInfosConst() const
+			{
+				return (this->_entityInfos);
+			}
+
+			double const				getMassConst() const
+			{
+				return (this->_mass);
+			}
+
+			double const				getBouncinessConst() const
+			{
+				return (this->_bounciness);
+			}
+
+			nx::maths::Vector2f const &	getSizeConst() const
+			{
+				return (this->_size);
+			}
+
+		public:
+			RigidBodyComponent & operator=(const RigidBodyComponent & other)
+			{
+				if (this != &other)
+				{
+					this->_entityInfos = other.getEntityInfosConst();
+					this->_mass.store(other.getMassConst());
+					this->_bounciness.store(other.getBouncinessConst());
+					this->_size = other.getSizeConst();
+				}
+				return (*this);
 			}
 		};
 	}

@@ -9,6 +9,7 @@ namespace nx
 	{
 		class Ressources
 		{
+		private:
 			std::vector<std::string>	_soundPaths;
 			std::vector<std::string>	_musicPaths;
 			std::vector<std::string>	_imagePaths;

@@ -11,6 +11,7 @@ namespace nx
 	{
 		struct Environment
 		{
+		private:
 			std::vector<Scene>			_scenes;
 			Ressources					_ressources;
 			GameInfos					_gameInfos;

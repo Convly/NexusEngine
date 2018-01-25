@@ -17,6 +17,7 @@ namespace nx
 	{
 		class Layer
 		{
+		private:
 			EntityInfos						_entityInfos;
 			std::vector<gui::Button>		_buttons;
 			std::vector<gui::Checkbox>		_checkboxes;

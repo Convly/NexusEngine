@@ -13,6 +13,7 @@ namespace nx
 	{
 		class Scene
 		{
+		private:
 			EntityInfos						_entityInfos;
 			std::vector<ScriptComponent>	_scriptComponents;
 			std::vector<GameObject>			_gameObjects;
