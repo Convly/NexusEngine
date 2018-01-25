@@ -80,7 +80,7 @@ void nx::RenderingSystem::init()
 			nx::rendering::GUIButtonInfos(true, nx::rendering::ColorInfo(nx::rendering::RGBa(0, 0, 0, 190), nx::rendering::RGBa(0, 0, 0, 0), 0),
 										  nx::rendering::TextInfo("./fonts/Roboto-Regular.ttf", "", 0, nx::rendering::RGBa(0, 0, 0, 0), 0))
 		);
-		f->addGUISprite(
+		/*f->addGUISprite(
 			"Home",
 			nx::rendering::GUIElementInfos(nx::maths::Vector2f(477, 349), nx::maths::Vector2f(0, 0), "LoadingSprite",
 				{
@@ -89,7 +89,7 @@ void nx::RenderingSystem::init()
 				nx::rendering::GUISpriteInfos("./images/loading.png", nx::maths::Vector2f(4, 2), nx::maths::Vector2f(68, 70))
 		);
 		f->setAnimateToGUISprite("Home", "LoadingSprite", true);
-		f->setSlownessToGUISprite("Home", "LoadingSprite", 70);
+		f->setSlownessToGUISprite("Home", "LoadingSprite", 70);*/
 		// Waiting room
 		/*f->addLayer("WaitingRoom");
 		f->addButton(
