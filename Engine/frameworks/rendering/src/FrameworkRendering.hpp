@@ -29,9 +29,15 @@ public:
 	bool addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams);
 	bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams);
 
-	std::string const	getTypeFromElement(std::string const& layerId, std::string const& elemId) const;
-	nx::maths::Vector2f const	getPosFromElement(std::string const& layerId, std::string const& elemId) const;
-	nx::maths::Vector2f const	getSizeFromElement(std::string const& layerId, std::string const& elemId) const;
+	void						setVisibleToGUIElement(std::string const& layerId, std::string const& elemId, bool const isVisible);
+	void						setVisibleToGraphicsElement(std::string const& elemId, bool const isVisible);
+
+	std::string const			getTypeFromGUIElement(std::string const& layerId, std::string const& elemId) const;
+	nx::maths::Vector2f const	getPosFromGUIElement(std::string const& layerId, std::string const& elemId) const;
+	nx::maths::Vector2f const	getSizeFromGUIElement(std::string const& layerId, std::string const& elemId) const;
+	std::string const			getTypeFromGraphicsElement(std::string const& elemId) const;
+	nx::maths::Vector2f const	getPosFromGraphicsElement(std::string const& elemId) const;
+	nx::maths::Vector2f const	getSizeFromGraphicsElement(std::string const& elemId) const;
 
 	//Button
 	void		setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state);
