@@ -14,10 +14,13 @@ namespace xml{
 
     class Layer{
     public:
-        static std::string fillEnvironment(env::Environment& env, xml_node<>* node, const std::unordered_map<std::string, std::string>& attributes) {
-            std::string error = "";
+        static std::vector<env::Layer> getLayers(xml_node<>* rootNode, std::string& error){
+            std::vector<env::Layer> layers;
 
-            return error;
+            for (xml_node<>* node = rootNode->first_node("Layer"); node; node = node->next_sibling("Layer")){
+                
+            }
+            return layers;
         }
     };
 

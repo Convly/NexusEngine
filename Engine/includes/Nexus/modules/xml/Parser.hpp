@@ -19,6 +19,7 @@ namespace xml{
     public:
         static std::string fillEnvironment(env::Environment& env, const GameInfosParser& gameInfosParser) {
             std::string error = "";
+            env.getGameInfos().setRootPath(Crawler::getAbsoluteDir(gameInfosParser.getPath()).string());
             error += Parser::xml(env, gameInfosParser.getFields()._resources.at("xml"));
             // scripts
             // sounds

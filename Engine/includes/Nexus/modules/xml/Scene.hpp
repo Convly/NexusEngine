@@ -4,9 +4,13 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "Nexus/modules/environment/Environment.hpp"
-#include "Nexus/modules/xml/Integrity.hpp"
 #include "rapidxml-1.13/rapidxml.hpp"
+#include "Nexus/modules/environment/Environment.hpp"
+
+#include "Nexus/modules/xml/Integrity.hpp"
+#include "Nexus/modules/xml/Component.hpp"
+#include "Nexus/modules/xml/GameObject.hpp"
+#include "Nexus/modules/xml/Layer.hpp"
 
 using namespace rapidxml;
 
@@ -15,15 +19,26 @@ namespace xml{
 
     class Scene{
     public:
-        static std::string fillEnvironment(env::Environment& env, xml_node<>* node, const std::unordered_map<std::string, std::string>& attributes) {
+        static std::string fillEnvironment(env::Environment& env, xml_node<>* rootNode, const std::unordered_map<std::string, std::string>& attributes) {
             env::Scene scene(attributes.at("name"));
             std::string error = "";
 
-            //if (attributes.find("active") != attributes.end())
-                //scene.getEntityInfos().setActive(Integrity::active(attributes.at("active"), error));
-            if (attributes.find("backgroundColor") != attributes.end())
-                scene.setBackgroundColor(Integrity::backgroundColor(attributes.at("backgroundColor"), error));
-            //getComponents();
+            for (auto attribute : attributes){
+                if (attribute.first == "name");
+                else if (attribute.first == "active")
+                    scene.getEntityInfos().setActive(Integrity::active(attributes.at("active"), error));
+                else if (attribute.first == "backgroundColor")
+                    scene.setBackgroundColor(Integrity::backgroundColor(attributes.at("backgroundColor"), error));
+                else
+                    error += "Error: This attribute can't be created in this Scene tag \"" + attributes.at("name") + "\"\n";
+            }
+            scene.getScriptComponents() = Component::getScripts(env, rootNode, error);
+            scene.getGameObjects() = GameObject::getGameObjects(env, rootNode, error);
+            scene.getLayers() = Layer::getLayers(rootNode, error);
+            for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
+                if (node->name() != "Script" && node->name() != "GameObject" && node->name() != "Layer")
+                    error += "Error: In the scene \"" + attributes.at("name") + "\" the tag \"" + std::string(node->name()) + "\" doesn't exist\n";
+            }
             return error;
         }
     };
