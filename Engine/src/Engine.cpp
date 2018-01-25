@@ -124,3 +124,12 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	}
 	return (0);
 }
+
+nx::env::Environment &nx::Engine::getEnv() {
+    return _env;
+}
+
+const nx::env::Environment &nx::Engine::getEnv() const {
+	return _env;
+}
+

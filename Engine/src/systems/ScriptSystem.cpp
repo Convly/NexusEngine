@@ -95,10 +95,9 @@ void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
 
 void nx::ScriptSystem::event_ScriptExecFunction(const nx::Event& e)
 {
-	auto& engine = nx::Engine::Instance();
+    auto& engine = nx::Engine::Instance();
 	auto self = nx::Engine::cast<nx::ScriptSystem>(engine.getSystemByName(__NX_SCRIPT_KEY__));
 	if (!self) return;
-	
 	auto f = self->getFramework();
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");

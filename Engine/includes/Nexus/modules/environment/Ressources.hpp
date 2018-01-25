@@ -12,10 +12,10 @@ namespace nx
 		private:
 			std::vector<std::string>	_soundPaths;
 			std::vector<std::string>	_musicPaths;
-			std::vector<std::string>	_imagePaths;
 			std::vector<std::string>	_scriptPaths;
 
 		public:
+			std::vector<std::string>	_imagePaths;
 			Ressources() {}
 			~Ressources() {}
 
@@ -46,20 +46,36 @@ namespace nx
 				return (this->_soundPaths);
 			}
 
+            std::string getSoundPathAt(int idx) {
+                return (this->_soundPaths.at(idx));
+            }
+
 			std::vector<std::string> &	getMusicPaths()
 			{
 				return (this->_musicPaths);
 			}
+
+            std::string getMusicPathAt(int idx) {
+                return (this->_musicPaths.at(idx));
+            }
 
 			std::vector<std::string> &	getImagePaths()
 			{
 				return (this->_imagePaths);
 			}
 
+            std::string getImagePathAt(int idx) {
+                return (this->_imagePaths.at(idx));
+            }
+
 			std::vector<std::string> &	getScriptPaths()
 			{
 				return (this->_scriptPaths);
 			}
+
+            std::string getScriptPathAt(int idx) {
+                return (this->_scriptPaths.at(idx));
+            }
 		};
 	}
 }
