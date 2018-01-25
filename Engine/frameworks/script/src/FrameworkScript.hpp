@@ -29,6 +29,7 @@ private:
 	void execMethod(const std::string&, const std::string&);
 
 public:
+    void registerEnv();
 	void runFile(const std::string& scriptPath);
 	void loadFile(const std::string& scriptPath);
 	void update(const std::string& scriptPath);

@@ -1,0 +1,2 @@
+#!/bin/sh
+rm -rf build/frameworks && cd build && cmake .. && cmake --build . && $1 ./engine_test .nx-game-conf.json || cd ..

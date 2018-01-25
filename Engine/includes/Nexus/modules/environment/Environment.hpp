@@ -9,7 +9,7 @@ namespace nx
 {
 	namespace env
 	{
-		class Environment
+		struct Environment
 		{
 			std::vector<Scene>			_scenes;
 			Ressources					_ressources;
@@ -22,6 +22,8 @@ namespace nx
 			// Setters
 			void addScene(std::string const& sceneName)
 			{
+                std::cout << _ressources.getImagePaths().size();
+                std::cout << "adding scene" << std::endl;
 				this->_scenes.push_back(Scene(sceneName));
 			}
 
@@ -34,7 +36,7 @@ namespace nx
 
 			Ressources &			getRessources()
 			{
-				return (this->_ressources);
+                return (this->_ressources);
 			}
 
 			GameInfos &				getGameInfos()

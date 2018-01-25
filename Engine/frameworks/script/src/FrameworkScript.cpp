@@ -7,6 +7,7 @@ FrameworkScript::FrameworkScript(nx::Engine* engine)
 {
 	_state = luaL_newstate();
 	luaL_openlibs(_state);
+    registerEnv();
 }
 
 FrameworkScript::~FrameworkScript() {}
@@ -25,6 +26,48 @@ lua_State* FrameworkScript::createThread()
      
     return thread;
 };
+
+void FrameworkScript::registerEnv() {
+    luabridge::getGlobalNamespace(_state)
+            .beginClass<nx::env::GameInfos>("GameInfos")
+            .addConstructor<void(*)(void)>()
+            .endClass()
+            .beginClass<std::vector<std::string> > ("StringVector")
+            .addFunction("size", &std::vector<std::string>::size)
+            .addFunction<std::vector<std::string>::reference (std::vector<std::string>::*)(std::vector<std::string>::size_type)>("at", &std::vector<std::string>::at)
+            .endClass()
+            .beginClass<nx::env::Ressources>("Ressources")
+            .addConstructor<void(*)(void)>()
+            .addFunction("addSoundPath", &nx::env::Ressources::addSoundPath)
+            .addFunction("addMusicPath", &nx::env::Ressources::addMusicPath)
+            .addFunction("addImagePath", &nx::env::Ressources::addImagePath)
+            .addFunction("addScriptPath", &nx::env::Ressources::addScriptPath)
+            .addFunction("getSoundPaths", &nx::env::Ressources::getSoundPaths)
+            .addFunction("getMusicPaths", &nx::env::Ressources::getMusicPaths)
+            .addFunction("getImagePaths", &nx::env::Ressources::getImagePaths)
+            .addFunction("getScriptPaths", &nx::env::Ressources::getScriptPaths)
+            .endClass()
+            .beginClass<std::vector<nx::env::Scene> > ("SceneVector")
+            .addFunction("size", &std::vector<nx::env::Scene>::size)
+            .addFunction<std::vector<nx::env::Scene>::reference (std::vector<nx::env::Scene>::*)(std::vector<nx::env::Scene>::size_type)>("at", &std::vector<nx::env::Scene>::at)
+            .endClass()
+
+            // Scene
+            .
+            //Environment
+            .beginClass<nx::env::Environment>("Environment")
+            .addConstructor<void(*)(void)>()
+            .addData("_scenes", &nx::env::Environment::_scenes)
+            .addData("_ressources", &nx::env::Environment::_ressources)
+            .addData("_gameInfos", &nx::env::Environment::_gameInfos)
+            .addFunction("addScene", &nx::env::Environment::addScene)
+            .addFunction("getScenes", &nx::env::Environment::getScenes)
+            .addFunction("getRessources", &nx::env::Environment::getRessources)
+            .addFunction("getGameInfos", &nx::env::Environment::getGameInfos)
+            .endClass();
+    luabridge::push(_state, &_engine->getEnv());
+    lua_setglobal(_state, "Env");
+}
 
 void FrameworkScript::runFile(const std::string& scriptPath)
 {
@@ -53,7 +96,6 @@ void FrameworkScript::execMethod(const std::string& scriptPath, const std::strin
 	if (this->_scripts.find(scriptPath) == this->_scripts.end()) {
 		throw nx::ScriptNotLoaded(scriptPath);
 	}
-
 	if (!luaL_dofile(this->_scripts[scriptPath], scriptPath.c_str())) {
 		try {
 			luabridge::getGlobal(this->_scripts[scriptPath], methodName.c_str())();

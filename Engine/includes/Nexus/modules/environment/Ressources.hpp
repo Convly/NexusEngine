@@ -50,6 +50,10 @@ namespace nx
 				return (this->_musicPaths);
 			}
 
+            std::string getImagePathAt(int idx) {
+                return (this->_imagePaths.at(idx));
+            }
+
 			std::vector<std::string> &	getImagePaths()
 			{
 				return (this->_imagePaths);

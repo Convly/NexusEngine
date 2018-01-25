@@ -92,7 +92,7 @@ void nx::Engine::startup(bool serverOnly)
 {
 	this->_systems = 
 	{
-		//std::make_shared<nx::ScriptSystem>()
+		std::make_shared<nx::ScriptSystem>()
 	};
 
 	if (!serverOnly)
@@ -124,3 +124,12 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	}
 	return (0);
 }
+
+nx::env::Environment &nx::Engine::getEnv() {
+    return _env;
+}
+
+const nx::env::Environment &nx::Engine::getEnv() const {
+	return _env;
+}
+
