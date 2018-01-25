@@ -9,7 +9,7 @@ namespace nx
 {
 	namespace env
 	{
-		struct Environment
+		class Environment
 		{
 		private:
 			std::vector<Scene>			_scenes;
