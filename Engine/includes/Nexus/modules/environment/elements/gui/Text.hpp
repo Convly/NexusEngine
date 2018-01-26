@@ -18,6 +18,18 @@ namespace nx
 				Text(GUIElementInfos const& elementInfos, GUITextInfos const& textInfos)
 					: _elementInfos(elementInfos), _textInfos(textInfos) {}
 				~Text() {}
+
+
+				GUITextInfos &		getTextInfo()
+				{
+					return _textInfos;
+				}
+
+				GUIElementInfos &		getElementInfo()
+				{
+					return _elementInfos;
+				}
+
 			};
 		}
 	}

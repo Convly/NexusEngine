@@ -250,12 +250,12 @@ namespace nx
 
 		public:
 			// Getters
-			std::string	&	getFontPath()
+			std::string		getFontPath()
 			{
 				return (this->_fontPath);
 			}
 
-			std::string	&	getTextLabel()
+			std::string		getTextLabel()
 			{
 				return (this->_textLabel);
 			}
@@ -324,6 +324,8 @@ namespace nx
 
 			GUIElementInfos(const GUIElementInfos& other)
 				: pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
+
+			GUIElementInfos(int nb) {}
 
 			nx::maths::Vector2f pos;
 			nx::maths::Vector2f size;
@@ -442,6 +444,12 @@ namespace nx
 			GUITextInfos(const GUITextInfos& other) : textInfo(other.textInfo) {}
 
 			nx::env::TextInfo textInfo;
+
+            nx::env::TextInfo & getTextInfo()
+            {
+                return textInfo;
+            }
+
 		};
 
 		struct GUIImageInfos {

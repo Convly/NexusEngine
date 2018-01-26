@@ -35,6 +35,11 @@ namespace nx
 				return (this->_scenes);
 			}
 
+            Scene &                 getSceneAt(int idx)
+            {
+                return (this->_scenes.at(idx));
+            }
+
 			Ressources &			getRessources()
 			{
                 return (this->_ressources);
