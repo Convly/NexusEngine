@@ -80,6 +80,7 @@ namespace nx {
 	};
 
 	struct netserv_send_event_t {
+		netserv_send_event_t() : clientId_(-1) {}
 		netserv_send_event_t(const uint8_t clientId, const nx::Event& event) : clientId_(clientId), event_(event) {}
 
 		uint8_t clientId_;
@@ -126,8 +127,8 @@ namespace nx {
 		const std::string& getName(void) const {return this->_name;}
 
 		// Framework Methods (must be virtual pure)
-		virtual void sendEvent(const nx::netserv_send_event_t& netInfos) = 0;
-		virtual void sendAll(const nx::netserv_send_event_t& net) = 0;
+		virtual void sendEvent(nx::netserv_send_event_t& netInfos) = 0;
+		virtual void sendAll(nx::netserv_send_event_t& net) = 0;
 		virtual void disconnect(const uint8_t clientId) = 0;
 		virtual void connectClient(const nx::netserv_client_t& clientInfos) = 0;
 	};

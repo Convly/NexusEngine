@@ -39,12 +39,12 @@ void FrameworkNetworkServer::connectClient(const nx::netserv_client_t& clientInf
 
 /* INTERFACING */
 
-void FrameworkNetworkServer::sendEvent(const nx::netserv_send_event_t& netInfos)
+void FrameworkNetworkServer::sendEvent(nx::netserv_send_event_t& netInfos)
 {
 	this->udp_server_.sendEvent(netInfos);
 }
 
-void FrameworkNetworkServer::sendAll(const nx::netserv_send_event_t& netInfos)
+void FrameworkNetworkServer::sendAll(nx::netserv_send_event_t& netInfos)
 {
 	if (netInfos.clientId_ == -1) {
 		this->sendEvent(netInfos);

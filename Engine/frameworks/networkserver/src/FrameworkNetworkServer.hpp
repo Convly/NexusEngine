@@ -197,7 +197,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			return (idx >= 0 && idx < 4 && clients_[idx].id_ != -1 && std::strcmp(clients_[idx].ip_, "") && clients_[idx].port_ != 0);
 		}
 
-		void sendEvent(const nx::netserv_send_event_t& netInfos)
+		void sendEvent(nx::netserv_send_event_t& netInfos)
 		{
 			nx::thread::ScopedLock lock;
 
@@ -232,8 +232,8 @@ public:
 	~FrameworkNetworkServer();
 
 public:
-	void sendEvent(const nx::netserv_send_event_t& netInfos);
-	void sendAll(const nx::netserv_send_event_t& net);
+	void sendEvent(nx::netserv_send_event_t& netInfos);
+	void sendAll(nx::netserv_send_event_t& net);
 	void disconnect(const uint8_t clientId);
 	void connectClient(const nx::netserv_client_t& clientInfos);
 

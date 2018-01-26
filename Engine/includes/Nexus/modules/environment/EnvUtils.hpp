@@ -8,6 +8,7 @@ namespace nx
 {
 	namespace script {
 		struct ScriptInfos {
+			ScriptInfos() {}
 			ScriptInfos(const std::string& file_, const std::string& func_)
 				: file(file_), func(func_) {}
 
