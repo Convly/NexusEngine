@@ -51,7 +51,7 @@ namespace nx {
 		bool checkEngineIntegrity(void) const;
 
   public:
-	  void emit(const nx::EVENT type, const std::vector<char>& data)
+	  void emit(const nx::EVENT type, const std::experimental::any& data)
 	  {
 		  this->emit(nx::Event(type, data));
 	  }

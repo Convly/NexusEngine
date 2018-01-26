@@ -5,7 +5,7 @@ nx::gui::GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& siz
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true), _events(events)
 {	
 	for (auto it : this->_events) {
-		auto data = nx::Event::serializer<std::string>(it.second.file);
+		std::experimental::any data = std::string(it.second.file); 
 		enginePtr->emit(nx::EVENT::SCRIPT_LOAD, data);
 		try {
 			enginePtr->emit(nx::EVENT::SCRIPT_INIT, data);
@@ -35,8 +35,7 @@ void nx::gui::GUIElement::dispatchMouseEvent(sf::Vector2i const& pos, std::strin
 		this->_events.end(),
 		[&](auto& item) {
 			if (item.first == eventName) {
-				auto const ptr = reinterpret_cast<char*>(&item.second);
-				enginePtr->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, std::vector<char>(ptr, ptr + sizeof item.second));
+				enginePtr->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, item.second);
 			}
 		}
 	);
