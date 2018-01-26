@@ -40,14 +40,14 @@ static const std::unordered_map<nx::EVENT, std::function<std::experimental::any(
 	{nx::EVENT::SCRIPT_LOAD,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_INIT,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_UPDATE,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<nx::script::ScriptInfos>(object);}},
+	{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> std::experimental::any {return std::string("");}},
+	{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> std::experimental::any {return std::string();}},
 	{nx::EVENT::NETCUST_LISTEN,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
 	{nx::EVENT::NETCUST_SEND,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}}
+	{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<uint8_t>(object);}}
 };
 
 static const std::unordered_map<nx::EVENT, std::function<nx::Any(std::experimental::any&)>, EnumClassHash> std_any_convert_serialize = {
@@ -55,14 +55,14 @@ static const std::unordered_map<nx::EVENT, std::function<nx::Any(std::experiment
 	{nx::EVENT::SCRIPT_LOAD,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_INIT,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_UPDATE,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::NETCUST_CONNECT,			[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::NETCUST_DISCONNECT,			[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<nx::script::ScriptInfos>(object);}},
+	{nx::EVENT::NETCUST_CONNECT,			[&](std::experimental::any& object) -> nx::Any {return std::string();}},
+	{nx::EVENT::NETCUST_DISCONNECT,			[&](std::experimental::any& object) -> nx::Any {return std::string();}},
 	{nx::EVENT::NETCUST_LISTEN,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
 	{nx::EVENT::NETCUST_SEND,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::NETSERV_SEND,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::NETSERV_SEND_ALL,			[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}}
+	{nx::EVENT::NETSERV_SEND,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_SEND_ALL,			[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<uint8_t>(object);}}
 };
 
 class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
@@ -215,39 +215,8 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			std::string outbound_data;
 			std::vector<char> inbound_data;
 
-			UdpEventPacket packet(netInfos.event_.type, netInfos.event_.data);
-
-			std::stringstream ss;
-			boost::archive::text_oarchive archive(ss);
-			archive << packet;
-			outbound_data = ss.str();
-
-			o_server_.async_send_to(boost::asio::buffer(outbound_data), *it, [&](const boost::system::error_code& error, std::size_t bytes_transferred){});
-		}
-
-		template <typename Object>
-		void sendEnvModifier(const Object& data, const uint8_t target_id)
-		{
-			nx::thread::ScopedLock lock;
-			
-			if (!isAValidClient(target_id)) {
-				return;
-			}
-
-			nx::Log::inform("About to send data to " + std::to_string(target_id));
-
-			nx::netserv_client_t target = clients_[target_id];
-			
-			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), std::string(target.ip_).c_str(), std::to_string(target.port_).c_str());
-			boost::asio::ip::udp::resolver::iterator it = resolver_.resolve(query);
-
-			std::string outbound_data;
-			std::vector<char> inbound_data;
-
-			UdpEventPacket packet;
-
-			packet.type_ = nx::NETPACKET_TYPE::ENV_MODIFIER;
-			packet.object_ = data;
+			nx::Any obj = std_any_convert_serialize.at(netInfos.event_.type)(netInfos.event_.data);
+			UdpEventPacket packet(netInfos.event_.type, obj);
 
 			std::stringstream ss;
 			boost::archive::text_oarchive archive(ss);
