@@ -21,7 +21,7 @@ nx::gui::ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& s
 	this->_filled.setPosition(pos);
 	this->_filled.setFillColor(sf::Color(0, 255, 0, 255));
 
-	this->setSize(sf::Vector2f(this->getSize().x + colorInfo.borderThickness, this->getSize().y + colorInfo.borderThickness));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 nx::gui::ProgressBar::~ProgressBar()
@@ -60,8 +60,8 @@ void	nx::gui::ProgressBar::setBorderColor(sf::Color const& color)
 void	nx::gui::ProgressBar::setBorderThickness(int const thickness)
 {
 	this->_borderThickness = thickness;
-	this->setSize(sf::Vector2f(this->getSize().x + thickness, this->getSize().y + thickness));
 	this->_body.setOutlineThickness(static_cast<float>(this->_borderThickness));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 }
 
 void	nx::gui::ProgressBar::setFilled(int const percentage)
@@ -87,8 +87,8 @@ void	nx::gui::ProgressBar::setPos(sf::Vector2f const& pos)
 
 void	nx::gui::ProgressBar::setSize(sf::Vector2f const& size)
 {
-	GUIElement::setSize(size);
-	this->_body.setSize(sf::Vector2f(this->getSize().x - this->_borderThickness * 2, this->getSize().y - this->_borderThickness * 2));
+	this->_body.setSize(sf::Vector2f(size.x - this->_borderThickness * 2, size.y - this->_borderThickness * 2));
+	GUIElement::setSize(sf::Vector2f(this->_body.getLocalBounds().width, this->_body.getLocalBounds().height));
 	this->_filled.setSize(sf::Vector2f(this->getSize().x * (this->_percentage / 100.0f), this->getSize().y - this->_borderThickness * 2));
 	this->_label.setPosition(this->getPos().x + this->getSize().x / 2.0f - this->_label.getLocalBounds().width / 2.0f - this->_borderThickness * 2,
 							 this->getPos().y + this->getSize().y / 2.0f - this->_label.getLocalBounds().height / 2.0f - this->_borderThickness * 2);

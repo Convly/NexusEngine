@@ -45,6 +45,7 @@ void nx::gui::Sprite::_rescaleSprite()
 {
 	if (this->getSize().x != 0 && this->getSize().y != 0)
 		this->_sprite.setScale(this->getSize().x / this->_originalSize.x, this->getSize().y / this->_originalSize.y);
+	GUIElement::setSize(sf::Vector2f(this->_sprite.getLocalBounds().width, this->_sprite.getLocalBounds().height));
 }
 
 
@@ -157,8 +158,7 @@ void	nx::gui::Sprite::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_rescaleSprite();
-	GUIElement::setSize(sf::Vector2f(this->_sprite.getLocalBounds().width,
-									 this->_sprite.getLocalBounds().height));
+	GUIElement::setSize(sf::Vector2f(this->_sprite.getLocalBounds().width, this->_sprite.getLocalBounds().height));
 }
 
 // Getters

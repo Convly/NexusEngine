@@ -141,9 +141,13 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 
 void nx::Engine::coreLoop()
 {
-	// 
-	//
-	//
-	//
-	//
+
+}
+
+nx::env::Environment &nx::Engine::getEnv() {
+    return _env;
+}
+
+const nx::env::Environment &nx::Engine::getEnv() const {
+	return _env;
 }

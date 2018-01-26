@@ -39,24 +39,24 @@ void FrameworkNetworkServer::connectClient(const nx::netserv_client_t& clientInf
 
 /* INTERFACING */
 
-void FrameworkNetworkServer::send(const nx::netserv_send_infos_t& netInfos)
+void FrameworkNetworkServer::sendEvent(const nx::netserv_send_event_t& netInfos)
 {
-	if (netInfos.prot_ == nx::NETPROT::UDP)
-		this->udp_server_.send(netInfos);
-	// // Get sender endpoint by netInfos.clientId_ 
-	// boost::asio::ip::udp::endpoint sender_endpoint;
-	// std::string outbound_data_;
-
-	// std::stringstream ss;
-	// boost::archive::text_oarchive archive(ss);
-	// archive << netInfos.net_;
-	// outbound_data_ = ss.str();
-	// this->udp_sock_.send_to(boost::asio::buffer(outbound_data_), sender_endpoint);
+	this->udp_server_.sendEvent(netInfos);
 }
 
-void FrameworkNetworkServer::sendAll(const nx::netserv_udp_t& net)
+void FrameworkNetworkServer::sendAll(const nx::netserv_send_event_t& netInfos)
 {
-	// Send to net to all clients;
+	if (netInfos.clientId_ == -1) {
+		this->sendEvent(netInfos);
+		return;
+	}
+
+	for (auto& client : udp_server_.clients_)
+	{
+		if (udp_server_.isAValidClient(client.id_)) {
+			this->sendEvent(netInfos);
+		}
+	}
 }
 
 void FrameworkNetworkServer::disconnect(const uint8_t clientId)

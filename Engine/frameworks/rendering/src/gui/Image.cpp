@@ -26,6 +26,7 @@ void nx::gui::Image::_rescaleImage()
 {
 	if (this->getSize().x != 0 && this->getSize().y != 0)
 		this->_img.setScale(this->getSize().x / this->_originalSize.x, this->getSize().y / this->_originalSize.y);
+	GUIElement::setSize(sf::Vector2f(this->_img.getLocalBounds().width, this->_img.getLocalBounds().height));
 }
 
 
@@ -57,8 +58,6 @@ void	nx::gui::Image::setSize(sf::Vector2f const& size)
 {
 	GUIElement::setSize(size);
 	this->_rescaleImage();
-	GUIElement::setSize(sf::Vector2f(this->_img.getLocalBounds().width,
-									 this->_img.getLocalBounds().height));
 }
 
 // Getters

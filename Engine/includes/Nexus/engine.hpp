@@ -6,9 +6,11 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
+#include <experimental/any>
 
 #include "Nexus/modules/maths/maths.hpp"
 #include "Nexus/modules/physics/physics.hpp"
+#include "Nexus/modules/environment/Environment.hpp"
 
 #include "Nexus/systems/SystemTpl.hpp"
 
@@ -36,6 +38,7 @@ namespace nx {
 		bool											_debug;
 		std::vector<std::shared_ptr<nx::SystemTpl>>		_systems;
 		bool 											_serverOnly;
+		nx::env::Environment 							_env;
 
 	private:
 		Engine(const bool debug = false);
@@ -86,6 +89,8 @@ namespace nx {
 		void setDebugFlag(const bool);
 		const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
 		const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
+	  const nx::env::Environment& getEnv() const;
+	  nx::env::Environment& getEnv();
   };
 } /* nx */
 

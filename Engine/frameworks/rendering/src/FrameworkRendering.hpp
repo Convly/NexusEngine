@@ -29,9 +29,15 @@ public:
 	bool addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams);
 	bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams);
 
-	std::string const	getTypeFromElement(std::string const& layerId, std::string const& elemId) const;
-	nx::maths::Vector2f const	getPosFromElement(std::string const& layerId, std::string const& elemId) const;
-	nx::maths::Vector2f const	getSizeFromElement(std::string const& layerId, std::string const& elemId) const;
+	void						setVisibleToGUIElement(std::string const& layerId, std::string const& elemId, bool const isVisible);
+	void						setVisibleToGraphicsElement(std::string const& elemId, bool const isVisible);
+
+	std::string const			getTypeFromGUIElement(std::string const& layerId, std::string const& elemId) const;
+	nx::maths::Vector2f const	getPosFromGUIElement(std::string const& layerId, std::string const& elemId) const;
+	nx::maths::Vector2f const	getSizeFromGUIElement(std::string const& layerId, std::string const& elemId) const;
+	std::string const			getTypeFromGraphicsElement(std::string const& elemId) const;
+	nx::maths::Vector2f const	getPosFromGraphicsElement(std::string const& elemId) const;
+	nx::maths::Vector2f const	getSizeFromGraphicsElement(std::string const& elemId) const;
 
 	//Button
 	void		setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state);
@@ -73,12 +79,25 @@ public:
 	void	setRadiusToCircleShape(std::string const& circleShapeId, float const radius);
 	void	setPosToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& pos);
 	void	setSizeToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& size);
+	void	setPointCountToCircleShape(std::string const& circleShapeId, size_t const count);
+	void	setScaleToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& factor);
+	void	setOriginToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& origin);
+	void	moveToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& offset);
+	void	rotateToCircleShape(std::string const& circleShapeId, float const angle);
+	void	scaleToCircleShape(std::string const& circleShapeId, nx::maths::Vector2f const& factor);
+	void	setTextureToCircleShape(std::string const& circleShapeId, std::string const& texturePath, bool const resetRect = false);
+	void	setTextureRectToCircleShape(std::string const& circleShapeId, nx::maths::Rect const& rect);
 
-	nx::rendering::RGBa const	getBackgroundColorFromCircleShape(std::string const& circleShapeId) const;
-	nx::rendering::RGBa const	getBorderColorFromCircleShape(std::string const& circleShapeId) const;
-	int const					getBorderThicknessFromCircleShape(std::string const& circleShapeId) const;
-	float const					getRotationFromCircleShape(std::string const& circleShapeId) const;
-	float const					getRadiusFromCircleShape(std::string const& circleShapeId) const;
+	nx::rendering::RGBa const		getBackgroundColorFromCircleShape(std::string const& circleShapeId) const;
+	nx::rendering::RGBa const		getBorderColorFromCircleShape(std::string const& circleShapeId) const;
+	int const						getBorderThicknessFromCircleShape(std::string const& circleShapeId) const;
+	float const						getRotationFromCircleShape(std::string const& circleShapeId) const;
+	float const						getRadiusFromCircleShape(std::string const& circleShapeId) const;
+	size_t const					getPointCountFromCircleShape(std::string const& circleShapeId) const;
+	nx::maths::Vector2f const		getPointFromCircleShape(std::string const& circleShapeId, size_t const index) const;
+	nx::maths::Rect const			getTextureRectFromCircleShape(std::string const& circleShapeId) const;
+	nx::maths::Vector2f const		getScaleFromCircleShape(std::string const& circleShapeId) const;
+	nx::maths::Vector2f const		getOriginFromCircleShape(std::string const& circleShapeId) const;
 
 	//ComboBox
 	void	setBackgroundColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color);
@@ -106,15 +125,25 @@ public:
 	void	setRotationToConvexShape(std::string const& convexShapeId, float const angle);
 	void	setPointCountToConvexShape(std::string const& convexShapeId, size_t const pointCount);
 	void	setPointToConvexShape(std::string const& convexShapeId, size_t const index, nx::maths::Vector2f const& point);
+	void	setScaleToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& factor);
+	void	setOriginToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& origin);
+	void	moveToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& offset);
+	void	rotateToConvexShape(std::string const& convexShapeId, float const angle);
+	void	scaleToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& factor);
+	void	setTextureToConvexShape(std::string const& convexShapeId, std::string const& texturePath, bool const resetRect = false);
+	void	setTextureRectToConvexShape(std::string const& convexShapeId, nx::maths::Rect const& rect);
 	void	setPosToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& pos);
 	void	setSizeToConvexShape(std::string const& convexShapeId, nx::maths::Vector2f const& size);
 
-	nx::rendering::RGBa const	getBackgroundColorFromConvexShape(std::string const& convexShapeId) const;
-	nx::rendering::RGBa const	getBorderColorFromConvexShape(std::string const& convexShapeId) const;
-	int const					getBorderThicknessFromConvexShape(std::string const& convexShapeId) const;
-	float const					getRotationFromConvexShape(std::string const& convexShapeId) const;
-	size_t const				getPointCountFromConvexShape(std::string const& convexShapeId) const;
-	nx::maths::Vector2f const			getPointFromConvexShape(std::string const& convexShapeId, size_t const index) const;
+	nx::rendering::RGBa const		getBackgroundColorFromConvexShape(std::string const& convexShapeId) const;
+	nx::rendering::RGBa const		getBorderColorFromConvexShape(std::string const& convexShapeId) const;
+	int const						getBorderThicknessFromConvexShape(std::string const& convexShapeId) const;
+	float const						getRotationFromConvexShape(std::string const& convexShapeId) const;
+	size_t const					getPointCountFromConvexShape(std::string const& convexShapeId) const;
+	nx::maths::Vector2f const		getPointFromConvexShape(std::string const& convexShapeId, size_t const index) const;
+	nx::maths::Rect const			getTextureRectFromConvexShape(std::string const& convexShapeId) const;
+	nx::maths::Vector2f const		getScaleFromConvexShape(std::string const& convexShapeId) const;
+	nx::maths::Vector2f const		getOriginFromConvexShape(std::string const& convexShapeId) const;
 
 	//Image
 	void	setImagePathToImage(std::string const& layerId, std::string const& imageId, std::string const& spritePath);
@@ -143,6 +172,14 @@ public:
 	void	setBorderColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color);
 	void	setBorderThicknessToRectShape(std::string const& rectShapeId, int const thickness);
 	void	setRotationToRectShape(std::string const& rectShapeId, float const angle);
+	void	setScaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor);
+	void	setOriginToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& origin);
+	void	moveToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& offset);
+	void	rotateToRectShape(std::string const& rectShapeId, float const angle);
+	void	scaleToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& factor);
+	void	setTextureToRectShape(std::string const& rectShapeId, std::string const& texturePath, bool const resetRect = false);
+	void	setTextureRectToRectShape(std::string const& rectShapeId, nx::maths::Rect const& rect);
+
 	void	setPosToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& pos);
 	void	setSizeToRectShape(std::string const& rectShapeId, nx::maths::Vector2f const& size);
 	
@@ -150,6 +187,11 @@ public:
 	nx::rendering::RGBa const	getBorderColorFromRectShape(std::string const& rectShapeId) const;
 	int const					getBorderThicknessFromRectShape(std::string const& rectShapeId) const;
 	float const					getRotationFromRectShape(std::string const& rectShapeId) const;
+	size_t const				getPointCountFromRectShape(std::string const& rectShapeId) const;
+	nx::maths::Vector2f const	getPointFromRectShape(std::string const& rectShapeId, size_t const index) const;
+	nx::maths::Rect const		getTextureRectFromRectShape(std::string const& rectShapeId) const;
+	nx::maths::Vector2f const	getScaleFromRectShape(std::string const& rectShapeId) const;
+	nx::maths::Vector2f const	getOriginFromRectShape(std::string const& rectShapeId) const;
 
 	//GraphicsSprite
 	void	setSpritesheetPathToGraphicsSprite(std::string const& spriteId, std::string const& spritesheetPath);

@@ -5,6 +5,7 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
+#include <experimental/any>
 
 #include "Nexus/events.hpp"
 #include "Nexus/log.hpp"
@@ -18,32 +19,12 @@ namespace nx {
 
 	struct Event
 	{
-		Event(const nx::EVENT type_, const std::vector<char>& data_)
+		Event() : type(nx::EVENT::DEFAULT) {}
+		Event(const nx::EVENT type_, const std::experimental::any& data_)
 		: type(type_), data(data_) {}
 
-		nx::EVENT			type;
-		std::vector<char>	data;
-
-		template <typename T>
-		static std::vector<char> serializer(const T& obj) {
-			auto const ptr = reinterpret_cast<const char*>(&obj);
-			return std::vector<char>(ptr, ptr + sizeof(T));
-		}
-
-		template <typename T>
-		static T deserializer(const std::vector<char>& data) {
-			const T* ist = reinterpret_cast<const T*>(data.data());
-			if (!ist)
-				throw nx::InvalidDeserializationException(typeid(ist).name());
-			return *ist;
-		}
-		
-		template <typename Archive>
-		void serialize(Archive& ar, const unsigned int version)
-		{
-			ar & type;
-			ar & data;
-		}
+		nx::EVENT				type;
+		std::experimental::any	data;
 	};
 
 	struct EventLink

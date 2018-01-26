@@ -51,7 +51,7 @@ void nx::ScriptSystem::event_ScriptRun(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->runFile(e.data.data());
+		f->runFile(std::experimental::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptLoad(const nx::Event& e)
@@ -64,7 +64,7 @@ void nx::ScriptSystem::event_ScriptLoad(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->loadFile(e.data.data());
+		f->loadFile(std::experimental::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptInit(const nx::Event& e)
@@ -77,7 +77,7 @@ void nx::ScriptSystem::event_ScriptInit(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->init(e.data.data());
+		f->init(std::experimental::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
@@ -90,25 +90,20 @@ void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->update(e.data.data());
+		f->update(std::experimental::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptExecFunction(const nx::Event& e)
 {
-	auto& engine = nx::Engine::Instance();
+    auto& engine = nx::Engine::Instance();
 	auto self = nx::Engine::cast<nx::ScriptSystem>(engine.getSystemByName(__NX_SCRIPT_KEY__));
 	if (!self) return;
-	
 	auto f = self->getFramework();
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
 	{
-		const nx::script::ScriptInfos* st = reinterpret_cast<const nx::script::ScriptInfos*>(e.data.data());
-		if (!st) {
-			nx::Log::error("The data is corrupted", "BAD_SCRIPT_INFORMATIONS", 300);
-			return;
-		}
-		f->execFunction(st->file, st->func);
+		nx::script::ScriptInfos si = std::experimental::any_cast<nx::script::ScriptInfos>(e.data);
+		f->execFunction(si.file, si.func);
 	}
 }

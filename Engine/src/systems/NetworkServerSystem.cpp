@@ -52,9 +52,7 @@ void nx::NetworkServerSystem::event_Send(const nx::Event& e)
 		return;
 	}
 
-	nx::netserv_send_infos_t netInfos = nx::Event::deserializer<nx::netserv_send_infos_t>(e.data);
-
-	f->send(netInfos);
+	f->sendEvent(std::experimental::any_cast<nx::netserv_send_event_t>(e.data));
 }
 
 void nx::NetworkServerSystem::event_SendAll(const nx::Event& e)
@@ -69,9 +67,7 @@ void nx::NetworkServerSystem::event_SendAll(const nx::Event& e)
 		return;
 	}
 
-	nx::netserv_udp_t net = nx::Event::deserializer<nx::netserv_udp_t>(e.data);
-
-	f->sendAll(net);
+	f->sendAll(std::experimental::any_cast<nx::netserv_send_event_t>(e.data));
 }
 
 void nx::NetworkServerSystem::event_Disconnect(const nx::Event& e)
@@ -86,9 +82,7 @@ void nx::NetworkServerSystem::event_Disconnect(const nx::Event& e)
 		return;
 	}
 
-	uint8_t clientId = nx::Event::deserializer<uint8_t>(e.data);
-
-	f->disconnect(clientId);
+	f->disconnect(std::experimental::any_cast<uint8_t>(e.data));
 }
 
 void nx::NetworkServerSystem::event_Connect(const nx::Event& e)
@@ -103,8 +97,5 @@ void nx::NetworkServerSystem::event_Connect(const nx::Event& e)
 		return ;
 	}
 
-	nx::netserv_client_t clientInfos = nx::Event::deserializer<nx::netserv_client_t>(e.data);
-
-	std::cout << "YOLO: " << clientInfos.id_ << " - " << clientInfos.ip_ << " - " << clientInfos.port_ << " - " << clientInfos.status_ << " - " << std::endl;
-	f->connectClient(clientInfos);
+	f->connectClient(std::experimental::any_cast<nx::netserv_client_t>(e.data));
 }

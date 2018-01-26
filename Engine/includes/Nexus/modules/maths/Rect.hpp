@@ -26,11 +26,11 @@ public:
         size_ = size;
     }
 
-    void setWidth(const double width) {
+    void setWidth(const float width) {
         size_.x = width;
     }
 
-    void setHeight(const double height) {
+    void setHeight(const float height) {
         size_.y = height;
     }
 
@@ -52,11 +52,11 @@ public:
         return origin_;
     }
 
-    const double width() const {
+    const float width() const {
         return size_.x;
     }
 
-    const double height() const {
+    const float height() const {
         return size_.y;
     }
 

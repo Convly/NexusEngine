@@ -2,6 +2,7 @@
 # define NETWORKSERVER_FRAMEWORK_TEMPLATE_HPP_
 
 #include <iostream>
+#include <chrono>
 #include "Nexus/engine.hpp"
 
 namespace nx {
@@ -17,17 +18,29 @@ namespace nx {
 		DISCONNECTED
 	};
 
+	enum NETPACKET_TYPE {
+		EVENT_TRIGGER,
+		ENV_MODIFIER
+	};
+
+	enum NETENV_MODIFIER {
+		ADD_GAMEOBJECT,
+		REMOVE_GAMEOBJECT,
+		UPDATE_GAMEOBJECT,
+		CLEAR_SCENE
+	};
+
 	struct netserv_client_t {
-		netserv_client_t() : id_(-1), status_(nx::NETCON_STATE::UNDEFINED), port_(0)
+		netserv_client_t() : id_(-1), status_(nx::NETCON_STATE::UNDEFINED), port_(0), last_ping_(std::chrono::high_resolution_clock::now())
 		{
 			ip_[0] = '\0';
 		}
-		netserv_client_t(const int id, const nx::NETCON_STATE status, const std::string& ip, const unsigned short port) : id_(id), status_(status), port_(port)
+		netserv_client_t(const int id, const nx::NETCON_STATE status, const std::string& ip, const unsigned short port) : id_(id), status_(status), port_(port), last_ping_(std::chrono::high_resolution_clock::now())
 		{
 			ip.copy(ip_, ip.size(), 0);
 			ip_[ip.size()] = 0;			
 		}
-		netserv_client_t(const netserv_client_t& other) : id_(other.id_), status_(other.status_), port_(other.port_)
+		netserv_client_t(const netserv_client_t& other) : id_(other.id_), status_(other.status_), port_(other.port_), last_ping_(other.last_ping_)
 		{
 			std::string buf(other.ip_);
 			buf.copy(ip_, buf.size(), 0);
@@ -38,6 +51,7 @@ namespace nx {
 		nx::NETCON_STATE status_;
 		char ip_[15];
 		unsigned short port_;
+		std::chrono::high_resolution_clock::time_point last_ping_;
 
 		nx::netserv_client_t& operator=(const nx::netserv_client_t& other)
 		{
@@ -48,6 +62,7 @@ namespace nx {
 				buf.copy(ip_, buf.size(), 0);
 				ip_[buf.size()] = '\0';
 				port_ = other.port_;
+				last_ping_ = other.last_ping_;
 			}
 
 			return *this;
@@ -60,39 +75,43 @@ namespace nx {
 			ar & status_;
 			ar & ip_;
 			ar & port_;
+			ar & last_ping_;
 		}
 	};
 
-	struct netserv_udp_t {
-		netserv_udp_t(const bool fatal, const nx::Event& event) : fatal_(fatal), event_(event) {}
+	struct netserv_send_event_t {
+		netserv_send_event_t(const uint8_t clientId, const nx::Event& event) : clientId_(clientId), event_(event) {}
 
-		bool fatal_;
+		uint8_t clientId_;
 		nx::Event event_;
 
 		template <typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
 		{
-			ar & fatal_;
+			ar & clientId_;
 			ar & event_;
 		}
 	};
 
-	struct netserv_send_infos_t {
-		netserv_send_infos_t(const uint8_t clientId, const nx::netserv_udp_t& net, const nx::NETPROT prot) : clientId_(clientId), net_(net), prot_(prot) {}
+	template <typename T>
+	struct netserv_send_env_t {
+		netserv_send_env_t(const uint8_t clientId, const T& object, const nx::NETPROT prot) : clientId_(clientId), object_(object), prot_(prot) {}
 
 		uint8_t clientId_;
-		nx::netserv_udp_t net_;
+		T object_;
 		nx::NETPROT prot_;
 
 		template <typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
 		{
 			ar & clientId_;
-			ar & net_;
+			ar & object_;
 			ar & prot_;
-		}
+		}	
 	};
+}
 
+namespace nx {
 	class NetworkServerFrameworkTpl
 	{
 	protected:
@@ -107,8 +126,8 @@ namespace nx {
 		const std::string& getName(void) const {return this->_name;}
 
 		// Framework Methods (must be virtual pure)
-		virtual void send(const nx::netserv_send_infos_t& netInfos) = 0;
-		virtual void sendAll(const nx::netserv_udp_t& net) = 0;
+		virtual void sendEvent(const nx::netserv_send_event_t& netInfos) = 0;
+		virtual void sendAll(const nx::netserv_send_event_t& net) = 0;
 		virtual void disconnect(const uint8_t clientId) = 0;
 		virtual void connectClient(const nx::netserv_client_t& clientInfos) = 0;
 	};
