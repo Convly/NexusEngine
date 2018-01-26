@@ -127,8 +127,8 @@ namespace nx {
 		const std::string& getName(void) const {return this->_name;}
 
 		// Framework Methods (must be virtual pure)
-		virtual void sendEvent(nx::netserv_send_event_t& netInfos) = 0;
-		virtual void sendAll(nx::netserv_send_event_t& net) = 0;
+		virtual void sendEvent(const nx::netserv_send_event_t& netInfos) = 0;
+		virtual void sendAll(const nx::netserv_send_event_t& net) = 0;
 		virtual void disconnect(const uint8_t clientId) = 0;
 		virtual void connectClient(const nx::netserv_client_t& clientInfos) = 0;
 	};

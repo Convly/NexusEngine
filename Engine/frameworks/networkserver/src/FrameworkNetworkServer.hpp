@@ -232,8 +232,8 @@ public:
 	~FrameworkNetworkServer();
 
 public:
-	void sendEvent(nx::netserv_send_event_t& netInfos);
-	void sendAll(nx::netserv_send_event_t& net);
+	void sendEvent(const nx::netserv_send_event_t& netInfos);
+	void sendAll(const nx::netserv_send_event_t& net);
 	void disconnect(const uint8_t clientId);
 	void connectClient(const nx::netserv_client_t& clientInfos);
 
