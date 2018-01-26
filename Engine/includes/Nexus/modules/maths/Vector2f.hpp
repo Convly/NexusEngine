@@ -88,11 +88,11 @@ struct Vector2f {
 		return *this;
 	}
 
-	bool operator==(const Vector2f& other) {
+	bool operator==(const Vector2f& other) const {
 		return x == other.x && y == other.y;
 	}
 
-	bool operator!=(const Vector2f& other) {
+	bool operator!=(const Vector2f& other) const {
 		return x != other.x || y != other.y;
 	}
 
