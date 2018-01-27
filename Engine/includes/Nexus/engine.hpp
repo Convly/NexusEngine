@@ -81,7 +81,14 @@ namespace nx {
 		void setup(void);
 		void stop(void);
 		int run(const std::function<void(void)>&);
-		void coreLoop();
+		void coreLoop(const std::function<void(void)>& userCallback);
+
+  private:
+		void _fixedUpdate();
+		void _update();
+		void _lateUpdate();
+		void _render();
+
   public:
 		bool isSetup(void) const;
 		const bool isServer(void) const;
@@ -89,8 +96,8 @@ namespace nx {
 		void setDebugFlag(const bool);
 		const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
 		const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
-	  const nx::env::Environment& getEnv() const;
-	  nx::env::Environment& getEnv();
+		const nx::env::Environment& getEnv() const;
+		nx::env::Environment& getEnv();
   };
 } /* nx */
 

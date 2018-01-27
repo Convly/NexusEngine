@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8.11)
 project(NetworkServer)
 
 set(LIBRARY_NAME "networkserver")
-
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+set(Boost_DEBUG off)
 ### COMPILATOR OPTIONS
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
