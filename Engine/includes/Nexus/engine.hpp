@@ -6,6 +6,8 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
+#include <boost/asio.hpp>
+
 #include "Nexus/standalone/external/any.hpp"
 
 #include "Nexus/modules/maths/maths.hpp"

@@ -108,6 +108,8 @@ void nx::Engine::startup(bool serverOnly)
 		};
 	}
 
+	this->_serverOnly = serverOnly;
+
 	for (auto system : this->_systems) {
 		system->init();
 	}

@@ -8,7 +8,6 @@
 #include <array>
 #include <thread>
 #include <functional>
-#include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
