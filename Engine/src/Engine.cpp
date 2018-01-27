@@ -95,16 +95,20 @@ bool nx::Engine::checkEngineIntegrity() const
 
 void nx::Engine::startup(bool serverOnly)
 {
-	this->_systems = 
-	{
-		std::make_shared<nx::ScriptSystem>()
-	};
-
-	if (!serverOnly)
-		this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
-	else {
-		this->_systems.push_back(std::make_shared<nx::NetworkServerSystem>());
+	if (serverOnly) {
+		this->_systems = {
+			std::make_shared<nx::ScriptSystem>(),
+			std::make_shared<nx::NetworkServerSystem>()
+		};	
+	} else {
+		this->_systems = {
+			std::make_shared<nx::ScriptSystem>(),
+			std::make_shared<nx::RenderingSystem>(),
+			std::make_shared<nx::NetworkClientSystem>()
+		};
 	}
+
+	this->_serverOnly = serverOnly;
 
 	for (auto system : this->_systems) {
 		system->init();
