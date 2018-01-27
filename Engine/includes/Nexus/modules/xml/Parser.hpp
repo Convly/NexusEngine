@@ -20,7 +20,7 @@ namespace xml{
         static std::string fillEnvironment(env::Environment& env, const GameInfosParser& gameInfosParser) {
             std::string error = "";
             env.getGameInfos().setRootPath(Crawler::getAbsoluteDir(gameInfosParser.getPath()).string());
-            error += Parser::xml(env, gameInfosParser.getFields()._resources.at("xml"));
+            error += Parser::xml(env, gameInfosParser.getFields()._resources.at("game"));
             // scripts
             // sounds
             // musics
@@ -31,24 +31,29 @@ namespace xml{
         // get the next xml tree of a list a directory
         static std::string xml(env::Environment& env, const std::string& path){
             std::string error = "";
-            xml_node<>* rootNode = nullptr;
-            std::vector<fs::path> filesName;
-            xml_document<> doc;
+            try{
+                xml_node<>* rootNode = nullptr;
+                std::vector<fs::path> filesName;
+                xml_document<> doc;
 
-            Crawler crawler(path);
-            filesName = crawler.getRecursiveEntriesList();
-            if (filesName.empty())
-                return "Error: there's no xml files in \"" + path + "\"\n";
-            for (int i = 0; i < filesName.size(); i++){
-                std::ifstream theFile(filesName[i]);
-                std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
-                buffer.push_back('\0');
-                doc.parse<0>(&buffer[0]);
-                rootNode = doc.first_node("nx");
-                if (rootNode == nullptr)
-                    error += "Error: nx tag not found in " + filesName[i].string() + "\n";
-                else 
-                    error += Xml::fillEnvironment(env, rootNode).empty();
+                Crawler crawler(env.getGameInfos().getRootPath() + path);
+                filesName = crawler.getRecursiveEntriesList();
+                if (filesName.empty())
+                    return "Error: there's no xml files in \"" + path + "\"\n";
+                for (int i = 0; i < filesName.size(); i++){
+                    std::ifstream theFile(filesName[i]);
+                    std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+                    buffer.push_back('\0');
+                    doc.parse<0>(&buffer[0]);
+                    rootNode = doc.first_node("nx");
+                    if (rootNode == nullptr)
+                        error += "Error: nx tag not found in " + filesName[i].string() + "\n";
+                    else 
+                        error += Xml::fillEnvironment(env, rootNode);
+                }
+            }
+            catch (...){
+                error += "Error: on the loading xml file\n";
             }
             return error;
         }

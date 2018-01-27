@@ -26,15 +26,15 @@ namespace xml{
             for (auto attribute : attributes){
                 if (attribute.first == "name");
                 else if (attribute.first == "active")
-                    scene.getEntityInfos().setActive(Integrity::active(attributes.at("active"), error));
+                    scene.getEntityInfos().setActive(Integrity::boolValue(attributes.at("active"), error));
                 else if (attribute.first == "backgroundColor")
-                    scene.setBackgroundColor(Integrity::backgroundColor(attributes.at("backgroundColor"), error));
+                    scene.setBackgroundColor(Integrity::color(attributes.at("backgroundColor"), error));
                 else
                     error += "Error: This attribute can't be created in this Scene tag \"" + attributes.at("name") + "\"\n";
             }
-            scene.getScriptComponents() = Component::getScripts(env, rootNode, error);
+            scene.getScriptComponents() = Component::getScripts(env, rootNode, error, false);
             scene.getGameObjects() = GameObject::getGameObjects(env, rootNode, error);
-            scene.getLayers() = Layer::getLayers(rootNode, error);
+            scene.getLayers() = Layer::getLayers(env, rootNode, error);
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
                 if (node->name() != "Script" && node->name() != "GameObject" && node->name() != "Layer")
                     error += "Error: In the scene \"" + attributes.at("name") + "\" the tag \"" + std::string(node->name()) + "\" doesn't exist\n";

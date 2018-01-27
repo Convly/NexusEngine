@@ -15,9 +15,14 @@ namespace nx
 				GUITextInfos		_textInfos;
 
 			public:
+				Text() {}
 				Text(GUIElementInfos const& elementInfos, GUITextInfos const& textInfos)
 					: _elementInfos(elementInfos), _textInfos(textInfos) {}
 				~Text() {}
+
+			public:
+				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
+				GUITextInfos& getGuiTextInfos() { return _textInfos; }
 			};
 		}
 	}

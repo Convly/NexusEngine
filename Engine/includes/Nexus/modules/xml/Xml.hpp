@@ -25,7 +25,7 @@ namespace xml{
             std::string error = "";
 
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
-                if (node->name() != "Scene")
+                if (std::string(node->name()) != "Scene")
                     error += "Error: You can't create a \"" + std::string(node->name()) + "\" outside of a Scene tag\n";
                 else if ((error += Util::getAttributes(node->name(), node, attributes)).empty())
                     error += Scene::fillEnvironment(env, node, attributes);

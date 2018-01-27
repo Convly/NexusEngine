@@ -27,7 +27,7 @@ namespace nx {
         };
 
         const std::vector<std::string>	GameRessourcesAttrs = {
-            "xml",
+            "game",
             "scripts",
             "sounds",
             "musics",

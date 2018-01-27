@@ -15,9 +15,14 @@ namespace nx
 				GUICheckboxInfos	_checkboxInfos;
 
 			public:
+				Checkbox() {}
 				Checkbox(GUIElementInfos const& elementInfos, GUICheckboxInfos const& checkboxInfos)
 					: _elementInfos(elementInfos), _checkboxInfos(checkboxInfos) {}
 				~Checkbox() {}
+
+			public:
+				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
+				GUICheckboxInfos& getGuiCheckBoxInfos() { return _checkboxInfos; }
 			};
 		}
 	}

@@ -29,6 +29,7 @@ namespace nx
 			std::vector<gui::TextInput>		_textInputs;
 
 		public:
+			Layer() : _entityInfos("") {}
 			Layer(std::string const& _name) : _entityInfos(_name) {}
 			Layer(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
 			~Layer() {}

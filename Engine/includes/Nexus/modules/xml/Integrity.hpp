@@ -37,16 +37,16 @@ namespace xml{
 
     class Integrity{
     public:
-        static bool active(const std::string& str, std::string& error){
+        static bool boolValue(const std::string& str, std::string& error){
             if (str == "True")
                 return true;
             else if (str == "False")
                 return false;
-            error += "Error: this active attribute \"" + str + "\" is not a boolean\n";
+            error += "Error: this attribute \"" + str + "\" need to be a boolean\n";
             return true;
         }
 
-        static nx::env::RGBa backgroundColor(const std::string& str, std::string& error){
+        static nx::env::RGBa color(const std::string& str, std::string& error){
             nx::env::RGBa backgroundColor;
             std::vector<std::string> splitedValue = split(str, ',');
 
@@ -58,24 +58,22 @@ namespace xml{
                     backgroundColor.setAlpha(std::stof(splitedValue.at(3)));
                 }
                 catch (...){
-                    error += "Error: this backgroundColor attribute \"" + str + "\" is not in the correct format. They all need to be float.\n";
+                    error += "Error: this color attribute \"" + str + "\" is not in the correct format. They all need to be float.\n";
                 }
             }
             else
-                error += "Error: this backgroundColor attribute \"" + str + "\" is not in the correct format. \"r,g,b,a\"\n";
+                error += "Error: this color attribute \"" + str + "\" is not in the correct format. \"r,g,b,a\"\n";
             return backgroundColor;
         }
 
         static std::string path(env::Environment& env, const std::string& str, std::string& error){
-            std::string path = env.getGameInfos().getRootPath() + str;
-
             try{
-                Crawler crawler(path);
+                Crawler crawler(str);
             }
             catch (...){
                 error += "Error: An attribute path is incorect \"" + str + "\"\n"; 
             }
-            return path;
+            return str;
         }
 
         static maths::Vector2f pos(const std::string& str, std::string& error){
@@ -96,19 +94,19 @@ namespace xml{
             return pos;
         }
 
-        static int rotation(const std::string& str, std::string& error){
+        static int intValue(const std::string& str, std::string& error){
             int rotation;
 
             try{
                 rotation = std::stoi(str);
             }
             catch (...){
-                error += "Error: this roation attribute \"" + str + "\" is not in the correct format. It need to be a int\n";
+                error += "Error: this attribute \"" + str + "\" is not in the correct format. It need to be a int\n";
             }
             return rotation;
         }
 
-        static maths::Vector2f size(const std::string& str, std::string& error){
+        static maths::Vector2f xyValues(const std::string& str, std::string& error){
             maths::Vector2f size;
             std::vector<std::string> splitedValue = split(str, ',');
 
@@ -118,30 +116,12 @@ namespace xml{
                     size.y = std::stof(splitedValue.at(1));
                 }
                 catch (...){
-                    error += "Error: this size attribute \"" + str + "\" is not in the correct format. They all need to be float\n";
+                    error += "Error: this attribute \"" + str + "\" is not in the correct format. \"float,float\"\n";
                 }
             }
             else
-                error += "Error: this size attribute \"" + str + "\" is not in the correct format. \"x,y\"\n";
+                error += "Error: this attribute \"" + str + "\" is not in the correct format. \"x,y\"\n";
             return size;
-        }
-
-        static maths::Vector2f direction(const std::string& str, std::string& error){
-            maths::Vector2f direction;
-            std::vector<std::string> splitedValue = split(str, ',');
-
-            if (splitedValue.size() == 2){
-                try{
-                    direction.x = std::stof(splitedValue.at(0));
-                    direction.y = std::stof(splitedValue.at(1));
-                }
-                catch (...){
-                    error += "Error: this direction attribute \"" + str + "\" is not in the correct format. They all need to be float\n";
-                }
-            }
-            else
-                error += "Error: this direction attribute \"" + str + "\" is not in the correct format. \"x,y\"\n";
-            return direction;
         }
 
         static int opacity(const std::string& str, std::string& error){
@@ -158,18 +138,6 @@ namespace xml{
             else
                 error += "Error: this direction attribute \"" + str + "\" is not in the correct format. \"x,y\"\n";
             return opacity;
-        }
-
-        static std::string texturePath(env::Environment& env, const std::string& str, std::string& error){
-            std::string path = env.getGameInfos().getRootPath() + str;
-
-            try{
-                Crawler crawler(path);
-            }
-            catch (...){
-                error += "Error: An attribute texturePath is incorect \"" + str + "\"\n"; 
-            }
-            return path;
         }
 
         static env::ShapeType shapeType(const std::string& str, std::string& error){
@@ -198,6 +166,25 @@ namespace xml{
                 error += "Error: this " + name + " attribute \"" + str + "\" is not in the correct format. It need to be a double\n";
             }
             return doubleValue;
+        }
+
+        static void event(nx::env::MouseEventsContainer& events, env::Environment& env, const std::string& str, const std::string& eventName, std::string& error){
+            nx::env::MouseEventsContainer event;
+            std::vector<std::string> splitedValue = split(str, ':');
+
+            if (splitedValue.size() == 2){
+                try{
+                    std::string path = env.getGameInfos().getRootPath() + splitedValue.at(0);
+                    Crawler crawler(path);
+                    std::string fctName = splitedValue.at(1);
+                    events.push_back({ eventName, script::ScriptInfos(path, fctName) });
+                }
+                catch (...){
+                    error += "Error: this \"" + eventName + "\" attribute \"" + str + "\" is not in the correct format.\n";
+                }
+            }
+            else
+                error += "Error: this \"" + eventName + "\" attribute \"" + str + "\" is not in the correct format.\n";
         }
     };
 

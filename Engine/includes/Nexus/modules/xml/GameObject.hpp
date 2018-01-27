@@ -31,16 +31,14 @@ namespace xml{
             for (auto attribute : attributes){
                 if (attribute.first == "name");
                 else if (attribute.first == "active")
-                    gameObject.getEntityInfos().setActive(Integrity::active(attributes.at("active"), error));
+                    gameObject.getEntityInfos().setActive(Integrity::boolValue(attributes.at("active"), error));
                 else
                     error += "Error: This attribute can't be created in this GameObject tag \"" + attributes.at("name") + "\"\n";
             }
-            // TO DO !!!!!!!!!!!!!!!!!!!!!
-            gameObject.getScriptComponent() = Component::getScripts(env, rootNode, error).front();
-            gameObject.getTransformComponent() = Component::getTransforms(rootNode, error).front();
-            gameObject.getRendererComponent() = Component::getRenderers(env, rootNode, error).front();
-            gameObject.getRigidBodyComponent() = Component::getRigidBodies(rootNode, error).front();
-            /////////////////////////////
+            gameObject.getScriptComponent() = Component::getScripts(env, rootNode, error, true).front();
+            gameObject.getTransformComponent() = Component::getTransforms(rootNode, error, true).front();
+            gameObject.getRendererComponent() = Component::getRenderers(env, rootNode, error, true).front();
+            gameObject.getRigidBodyComponent() = Component::getRigidBodies(rootNode, error, true).front();
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
                 if (node->name() != "Script" && node->name() != "Transform" && node->name() != "Renderer" && node->name() != "RigidBody")
                     error += "Error: In the GameObject \"" + attributes.at("name") + "\" the tag \"" + std::string(node->name()) + "\" doesn't exist\n";
