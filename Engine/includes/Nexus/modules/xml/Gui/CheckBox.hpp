@@ -55,21 +55,21 @@ namespace xml{
         static std::string fillBackgroundColor(env::Environment& env, env::GUICheckboxInfos& guiCheckboxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiCheckboxInfos.colorInfo.setBackgroundColor(Integrity::color(value, error));
+            guiCheckboxInfos.getColorInfo().setBackgroundColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderColor(env::Environment& env, env::GUICheckboxInfos& guiCheckboxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiCheckboxInfos.colorInfo.setBorderColor(Integrity::color(value, error));
+            guiCheckboxInfos.getColorInfo().setBorderColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderThickness(env::Environment& env, env::GUICheckboxInfos& guiCheckboxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiCheckboxInfos.colorInfo.setBorderThickness(Integrity::intValue(value, error));
+            guiCheckboxInfos.getColorInfo().setBorderThickness(Integrity::intValue(value, error));
             return error; 
         }
     };

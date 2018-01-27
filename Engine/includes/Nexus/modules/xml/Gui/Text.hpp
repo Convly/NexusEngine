@@ -56,28 +56,28 @@ namespace xml{
         static std::string fillFontPath(env::Environment& env, env::GUITextInfos& guiTextInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInfos.textInfo.setFontPath(Integrity::path(env, value, error));
+            guiTextInfos.getTextInfo().setFontPath(Integrity::path(env, value, error));
             return error; 
         }
 
         static std::string fillText(env::Environment& env, env::GUITextInfos& guiTextInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInfos.textInfo.setTextLabel(value);
+            guiTextInfos.getTextInfo().setTextLabel(value);
             return error; 
         }
 
         static std::string fillFontSize(env::Environment& env, env::GUITextInfos& guiTextInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInfos.textInfo.setFontSize(Integrity::intValue(value, error));
+            guiTextInfos.getTextInfo().setFontSize(Integrity::intValue(value, error));
             return error; 
         }
 
         static std::string fillTextColor(env::Environment& env, env::GUITextInfos& guiTextInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInfos.textInfo.setTextColor(Integrity::color(value, error));
+            guiTextInfos.getTextInfo().setTextColor(Integrity::color(value, error));
             return error; 
         }
     };

@@ -56,21 +56,21 @@ namespace xml{
         static std::string fillSpritesheetPath(env::Environment& env, env::GUISpriteInfos& guiSpriteInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiSpriteInfos.spritesheetPath = Integrity::path(env, value, error);
+            guiSpriteInfos.setSpritesheetPath(Integrity::path(env, value, error));
             return error; 
         }
 
         static std::string fillSheetGrid(env::Environment& env, env::GUISpriteInfos& guiSpriteInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiSpriteInfos.sheetGrid = Integrity::xyValues(value, error);
+            guiSpriteInfos.setSheetGrid(Integrity::xyValues(value, error));
             return error; 
         }
 
         static std::string fillSpriteSize(env::Environment& env, env::GUISpriteInfos& guiSpriteInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiSpriteInfos.spriteSize = Integrity::xyValues(value, error);
+            guiSpriteInfos.setSpriteSize(Integrity::xyValues(value, error));
             return error; 
         }
     };

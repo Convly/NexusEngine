@@ -40,15 +40,15 @@ namespace xml{
                 bool found = true;
 
                 if (it->first == "name")
-                    guiElementInfos.identifier = it->second;
+                    guiElementInfos.setIdentifier(it->second);
                 else if (it->first == "active")
-                    guiElementInfos.active = Integrity::boolValue(it->second, error);
+                    guiElementInfos.setActive(Integrity::boolValue(it->second, error));
                 else if (it->first == "pos")
-                    guiElementInfos.pos = Integrity::pos(it->second, error);
+                    guiElementInfos.setPos(Integrity::pos(it->second, error));
                 else if (it->first == "size" && !isTextGui)
-                    guiElementInfos.size = Integrity::xyValues(it->second, error);
+                    guiElementInfos.setSize(Integrity::xyValues(it->second, error));
                 else if (std::find(eventsAttributes.begin(), eventsAttributes.end(), it->first) != eventsAttributes.end())
-                    Integrity::event(guiElementInfos.events, env, it->second, it->first, error);
+                    Integrity::event(guiElementInfos.getEvents(), env, it->second, it->first, error);
                 else
                     found = false;
                 if (found){

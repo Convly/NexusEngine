@@ -58,42 +58,42 @@ namespace xml{
         static std::string fillBackgroundColor(env::Environment& env, env::GUIComboBoxInfos& guiComboBoxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiComboBoxInfos.colorInfo.setBackgroundColor(Integrity::color(value, error));
+            guiComboBoxInfos.getColorInfo().setBackgroundColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderColor(env::Environment& env, env::GUIComboBoxInfos& guiComboBoxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiComboBoxInfos.colorInfo.setBorderColor(Integrity::color(value, error));
+            guiComboBoxInfos.getColorInfo().setBorderColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderThickness(env::Environment& env, env::GUIComboBoxInfos& guiComboBoxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiComboBoxInfos.colorInfo.setBorderThickness(Integrity::intValue(value, error));
+            guiComboBoxInfos.getColorInfo().setBorderThickness(Integrity::intValue(value, error));
             return error; 
         }
         
         static std::string fillFontPath(env::Environment& env, env::GUIComboBoxInfos& guiComboBoxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiComboBoxInfos.textInfo.setFontPath(Integrity::path(env, value, error));
+            guiComboBoxInfos.getTextInfo().setFontPath(Integrity::path(env, value, error));
             return error; 
         }
 
         static std::string fillFontSize(env::Environment& env, env::GUIComboBoxInfos& guiComboBoxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiComboBoxInfos.textInfo.setFontSize(Integrity::intValue(value, error));
+            guiComboBoxInfos.getTextInfo().setFontSize(Integrity::intValue(value, error));
             return error; 
         }
 
         static std::string fillTextColor(env::Environment& env, env::GUIComboBoxInfos& guiComboBoxInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiComboBoxInfos.textInfo.setTextColor(Integrity::color(value, error));
+            guiComboBoxInfos.getTextInfo().setTextColor(Integrity::color(value, error));
             return error; 
         }
     };
