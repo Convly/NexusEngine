@@ -4,18 +4,20 @@
 void userMainLoop() {
 }
 
-int main()
+int main(int ac, char** av)
 {
-  auto& engine = nx::Engine::Instance();
+	if (ac != 2)
+		return -1;
 
-  engine.startup();
-  engine.ping();
-  engine.setup();
+	auto& engine = nx::Engine::Instance();
 
-  try {
-    return (engine.run(&userMainLoop));
-  } catch (const nx::RunWithoutSetupException& e) {
-    nx::Log::error(e.what(), "RUNTIME_ERROR", 1);
-    return -1;
-  }
+	engine.ping();
+	engine.setup(av[1], false);
+
+	try {
+		return (engine.run(&userMainLoop));
+	} catch (const nx::RunWithoutSetupException& e) {
+		nx::Log::error(e.what(), "RUNTIME_ERROR", 1);
+		return -1;
+	}
 }

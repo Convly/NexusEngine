@@ -32,6 +32,11 @@ namespace nx
 			{
 				return (this->_scriptPath);
 			}
+
+			EntityInfos &			getEntityInfos()
+			{
+				return (this->_entityInfos);
+			}
 		};
 	}
 }

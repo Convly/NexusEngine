@@ -15,9 +15,14 @@ namespace nx
 				GUITextInputInfos	_textInputInfos;
 
 			public:
+				TextInput() {}
 				TextInput(GUIElementInfos const& elementInfos, GUITextInputInfos const& textInputInfos)
 					: _elementInfos(elementInfos), _textInputInfos(textInputInfos) {}
 				~TextInput() {}
+
+			public:
+				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
+				GUITextInputInfos& getGuiTextInputInfos() { return _textInputInfos; }
 			};
 		}
 	}
