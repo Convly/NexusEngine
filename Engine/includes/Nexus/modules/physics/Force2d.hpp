@@ -69,7 +69,7 @@ namespace physics {
         
     /* Getters */
     public:
-        const float vx() const {
+        const double vxConst() const {
             return velocity_.x;
         }
 
@@ -77,7 +77,7 @@ namespace physics {
             return velocity_.x;
         }
 
-        const float vy() const {
+        const double vyConst() const {
             return velocity_.y;
         }
 
@@ -135,7 +135,7 @@ namespace physics {
     };
 
     inline std::ostream& operator<<(std::ostream& os, const nx::physics::Force2d& item) {
-        std::cout << "f2d(" << item.vx() << ", " << item.vy() << ")[each_f+" << item.inertia() << "]";
+        std::cout << "f2d(" << item.vxConst() << ", " << item.vyConst() << ")[each_f+" << item.inertia() << "]";
         return os;
     }
 }

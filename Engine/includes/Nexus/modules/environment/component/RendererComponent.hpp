@@ -63,7 +63,7 @@ namespace nx
 				return (this->_opacity);
 			}
 
-			std::string &			getTexturePath()
+			std::string				getTexturePath()
 			{
 				return (this->_texturePath);
 			}

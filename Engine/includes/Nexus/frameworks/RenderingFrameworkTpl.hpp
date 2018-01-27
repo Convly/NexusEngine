@@ -214,7 +214,15 @@ namespace nx {
 		virtual bool addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams) = 0;
 		virtual bool addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams) = 0;
 
-		virtual std::string const	getTypeFromElement(std::string const& layerId, std::string const& elemId) const = 0;
+		virtual void						setVisibleToGUIElement(std::string const& layerId, std::string const& elemId, bool const isVisible) = 0;
+		virtual void						setVisibleToGraphicsElement(std::string const& elemId, bool const isVisible) = 0;
+
+		virtual std::string const			getTypeFromGUIElement(std::string const& layerId, std::string const& elemId) const = 0;
+		virtual nx::maths::Vector2f const	getPosFromGUIElement(std::string const& layerId, std::string const& elemId) const = 0;
+		virtual nx::maths::Vector2f const	getSizeFromGUIElement(std::string const& layerId, std::string const& elemId) const = 0;
+		virtual std::string const			getTypeFromGraphicsElement(std::string const& elemId) const = 0;
+		virtual nx::maths::Vector2f const	getPosFromGraphicsElement(std::string const& elemId) const = 0;
+		virtual nx::maths::Vector2f const	getSizeFromGraphicsElement(std::string const& elemId) const = 0;
 
 		//Button
 		virtual void setStateToButton(std::string const& layerId, std::string const& buttonId, bool const state) = 0;

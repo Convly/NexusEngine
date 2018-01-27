@@ -87,7 +87,7 @@ namespace nx {
 	public:
 		const env::Environment& 	getEnv() const;
 		env::Environment& 			getEnv();
-  };
+};
 } /* nx */
 
 #endif

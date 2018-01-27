@@ -1,0 +1,1 @@
+Error: this "onLeftClickPressedInside" attribute "menu.lua:displayAlertConnectionToServer" is not in the correct format. (path is incorect or not found)

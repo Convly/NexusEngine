@@ -28,7 +28,7 @@ namespace nx
 
 
 			// Getters
-			std::string &	getScriptPath()
+			std::string 	getScriptPath()
 			{
 				return (this->_scriptPath);
 			}

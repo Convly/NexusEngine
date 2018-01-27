@@ -53,17 +53,6 @@ const std::shared_ptr<nx::SystemTpl>& nx::Engine::getSystemByName(const std::str
 	return *it;
 }
 
-const nx::env::Environment& nx::Engine::getEnv() const
-{
-	return this->_env;
-}
-
-nx::env::Environment& nx::Engine::getEnv()
-{
-	return this->_env;
-}
-
-
 /* SETTERS */
 
 void nx::Engine::setDebugFlag(const bool debugFlag)
@@ -104,7 +93,6 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 	 {
 	 	std::make_shared<nx::ScriptSystem>()
 	 };
-
 	 if (!serverOnly)
 	 	this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
 
@@ -142,3 +130,12 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	}
 	return (0);
 }
+
+nx::env::Environment &nx::Engine::getEnv() {
+    return _env;
+}
+
+const nx::env::Environment &nx::Engine::getEnv() const {
+	return _env;
+}
+
