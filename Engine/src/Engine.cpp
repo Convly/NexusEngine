@@ -171,11 +171,3 @@ void	nx::Engine::_render()
 {
 	//reflechir
 }
-
-nx::env::Environment &nx::Engine::getEnv() {
-    return _env;
-}
-
-const nx::env::Environment &nx::Engine::getEnv() const {
-	return _env;
-}

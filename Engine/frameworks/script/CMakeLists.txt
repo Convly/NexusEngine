@@ -20,7 +20,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY        ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 file(GLOB_RECURSE HEADER_LIB_FILES   	${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp)
 file(GLOB_RECURSE SOURCE_LIB_FILES		${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../include/Nexus/engine.hpp)
+file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../includes/Nexus/engine.hpp ../../include/Nexus/modules/environment/Environment.hpp)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package ( Lua 5.1 REQUIRED )

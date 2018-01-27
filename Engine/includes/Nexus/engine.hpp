@@ -96,8 +96,8 @@ namespace nx {
 		void setDebugFlag(const bool);
 		const std::vector<std::shared_ptr<nx::SystemTpl>>& getSystems(void) const;
 		const std::shared_ptr<nx::SystemTpl>& getSystemByName(const std::string&) const;
-		const nx::env::Environment& getEnv() const;
-		nx::env::Environment& getEnv();
+		const nx::env::Environment& getEnv() const { return this->_env; }
+		nx::env::Environment& getEnv() { return this->_env; }
   };
 } /* nx */
 
