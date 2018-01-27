@@ -57,35 +57,35 @@ namespace xml{
         static std::string fillBackgroundColor(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiProgressBarInfos.colorInfo.setBackgroundColor(Integrity::color(value, error));
+            guiProgressBarInfos.getColorInfo().setBackgroundColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderColor(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiProgressBarInfos.colorInfo.setBorderColor(Integrity::color(value, error));
+            guiProgressBarInfos.getColorInfo().setBorderColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderThickness(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiProgressBarInfos.colorInfo.setBorderThickness(Integrity::intValue(value, error));
+            guiProgressBarInfos.getColorInfo().setBorderThickness(Integrity::intValue(value, error));
             return error; 
         }
         
         static std::string fillFontPath(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiProgressBarInfos.textInfo.setFontPath(Integrity::path(env, value, error));
+            guiProgressBarInfos.getTextInfo().setFontPath(Integrity::path(env, value, error));
             return error; 
         }
 
         static std::string fillFontSize(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiProgressBarInfos.textInfo.setFontPath(Integrity::path(env, value, error));
+            guiProgressBarInfos.getTextInfo().setFontPath(Integrity::path(env, value, error));
             return error; 
         }
     };

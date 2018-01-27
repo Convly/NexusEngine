@@ -59,49 +59,49 @@ namespace xml{
         static std::string fillBackgroundColor(env::Environment& env, env::GUITextInputInfos& guiTextInputInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInputInfos.colorInfo.setBackgroundColor(Integrity::color(value, error));
+            guiTextInputInfos.getColorInfo().setBackgroundColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderColor(env::Environment& env, env::GUITextInputInfos& guiTextInputInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInputInfos.colorInfo.setBorderColor(Integrity::color(value, error));
+            guiTextInputInfos.getColorInfo().setBorderColor(Integrity::color(value, error));
             return error; 
         }
 
         static std::string fillBorderThickness(env::Environment& env, env::GUITextInputInfos& guiTextInputInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInputInfos.colorInfo.setBorderThickness(Integrity::intValue(value, error));
+            guiTextInputInfos.getColorInfo().setBorderThickness(Integrity::intValue(value, error));
             return error; 
         }
         
         static std::string fillFontPath(env::Environment& env, env::GUITextInputInfos& guiTextInputInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInputInfos.textInfo.setFontPath(Integrity::path(env, value, error));
+            guiTextInputInfos.getTextInfo().setFontPath(Integrity::path(env, value, error));
             return error; 
         }
 
         static std::string fillText(env::Environment& env, env::GUITextInputInfos& guiTextInputInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInputInfos.textInfo.setTextLabel(value);
+            guiTextInputInfos.getTextInfo().setTextLabel(value);
             return error; 
         }
 
         static std::string fillFontSize(env::Environment& env, env::GUITextInputInfos& guiTextInputInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInputInfos.textInfo.setFontSize(Integrity::intValue(value, error));
+            guiTextInputInfos.getTextInfo().setFontSize(Integrity::intValue(value, error));
             return error; 
         }
 
         static std::string fillTextColor(env::Environment& env, env::GUITextInputInfos& guiTextInputInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiTextInputInfos.textInfo.setTextColor(Integrity::color(value, error));
+            guiTextInputInfos.getTextInfo().setTextColor(Integrity::color(value, error));
             return error; 
         }
     };

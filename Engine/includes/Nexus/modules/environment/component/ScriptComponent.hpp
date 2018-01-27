@@ -21,19 +21,25 @@ namespace nx
 			~ScriptComponent() {}
 
 			// Setters
-			void		setScriptPath(std::string const& scriptPath)
+			void		setScriptPath(const std::string& scriptPath)
 			{
 				this->_scriptPath = scriptPath;
+				_entityInfos.setIsModified(true);
 			}
 
-
 			// Getters
-			std::string 	getScriptPath()
+			const std::string& 	getScriptPath()
 			{
 				return (this->_scriptPath);
 			}
 
-			EntityInfos &			getEntityInfos()
+		public:
+			const EntityInfos&			getEntityInfos() const
+			{
+				return (this->_entityInfos);
+			}
+
+			EntityInfos&			getEntityInfos()
 			{
 				return (this->_entityInfos);
 			}

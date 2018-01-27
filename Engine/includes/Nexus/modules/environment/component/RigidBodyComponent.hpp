@@ -26,66 +26,53 @@ namespace nx
 			RigidBodyComponent(std::string const& _name, double const mass, double const bouciness, nx::maths::Vector2f const& size)
 				: _entityInfos(_name), _mass(mass), _bounciness(bouciness), _size(size) {}
 			RigidBodyComponent(const RigidBodyComponent & other)
-				: _entityInfos(other.getEntityInfosConst()), _mass(other.getMassConst()), _bounciness(other.getBouncinessConst()), _size(other.getSizeConst()) {}
+				: _entityInfos(other.getEntityInfos()), _mass(other.getMass()), _bounciness(other.getBounciness()), _size(other.getSize()) {}
 			~RigidBodyComponent() {}
 
 			// Setters
 			void		setMass(double const mass)
 			{
 				this->_mass = mass;
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setBounciness(double const bounciness)
 			{
 				this->_bounciness = bounciness;
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setSize(nx::maths::Vector2f const& size)
 			{
 				this->_size = size;
-			}
-
-			// Getters
-			EntityInfos &			getEntityInfos()
-			{
-				return (this->_entityInfos);
-			}
-
-			double					getMass()
-			{
-				return (this->_mass);
-			}
-
-			double					getBounciness()
-			{
-				return (this->_bounciness);
-			}
-
-			nx::maths::Vector2f &	getSize()
-			{
-				return (this->_size);
+				_entityInfos.setIsModified(true);
 			}
 
 		public:
 			// Getters const
-			EntityInfos const &			getEntityInfosConst() const
-			{
-				return (this->_entityInfos);
-			}
-
-			double const				getMassConst() const
+			double const				getMass() const
 			{
 				return (this->_mass);
 			}
 
-			double const				getBouncinessConst() const
+			double const				getBounciness() const
 			{
 				return (this->_bounciness);
 			}
 
-			nx::maths::Vector2f const &	getSizeConst() const
+			nx::maths::Vector2f const&	getSize() const
 			{
 				return (this->_size);
+			}
+			
+			EntityInfos&				getEntityInfos()
+			{
+				return (this->_entityInfos);
+			}
+
+			EntityInfos const&			getEntityInfos() const
+			{
+				return (this->_entityInfos);
 			}
 
 		public:
@@ -93,10 +80,10 @@ namespace nx
 			{
 				if (this != &other)
 				{
-					this->_entityInfos = other.getEntityInfosConst();
-					this->_mass.store(other.getMassConst());
-					this->_bounciness.store(other.getBouncinessConst());
-					this->_size = other.getSizeConst();
+					this->_entityInfos = other.getEntityInfos();
+					this->_mass.store(other.getMass());
+					this->_bounciness.store(other.getBounciness());
+					this->_size = other.getSize();
 				}
 				return (*this);
 			}

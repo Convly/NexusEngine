@@ -13,36 +13,31 @@ namespace nx
 		private:
 			std::string			_name;
 			std::atomic<bool>	_active;
+			bool 			  	_isModified;
 
 		public:
-			EntityInfos(std::string const& name_) : _name(name_), _active(true) {}
-			EntityInfos(std::string const& name_, bool const active_) : _name(name_), _active(active_) {}
-			EntityInfos() : _name(""), _active(true) {}
-			EntityInfos(const EntityInfos & other) : _name(other.getNameConst()), _active(other.getActiveConst()) {}
+			EntityInfos(std::string const& name_) : _name(name_), _active(true), _isModified(true) {}
+			EntityInfos(std::string const& name_, bool const active_) : _name(name_), _active(active_), _isModified(true) {}
+			EntityInfos() : _name(""), _active(true), _isModified(true) {}
+			EntityInfos(const EntityInfos& other) : _name(other.getNameConst()), _active(other.getActiveConst()), _isModified(true) {}
 			~EntityInfos() {}
 
 		public:
 			//Setters
+			void 				setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
+
 			void				setName(const std::string &name)
 			{
 				this->_name = name;
+				_isModified = true;
 			}
 			
 			void				setActive(const bool active)
 			{
 				this->_active = active;
-			}
-
-		public:
-			//Getters
-			std::string &	getName()
-			{
-				return (this->_name);
-			}
-
-			bool			getActive()
-			{
-				return (this->_active);
+				_isModified = true;
 			}
 
 		public:
@@ -53,6 +48,16 @@ namespace nx
 			}
 
 			bool const			getActiveConst() const
+			{
+				return (this->_active);
+			}
+
+			const std::string&	getName()
+			{
+				return (this->_name);
+			}
+
+			const bool			getActive()
 			{
 				return (this->_active);
 			}
