@@ -5,11 +5,11 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
-#include <experimental/any>
 
 #include "Nexus/events.hpp"
 #include "Nexus/log.hpp"
 #include "Nexus/errors/InvalidDeserialization.hpp"
+#include "Nexus/standalone/external/any.hpp"
 
 namespace nx {
 	class Engine;
@@ -20,11 +20,11 @@ namespace nx {
 	struct Event
 	{
 		Event() : type(nx::EVENT::DEFAULT) {}
-		Event(const nx::EVENT type_, const std::experimental::any& data_)
+		Event(const nx::EVENT type_, const external::any& data_)
 		: type(type_), data(data_) {}
 
 		nx::EVENT				type;
-		std::experimental::any	data;
+		external::any	data;
 	};
 
 	struct EventLink

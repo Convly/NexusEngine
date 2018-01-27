@@ -8,7 +8,6 @@
 #include <array>
 #include <thread>
 #include <functional>
-#include <experimental/any>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -20,6 +19,7 @@
 #include "Nexus/frameworks/NetworkServerFrameworkTpl.hpp"
 #include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 #include "Any.hpp"
+#include "Nexus/standalone/external/any.hpp"
 #include "Nexus/standalone/thread/ScopedLock.hpp"
 
 extern nx::Engine* enginePtr;
@@ -35,34 +35,34 @@ struct EnumClassHash
 
 #define NETSERV_MAXCON 4
 
-static const std::unordered_map<nx::EVENT, std::function<std::experimental::any(nx::Any&)>, EnumClassHash> nx_any_convert_serialize = {
-	{nx::EVENT::SCRIPT_RUN,					[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_LOAD,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_INIT,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_UPDATE,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<nx::script::ScriptInfos>(object);}},
-	{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> std::experimental::any {return std::string("");}},
-	{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> std::experimental::any {return std::string();}},
-	{nx::EVENT::NETCUST_LISTEN,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::NETCUST_SEND,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<std::string>(object);}},
-	{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
-	{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
-	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> std::experimental::any {return nx::Anycast<uint8_t>(object);}}
+static const std::unordered_map<nx::EVENT, std::function<external::any(nx::Any&)>, EnumClassHash> nx_any_convert_serialize = {
+	{nx::EVENT::SCRIPT_RUN,					[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_LOAD,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_INIT,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_UPDATE,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](nx::Any& object) -> external::any {return nx::Anycast<nx::script::ScriptInfos>(object);}},
+	{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> external::any {return std::string("");}},
+	{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> external::any {return std::string();}},
+	{nx::EVENT::NETCUST_LISTEN,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+	{nx::EVENT::NETCUST_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+	{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> external::any {return nx::Anycast<uint8_t>(object);}}
 };
 
-static const std::unordered_map<nx::EVENT, std::function<nx::Any(std::experimental::any&)>, EnumClassHash> std_any_convert_serialize = {
-	{nx::EVENT::SCRIPT_RUN,					[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_LOAD,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_INIT,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_UPDATE,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<nx::script::ScriptInfos>(object);}},
-	{nx::EVENT::NETCUST_CONNECT,			[&](std::experimental::any& object) -> nx::Any {return std::string();}},
-	{nx::EVENT::NETCUST_DISCONNECT,			[&](std::experimental::any& object) -> nx::Any {return std::string();}},
-	{nx::EVENT::NETCUST_LISTEN,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::NETCUST_SEND,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<std::string>(object);}},
-	{nx::EVENT::NETSERV_SEND,				[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<nx::netserv_send_event_t>(object);}},
-	{nx::EVENT::NETSERV_SEND_ALL,			[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<nx::netserv_send_event_t>(object);}},
-	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](std::experimental::any& object) -> nx::Any {return std::experimental::any_cast<uint8_t>(object);}}
+static const std::unordered_map<nx::EVENT, std::function<nx::Any(external::any&)>, EnumClassHash> std_any_convert_serialize = {
+	{nx::EVENT::SCRIPT_RUN,					[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_LOAD,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_INIT,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_UPDATE,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+	{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](external::any& object) -> nx::Any {return external::any_cast<nx::script::ScriptInfos>(object);}},
+	{nx::EVENT::NETCUST_CONNECT,			[&](external::any& object) -> nx::Any {return std::string();}},
+	{nx::EVENT::NETCUST_DISCONNECT,			[&](external::any& object) -> nx::Any {return std::string();}},
+	{nx::EVENT::NETCUST_LISTEN,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+	{nx::EVENT::NETCUST_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+	{nx::EVENT::NETSERV_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_SEND_ALL,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
+	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](external::any& object) -> nx::Any {return external::any_cast<uint8_t>(object);}}
 };
 
 class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
@@ -123,7 +123,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 					archive >> packet;
 				}
 
-				std::experimental::any obj = nx_any_convert_serialize.at(packet.type_)(packet.object_);
+				external::any obj = nx_any_convert_serialize.at(packet.type_)(packet.object_);
 				nx::Event e(packet.type_, obj);
 
 				handleEvent(this->isRemoteAClient(), e);

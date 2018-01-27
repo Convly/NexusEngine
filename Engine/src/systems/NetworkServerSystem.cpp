@@ -52,7 +52,7 @@ void nx::NetworkServerSystem::event_Send(const nx::Event& e)
 		return;
 	}
 
-	f->sendEvent(std::experimental::any_cast<nx::netserv_send_event_t>(e.data));
+	f->sendEvent(external::any_cast<nx::netserv_send_event_t>(e.data));
 }
 
 void nx::NetworkServerSystem::event_SendAll(const nx::Event& e)
@@ -67,7 +67,7 @@ void nx::NetworkServerSystem::event_SendAll(const nx::Event& e)
 		return;
 	}
 
-	f->sendAll(std::experimental::any_cast<nx::netserv_send_event_t>(e.data));
+	f->sendAll(external::any_cast<nx::netserv_send_event_t>(e.data));
 }
 
 void nx::NetworkServerSystem::event_Disconnect(const nx::Event& e)
@@ -82,7 +82,7 @@ void nx::NetworkServerSystem::event_Disconnect(const nx::Event& e)
 		return;
 	}
 
-	f->disconnect(std::experimental::any_cast<uint8_t>(e.data));
+	f->disconnect(external::any_cast<uint8_t>(e.data));
 }
 
 void nx::NetworkServerSystem::event_Connect(const nx::Event& e)
@@ -97,5 +97,5 @@ void nx::NetworkServerSystem::event_Connect(const nx::Event& e)
 		return ;
 	}
 
-	f->connectClient(std::experimental::any_cast<nx::netserv_client_t>(e.data));
+	f->connectClient(external::any_cast<nx::netserv_client_t>(e.data));
 }
