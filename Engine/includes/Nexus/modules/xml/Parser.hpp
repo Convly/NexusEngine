@@ -20,14 +20,37 @@ namespace xml{
 
     class Parser{
     public:
+        static std::string addRessources(env::Environment& env, const GameInfosParser& gameInfosParser){
+            std::string error = "";
+            std::string current;
+            std::vector<fs::path> filesName;
+
+            try{
+                current = "scripts";
+                Crawler crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
+                env.getRessources().getScriptPaths() = crawler.getRecursiveEntriesList();
+                current = "musics";
+                crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
+                env.getRessources().getMusicPaths() = crawler.getRecursiveEntriesList();
+                current = "sounds";
+                crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
+                env.getRessources().getSoundPaths() = crawler.getRecursiveEntriesList();
+                current = "images";
+                crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
+                env.getRessources().getImagePaths() = crawler.getRecursiveEntriesList();
+            }
+            catch (...){
+                error += "Error: \"" + gameInfosParser.getFields()._resources.at(current) + "\" doesn't exist\n";
+            }
+            return error;
+        }
+
         static bool fillEnvironment(env::Environment& env, const GameInfosParser& gameInfosParser) {
             std::string error = "";
+
             env.getGameInfos().setRootPath(Crawler::getAbsoluteDir(gameInfosParser.getPath()).string());
+            error += addRessources(env, gameInfosParser);            
             error += Parser::xml(env, gameInfosParser.getFields()._resources.at("game"));
-            // scripts
-            // sounds
-            // musics
-            // images
             if (!error.empty()){
                 std::ofstream file;
                 file.open (env.getGameInfos().getRootPath() + "/xml_error_log.txt");

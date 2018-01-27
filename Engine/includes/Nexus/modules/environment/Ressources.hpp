@@ -3,6 +3,8 @@
 
 # include <vector>
 
+#include "Nexus/standalone/Crawler.hpp"
+
 namespace nx
 {
 	namespace env
@@ -10,70 +12,70 @@ namespace nx
 		class Ressources
 		{
 		private:
-			std::vector<std::string>	_soundPaths;
-			std::vector<std::string>	_musicPaths;
-			std::vector<std::string>	_scriptPaths;
+			std::vector<fs::path>	_soundPaths;
+			std::vector<fs::path>	_musicPaths;
+			std::vector<fs::path>	_scriptPaths;
+			std::vector<fs::path>	_imagePaths;
 
 		public:
-			std::vector<std::string>	_imagePaths;
 			Ressources() {}
 			~Ressources() {}
 
 			// Setters
-			void	addSoundPath(std::string const& soundPath)
+			void	addSoundPath(fs::path const& soundPath)
 			{
 				this->_soundPaths.push_back(soundPath);
 			}
 
-			void	addMusicPath(std::string const& musicPath)
+			void	addMusicPath(fs::path const& musicPath)
 			{
 				this->_musicPaths.push_back(musicPath);
 			}
 
-			void	addImagePath(std::string const& imagePath)
+			void	addImagePath(fs::path const& imagePath)
 			{
 				this->_imagePaths.push_back(imagePath);
 			}
 
-			void	addScriptPath(std::string const& scriptPath)
+			void	addScriptPath(fs::path const& scriptPath)
 			{
 				this->_scriptPaths.push_back(scriptPath);
 			}
 
 			// Getters
-			std::vector<std::string> &	getSoundPaths()
+			std::vector<fs::path> &	getSoundPaths()
 			{
 				return (this->_soundPaths);
 			}
 
-            std::string getSoundPathAt(int idx) {
+            fs::path getSoundPathAt(int idx) {
                 return (this->_soundPaths.at(idx));
             }
 
-			std::vector<std::string> &	getMusicPaths()
+			std::vector<fs::path> &	getMusicPaths()
 			{
 				return (this->_musicPaths);
 			}
 
-            std::string getMusicPathAt(int idx) {
+            fs::path getMusicPathAt(int idx) {
                 return (this->_musicPaths.at(idx));
             }
 
-			std::vector<std::string> &	getImagePaths()
+			std::vector<fs::path> &	getImagePaths()
 			{
 				return (this->_imagePaths);
 			}
 
-            std::string getImagePathAt(int idx) {
+            fs::path getImagePathAt(int idx) {
                 return (this->_imagePaths.at(idx));
             }
 
-			std::vector<std::string> &	getScriptPaths()
+			std::vector<fs::path> &	getScriptPaths()
 			{
 				return (this->_scriptPaths);
 			}
 
-            std::string getScriptPathAt(int idx) {
+            fs::path getScriptPathAt(int idx) {
                 return (this->_scriptPaths.at(idx));
             }
 		};
