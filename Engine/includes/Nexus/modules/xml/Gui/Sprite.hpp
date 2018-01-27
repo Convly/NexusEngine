@@ -30,15 +30,16 @@ namespace xml{
 
             if ((error += Util::getAttributes(rootNode->name(), rootNode, attributes)).empty()){
                 env::gui::Sprite sprite;
+                std::string name = attributes.at("name");
 
                 error += GuiElement::fillGuiElementInfos(env, sprite.getGuiElementInfos(), attributes, false);
-                error += fillSpriteInfo(env, sprite.getGuiSpriteInfos(), attributes);
+                error += fillSpriteInfo(env, sprite.getGuiSpriteInfos(), attributes, name);
                 layer.addSprite(sprite);
             }
             return error;
         }
 
-        static std::string fillSpriteInfo(env::Environment& env, env::GUISpriteInfos& guiSpriteInfos, std::unordered_map<std::string, std::string>& attributes){
+        static std::string fillSpriteInfo(env::Environment& env, env::GUISpriteInfos& guiSpriteInfos, std::unordered_map<std::string, std::string>& attributes, const std::string& name){
             std::string error = "";
             std::unordered_map<std::string, std::function<std::string(env::Environment&, env::GUISpriteInfos&, const std::string& tag, const std::string& value)>> autorizedAtt;
 
@@ -47,7 +48,7 @@ namespace xml{
                 if (autorizedAtt.find(attribute.first) != autorizedAtt.end())
                     autorizedAtt.at(attribute.first)(env, guiSpriteInfos, attribute.first, attribute.second);
                 else
-                    error += "Error: This attribute \"" + attribute.first + "\" doesn't exist in a sprite.\n";
+                    error += "Error: This attribute \"" + attribute.first + "\" doesn't exist in the sprite named \"" + name + "\"\n";
             }
             return error;
         }

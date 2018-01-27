@@ -3,8 +3,11 @@
 
 #include <iostream>
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 #include "rapidxml-1.13/rapidxml.hpp"
+
 #include "Nexus/standalone/Crawler.hpp"
 #include "Nexus/modules/environment/Environment.hpp"
 #include "Nexus/standalone/GameInfosParser/GameInfosParser.hpp"
@@ -17,7 +20,7 @@ namespace xml{
 
     class Parser{
     public:
-        static std::string fillEnvironment(env::Environment& env, const GameInfosParser& gameInfosParser) {
+        static bool fillEnvironment(env::Environment& env, const GameInfosParser& gameInfosParser) {
             std::string error = "";
             env.getGameInfos().setRootPath(Crawler::getAbsoluteDir(gameInfosParser.getPath()).string());
             error += Parser::xml(env, gameInfosParser.getFields()._resources.at("game"));
@@ -25,7 +28,14 @@ namespace xml{
             // sounds
             // musics
             // images
-            return error;
+            if (!error.empty()){
+                std::ofstream file;
+                file.open (env.getGameInfos().getRootPath() + "/xml_error_log.txt");
+                file << error;
+                file.close();
+                return false;
+            }
+            return true;
         }
 
         // get the next xml tree of a list a directory

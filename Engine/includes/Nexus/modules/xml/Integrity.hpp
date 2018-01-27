@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <algorithm>
 
 #include "Nexus/modules/environment/Environment.hpp"
 #include "rapidxml-1.13/rapidxml.hpp"
@@ -16,20 +17,28 @@ namespace xml{
 
     class Util{
     public:
+        static void initMandatoryAtt(std::vector<std::string>& mandatoryAtt){
+            mandatoryAtt = {
+                "name"
+            };
+        }
+
         static std::string getAttributes(const std::string& tagName, xml_node<>* rootNode, std::unordered_map<std::string, std::string>& attributes){
             std::string error = "";
+            std::vector<std::string> mandatoryAtt;
 
+            initMandatoryAtt(mandatoryAtt);
             for (auto node = rootNode->first_attribute(); node; node = node->next_attribute()){
                 std::string key = node->name();
                 std::string value = node->value();
                 if (attributes.find(key) == attributes.end())
                     attributes[key] = value;
-                else{
-                    if (attributes.find("name") != attributes.end())
-                        error += "Error: this attribute \"" + key + "\" already exist in the " + tagName + " named \"" + attributes.at("name") + "\"\n";
-                    else
-                        error += "Error: A \"" + tagName + "\" tag doesn't have a name\n";
-                }
+                else
+                    error += "Error: this attribute \"" + key + "\" already exist in the " + tagName + " named \"" + attributes.at("name") + "\"\n";
+            }
+            for (auto att : mandatoryAtt){
+                if (attributes.find(att) == attributes.end())
+                    error += "Error: A \"" + tagName + "\" tag need to have a \"" + att + "\"\n";
             }
             return error;
         }
@@ -68,10 +77,10 @@ namespace xml{
 
         static std::string path(env::Environment& env, const std::string& str, std::string& error){
             try{
-                Crawler crawler(str);
+                Crawler crawler(env.getGameInfos().getRootPath() + str);
             }
             catch (...){
-                error += "Error: An attribute path is incorect \"" + str + "\"\n"; 
+                error += "Error: An attribute path is incorrect \"" + str + "\"\n"; 
             }
             return str;
         }
@@ -174,13 +183,12 @@ namespace xml{
 
             if (splitedValue.size() == 2){
                 try{
-                    std::string path = env.getGameInfos().getRootPath() + splitedValue.at(0);
-                    Crawler crawler(path);
+                    Crawler crawler(env.getGameInfos().getRootPath() + splitedValue.at(0));
                     std::string fctName = splitedValue.at(1);
-                    events.push_back({ eventName, script::ScriptInfos(path, fctName) });
+                    events.push_back({ eventName, script::ScriptInfos(splitedValue.at(0), fctName) });
                 }
                 catch (...){
-                    error += "Error: this \"" + eventName + "\" attribute \"" + str + "\" is not in the correct format.\n";
+                    error += "Error: this \"" + eventName + "\" attribute \"" + str + "\" is not in the correct format. (path is incorect or not found)\n";
                 }
             }
             else

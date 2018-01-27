@@ -46,6 +46,7 @@ namespace xml{
                 env::Layer layer;
                 if ((error += Util::getAttributes(node->name(), node, attributes)).empty())
                     error += Layer::fillLayer(env, layer, node, attributes);
+                layers.push_back(layer);
             }
             return layers;
         }
@@ -64,10 +65,10 @@ namespace xml{
                     error += "Error: This attribute can't be created in this Layer tag \"" + attributes.at("name") + "\"\n";
             }
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
-                if (guiElementTags.find(node->name()) != guiElementTags.end())
-                    error += guiElementTags.at(node->name())(env, layer, node);
+                if (guiElementTags.find(std::string(node->name())) != guiElementTags.end())
+                    error += guiElementTags.at(std::string(node->name()))(env, layer, node);
                 else
-                    error += "Error: This tag can not be in a Layer \"" + std::string(node->name()) + "\".";
+                    error += "Error: This tag can not be in a Layer \"" + std::string(node->name()) + "\"\n";
             }
             return error;
         }

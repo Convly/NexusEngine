@@ -40,7 +40,7 @@ namespace xml{
             gameObject.getRendererComponent() = Component::getRenderers(env, rootNode, error, true).front();
             gameObject.getRigidBodyComponent() = Component::getRigidBodies(rootNode, error, true).front();
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
-                if (node->name() != "Script" && node->name() != "Transform" && node->name() != "Renderer" && node->name() != "RigidBody")
+                if (std::string(node->name()) != "Script" && std::string(node->name()) != "Transform" && std::string(node->name()) != "Renderer" && std::string(node->name()) != "RigidBody")
                     error += "Error: In the GameObject \"" + attributes.at("name") + "\" the tag \"" + std::string(node->name()) + "\" doesn't exist\n";
             }
             return gameObject;

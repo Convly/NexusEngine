@@ -33,12 +33,7 @@ namespace xml{
 
         static std::string fillGuiElementInfos(env::Environment& env, env::GUIElementInfos& guiElementInfos, std::unordered_map<std::string, std::string>& attributes, bool isTextGui){
             std::string error = "";
-            nx::maths::Vector2f pos;
-			nx::maths::Vector2f size;
-			std::string identifier = "";
-			nx::env::MouseEventsContainer events;
             std::vector<std::string> eventsAttributes;
-            int i = 0;
 
             initEventsAttributes(eventsAttributes);
             for (auto it = attributes.begin(); it != attributes.end();){
@@ -46,12 +41,14 @@ namespace xml{
 
                 if (it->first == "name")
                     guiElementInfos.identifier = it->second;
+                else if (it->first == "active")
+                    guiElementInfos.active = Integrity::boolValue(it->second, error);
                 else if (it->first == "pos")
-                    pos = Integrity::pos(it->second, error);
+                    guiElementInfos.pos = Integrity::pos(it->second, error);
                 else if (it->first == "size" && !isTextGui)
-                    size = Integrity::xyValues(it->second, error);
+                    guiElementInfos.size = Integrity::xyValues(it->second, error);
                 else if (std::find(eventsAttributes.begin(), eventsAttributes.end(), it->first) != eventsAttributes.end())
-                    Integrity::event(events, env, it->second, it->first, error);
+                    Integrity::event(guiElementInfos.events, env, it->second, it->first, error);
                 else
                     found = false;
                 if (found){

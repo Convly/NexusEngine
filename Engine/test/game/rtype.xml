@@ -37,12 +37,12 @@
             fontPath="./fonts/Roboto-Regular.ttf" text="IP Address" fontSize="16" textColor="255,255,255,255"/>
       <TextInput name="IpAddressTextInput" pos="392,260" size="240,28"
                  backgroundColor="200,200,200,255" borderColor="255,255,255,255" borderThickness="2"
-                 fontPath="./fonts/Roboto-Regular.ttf" defaultText="" fontSize="12" textColor="0,0,0,255"/>
+                 fontPath="./fonts/Roboto-Regular.ttf" text="" fontSize="12" textColor="0,0,0,255"/>
       <Text name="PortText" pos="497,315"
             fontPath="./fonts/Roboto-Regular.ttf" text="Port" fontSize="16" textColor="255,255,255,255"/>
       <TextInput name="PortTextInput" pos="477, 350" size="70,28"
                  backgroundColor="200,200,200,255" borderColor="255,255,255,255" borderThickness="2"
-                 fontPath="./fonts/Roboto-Regular.ttf" defaultText="" fontSize="12" textColor="0,0,0,255"/>
+                 fontPath="./fonts/Roboto-Regular.ttf" text="" fontSize="12" textColor="0,0,0,255"/>
       <Button name="ConnectButton" pos="432,480" size="160,30"
               isPushButton="True" backgroundColor="200,200,200,255" borderColor="255,255,255,255" borderThickness="2"
               fontPath="./fonts/Roboto-Regular.ttf" text="" fontSize="12" textColor="0,0,0,255"

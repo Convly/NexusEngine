@@ -36,9 +36,10 @@ namespace xml{
             scene.getGameObjects() = GameObject::getGameObjects(env, rootNode, error);
             scene.getLayers() = Layer::getLayers(env, rootNode, error);
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
-                if (node->name() != "Script" && node->name() != "GameObject" && node->name() != "Layer")
+                if (std::string(node->name()) != "Script" && std::string(node->name()) != "GameObject" && std::string(node->name()) != "Layer")
                     error += "Error: In the scene \"" + attributes.at("name") + "\" the tag \"" + std::string(node->name()) + "\" doesn't exist\n";
             }
+            env.getScenes().push_back(scene);
             return error;
         }
     };

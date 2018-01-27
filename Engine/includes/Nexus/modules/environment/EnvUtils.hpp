@@ -135,7 +135,7 @@ namespace nx
 			std::atomic<unsigned int>	_borderThickness;
 
 		public:
-			ColorInfo(){}
+			ColorInfo() : _borderThickness(0){}
 			ColorInfo(const nx::env::RGBa& backgroundColor_, const nx::env::RGBa& borderColor_, const unsigned int borderThickness_)
 				: _backgroundColor(backgroundColor_), _borderColor(borderColor_), _borderThickness(borderThickness_) {}
 
@@ -216,7 +216,7 @@ namespace nx
 			std::atomic<uint32_t>		_textStyle;
 
 		public:
-			TextInfo(){}
+			TextInfo() : _fontSize(0), _textStyle(0){}
 			TextInfo(const std::string& fontPath_, const std::string& textLabel_, const unsigned int fontSize_, const nx::env::RGBa& textColor_, const uint32_t textStyle_)
 				: _fontPath(fontPath_), _textLabel(textLabel_), _fontSize(fontSize_), _textColor(textColor_), _textStyle(textStyle_) {}
 
@@ -321,13 +321,14 @@ namespace nx
 		};
 
 		struct GUIElementInfos {
-			GUIElementInfos() {}
+			GUIElementInfos() : active(true) {}
 			GUIElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier, const nx::env::MouseEventsContainer& events_)
-				: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
+				: active(true), pos(_pos), size(_size), identifier(_identifier), events(events_) {}
 
 			GUIElementInfos(const GUIElementInfos& other)
-				: pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
+				: active(true), pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
 
+			bool active;
 			nx::maths::Vector2f pos;
 			nx::maths::Vector2f size;
 			std::string identifier;
@@ -342,7 +343,7 @@ namespace nx
 			nx::env::TextInfo	_textInfo;
 
 		public:
-			GUIButtonInfos(){}
+			GUIButtonInfos()  : _isPushButton(true){}
 			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : _isPushButton(isPushButton_), _colorInfo(colorInfo_), _textInfo(textInfo_) {}
 			GUIButtonInfos(const GUIButtonInfos& other) : _isPushButton(other.getIsPushButtonConst()), _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()) {}
 
