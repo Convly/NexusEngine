@@ -15,9 +15,14 @@ namespace nx
 				GUISpriteInfos		_spriteInfos;
 
 			public:
+				Sprite() {}
 				Sprite(GUIElementInfos const& elementInfos, GUISpriteInfos const& spriteInfos)
 					: _elementInfos(elementInfos), _spriteInfos(spriteInfos) {}
 				~Sprite() {}
+
+			public:
+				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
+				GUISpriteInfos& getGuiSpriteInfos() { return _spriteInfos; }
 			};
 		}
 	}

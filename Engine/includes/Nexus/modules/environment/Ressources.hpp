@@ -3,6 +3,8 @@
 
 # include <vector>
 
+#include "Nexus/standalone/Crawler.hpp"
+
 namespace nx
 {
 	namespace env
@@ -13,9 +15,9 @@ namespace nx
 			std::vector<std::string>	_soundPaths;
 			std::vector<std::string>	_musicPaths;
 			std::vector<std::string>	_scriptPaths;
+			std::vector<std::string>	_imagePaths;
 
 		public:
-			std::vector<std::string>	_imagePaths;
 			Ressources() {}
 			~Ressources() {}
 

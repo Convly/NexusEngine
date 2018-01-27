@@ -32,67 +32,53 @@ namespace nx
 			RendererComponent(std::string const& _name, uint8_t const opacity, std::string const& texturePath, ShapeType const shapeType)
 				: _entityInfos(_name), _opacity(opacity), _texturePath(texturePath), _shapeType(shapeType) {}
 			RendererComponent(const RendererComponent & other)
-				: _entityInfos(other.getEntityInfosConst()), _opacity(other.getOpacityConst()), _texturePath(other.getTexturePathConst()), _shapeType(other.getShapeTypeConst()) {}
+				: _entityInfos(other.getEntityInfos()), _opacity(other.getOpacity()), _texturePath(other.getTexturePath()), _shapeType(other.getShapeType()) {}
 			~RendererComponent() {}
 
 			// Setters
 			void		setOpacity(uint8_t const opacity)
 			{
 				this->_opacity = (opacity > 100) ? (100) : (opacity);
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setTexturePath(std::string const& texturePath)
 			{
 				this->_texturePath = texturePath;
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setShapeType(ShapeType const shapeType)
 			{
 				this->_shapeType = shapeType;
-			}
-
-
-			// Getters
-			EntityInfos &			getEntityInfos()
-			{
-				return (this->_entityInfos);
-			}
-
-			uint8_t					getOpacity()
-			{
-				return (this->_opacity);
-			}
-
-			std::string				getTexturePath()
-			{
-				return (this->_texturePath);
-			}
-
-			ShapeType &				getShapeType()
-			{
-				return (this->_shapeType);
+				_entityInfos.setIsModified(true);
 			}
 
 		public:
-			// Getters const
-			EntityInfos const & getEntityInfosConst() const
-			{
-				return (this->_entityInfos);
-			}
-
-			uint8_t	const				getOpacityConst() const
+			// Getters
+			uint8_t	const				getOpacity() const
 			{
 				return (this->_opacity);
 			}
 
-			std::string const &			getTexturePathConst() const
+			std::string const &			getTexturePath() const
 			{
 				return (this->_texturePath);
 			}
 
-			ShapeType const &				getShapeTypeConst() const
+			ShapeType const &				getShapeType() const
 			{
 				return (this->_shapeType);
+			}
+
+			EntityInfos const & getEntityInfos() const
+			{
+				return (this->_entityInfos);
+			}
+
+			EntityInfos & getEntityInfos()
+			{
+				return (this->_entityInfos);
 			}
 
 		public:
@@ -100,10 +86,10 @@ namespace nx
 			{
 				if (this != &other)
 				{
-					this->_entityInfos = other.getEntityInfosConst();
-					this->_opacity = other.getOpacityConst();
-					this->_texturePath = other.getTexturePathConst();
-					this->_shapeType = other.getShapeTypeConst();
+					this->_entityInfos = other.getEntityInfos();
+					this->_opacity = other.getOpacity();
+					this->_texturePath = other.getTexturePath();
+					this->_shapeType = other.getShapeType();
 				}
 				return (*this);
 			}

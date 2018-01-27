@@ -1,4 +1,4 @@
-#include "Nexus/crawler/Crawler.hpp"
+#include "Nexus/standalone/Crawler.hpp"
 
 nx::Crawler::Crawler(const std::string& path, const bool log)
 :
@@ -128,4 +128,39 @@ const std::vector<fs::path>& nx::Crawler::getEntriesListByTypeAndPath(const nx::
 	this->displayEntriesList(this->_search, type, path, "NEW SEARCH");
 
 	return this->_search;
+}
+
+const std::vector<fs::path>& nx::Crawler::getRecursiveEntriesList(void)
+{
+	if (!fs::is_directory(_path)) {
+		throw nx::CrawlerInvalidPath(_path + " is not a valid path");
+	}
+
+	auto type = Crawler::ENTRY_TYPE::DIRECTORY;
+
+	this->archiveSearch(type);
+
+	for (const fs::path & p : fs::recursive_directory_iterator(_path))
+	{
+		if (!nx::Crawler::entryTypeModifier[type](p)) {
+			this->_search.push_back(p);
+		}
+	}
+
+	this->displayEntriesList(this->_search, type, _path, "NEW SEARCH");
+
+	return this->_search;
+}
+
+ fs::path nx::Crawler::getAbsoluteDir(const std::string& path)
+ {
+	return fs::absolute(fs::path(path).parent_path()).string();
+ }
+
+std::vector<std::string> nx::Crawler::convertPathVectorToStrings(const std::vector<fs::path>& fsPaths){
+	std::vector<std::string> stringPaths;
+
+	for (auto path : fsPaths)
+		stringPaths.push_back(path.string());
+	return stringPaths;
 }

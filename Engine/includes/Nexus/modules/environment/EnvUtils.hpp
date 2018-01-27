@@ -135,6 +135,7 @@ namespace nx
 			std::atomic<unsigned int>	_borderThickness;
 
 		public:
+			ColorInfo() : _borderThickness(0){}
 			ColorInfo(const nx::env::RGBa& backgroundColor_, const nx::env::RGBa& borderColor_, const unsigned int borderThickness_)
 				: _backgroundColor(backgroundColor_), _borderColor(borderColor_), _borderThickness(borderThickness_) {}
 
@@ -215,6 +216,7 @@ namespace nx
 			std::atomic<uint32_t>		_textStyle;
 
 		public:
+			TextInfo() : _fontSize(0), _textStyle(0){}
 			TextInfo(const std::string& fontPath_, const std::string& textLabel_, const unsigned int fontSize_, const nx::env::RGBa& textColor_, const uint32_t textStyle_)
 				: _fontPath(fontPath_), _textLabel(textLabel_), _fontSize(fontSize_), _textColor(textColor_), _textStyle(textStyle_) {}
 
@@ -318,19 +320,82 @@ namespace nx
 
 		};
 
-		struct GUIElementInfos {
-			GUIElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier, const nx::env::MouseEventsContainer& events_)
-				: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
+		class GUIElementInfos {
+		public:
+			GUIElementInfos() : _active(true), _isModified(true) {}
+			GUIElementInfos(const nx::maths::Vector2f& pos, const nx::maths::Vector2f& size, const std::string& identifier, const nx::env::MouseEventsContainer& events)
+				: _active(true), _pos(pos), _size(size), _identifier(identifier), _events(events), _isModified(true) {}
 
 			GUIElementInfos(const GUIElementInfos& other)
-				: pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
+				: _active(other.getActive()), _pos(other.getPos()), _size(other.getSize()), _identifier(other.getIdentifier()), _events(other.getEvents()), _isModified(true) {}
 
-			GUIElementInfos(int nb) {}
+		private:
+			bool _active;
+			nx::maths::Vector2f _pos;
+			nx::maths::Vector2f _size;
+			std::string _identifier;
+			nx::env::MouseEventsContainer _events;
+			bool _isModified;
 
-			nx::maths::Vector2f pos;
-			nx::maths::Vector2f size;
-			std::string identifier;
-			nx::env::MouseEventsContainer events;
+		public:
+			const bool getActive() const{
+				return _active;
+			}
+
+			const nx::maths::Vector2f& getPos() const{
+				return _pos;
+			}
+
+			const nx::maths::Vector2f& getSize() const{
+				return _size;
+			}
+
+			const std::string& getIdentifier() const{
+				return _identifier;
+			}
+
+			const nx::env::MouseEventsContainer& getEvents() const{
+				return _events;
+			}
+
+			nx::env::MouseEventsContainer& getEvents(){
+				_isModified = true;
+				return _events;
+			}
+
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+		public:
+			void setActive(const bool active){
+				_active = active;
+				_isModified = true;
+			}
+
+			void setPos(const nx::maths::Vector2f& pos){
+				_pos = pos;
+				_isModified = true;
+			}
+
+			void setSize(const nx::maths::Vector2f& size){
+				_size = size;
+				_isModified = true;
+			}
+
+			void setIdentifier(const std::string& identifier){
+				_identifier = identifier;
+				_isModified = true;
+			}
+
+			void setEvents(const nx::env::MouseEventsContainer& events){
+				_events = events;
+				_isModified = true;
+			}
+
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
 		};
 
 		class GUIButtonInfos {
@@ -339,26 +404,31 @@ namespace nx
 			std::atomic<bool>	_isPushButton;
 			nx::env::ColorInfo	_colorInfo;
 			nx::env::TextInfo	_textInfo;
+			bool 				_isModified;
 
 		public:
-			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : _isPushButton(isPushButton_), _colorInfo(colorInfo_), _textInfo(textInfo_) {}
-			GUIButtonInfos(const GUIButtonInfos& other) : _isPushButton(other.getIsPushButtonConst()), _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()) {}
+			GUIButtonInfos()  : _isPushButton(true), _isModified(true){}
+			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : _isPushButton(isPushButton_), _colorInfo(colorInfo_), _textInfo(textInfo_), _isModified(true) {}
+			GUIButtonInfos(const GUIButtonInfos& other) : _isPushButton(other.getIsPushButtonConst()), _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()), _isModified(true) {}
 
 		public:
 			//Setters
 			void	setIsPushButton(bool const isPushButton)
 			{
 				this->_isPushButton = isPushButton;
+				_isModified = true;
 			}
 
 			void	setColorInfo(const nx::env::ColorInfo & colorInfo)
 			{
 				this->_colorInfo = colorInfo;
+				_isModified = true;
 			}
 
 			void	setTextInfo(const nx::env::TextInfo & textInfo)
 			{
 				this->_textInfo = textInfo;
+				_isModified = true;
 			}
 
 		public:
@@ -408,73 +478,316 @@ namespace nx
 			}
 		};
 
-		struct GUICheckboxInfos {
-			GUICheckboxInfos(nx::env::ColorInfo const& colorInfo_) : colorInfo(colorInfo_) {}
-			GUICheckboxInfos(GUICheckboxInfos const& other) : colorInfo(other.colorInfo) {}
+		class GUICheckboxInfos {
+		public:
+			GUICheckboxInfos() : _isModified(true){}
+			GUICheckboxInfos(nx::env::ColorInfo const& colorInfo) : _colorInfo(_colorInfo), _isModified(true) {}
+			GUICheckboxInfos(GUICheckboxInfos const& other) : _colorInfo(other.getColorInfo()), _isModified(true) {}
 
-			nx::env::ColorInfo colorInfo;
+		private:
+			nx::env::ColorInfo _colorInfo;
+			bool _isModified;
+		
+		public:
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
+
+			void setColorInfo(const nx::env::ColorInfo& colorInfo){
+				_colorInfo = colorInfo;
+				_isModified = true;
+			}
+
+		public:
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+			const nx::env::ColorInfo& getColorInfo() const{
+				return _colorInfo;
+			}
+
+			nx::env::ColorInfo& getColorInfo(){
+				_isModified = true;
+				return _colorInfo;
+			}
 		};
 
-		struct GUIProgressBarInfos {
-			GUIProgressBarInfos(nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : colorInfo(colorInfo_), textInfo(textInfo_) {}
-			GUIProgressBarInfos(const GUIProgressBarInfos& other) : colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+		class GUIProgressBarInfos {
+		public:
+			GUIProgressBarInfos() : _isModified(true){}
+			GUIProgressBarInfos(nx::env::ColorInfo const& colorInfo, nx::env::TextInfo const& textInfo) : _colorInfo(colorInfo), _textInfo(textInfo), _isModified(true) {}
+			GUIProgressBarInfos(const GUIProgressBarInfos& other) : _colorInfo(other.getColorInfo()), _textInfo(other.getTextInfo()), _isModified(true) {}
 
-			nx::env::ColorInfo colorInfo;
-			nx::env::TextInfo textInfo;
+		private:
+			nx::env::ColorInfo _colorInfo;
+			nx::env::TextInfo _textInfo;
+			bool _isModified;
+		
+		public:
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
+
+			void setTextInfo(const nx::env::TextInfo& textInfo){
+				_textInfo = textInfo;
+				_isModified = true;
+			}
+
+			void setColorInfo(const nx::env::ColorInfo& colorInfo){
+				_colorInfo = colorInfo;
+				_isModified = true;
+			}
+
+		public:
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+			const nx::env::ColorInfo& getColorInfo() const{
+				return _colorInfo;
+			}
+
+			const nx::env::TextInfo& getTextInfo() const{
+				return _textInfo;
+			}
+
+		 	nx::env::ColorInfo& getColorInfo(){
+				_isModified = true;
+				return _colorInfo;
+			}
+
+		 	nx::env::TextInfo& getTextInfo(){
+				_isModified = true;
+				return _textInfo;
+			}
 		};
 
-		struct GUIComboBoxInfos {
-			GUIComboBoxInfos(nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : colorInfo(colorInfo_), textInfo(textInfo_) {}
-			GUIComboBoxInfos(const GUIComboBoxInfos& other) : colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+		class GUIComboBoxInfos {
+		public:
+			GUIComboBoxInfos() : _isModified(true){}
+			GUIComboBoxInfos(nx::env::ColorInfo const& colorInfo, nx::env::TextInfo const& textInfo) : _colorInfo(colorInfo), _textInfo(textInfo), _isModified(true) {}
+			GUIComboBoxInfos(const GUIComboBoxInfos& other) : _colorInfo(other.getColorInfo()), _textInfo(other.getTextInfo()), _isModified(true) {}
 
-			nx::env::ColorInfo colorInfo;
-			nx::env::TextInfo textInfo;
+		private:
+			nx::env::ColorInfo _colorInfo;
+			nx::env::TextInfo _textInfo;
+			bool _isModified;
+		
+		public:
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
+
+			void setTextInfo(const nx::env::TextInfo& textInfo){
+				_textInfo = textInfo;
+				_isModified = true;
+			}
+
+			void setColorInfo(const nx::env::ColorInfo& colorInfo){
+				_colorInfo = colorInfo;
+				_isModified = true;
+			}
+
+		public:
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+			const nx::env::ColorInfo& getColorInfo() const{
+				return _colorInfo;
+			}
+
+			nx::env::ColorInfo& getColorInfo(){
+				_isModified = true;
+				return _colorInfo;
+			}
+
+			const nx::env::TextInfo& getTextInfo() const{
+				return _textInfo;
+			}
+
+			nx::env::TextInfo& getTextInfo(){
+				_isModified = true;
+				return _textInfo;
+			}
 		};
 
-		struct GUITextInputInfos {
-			GUITextInputInfos(nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : colorInfo(colorInfo_), textInfo(textInfo_) {}
-			GUITextInputInfos(const GUITextInputInfos& other) : colorInfo(other.colorInfo), textInfo(other.textInfo) {}
+		class GUITextInputInfos {
+		public:
+			GUITextInputInfos() : _isModified(true){}
+			GUITextInputInfos(nx::env::ColorInfo const& colorInfo, nx::env::TextInfo const& textInfo) : _colorInfo(colorInfo), _textInfo(textInfo), _isModified(true) {}
+			GUITextInputInfos(const GUITextInputInfos& other) : _colorInfo(other.getColorInfo()), _textInfo(other.getTextInfo()), _isModified(true) {}
 
-			nx::env::ColorInfo colorInfo;
-			nx::env::TextInfo textInfo;
+		private:
+			nx::env::ColorInfo _colorInfo;
+			nx::env::TextInfo _textInfo;
+			bool _isModified;
+		
+		public:
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
+
+			void setTextInfo(const nx::env::TextInfo& textInfo){
+				_textInfo = textInfo;
+				_isModified = true;
+			}
+
+			void setColorInfo(const nx::env::ColorInfo& colorInfo){
+				_colorInfo = colorInfo;
+				_isModified = true;
+			}
+
+		public:
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+			const nx::env::ColorInfo& getColorInfo() const{
+				return _colorInfo;
+			}
+
+			const nx::env::TextInfo& getTextInfo() const{
+				return _textInfo;
+			}
+
+			nx::env::ColorInfo& getColorInfo(){
+				_isModified = true;
+				return _colorInfo;
+			}
+
+			nx::env::TextInfo& getTextInfo(){
+				_isModified = true;
+				return _textInfo;
+			}
 		};
 
-		struct GUITextInfos {
-			GUITextInfos(nx::env::TextInfo const& textInfo_) : textInfo(textInfo_) {}
-			GUITextInfos(const GUITextInfos& other) : textInfo(other.textInfo) {}
+		class GUITextInfos {
+		public:
+			GUITextInfos() : _isModified(true){}
+			GUITextInfos(nx::env::TextInfo const& textInfo) : _textInfo(textInfo), _isModified(true) {}
+			GUITextInfos(const GUITextInfos& other) : _textInfo(other.getTextInfo()), _isModified(true) {}
 
-			nx::env::TextInfo textInfo;
+		private:
+			nx::env::TextInfo _textInfo;
+			bool _isModified;
+		
+		public:
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
 
-            nx::env::TextInfo & getTextInfo()
-            {
-                return textInfo;
-            }
+			void setTextInfo(const nx::env::TextInfo& textInfo){
+				_textInfo = textInfo;
+				_isModified = true;
+			}
 
+		public:
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+			const nx::env::TextInfo& getTextInfo() const{
+				return _textInfo;
+			}
+
+		 	nx::env::TextInfo& getTextInfo(){
+				_isModified = true;
+				return _textInfo;
+			}
 		};
 
-		struct GUIImageInfos {
-			GUIImageInfos(std::string const& imagePath_) : imagePath(imagePath_) {}
-			GUIImageInfos(const GUIImageInfos& other) : imagePath(other.imagePath) {}
+		class GUIImageInfos {
+		public:
+			GUIImageInfos() : _isModified(true){}
+			GUIImageInfos(std::string const& imagePath) : _imagePath(imagePath), _isModified(true) {}
+			GUIImageInfos(const GUIImageInfos& other) : _imagePath(other.getImagePath()), _isModified(true) {}
 
-			std::string imagePath;
+		private:
+			std::string _imagePath;
+			bool _isModified;
+		
+		public:
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
+
+			void setImagePath(const std::string& imagePath){
+				_imagePath = imagePath;
+				_isModified = true;
+			}
+
+		public:
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+			const std::string& getImagePath() const{
+				return _imagePath;
+			}
 		};
 
-		struct GUISpriteInfos {
-			GUISpriteInfos(std::string const& spritesheetPath_, nx::maths::Vector2f const& sheetGrid_, nx::maths::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
-			GUISpriteInfos(const GUISpriteInfos& other) : spritesheetPath(other.spritesheetPath), sheetGrid(other.sheetGrid), spriteSize(other.spriteSize) {}
+		class GUISpriteInfos {
+		public:
+			GUISpriteInfos() : _isModified(true){}
+			GUISpriteInfos(std::string const& spritesheetPath, nx::maths::Vector2f const& sheetGrid, nx::maths::Vector2f const& spriteSize) : _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize), _isModified(true) {}
+			GUISpriteInfos(const GUISpriteInfos& other) : _spritesheetPath(other.getSpritesheetPath()), _sheetGrid(other.getSheetGrid()), _spriteSize(other.getSpriteSize()), _isModified(true) {}
 
-			std::string spritesheetPath;
-			nx::maths::Vector2f sheetGrid;
-			nx::maths::Vector2f spriteSize;
+		private:
+			std::string _spritesheetPath;
+			nx::maths::Vector2f _sheetGrid;
+			nx::maths::Vector2f _spriteSize;
+			bool _isModified;
+		
+		public:
+			void setIsModified(const bool isModified){
+				_isModified = isModified;
+			}
+
+			void setSheetGrid(const nx::maths::Vector2f& sheetGrid){
+				_sheetGrid = sheetGrid;
+				_isModified = true;
+			}
+
+			void setSpriteSize(const nx::maths::Vector2f& spriteSize){
+				_spriteSize = spriteSize;
+				_isModified = true;
+			}
+
+			void setSpritesheetPath(const std::string& spritesheetPath){
+				_spritesheetPath = spritesheetPath;
+				_isModified = true;
+			}
+
+		public:
+			const bool getIsModified() const{
+				return _isModified;
+			}
+
+			const nx::maths::Vector2f& getSheetGrid() const{
+				return _sheetGrid;
+			}
+
+			const nx::maths::Vector2f& getSpriteSize() const{
+				return _spriteSize;
+			}
+
+			const std::string& getSpritesheetPath() const{
+				return _spritesheetPath;
+			}
 		};
 
+		/////////////////////////////////////////////
+		/*               	Graphic				   */
+		/////////////////////////////////////////////
 
 		struct GraphicsElementInfos {
 			GraphicsElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier, const nx::env::MouseEventsContainer& events_)
 				: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
 
 			GraphicsElementInfos(const GUIElementInfos& other)
-				: pos(other.pos), size(other.size), identifier(other.identifier), events(other.events) {}
+				: pos(other.getPos()), size(other.getSize()), identifier(other.getIdentifier()), events(other.getEvents()) {}
 
 			nx::maths::Vector2f pos;
 			nx::maths::Vector2f size;
@@ -484,7 +797,7 @@ namespace nx
 
 		struct GraphicsSpriteInfos {
 			GraphicsSpriteInfos(std::string const& spritesheetPath_, nx::maths::Vector2f const& sheetGrid_, nx::maths::Vector2f const& spriteSize_) : spritesheetPath(spritesheetPath_), sheetGrid(sheetGrid_), spriteSize(spriteSize_) {}
-			GraphicsSpriteInfos(const GUISpriteInfos& other) : spritesheetPath(other.spritesheetPath), sheetGrid(other.sheetGrid), spriteSize(other.spriteSize) {}
+			GraphicsSpriteInfos(const GraphicsSpriteInfos& other) : spritesheetPath(other.spritesheetPath), sheetGrid(other.sheetGrid), spriteSize(other.spriteSize) {}
 
 			std::string spritesheetPath;
 			nx::maths::Vector2f sheetGrid;
