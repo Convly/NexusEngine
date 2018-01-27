@@ -29,10 +29,9 @@ namespace xml{
             env::GameObject gameObject(attributes.at("name"));
 
             for (auto attribute : attributes){
-                if (attribute.first == "name");
-                else if (attribute.first == "active")
+                if (attribute.first == "active")
                     gameObject.getEntityInfos().setActive(Integrity::boolValue(attributes.at("active"), error));
-                else
+                else if (attribute.first != "name")
                     error += "Error: This attribute can't be created in this GameObject tag \"" + attributes.at("name") + "\"\n";
             }
             gameObject.getScriptComponent() = Component::getScripts(env, rootNode, error, true).front();

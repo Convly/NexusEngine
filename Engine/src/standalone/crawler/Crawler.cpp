@@ -156,3 +156,11 @@ const std::vector<fs::path>& nx::Crawler::getRecursiveEntriesList(void)
  {
 	return fs::absolute(fs::path(path).parent_path()).string();
  }
+
+std::vector<std::string> nx::Crawler::convertPathVectorToStrings(const std::vector<fs::path>& fsPaths){
+	std::vector<std::string> stringPaths;
+
+	for (auto path : fsPaths)
+		stringPaths.push_back(path.string());
+	return stringPaths;
+}

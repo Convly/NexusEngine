@@ -28,16 +28,16 @@ namespace xml{
             try{
                 current = "scripts";
                 Crawler crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
-                env.getRessources().getScriptPaths() = crawler.getRecursiveEntriesList();
+                env.getRessources().getScriptPaths() = Crawler::convertPathVectorToStrings(crawler.getRecursiveEntriesList());
                 current = "musics";
                 crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
-                env.getRessources().getMusicPaths() = crawler.getRecursiveEntriesList();
+                env.getRessources().getMusicPaths() = Crawler::convertPathVectorToStrings(crawler.getRecursiveEntriesList());
                 current = "sounds";
                 crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
-                env.getRessources().getSoundPaths() = crawler.getRecursiveEntriesList();
+                env.getRessources().getSoundPaths() = Crawler::convertPathVectorToStrings(crawler.getRecursiveEntriesList());
                 current = "images";
                 crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
-                env.getRessources().getImagePaths() = crawler.getRecursiveEntriesList();
+                env.getRessources().getImagePaths() = Crawler::convertPathVectorToStrings(crawler.getRecursiveEntriesList());
             }
             catch (...){
                 error += "Error: \"" + gameInfosParser.getFields()._resources.at(current) + "\" doesn't exist\n";

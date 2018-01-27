@@ -80,6 +80,9 @@ namespace nx {
 	public:
 		static fs::path getAbsoluteDir(const std::string& path);
 
+	public:
+		static std::vector<std::string> convertPathVectorToStrings(const std::vector<fs::path>& fsPaths);
+
 	private:
 		bool archiveSearch(const nx::Crawler::ENTRY_TYPE = nx::Crawler::ENTRY_TYPE::ANY);
 		void displayEntriesList(const std::vector<fs::path>& entries, const nx::Crawler::ENTRY_TYPE& type, const fs::path& path, const std::string& header = "NEW ENTRIES LIST") const;
