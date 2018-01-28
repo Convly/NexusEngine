@@ -16,10 +16,6 @@ namespace nx {
 		virtual ~NetworkClientFrameworkTpl() {};
 		// This method must be implemented this way
 		const std::string& getName(void) const {return this->_name;}
-
-		// Framework Methods (must be virtual pure)
-		virtual void pingNetworkClientFramework() = 0;
-
 	};	
 }
 

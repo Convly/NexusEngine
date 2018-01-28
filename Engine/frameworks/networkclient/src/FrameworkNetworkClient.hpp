@@ -10,10 +10,6 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 public:
 	FrameworkNetworkClient(nx::Engine*);
 	~FrameworkNetworkClient();
-
-public:
-	void pingNetworkClientFramework();
-
 	
 protected:
 	nx::Engine* _engine;

@@ -48,7 +48,7 @@ Engine/lib/*
 Desktop.ini
 *.user
 *.sh
-
+*xml_error_log.txt
 
 cmake-build-debug
 .idea

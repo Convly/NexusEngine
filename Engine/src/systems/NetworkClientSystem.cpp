@@ -26,12 +26,6 @@ void nx::NetworkClientSystem::init()
 
 void nx::NetworkClientSystem::update()
 {
-	auto f = this->getFramework();
-	if (!f)
-		nx::Log::print("Framework is nullptr");
-	else
-		f->pingNetworkClientFramework();
-	std::cout << "Update for " << this->getName() << std::endl;
 }
 
 bool nx::NetworkClientSystem::checkIntegrity() const
