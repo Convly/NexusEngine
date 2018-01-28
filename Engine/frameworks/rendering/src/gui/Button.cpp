@@ -1,6 +1,6 @@
 #include "Button.hpp"
 
-nx::gui::Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+nx::gui::Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 			   bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events), _state(false), _isPushButton(isPushButton),
 	_borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),

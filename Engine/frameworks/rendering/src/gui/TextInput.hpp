@@ -35,7 +35,7 @@ namespace nx
 
 		public:
 			TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier,
-				nx::rendering::MouseEventsContainer const& events, ColorInfo const& colorInfo, TextInfo const& textInfo);
+				nx::env::MouseEventsContainer const& events, ColorInfo const& colorInfo, TextInfo const& textInfo);
 			~TextInput();
 
 			// GUIElement's mouse event methods overload

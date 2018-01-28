@@ -23,7 +23,7 @@ namespace nx
 			sf::Text						_label;
 
 		public:
-			ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+			ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 				ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage = true);
 			~ProgressBar();
 

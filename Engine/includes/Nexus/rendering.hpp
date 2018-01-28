@@ -18,7 +18,7 @@ namespace nx {
 		# define __NX_RENDERING_KEY__ "rendering"
 
 	private:
-		std::shared_ptr<FrameworkManager<nx::RenderingFrameworkTpl>>	_framework_m;
+		std::shared_ptr<FrameworkManager<nx::rendering::RenderingFrameworkTpl>>	_framework_m;
 
 	public:
 		RenderingSystem();
@@ -28,7 +28,7 @@ namespace nx {
 		void update();
 		void init();
 		bool checkIntegrity() const;
-		nx::RenderingFrameworkTpl* getFramework();
+		nx::rendering::RenderingFrameworkTpl* getFramework();
 
 	public:
 		static void event_RenderingEventKey(const nx::Event&);

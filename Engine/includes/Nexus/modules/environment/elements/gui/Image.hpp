@@ -15,9 +15,15 @@ namespace nx
 				GUIImageInfos		_imageInfos;
 
 			public:
+				Image() {}
 				Image(GUIElementInfos const& elementInfos, GUIImageInfos const& imageInfos)
 					: _elementInfos(elementInfos), _imageInfos(imageInfos) {}
 				~Image() {}
+
+			public:
+				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
+				GUIImageInfos& getGuiImageInfos() { return _imageInfos; }
+			
 			};
 		}
 	}

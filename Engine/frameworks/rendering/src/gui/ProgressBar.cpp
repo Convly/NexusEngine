@@ -1,6 +1,6 @@
 #include "ProgressBar.hpp"
 
-nx::gui::ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+nx::gui::ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 						 ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage) :
 	GUIElement(pos, size, identifier, events),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),

@@ -35,7 +35,7 @@ namespace nx
 			sf::Vector2f	_calculateTotalSize();
 
 		public:
-			ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+			ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 				ColorInfo const& colorInfo, TextInfo const& textInfo);
 			~ComboBox();
 

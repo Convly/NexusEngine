@@ -39,45 +39,26 @@ namespace nx
 			void		setOpacity(uint8_t const opacity)
 			{
 				this->_opacity = (opacity > 100) ? (100) : (opacity);
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setTexturePath(std::string const& texturePath)
 			{
 				this->_texturePath = texturePath;
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setShapeType(ShapeType const shapeType)
 			{
 				this->_shapeType = shapeType;
-			}
-
-
-			// Getters
-			EntityInfos &			getEntityInfos()
-			{
-				return (this->_entityInfos);
-			}
-
-			uint8_t					getOpacity()
-			{
-				return (this->_opacity);
-			}
-
-			std::string				getTexturePath()
-			{
-				return (this->_texturePath);
-			}
-
-			ShapeType &				getShapeType()
-			{
-				return (this->_shapeType);
+				_entityInfos.setIsModified(true);
 			}
 
 		public:
-			// Getters const
-			EntityInfos const & getEntityInfosConst() const
+			// Getters
+			uint8_t						getOpacity()
 			{
-				return (this->_entityInfos);
+				return (this->_opacity);
 			}
 
 			uint8_t	const				getOpacityConst() const
@@ -85,14 +66,34 @@ namespace nx
 				return (this->_opacity);
 			}
 
-			std::string const &			getTexturePathConst() const
+			std::string const			getTexturePathConst() const
 			{
 				return (this->_texturePath);
 			}
 
-			ShapeType const &				getShapeTypeConst() const
+			std::string					getTexturePath()
+			{
+				return (this->_texturePath);
+			}
+
+			ShapeType const				getShapeTypeConst() const
 			{
 				return (this->_shapeType);
+			}
+
+			ShapeType					getShapeType()
+			{
+				return (this->_shapeType);
+			}
+
+			EntityInfos const & getEntityInfosConst() const
+			{
+				return (this->_entityInfos);
+			}
+
+			EntityInfos & getEntityInfos()
+			{
+				return (this->_entityInfos);
 			}
 
 		public:

@@ -7,11 +7,17 @@ namespace nx
 	{
 		class GameInfos
 		{
-			//TODO
+		private:
+			std::string _rootPath;
 
 		public:
-			GameInfos() {}
+			GameInfos() : _rootPath("") {}
+			GameInfos(const std::string& rootPath) : _rootPath(rootPath) {}
 			~GameInfos() {}
+
+		public:
+			void setRootPath(const std::string& rootPath) { _rootPath = rootPath; }
+			const std::string getRootPath() const { return _rootPath; }
 		};
 	}
 }

@@ -20,7 +20,7 @@
 
 extern nx::Engine* enginePtr;
 
-struct EnumClassHash
+struct EnumClassHashNetServ
 {
 	template <typename T>
 	std::size_t operator()(T t) const
@@ -31,7 +31,7 @@ struct EnumClassHash
 
 #define NETSERV_MAXCON 4
 
-static const std::unordered_map<nx::EVENT, std::function<external::any(nx::Any&)>, EnumClassHash> nx_any_convert_serialize = {
+static const std::unordered_map<nx::EVENT, std::function<external::any(nx::Any&)>, EnumClassHashNetServ> nx_any_convert_serialize = {
 	{nx::EVENT::SCRIPT_RUN,					[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_LOAD,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_INIT,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
@@ -46,7 +46,7 @@ static const std::unordered_map<nx::EVENT, std::function<external::any(nx::Any&)
 	{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> external::any {return nx::Anycast<uint8_t>(object);}}
 };
 
-static const std::unordered_map<nx::EVENT, std::function<nx::Any(external::any&)>, EnumClassHash> std_any_convert_serialize = {
+static const std::unordered_map<nx::EVENT, std::function<nx::Any(external::any&)>, EnumClassHashNetServ> std_any_convert_serialize = {
 	{nx::EVENT::SCRIPT_RUN,					[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_LOAD,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
 	{nx::EVENT::SCRIPT_INIT,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},

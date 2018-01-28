@@ -16,6 +16,7 @@
 
 #include "Nexus/modules/maths/maths.hpp"
 #include "Nexus/modules/physics/physics.hpp"
+#include "Nexus/modules/xml/Parser.hpp"
 #include "Nexus/modules/environment/Environment.hpp"
 
 #include "Nexus/systems/SystemTpl.hpp"
@@ -134,7 +135,7 @@ namespace nx {
 
   public:
 		void startup(bool serverOnly = false);
-		void setup(void);
+		void setup(const std::string& confPath, bool serverOnly);
 		void stop(void);
 		int run(const std::function<void(void)>&);
 		void coreLoop(const std::function<void(void)>& userCallback);

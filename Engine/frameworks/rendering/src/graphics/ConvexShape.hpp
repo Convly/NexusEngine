@@ -19,7 +19,7 @@ namespace nx
 
 		public:
 			ConvexShape(sf::Vector2f const & pos, sf::Vector2f const & size, std::string const & identifier,
-						nx::rendering::MouseEventsContainer const & events, nx::ColorInfo const& colorInfo);
+						nx::env::MouseEventsContainer const & events, nx::ColorInfo const& colorInfo);
 			~ConvexShape();
 
 			// Display

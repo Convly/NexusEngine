@@ -10,7 +10,7 @@
 
 #include "Nexus/log.hpp"
 #include "Nexus/errors/FrameworkException.hpp"
-#include "Nexus/crawler/Crawler.hpp"
+#include "Nexus/standalone/Crawler.hpp"
 #if defined(__GNUC__) || defined(__GNUG__)
 #include "Nexus/dlLoader/Linux/DLLoader.hpp"
 #elif  defined(_MSC_VER)
