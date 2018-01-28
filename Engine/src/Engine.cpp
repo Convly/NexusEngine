@@ -151,11 +151,7 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	if (this->isServer())
 		this->coreLoop(userCallback);
 	else
-	{
-		for (auto& system : this->_systems) {
-			system->update();
-		}
-	}
+		this->getSystemByName("rendering")->update();
 
 	return (0);
 }
