@@ -32,19 +32,27 @@ endif()
 
 ### BOOST
 set(Boost_USE_STATIC_LIBS   OFF)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_DEBUG off)
+#set(Boost_USE_MULTITHREADED ON)
+#set(Boost_USE_DEBUG_RUNTIME OFF)
+#set(Boost_USE_DEBUG_LIBS ON)
+set(Boost_DEBUG on)
 
-find_package(Boost 1.54.0 COMPONENTS system serialization filesystem thread REQUIRED)
+find_package(Boost 1.54.0 COMPONENTS system serialization filesystem thread regex REQUIRED)
+
+message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
+message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+message(STATUS "Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
+message(STATUS "BOOST_ROOT: ${BOOST_ROOT}")
+message(STATUS "Boost_NUM_COMPONENTS_WANTED: ${Boost_NUM_COMPONENTS_WANTED}")
+message(STATUS "Boost_NUM_MISSING_COMPONENTS: ${Boost_NUM_MISSING_COMPONENTS}")
+message(STATUS "Boost_FIND_COMPONENTS: ${Boost_FIND_COMPONENTS}")
+message(STATUS "_Boost_MISSING_COMPONENTS: ${_Boost_MISSING_COMPONENTS}")
 
 if(NOT Boost_FOUND)
     message("Boost >= 1.54.0 is needed for build")
     return()
 endif()
-
-message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
-message(STATUS "Boost_VERSION: ${Boost_VERSION}")
 
 include_directories(
   ${INCLUDES_DIR}
@@ -89,8 +97,8 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
   file(GLOB_RECURSE HEADER_TEST_FILES		${TEST_DIR}/*.hpp)
 
   add_executable(${APP_EXE} ${SOURCE_TEST_FILES} ${HEADER_TEST_FILES})
-
   target_link_libraries(${APP_EXE} ${LIBRARY_NAME})
+
 else()
   message("Ignoring tests...")
 endif()

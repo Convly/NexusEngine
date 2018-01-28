@@ -1,12 +1,15 @@
 #ifndef NEXUS_ENGINE__ENGINE_CORE_HPP_
 #define NEXUS_ENGINE__ENGINE_CORE_HPP_
 
+#define BOOST_ALL_DYN_LINK
+
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <functional>
 #include <algorithm>
 #include <boost/asio.hpp>
+#include <boost/bind.hpp>
 
 #include "Nexus/standalone/external/any.hpp"
 
@@ -27,8 +30,37 @@
 #include "Nexus/networkclient.hpp"
 #include "Nexus/networkserver.hpp"
 
+struct UdpEventPacket {
+	UdpEventPacket() {}
+	UdpEventPacket(const nx::EVENT type, const nx::Any& object) : type_(type), object_(object) {}
+	UdpEventPacket(const UdpEventPacket& other) : type_(other.type_), object_(other.object_) {}
+
+	nx::EVENT type_;
+	nx::Any object_;
+
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int version)
+	{
+		ar & type_;
+		ar & object_;
+	}
+};
+
 namespace nx {
   class Engine {
+  public:
+	  static nx::Any getDataFromArchive(const std::string& data)
+	  {
+		  UdpEventPacket packet;
+
+		  std::stringstream archive_stream(data);
+		  {
+			  boost::archive::text_iarchive archive(archive_stream);
+			  archive >> packet;
+		  }
+
+		  return packet;
+	  }
   private:
 		static nx::Engine						_instance;
 

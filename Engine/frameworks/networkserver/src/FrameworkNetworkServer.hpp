@@ -8,7 +8,6 @@
 #include <array>
 #include <thread>
 #include <functional>
-#include <boost/thread.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
@@ -96,16 +95,16 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			o_server_(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
 			resolver_(io_service)
   		{
-			start_receive();
+			//start_receive();
   		}
 		
-		void start_receive()
+		/*void start_receive()
 		{
 			i_server_.async_receive_from(
 				boost::asio::buffer(recv_buffer_),
 				remote_endpoint_,
 				boost::bind(&UdpServer::handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-		}
+		}*/
 
   		void handle_receive(const boost::system::error_code& error, size_t bufferSize)
 		{
@@ -116,21 +115,18 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 				UdpEventPacket packet;
 
 				std::string archive_data(&recv_buffer_[0], bufferSize);
-				std::stringstream archive_stream(archive_data);
-				{
-					boost::archive::text_iarchive archive(archive_stream);
-					archive >> packet;
-				}
 
+				nx::Any oo = nx::Engine::getDataFromArchive(archive_data);
+				/*
 				external::any obj = nx_any_convert_serialize.at(packet.type_)(packet.object_);
 				nx::Event e(packet.type_, obj);
 
 				handleEvent(this->isRemoteAClient(), e);
-				start_receive();
+				start_receive();*/
 			}
 		}
 
-		void handleEvent(const bool con_status, nx::Event event)
+		/*void handleEvent(const bool con_status, nx::Event event)
 		{
 			if ((	con_status && event.type != nx::EVENT::NETCUST_CONNECT) 
 				|| !con_status && (this->getClientListSize() < NETSERV_MAXCON && event.type == nx::EVENT::NETCUST_CONNECT))
@@ -189,7 +185,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 				++k;
 			}
 			return -1;
-		}
+		}*/
 
 		bool isAValidClient(const uint8_t idx)
 		{
@@ -219,7 +215,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 
 			std::stringstream ss;
 			boost::archive::text_oarchive archive(ss);
-			archive << packet;
+			//archive << packet;
 			outbound_data = ss.str();
 
 			o_server_.async_send_to(boost::asio::buffer(outbound_data), *it, [&](const boost::system::error_code& error, std::size_t bytes_transferred){});
@@ -239,8 +235,8 @@ public:
 protected:
 	nx::Engine* _engine;
 	boost::asio::io_service io_service_;
-	std::shared_ptr<boost::thread> io_thread_;
-	FrameworkNetworkServer::UdpServer udp_server_;
+	std::shared_ptr<std::thread> io_thread_;
+	/*FrameworkNetworkServer::UdpServer udp_server_;*/
 };
 
 #if  defined(_MSC_VER)
