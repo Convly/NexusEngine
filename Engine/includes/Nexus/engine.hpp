@@ -1,8 +1,6 @@
 #ifndef NEXUS_ENGINE__ENGINE_CORE_HPP_
 #define NEXUS_ENGINE__ENGINE_CORE_HPP_
 
-#define BOOST_ALL_DYN_LINK
-
 #include <iostream>
 #include <vector>
 #include <memory>
