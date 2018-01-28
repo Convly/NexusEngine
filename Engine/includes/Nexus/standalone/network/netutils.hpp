@@ -6,8 +6,10 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
+#include <unordered_map>
 
 #include "Nexus/standalone/external/any.hpp"
+#include "Nexus/modules/environment/EnvUtils.hpp"
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
@@ -139,26 +141,35 @@ namespace nx {
 		CLEAR_SCENE
 	};
 
+	struct netcust_host_t {
+		netcust_host_t() : ip_("127.0.0.1"), port_(9898) {}
+		netcust_host_t(const std::string& ip, const unsigned short port) : ip_(ip), port_(port) {}
+
+		std::string ip_;
+		unsigned short port_;
+
+		template <typename Archive>
+		void serialize(Archive& ar, unsigned short version)
+		{
+			ar & ip_;
+			ar & port_;
+		}
+	};
+
 	struct netserv_client_t {
-		netserv_client_t() : id_(-1), status_(nx::NETCON_STATE::UNDEFINED), port_(0), last_ping_(std::chrono::high_resolution_clock::now())
+		netserv_client_t() : id_(-1), status_(nx::NETCON_STATE::UNDEFINED), ip_(""), port_(0), last_ping_(std::chrono::high_resolution_clock::now())
 		{
-			ip_[0] = '\0';
 		}
-		netserv_client_t(const int id, const nx::NETCON_STATE status, const std::string& ip, const unsigned short port) : id_(id), status_(status), port_(port), last_ping_(std::chrono::high_resolution_clock::now())
-		{
-			ip.copy(ip_, ip.size(), 0);
-			ip_[ip.size()] = 0;			
+		netserv_client_t(const int id, const nx::NETCON_STATE status, const std::string& ip, const unsigned short port) : id_(id), status_(status), ip_(ip), port_(port), last_ping_(std::chrono::high_resolution_clock::now())
+		{	
 		}
-		netserv_client_t(const netserv_client_t& other) : id_(other.id_), status_(other.status_), port_(other.port_), last_ping_(other.last_ping_)
+		netserv_client_t(const netserv_client_t& other) : id_(other.id_), status_(other.status_), ip_(other.ip_), port_(other.port_), last_ping_(other.last_ping_)
 		{
-			std::string buf(other.ip_);
-			buf.copy(ip_, buf.size(), 0);
-			ip_[buf.size()] = 0;
 		}
 
 		int id_;
 		nx::NETCON_STATE status_;
-		char ip_[15];
+		std::string ip_;
 		unsigned short port_;
 		std::chrono::high_resolution_clock::time_point last_ping_;
 
@@ -167,9 +178,7 @@ namespace nx {
 			if (this != &other) {
 				id_ = other.id_;
 				status_ = other.status_;
-				std::string buf(other.ip_);
-				buf.copy(ip_, buf.size(), 0);
-				ip_[buf.size()] = '\0';
+				ip_ = other.ip_;
 				port_ = other.port_;
 				last_ping_ = other.last_ping_;
 			}

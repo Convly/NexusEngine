@@ -2,6 +2,7 @@
 # define NETWORKCLIENT_FRAMEWORK_TEMPLATE_HPP_
 
 #include <iostream>
+#include "Nexus/standalone/network/netutils.hpp"
 
 namespace nx {
 	class NetworkClientFrameworkTpl
@@ -16,6 +17,10 @@ namespace nx {
 		virtual ~NetworkClientFrameworkTpl() {};
 		// This method must be implemented this way
 		const std::string& getName(void) const {return this->_name;}
+
+		virtual void connect(const nx::netcust_host_t&) = 0;
+		virtual void disconnect() = 0;
+		virtual void send(const nx::netserv_send_event_t&) = 0;
 	};	
 }
 

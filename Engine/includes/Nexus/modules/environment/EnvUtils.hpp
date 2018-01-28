@@ -2,6 +2,7 @@
 #define NEXUS_ENGINE__ENVUTILS_HPP_
 
 # include <vector>
+# include <atomic>
 # include "Nexus/modules/maths/maths.hpp"
 
 namespace nx

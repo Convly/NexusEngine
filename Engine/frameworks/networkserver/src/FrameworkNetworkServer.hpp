@@ -59,8 +59,6 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 				
 				nx::UdpEventPacket packet = nx::Engine::deserialize(archive_data);
 
-				nx::Any oo = nx::Engine::getDataFromArchive(archive_data);
-				
 				external::any obj = nx::nx_any_convert_serialize.at(packet.type_)(packet.object_);
 				nx::Event e(packet.type_, obj);
 
@@ -100,7 +98,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 		{
 			for (auto& client : clients_)
 			{
-				if (!std::strcmp(client.ip_, remote_endpoint_.address().to_string().data()) && client.port_ == remote_endpoint_.port())
+				if (client.ip_ == remote_endpoint_.address().to_string().data() && client.port_ == remote_endpoint_.port())
 					return true;
 			}
 			return false;
@@ -111,7 +109,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			unsigned int k = 0;
 			for (const auto& client : clients_)
 			{
-				if (client.id_ != -1 && std::strcmp(client.ip_, "") && client.port_ != 0)
+				if (client.id_ != -1 && client.ip_ != "" && client.port_ != 0)
 					++k;
 			}
 			return k;
@@ -132,7 +130,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 
 		bool isAValidClient(const uint8_t idx)
 		{
-			return (idx >= 0 && idx < 4 && clients_[idx].id_ != -1 && std::strcmp(clients_[idx].ip_, "") && clients_[idx].port_ != 0);
+			return (idx >= 0 && idx < 4 && clients_[idx].id_ != -1 && clients_[idx].ip_ != "" && clients_[idx].port_ != 0);
 		}
 
 		void sendEvent(nx::netserv_send_event_t& netInfos)

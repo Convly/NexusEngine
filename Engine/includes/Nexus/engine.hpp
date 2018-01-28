@@ -51,19 +51,6 @@ struct UdpEventPacket {
 
 namespace nx {
   class Engine {
-  public:
-	  static nx::Any getDataFromArchive(const std::string& data)
-	  {
-		  UdpEventPacket packet;
-
-		  std::stringstream archive_stream(data);
-		  {
-			  boost::archive::text_iarchive archive(archive_stream);
-			  archive >> packet;
-		  }
-
-		  return packet;
-	  }
   private:
 		static nx::Engine						_instance;
   public:
