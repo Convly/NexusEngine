@@ -26,7 +26,7 @@ namespace nx
 			RigidBodyComponent(std::string const& _name, double const mass, double const bouciness, nx::maths::Vector2f const& size)
 				: _entityInfos(_name), _mass(mass), _bounciness(bouciness), _size(size) {}
 			RigidBodyComponent(const RigidBodyComponent & other)
-				: _entityInfos(other.getEntityInfos()), _mass(other.getMass()), _bounciness(other.getBounciness()), _size(other.getSize()) {}
+				: _entityInfos(other.getEntityInfosConst()), _mass(other.getMassConst()), _bounciness(other.getBouncinessConst()), _size(other.getSizeConst()) {}
 			~RigidBodyComponent() {}
 
 			// Setters
@@ -50,17 +50,32 @@ namespace nx
 
 		public:
 			// Getters const
-			double const				getMass() const
+			double const				getMassConst() const
 			{
 				return (this->_mass);
 			}
 
-			double const				getBounciness() const
+			double						getMass()
+			{
+				return (this->_mass);
+			}
+
+			double const				getBouncinessConst() const
 			{
 				return (this->_bounciness);
 			}
 
-			nx::maths::Vector2f const&	getSize() const
+			double						getBounciness()
+			{
+				return (this->_bounciness);
+			}
+
+			nx::maths::Vector2f const&	getSizeConst() const
+			{
+				return (this->_size);
+			}
+
+			nx::maths::Vector2f			getSize()
 			{
 				return (this->_size);
 			}
@@ -70,7 +85,7 @@ namespace nx
 				return (this->_entityInfos);
 			}
 
-			EntityInfos const&			getEntityInfos() const
+			EntityInfos const&			getEntityInfosConst() const
 			{
 				return (this->_entityInfos);
 			}
@@ -80,10 +95,10 @@ namespace nx
 			{
 				if (this != &other)
 				{
-					this->_entityInfos = other.getEntityInfos();
-					this->_mass.store(other.getMass());
-					this->_bounciness.store(other.getBounciness());
-					this->_size = other.getSize();
+					this->_entityInfos = other.getEntityInfosConst();
+					this->_mass.store(other.getMassConst());
+					this->_bounciness.store(other.getBouncinessConst());
+					this->_size = other.getSizeConst();
 				}
 				return (*this);
 			}

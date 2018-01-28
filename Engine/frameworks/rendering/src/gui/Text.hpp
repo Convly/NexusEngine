@@ -17,7 +17,7 @@ namespace nx
 			sf::Text			_label;
 
 		public:
-			Text(sf::Vector2f const& pos, std::string const& identifier, nx::rendering::MouseEventsContainer const& events, TextInfo const& textInfo);
+			Text(sf::Vector2f const& pos, std::string const& identifier, nx::env::MouseEventsContainer const& events, TextInfo const& textInfo);
 			~Text();
 
 			// Display

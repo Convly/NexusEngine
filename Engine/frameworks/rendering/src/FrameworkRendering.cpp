@@ -4,7 +4,7 @@ nx::Engine* enginePtr = nullptr;
 
 FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	:
-	nx::RenderingFrameworkTpl("FrameworkRendering"),
+	RenderingFrameworkTpl("FrameworkRendering"),
 	_engine(engine),
 	_win(nullptr),
 	_guiHandler(nullptr),
@@ -57,9 +57,9 @@ void FrameworkRendering::RefreshRendering()
 
 /// TOOLS ///
 
-sf::Color FrameworkRendering::RGBa_to_sfColor(const nx::rendering::RGBa& color)
+sf::Color FrameworkRendering::RGBa_to_sfColor(const nx::env::RGBa& color)
 {
-	return sf::Color(color.red, color.green, color.blue, color.alpha);
+	return sf::Color(color.getRedConst(), color.getGreenConst(), color.getBlueConst(), color.getAlphaConst());
 }
 
 /// EVENTS ///
@@ -82,199 +82,199 @@ bool FrameworkRendering::addLayer(const std::string& layerIdentifier)
 	return true;
 }
 
-bool FrameworkRendering::addButton(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIButtonInfos& buttonsParams)
+bool FrameworkRendering::addButton(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIButtonInfos& buttonsParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::Button> button = std::make_shared<nx::gui::Button>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
-		buttonsParams.isPushButton,
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		sf::Vector2f(guiParams.getSizeConst().x, guiParams.getSizeConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
+		buttonsParams.getIsPushButtonConst(),
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(buttonsParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(buttonsParams.colorInfo.borderColor),
-			buttonsParams.colorInfo.borderThickness),
+			FrameworkRendering::RGBa_to_sfColor(buttonsParams.getColorInfoConst().getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(buttonsParams.getColorInfoConst().getBackgroundColorConst()),
+			buttonsParams.getColorInfoConst().getBorderThicknessConst()),
 		nx::TextInfo(
-			buttonsParams.textInfo.fontPath,
-			buttonsParams.textInfo.textLabel,
-			buttonsParams.textInfo.fontSize,
-			FrameworkRendering::RGBa_to_sfColor(buttonsParams.textInfo.textColor))
+			buttonsParams.getTextInfoConst().getFontPathConst(),
+			buttonsParams.getTextInfoConst().getTextLabelConst(),
+			buttonsParams.getTextInfoConst().getFontSizeConst(),
+			FrameworkRendering::RGBa_to_sfColor(buttonsParams.getTextInfoConst().getTextColorConst()))
 	);
 	this->_guiHandler->getLayerByName(layerId)->add(button);
-	std::cout << "Adding new button (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new button (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
 
-bool FrameworkRendering::addCheckbox(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUICheckboxInfos& checkboxParams)
+bool FrameworkRendering::addCheckbox(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUICheckboxInfos& checkboxParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::Checkbox> checkbox = std::make_shared<nx::gui::Checkbox>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		sf::Vector2f(guiParams.getSizeConst().x, guiParams.getSizeConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(checkboxParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(checkboxParams.colorInfo.borderColor),
-			checkboxParams.colorInfo.borderThickness)
+			FrameworkRendering::RGBa_to_sfColor(checkboxParams.getColorInfoConst().getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(checkboxParams.getColorInfoConst().getBackgroundColorConst()),
+			checkboxParams.getColorInfoConst().getBorderThicknessConst())
 	);
 	this->_guiHandler->getLayerByName(layerId)->add(checkbox);
-	std::cout << "Adding new checkbox (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new checkbox (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
-bool FrameworkRendering::addProgressBar(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIProgressBarInfos& progressBarParams)
+bool FrameworkRendering::addProgressBar(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIProgressBarInfos& progressBarParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::ProgressBar> progressbar = std::make_shared<nx::gui::ProgressBar>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		sf::Vector2f(guiParams.getSizeConst().x, guiParams.getSizeConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(progressBarParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(progressBarParams.colorInfo.borderColor),
-			progressBarParams.colorInfo.borderThickness),
+			FrameworkRendering::RGBa_to_sfColor(progressBarParams.getColorInfoConst().getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(progressBarParams.getColorInfoConst().getBorderColorConst()),
+			progressBarParams.getColorInfoConst().getBorderThicknessConst()),
 		nx::TextInfo(
-			progressBarParams.textInfo.fontPath,
-			progressBarParams.textInfo.textLabel,
-			progressBarParams.textInfo.fontSize,
-			FrameworkRendering::RGBa_to_sfColor(progressBarParams.textInfo.textColor))
+			progressBarParams.getTextInfoConst().getFontPathConst(),
+			progressBarParams.getTextInfoConst().getTextLabelConst(),
+			progressBarParams.getTextInfoConst().getFontSizeConst(),
+			FrameworkRendering::RGBa_to_sfColor(progressBarParams.getTextInfoConst().getTextColorConst()))
 		);
 
 	this->_guiHandler->getLayerByName(layerId)->add(progressbar);
-	std::cout << "Adding new progressbar (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new progressbar (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
-bool FrameworkRendering::addComboBox(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIComboBoxInfos& comboBoxParams)
+bool FrameworkRendering::addComboBox(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIComboBoxInfos& comboBoxParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::ComboBox> combobox = std::make_shared<nx::gui::ComboBox>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		sf::Vector2f(guiParams.getSizeConst().x, guiParams.getSizeConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(comboBoxParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(comboBoxParams.colorInfo.borderColor),
-			comboBoxParams.colorInfo.borderThickness),
+			FrameworkRendering::RGBa_to_sfColor(comboBoxParams.getColorInfoConst().getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(comboBoxParams.getColorInfoConst().getBorderColorConst()),
+			comboBoxParams.getColorInfoConst().getBorderThicknessConst()),
 		nx::TextInfo(
-			comboBoxParams.textInfo.fontPath,
-			comboBoxParams.textInfo.textLabel,
-			comboBoxParams.textInfo.fontSize,
-			FrameworkRendering::RGBa_to_sfColor(comboBoxParams.textInfo.textColor))
+			comboBoxParams.getTextInfoConst().getFontPathConst(),
+			comboBoxParams.getTextInfoConst().getTextLabelConst(),
+			comboBoxParams.getTextInfoConst().getFontSizeConst(),
+			FrameworkRendering::RGBa_to_sfColor(comboBoxParams.getTextInfoConst().getTextColorConst()))
 		);
 
 	this->_guiHandler->getLayerByName(layerId)->add(combobox);
-	std::cout << "Adding new combobox (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new combobox (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
-bool FrameworkRendering::addTextInput(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUITextInputInfos& textInputParams)
+bool FrameworkRendering::addTextInput(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUITextInputInfos& textInputParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::TextInput> textinput = std::make_shared<nx::gui::TextInput>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		sf::Vector2f(guiParams.getSizeConst().x, guiParams.getSizeConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(textInputParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(textInputParams.colorInfo.borderColor),
-			textInputParams.colorInfo.borderThickness),
+			FrameworkRendering::RGBa_to_sfColor(textInputParams.getColorInfoConst().getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(textInputParams.getColorInfoConst().getBorderColorConst()),
+			textInputParams.getColorInfoConst().getBorderThicknessConst()),
 		nx::TextInfo(
-			textInputParams.textInfo.fontPath,
-			textInputParams.textInfo.textLabel,
-			textInputParams.textInfo.fontSize,
-			FrameworkRendering::RGBa_to_sfColor(textInputParams.textInfo.textColor))
+			textInputParams.getTextInfoConst().getFontPathConst(),
+			textInputParams.getTextInfoConst().getTextLabelConst(),
+			textInputParams.getTextInfoConst().getFontSizeConst(),
+			FrameworkRendering::RGBa_to_sfColor(textInputParams.getTextInfoConst().getTextColorConst()))
 		);
 
 	this->_guiHandler->getLayerByName(layerId)->add(textinput);
-	std::cout << "Adding new textinput (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new textinput (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
-bool FrameworkRendering::addText(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUITextInfos& textParams)
+bool FrameworkRendering::addText(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUITextInfos& textParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::Text> text = std::make_shared<nx::gui::Text>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		guiParams.identifier,
-		guiParams.events,
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
 		nx::TextInfo(
-			textParams.textInfo.fontPath,
-			textParams.textInfo.textLabel,
-			textParams.textInfo.fontSize,
-			FrameworkRendering::RGBa_to_sfColor(textParams.textInfo.textColor))
+			textParams.getTextInfoConst().getFontPathConst(),
+			textParams.getTextInfoConst().getTextLabelConst(),
+			textParams.getTextInfoConst().getFontSizeConst(),
+			FrameworkRendering::RGBa_to_sfColor(textParams.getTextInfoConst().getTextColorConst()))
 		);
 
 	this->_guiHandler->getLayerByName(layerId)->add(text);
-	std::cout << "Adding new text (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new text (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
-bool FrameworkRendering::addImage(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUIImageInfos& imageParams)
+bool FrameworkRendering::addImage(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIImageInfos& imageParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::Image> image = std::make_shared<nx::gui::Image>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
-		imageParams.imagePath
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		sf::Vector2f(guiParams.getSizeConst().x, guiParams.getSizeConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
+		imageParams.getImagePathConst()
 		);
 
 	this->_guiHandler->getLayerByName(layerId)->add(image);
-	std::cout << "Adding new image (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new image (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
-bool FrameworkRendering::addGUISprite(const std::string& layerId, const nx::rendering::GUIElementInfos& guiParams, const nx::rendering::GUISpriteInfos& spriteParams)
+bool FrameworkRendering::addGUISprite(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUISpriteInfos& spriteParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.identifier)) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
 	std::shared_ptr<nx::gui::Sprite> sprite = std::make_shared<nx::gui::Sprite>(
-		sf::Vector2f(guiParams.pos.x, guiParams.pos.y),
-		sf::Vector2f(guiParams.size.x, guiParams.size.y),
-		guiParams.identifier,
-		guiParams.events,
-		spriteParams.spritesheetPath,
-		sf::Vector2f(spriteParams.sheetGrid.x, spriteParams.sheetGrid.y),
-		sf::Vector2f(spriteParams.spriteSize.x, spriteParams.spriteSize.y)
+		sf::Vector2f(guiParams.getPosConst().x, guiParams.getPosConst().y),
+		sf::Vector2f(guiParams.getSizeConst().x, guiParams.getSizeConst().y),
+		guiParams.getIdentifierConst(),
+		guiParams.getEvents(),
+		spriteParams.getSpritesheetPathConst(),
+		sf::Vector2f(spriteParams.getSheetGridConst().x, spriteParams.getSheetGridConst().y),
+		sf::Vector2f(spriteParams.getSpriteSizeConst().x, spriteParams.getSpriteSizeConst().y)
 		);
 
 	this->_guiHandler->getLayerByName(layerId)->add(sprite);
-	std::cout << "Adding new guiSprite (" << guiParams.identifier << ") in " << layerId << std::endl;
+	std::cout << "Adding new guiSprite (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
-bool FrameworkRendering::addGraphicsSprite(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsSpriteInfos& spriteParams)
+bool FrameworkRendering::addGraphicsSprite(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsSpriteInfos& spriteParams)
 {
 	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
 		return (false);
@@ -295,7 +295,7 @@ bool FrameworkRendering::addGraphicsSprite(const nx::rendering::GraphicsElementI
 	return (true);
 }
 
-bool FrameworkRendering::addGraphicsCirleShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsCircleInfos& circleShapeParams)
+bool FrameworkRendering::addGraphicsCirleShape(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsCircleInfos& circleShapeParams)
 {
 	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
 		return (false);
@@ -306,11 +306,11 @@ bool FrameworkRendering::addGraphicsCirleShape(const nx::rendering::GraphicsElem
 		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
 		graphicsParams.identifier,
 		graphicsParams.events,
-		circleShapeParams.radius,
+		circleShapeParams.getRadiusConst(),
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(circleShapeParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(circleShapeParams.colorInfo.borderColor),
-			circleShapeParams.colorInfo.borderThickness)
+			FrameworkRendering::RGBa_to_sfColor(circleShapeParams.getColorInfoConst().getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(circleShapeParams.getColorInfoConst().getBorderColorConst()),
+			circleShapeParams.getColorInfoConst().getBorderThicknessConst())
 		);
 
 	this->_graphicsHandler->addElement(circle);
@@ -318,7 +318,7 @@ bool FrameworkRendering::addGraphicsCirleShape(const nx::rendering::GraphicsElem
 	return (true);
 }
 
-bool FrameworkRendering::addGraphicsRectShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsRectInfos& rectShapeParams)
+bool FrameworkRendering::addGraphicsRectShape(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsRectInfos& rectShapeParams)
 {
 	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
 		return (false);
@@ -330,9 +330,9 @@ bool FrameworkRendering::addGraphicsRectShape(const nx::rendering::GraphicsEleme
 		graphicsParams.identifier,
 		graphicsParams.events,
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.borderColor),
-			rectShapeParams.colorInfo.borderThickness)
+			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.getBorderColorConst()),
+			rectShapeParams.colorInfo.getBorderThicknessConst())
 		);
 
 	this->_graphicsHandler->addElement(rect);
@@ -340,7 +340,7 @@ bool FrameworkRendering::addGraphicsRectShape(const nx::rendering::GraphicsEleme
 	return (true);
 }
 
-bool FrameworkRendering::addGraphicsConvexShape(const nx::rendering::GraphicsElementInfos& graphicsParams, const nx::rendering::GraphicsConvexInfos& convexShapeParams)
+bool FrameworkRendering::addGraphicsConvexShape(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsConvexInfos& convexShapeParams)
 {
 	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
 		return (false);
@@ -352,9 +352,9 @@ bool FrameworkRendering::addGraphicsConvexShape(const nx::rendering::GraphicsEle
 		graphicsParams.identifier,
 		graphicsParams.events,
 		nx::ColorInfo(
-			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.backgroundColor),
-			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.borderColor),
-			convexShapeParams.colorInfo.borderThickness)
+			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.getBackgroundColorConst()),
+			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.getBorderColorConst()),
+			convexShapeParams.colorInfo.getBorderThicknessConst())
 		);
 
 	this->_graphicsHandler->addElement(convex);
@@ -575,17 +575,17 @@ void FrameworkRendering::setFontSizeToButton(std::string const& layerId, std::st
 	this->_getGUIButtonFromHandler(layerId, buttonId)->setFontSize(fontSize);
 }
 
-void FrameworkRendering::setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
+void FrameworkRendering::setColorNotSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::env::RGBa const& color)
 {
 	this->_getGUIButtonFromHandler(layerId, buttonId)->setColorNotSelected(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void FrameworkRendering::setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
+void FrameworkRendering::setColorSelectedToButton(std::string const& layerId, std::string const& buttonId, nx::env::RGBa const& color)
 {
 	this->_getGUIButtonFromHandler(layerId, buttonId)->setColorSelected(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void FrameworkRendering::setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::rendering::RGBa const& color)
+void FrameworkRendering::setBorderColorToButton(std::string const& layerId, std::string const& buttonId, nx::env::RGBa const& color)
 {
 	this->_getGUIButtonFromHandler(layerId, buttonId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
@@ -620,22 +620,22 @@ unsigned int const			FrameworkRendering::getFontSizeFromButton(std::string const
 	return (this->_getGUIButtonFromHandler(layerId, buttonId)->getFontSize());
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
+nx::env::RGBa const	FrameworkRendering::getColorNotSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
 {
 	sf::Color const &color = this->_getGUIButtonFromHandler(layerId, buttonId)->getColorNotSelected();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
+nx::env::RGBa const	FrameworkRendering::getColorSelectedFromButton(std::string const& layerId, std::string const& buttonId) const
 {
 	sf::Color const &color = this->_getGUIButtonFromHandler(layerId, buttonId)->getColorSelected();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const
+nx::env::RGBa const	FrameworkRendering::getBorderColorFromButton(std::string const& layerId, std::string const& buttonId) const
 {
 	sf::Color const &color = this->_getGUIButtonFromHandler(layerId, buttonId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromButton(std::string const& layerId, std::string const& buttonId) const
@@ -646,17 +646,17 @@ int const					FrameworkRendering::getBorderThicknessFromButton(std::string const
 
 //Checkbox
 
-void		FrameworkRendering::setStateToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::CheckboxState const state)
+void		FrameworkRendering::setStateToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::env::CheckboxState const state)
 {
 	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setState(static_cast<nx::gui::Checkbox::State>(state));
 }
 
-void		FrameworkRendering::setBackgroundColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color)
+void		FrameworkRendering::setBackgroundColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::env::RGBa const& color)
 {
 	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void		FrameworkRendering::setBorderColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::rendering::RGBa const& color)
+void		FrameworkRendering::setBorderColorToCheckbox(std::string const& layerId, std::string const& checkboxId, nx::env::RGBa const& color)
 {
 	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
@@ -673,19 +673,19 @@ void		FrameworkRendering::setSizeToCheckbox(std::string const& layerId, std::str
 	this->_getGUICheckboxFromHandler(layerId, checkboxId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
-nx::rendering::CheckboxState const	FrameworkRendering::getStateFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
+nx::env::CheckboxState const	FrameworkRendering::getStateFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
-	return (static_cast<nx::rendering::CheckboxState>(this->_getGUICheckboxFromHandler(layerId, checkboxId)->getState()));
+	return (static_cast<nx::env::CheckboxState>(this->_getGUICheckboxFromHandler(layerId, checkboxId)->getState()));
 }
-nx::rendering::RGBa const			FrameworkRendering::getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
+nx::env::RGBa const			FrameworkRendering::getBackgroundColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
 	sf::Color const &color = this->_getGUICheckboxFromHandler(layerId, checkboxId)->getBackgroundColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
-nx::rendering::RGBa const			FrameworkRendering::getBorderColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
+nx::env::RGBa const			FrameworkRendering::getBorderColorFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
 	sf::Color const &color = this->_getGUICheckboxFromHandler(layerId, checkboxId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 int const							FrameworkRendering::getBorderThicknessFromCheckbox(std::string const& layerId, std::string const& checkboxId) const
 {
@@ -695,12 +695,12 @@ int const							FrameworkRendering::getBorderThicknessFromCheckbox(std::string c
 
 //CircleShape
 
-void	FrameworkRendering::setBackgroundColorToCircleShape(std::string const& circleShapeId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBackgroundColorToCircleShape(std::string const& circleShapeId, nx::env::RGBa const& color)
 {
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void	FrameworkRendering::setBorderColorToCircleShape(std::string const& circleShapeId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBorderColorToCircleShape(std::string const& circleShapeId, nx::env::RGBa const& color)
 {
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
@@ -769,16 +769,16 @@ void	FrameworkRendering::setTextureRectToCircleShape(std::string const& circleSh
 	this->_getGraphicsCircleShapeFromHandler(circleShapeId)->setTextureRect(sf::IntRect(static_cast<int>(rect.position().x), static_cast<int>(rect.position().y), static_cast<int>(rect.width()), static_cast<int>(rect.height())));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromCircleShape(std::string const& circleShapeId) const
+nx::env::RGBa const	FrameworkRendering::getBackgroundColorFromCircleShape(std::string const& circleShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getBackgroundColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromCircleShape(std::string const& circleShapeId) const
+nx::env::RGBa const	FrameworkRendering::getBorderColorFromCircleShape(std::string const& circleShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsCircleShapeFromHandler(circleShapeId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromCircleShape(std::string const& circleShapeId) const
@@ -828,12 +828,12 @@ nx::maths::Vector2f const					FrameworkRendering::getOriginFromCircleShape(std::
 
 //ComboBox
 
-void	FrameworkRendering::setBackgroundColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBackgroundColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::env::RGBa const& color)
 {
 	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void	FrameworkRendering::setBorderColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBorderColorToComboBox(std::string const& layerId, std::string const& comboBoxId, nx::env::RGBa const& color)
 {
 	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
@@ -878,16 +878,16 @@ void	FrameworkRendering::setSizeToComboBox(std::string const& layerId, std::stri
 	this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
+nx::env::RGBa const	FrameworkRendering::getBackgroundColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
 	sf::Color const &color = this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getBackgroundColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
+nx::env::RGBa const	FrameworkRendering::getBorderColorFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
 {
 	sf::Color const &color = this->_getGUIComboBoxFromHandler(layerId, comboBoxId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromComboBox(std::string const& layerId, std::string const& comboBoxId) const
@@ -913,12 +913,12 @@ uint16_t const				FrameworkRendering::getIdxSelectedFromComboBox(std::string con
 
 //ConvexShape
 
-void	FrameworkRendering::setBackgroundColorToConvexShape(std::string const& convexShapeId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBackgroundColorToConvexShape(std::string const& convexShapeId, nx::env::RGBa const& color)
 {
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void	FrameworkRendering::setBorderColorToConvexShape(std::string const& convexShapeId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBorderColorToConvexShape(std::string const& convexShapeId, nx::env::RGBa const& color)
 {
 	this->_getGraphicsConvexShapeFromHandler(convexShapeId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
@@ -987,16 +987,16 @@ void	FrameworkRendering::setSizeToConvexShape(std::string const& convexShapeId, 
 }
 
 
-nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromConvexShape(std::string const& convexShapeId) const
+nx::env::RGBa const	FrameworkRendering::getBackgroundColorFromConvexShape(std::string const& convexShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getBackgroundColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromConvexShape(std::string const& convexShapeId) const
+nx::env::RGBa const	FrameworkRendering::getBorderColorFromConvexShape(std::string const& convexShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsConvexShapeFromHandler(convexShapeId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromConvexShape(std::string const& convexShapeId) const
@@ -1062,12 +1062,12 @@ std::string const		FrameworkRendering::getImagePathFromImage(std::string const& 
 
 
 //ProgressBar
-void		FrameworkRendering::setBackgroundColorToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::rendering::RGBa const& color)
+void		FrameworkRendering::setBackgroundColorToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::env::RGBa const& color)
 {
 	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void		FrameworkRendering::setBorderColorToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::rendering::RGBa const& color)
+void		FrameworkRendering::setBorderColorToProgressBar(std::string const& layerId, std::string const& progressBarId, nx::env::RGBa const& color)
 {
 	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
@@ -1097,16 +1097,16 @@ void		FrameworkRendering::setSizeToProgressBar(std::string const& layerId, std::
 	this->_getGUIProgressBarFromHandler(layerId, progressBarId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
+nx::env::RGBa const	FrameworkRendering::getBackgroundColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
 {
 	sf::Color const &color = this->_getGUIProgressBarFromHandler(layerId, progressBarId)->getBackgroundColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
+nx::env::RGBa const	FrameworkRendering::getBorderColorFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
 {
 	sf::Color const &color = this->_getGUIProgressBarFromHandler(layerId, progressBarId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromProgressBar(std::string const& layerId, std::string const& progressBarId) const
@@ -1127,12 +1127,12 @@ unsigned int const			FrameworkRendering::getFontSizeFromProgressBar(std::string 
 
 //RectShape
 
-void	FrameworkRendering::setBackgroundColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBackgroundColorToRectShape(std::string const& rectShapeId, nx::env::RGBa const& color)
 {
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setBackgroundColor(RGBa_to_sfColor(color));
 }
 
-void	FrameworkRendering::setBorderColorToRectShape(std::string const& rectShapeId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBorderColorToRectShape(std::string const& rectShapeId, nx::env::RGBa const& color)
 {
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setBorderColor(RGBa_to_sfColor(color));
 }
@@ -1192,16 +1192,16 @@ void	FrameworkRendering::setSizeToRectShape(std::string const& rectShapeId, nx::
 	this->_getGraphicsRectShapeFromHandler(rectShapeId)->setSize(sf::Vector2f(size.x, size.y));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromRectShape(std::string const& rectShapeId) const
+nx::env::RGBa const	FrameworkRendering::getBackgroundColorFromRectShape(std::string const& rectShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getBackgroundColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromRectShape(std::string const& rectShapeId) const
+nx::env::RGBa const	FrameworkRendering::getBorderColorFromRectShape(std::string const& rectShapeId) const
 {
 	sf::Color const &color = this->_getGraphicsRectShapeFromHandler(rectShapeId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromRectShape(std::string const& rectShapeId) const
@@ -1431,12 +1431,12 @@ void	FrameworkRendering::setStateToTextInput(std::string const& layerId, std::st
 	this->_getGUITextInputFromHandler(layerId, textInputId)->setState(state);
 }
 
-void	FrameworkRendering::setBackgroundColorToTextInput(std::string const& layerId, std::string const& textInputId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBackgroundColorToTextInput(std::string const& layerId, std::string const& textInputId, nx::env::RGBa const& color)
 {
 	this->_getGUITextInputFromHandler(layerId, textInputId)->setBackgroundColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
 
-void	FrameworkRendering::setBorderColorToTextInput(std::string const& layerId, std::string const& textInputId, nx::rendering::RGBa const& color)
+void	FrameworkRendering::setBorderColorToTextInput(std::string const& layerId, std::string const& textInputId, nx::env::RGBa const& color)
 {
 	this->_getGUITextInputFromHandler(layerId, textInputId)->setBorderColor(FrameworkRendering::RGBa_to_sfColor(color));
 }
@@ -1471,16 +1471,16 @@ bool const					FrameworkRendering::getStateFromTextInput(std::string const& laye
 	return (this->_getGUITextInputFromHandler(layerId, textInputId)->getState());
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBackgroundColorFromTextInput(std::string const& layerId, std::string const& textInputId) const
+nx::env::RGBa const	FrameworkRendering::getBackgroundColorFromTextInput(std::string const& layerId, std::string const& textInputId) const
 {
 	sf::Color const &color = this->_getGUITextInputFromHandler(layerId, textInputId)->getBackgroundColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
-nx::rendering::RGBa const	FrameworkRendering::getBorderColorFromTextInput(std::string const& layerId, std::string const& textInputId) const
+nx::env::RGBa const	FrameworkRendering::getBorderColorFromTextInput(std::string const& layerId, std::string const& textInputId) const
 {
 	sf::Color const &color = this->_getGUITextInputFromHandler(layerId, textInputId)->getBorderColor();
-	return (nx::rendering::RGBa(color.r, color.g, color.b, color.a));
+	return (nx::env::RGBa(color.r, color.g, color.b, color.a));
 }
 
 int const					FrameworkRendering::getBorderThicknessFromTextInput(std::string const& layerId, std::string const& textInputId) const

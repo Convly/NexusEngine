@@ -20,9 +20,15 @@ namespace nx
 					: _elementInfos(elementInfos), _textInfos(textInfos) {}
 				~Text() {}
 
-			public:
-				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
-				GUITextInfos& getGuiTextInfos() { return _textInfos; }
+				GUITextInfos &		getGuiTextInfos()
+				{
+					return _textInfos;
+				}
+
+				GUIElementInfos &		getGuiElementInfos()
+				{
+					return _elementInfos;
+				}
 			};
 		}
 	}

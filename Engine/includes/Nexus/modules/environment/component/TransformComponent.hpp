@@ -30,7 +30,7 @@ namespace nx
 			TransformComponent(std::string const& _name, nx::maths::Vector2f const& pos, uint8_t const rotation, nx::maths::Vector2f const& size, nx::physics::Force2d const& direction)
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size), _direction(direction) {}
 			TransformComponent(const TransformComponent& other) 
-				: _entityInfos(other.getEntityInfos()), _pos(other.getPos()), _rotation(other.getRotation()), _size(other.getSize()), _direction(other.getDirection()) {}
+				: _entityInfos(other.getEntityInfosConst()), _pos(other.getPos()), _rotation(other.getRotationConst()), _size(other.getSize()), _direction(other.getDirection()) {}
 			~TransformComponent() {}
 
 		public:
@@ -66,7 +66,12 @@ namespace nx
 				return (this->_pos);
 			}
 
-			const uint16_t				getRotation() const
+			uint16_t				getRotation()
+			{
+				return (this->_rotation.load());
+			}
+
+			const uint16_t				getRotationConst() const
 			{
 				return (this->_rotation.load());
 			}
@@ -87,7 +92,7 @@ namespace nx
 				return (this->_entityInfos);
 			}
 
-			const EntityInfos& getEntityInfos() const
+			const EntityInfos& getEntityInfosConst() const
 			{
 				return (this->_entityInfos);
 			}
@@ -97,9 +102,9 @@ namespace nx
 			{
 				if (this != &other)
 				{
-					this->_entityInfos = other.getEntityInfos();
+					this->_entityInfos = other.getEntityInfosConst();
 					this->_pos = other.getPos();
-					this->_rotation = other.getRotation();
+					this->_rotation = other.getRotationConst();
 					this->_size = other.getSize();
 					this->_direction = other.getDirection();
 				}

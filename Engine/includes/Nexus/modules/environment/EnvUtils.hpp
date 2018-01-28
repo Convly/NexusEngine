@@ -252,12 +252,12 @@ namespace nx
 
 		public:
 			// Getters
-			std::string	&	getFontPath()
+			std::string		getFontPath()
 			{
 				return (this->_fontPath);
 			}
 
-			std::string	&	getTextLabel()
+			std::string		getTextLabel()
 			{
 				return (this->_textLabel);
 			}
@@ -327,7 +327,7 @@ namespace nx
 				: _active(true), _pos(pos), _size(size), _identifier(identifier), _events(events), _isModified(true) {}
 
 			GUIElementInfos(const GUIElementInfos& other)
-				: _active(other.getActive()), _pos(other.getPos()), _size(other.getSize()), _identifier(other.getIdentifier()), _events(other.getEvents()), _isModified(true) {}
+				: _active(other.getActiveConst()), _pos(other.getPosConst()), _size(other.getSizeConst()), _identifier(other.getIdentifierConst()), _events(other.getEvents()), _isModified(true) {}
 
 		private:
 			bool _active;
@@ -338,21 +338,37 @@ namespace nx
 			bool _isModified;
 
 		public:
-			const bool getActive() const{
+			const bool getActiveConst() const{
 				return _active;
 			}
 
-			const nx::maths::Vector2f& getPos() const{
+            bool getActive() {
+                return _active;
+            }
+
+			const nx::maths::Vector2f& getPosConst() const{
 				return _pos;
 			}
 
-			const nx::maths::Vector2f& getSize() const{
+            nx::maths::Vector2f& getPos() {
+                return _pos;
+            }
+
+			const nx::maths::Vector2f& getSizeConst() const{
 				return _size;
 			}
 
-			const std::string& getIdentifier() const{
+            nx::maths::Vector2f& getSize() {
+                return _size;
+            }
+
+			const std::string getIdentifierConst() const{
 				return _identifier;
 			}
+
+            std::string getIdentifier(){
+                return _identifier;
+            }
 
 			const nx::env::MouseEventsContainer& getEvents() const{
 				return _events;
@@ -363,9 +379,13 @@ namespace nx
 				return _events;
 			}
 
-			const bool getIsModified() const{
+			const bool getIsModifiedConst() const{
 				return _isModified;
 			}
+
+            bool getIsModified() {
+                return _isModified;
+            }
 
 		public:
 			void setActive(const bool active){
@@ -431,8 +451,16 @@ namespace nx
 				_isModified = true;
 			}
 
+            void setIsModified(const bool isModified){
+                _isModified = isModified;
+            }
+
 		public:
 			//Getters
+            bool getIsModified() {
+                return _isModified;
+            }
+
 			bool					getIsPushButton()
 			{
 				return (this->_isPushButton);
@@ -441,13 +469,11 @@ namespace nx
 			nx::env::ColorInfo &	getColorInfo()
 			{
 				return (this->_colorInfo);
-				_isModified = true;
 			}
 
 			nx::env::TextInfo &		getTextInfo()
 			{
 				return (this->_textInfo);
-				_isModified = true;
 			}
 
 		public:
@@ -484,7 +510,7 @@ namespace nx
 		public:
 			GUICheckboxInfos() : _isModified(true){}
 			GUICheckboxInfos(nx::env::ColorInfo const& colorInfo) : _colorInfo(_colorInfo), _isModified(true) {}
-			GUICheckboxInfos(GUICheckboxInfos const& other) : _colorInfo(other.getColorInfo()), _isModified(true) {}
+			GUICheckboxInfos(GUICheckboxInfos const& other) : _colorInfo(other.getColorInfoConst()), _isModified(true) {}
 
 		private:
 			nx::env::ColorInfo _colorInfo;
@@ -501,11 +527,11 @@ namespace nx
 			}
 
 		public:
-			const bool getIsModified() const{
+            bool getIsModified() {
 				return _isModified;
 			}
 
-			const nx::env::ColorInfo& getColorInfo() const{
+			const nx::env::ColorInfo& getColorInfoConst() const{
 				return _colorInfo;
 			}
 
@@ -519,7 +545,7 @@ namespace nx
 		public:
 			GUIProgressBarInfos() : _isModified(true){}
 			GUIProgressBarInfos(nx::env::ColorInfo const& colorInfo, nx::env::TextInfo const& textInfo) : _colorInfo(colorInfo), _textInfo(textInfo), _isModified(true) {}
-			GUIProgressBarInfos(const GUIProgressBarInfos& other) : _colorInfo(other.getColorInfo()), _textInfo(other.getTextInfo()), _isModified(true) {}
+			GUIProgressBarInfos(const GUIProgressBarInfos& other) : _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()), _isModified(true) {}
 
 		private:
 			nx::env::ColorInfo _colorInfo;
@@ -542,15 +568,15 @@ namespace nx
 			}
 
 		public:
-			const bool getIsModified() const{
+            bool getIsModified() {
 				return _isModified;
 			}
 
-			const nx::env::ColorInfo& getColorInfo() const{
+			const nx::env::ColorInfo& getColorInfoConst() const{
 				return _colorInfo;
 			}
 
-			const nx::env::TextInfo& getTextInfo() const{
+			const nx::env::TextInfo& getTextInfoConst() const{
 				return _textInfo;
 			}
 
@@ -569,7 +595,7 @@ namespace nx
 		public:
 			GUIComboBoxInfos() : _isModified(true){}
 			GUIComboBoxInfos(nx::env::ColorInfo const& colorInfo, nx::env::TextInfo const& textInfo) : _colorInfo(colorInfo), _textInfo(textInfo), _isModified(true) {}
-			GUIComboBoxInfos(const GUIComboBoxInfos& other) : _colorInfo(other.getColorInfo()), _textInfo(other.getTextInfo()), _isModified(true) {}
+			GUIComboBoxInfos(const GUIComboBoxInfos& other) : _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()), _isModified(true) {}
 
 		private:
 			nx::env::ColorInfo _colorInfo;
@@ -592,11 +618,11 @@ namespace nx
 			}
 
 		public:
-			const bool getIsModified() const{
+            bool getIsModified() {
 				return _isModified;
 			}
 
-			const nx::env::ColorInfo& getColorInfo() const{
+			const nx::env::ColorInfo& getColorInfoConst() const{
 				return _colorInfo;
 			}
 
@@ -605,7 +631,7 @@ namespace nx
 				return _colorInfo;
 			}
 
-			const nx::env::TextInfo& getTextInfo() const{
+			const nx::env::TextInfo& getTextInfoConst() const{
 				return _textInfo;
 			}
 
@@ -619,7 +645,7 @@ namespace nx
 		public:
 			GUITextInputInfos() : _isModified(true){}
 			GUITextInputInfos(nx::env::ColorInfo const& colorInfo, nx::env::TextInfo const& textInfo) : _colorInfo(colorInfo), _textInfo(textInfo), _isModified(true) {}
-			GUITextInputInfos(const GUITextInputInfos& other) : _colorInfo(other.getColorInfo()), _textInfo(other.getTextInfo()), _isModified(true) {}
+			GUITextInputInfos(const GUITextInputInfos& other) : _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()), _isModified(true) {}
 
 		private:
 			nx::env::ColorInfo _colorInfo;
@@ -642,15 +668,15 @@ namespace nx
 			}
 
 		public:
-			const bool getIsModified() const{
+            bool getIsModified() {
 				return _isModified;
 			}
 
-			const nx::env::ColorInfo& getColorInfo() const{
+			const nx::env::ColorInfo& getColorInfoConst() const{
 				return _colorInfo;
 			}
 
-			const nx::env::TextInfo& getTextInfo() const{
+			const nx::env::TextInfo& getTextInfoConst() const{
 				return _textInfo;
 			}
 
@@ -669,7 +695,7 @@ namespace nx
 		public:
 			GUITextInfos() : _isModified(true){}
 			GUITextInfos(nx::env::TextInfo const& textInfo) : _textInfo(textInfo), _isModified(true) {}
-			GUITextInfos(const GUITextInfos& other) : _textInfo(other.getTextInfo()), _isModified(true) {}
+			GUITextInfos(const GUITextInfos& other) : _textInfo(other.getTextInfoConst()), _isModified(true) {}
 
 		private:
 			nx::env::TextInfo _textInfo;
@@ -686,11 +712,11 @@ namespace nx
 			}
 
 		public:
-			const bool getIsModified() const{
+			bool getIsModified() {
 				return _isModified;
 			}
 
-			const nx::env::TextInfo& getTextInfo() const{
+			const nx::env::TextInfo& getTextInfoConst() const{
 				return _textInfo;
 			}
 
@@ -704,7 +730,7 @@ namespace nx
 		public:
 			GUIImageInfos() : _isModified(true){}
 			GUIImageInfos(std::string const& imagePath) : _imagePath(imagePath), _isModified(true) {}
-			GUIImageInfos(const GUIImageInfos& other) : _imagePath(other.getImagePath()), _isModified(true) {}
+			GUIImageInfos(const GUIImageInfos& other) : _imagePath(other.getImagePathConst()), _isModified(true) {}
 
 		private:
 			std::string _imagePath;
@@ -721,11 +747,15 @@ namespace nx
 			}
 
 		public:
-			const bool getIsModified() const{
+            bool getIsModified() {
 				return _isModified;
 			}
 
-			const std::string& getImagePath() const{
+            const std::string getImagePathConst() const{
+                return _imagePath;
+            }
+
+            std::string getImagePath() {
 				return _imagePath;
 			}
 		};
@@ -734,7 +764,7 @@ namespace nx
 		public:
 			GUISpriteInfos() : _isModified(true){}
 			GUISpriteInfos(std::string const& spritesheetPath, nx::maths::Vector2f const& sheetGrid, nx::maths::Vector2f const& spriteSize) : _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize), _isModified(true) {}
-			GUISpriteInfos(const GUISpriteInfos& other) : _spritesheetPath(other.getSpritesheetPath()), _sheetGrid(other.getSheetGrid()), _spriteSize(other.getSpriteSize()), _isModified(true) {}
+			GUISpriteInfos(const GUISpriteInfos& other) : _spritesheetPath(other.getSpritesheetPathConst()), _sheetGrid(other.getSheetGridConst()), _spriteSize(other.getSpriteSizeConst()), _isModified(true) {}
 
 		private:
 			std::string _spritesheetPath;
@@ -763,21 +793,33 @@ namespace nx
 			}
 
 		public:
-			const bool getIsModified() const{
+            bool getIsModified() {
 				return _isModified;
 			}
 
-			const nx::maths::Vector2f& getSheetGrid() const{
+			const nx::maths::Vector2f& getSheetGridConst() const{
 				return _sheetGrid;
 			}
 
-			const nx::maths::Vector2f& getSpriteSize() const{
+            nx::maths::Vector2f& getSheetGrid() {
+                return _sheetGrid;
+            }
+
+			const nx::maths::Vector2f& getSpriteSizeConst() const{
 				return _spriteSize;
 			}
 
-			const std::string& getSpritesheetPath() const{
+            nx::maths::Vector2f& getSpriteSize() {
+                return _spriteSize;
+            }
+
+			const std::string& getSpritesheetPathConst() const{
 				return _spritesheetPath;
 			}
+
+            std::string& getSpritesheetPath() {
+                return _spritesheetPath;
+            }
 		};
 
 		/////////////////////////////////////////////
@@ -789,7 +831,7 @@ namespace nx
 				: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
 
 			GraphicsElementInfos(const GUIElementInfos& other)
-				: pos(other.getPos()), size(other.getSize()), identifier(other.getIdentifier()), events(other.getEvents()) {}
+				: pos(other.getPosConst()), size(other.getSizeConst()), identifier(other.getIdentifierConst()), events(other.getEvents()) {}
 
 			nx::maths::Vector2f pos;
 			nx::maths::Vector2f size;

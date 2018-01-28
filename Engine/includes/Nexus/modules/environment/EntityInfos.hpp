@@ -57,7 +57,7 @@ namespace nx
 				return (this->_name);
 			}
 
-			const bool			getActive()
+			bool			getActive()
 			{
 				return (this->_active);
 			}
