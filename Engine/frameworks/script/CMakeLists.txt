@@ -26,5 +26,6 @@ file(GLOB_RECURSE SOURCE_LIB_FILES		${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../includes/Nexus/engine.hpp ../../include/Nexus/modules/environment/Environment.hpp)
 
 add_library(${LIBRARY_NAME} SHARED ${SOURCE_LIB_FILES} ${HEADER_LIB_FILES} ${SOURCE_ENGINE_FILES})
+add_definitions(-DNEXUS_ENGINE_NO_BOOST)
 SET_TARGET_PROPERTIES(${LIBRARY_NAME} PROPERTIES PREFIX "")
 target_link_libraries(${LIBRARY_NAME} ${LUA_LIBRARIES})

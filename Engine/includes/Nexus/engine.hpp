@@ -26,9 +26,10 @@
 
 #include "Nexus/rendering.hpp"
 #include "Nexus/script.hpp"
-#include "Nexus/networkclient.hpp"
-#include "Nexus/networkserver.hpp"
-
+#ifndef NEXUS_ENGINE_NO_BOOST
+	#include "Nexus/networkclient.hpp"
+	#include "Nexus/networkserver.hpp"
+#endif
 
 namespace nx {
   class Engine {
