@@ -17,8 +17,9 @@
 #include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 #include "Nexus/standalone/thread/ScopedLock.hpp"
 #include "Nexus/standalone/network/netutils.hpp"
+#include "Nexus/standalone/network/serialization.hpp"
 
-extern nx::Engine* enginePtr;
+nx::Engine* enginePtr;
 
 #define NETSERV_MAXCON 4
 
@@ -57,7 +58,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 
 				std::string archive_data(&recv_buffer_[0], bufferSize);
 				
-				nx::UdpEventPacket packet = nx::Engine::deserialize(archive_data);
+				nx::UdpEventPacket packet = nx::serialization::deserialize(archive_data);
 
 				external::any obj = nx::nx_any_convert_serialize.at(packet.type_)(packet.object_);
 				nx::Event e(packet.type_, obj);
@@ -153,7 +154,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			nx::Any obj = nx::std_any_convert_serialize.at(netInfos.event_.type)(netInfos.event_.data);
 			nx::UdpEventPacket packet(netInfos.event_.type, obj);
 
-			std::string outbound_data = nx::Engine::serialize(packet);
+			std::string outbound_data = nx::serialization::serialize(packet);
 
 			o_server_.async_send_to(boost::asio::buffer(outbound_data), *it, [&](const boost::system::error_code& error, std::size_t bytes_transferred){});
 		}

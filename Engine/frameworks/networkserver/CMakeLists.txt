@@ -18,7 +18,6 @@ if(NOT Boost_FOUND)
     return()
 endif()
 
-
 message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
 message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
 message(STATUS "Boost_VERSION: ${Boost_VERSION}")
@@ -35,7 +34,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY        ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 file(GLOB_RECURSE HEADER_LIB_FILES   	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp)
 file(GLOB_RECURSE SOURCE_LIB_FILES		${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../include/Nexus/engine.hpp)
+file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../include/Nexus/engine.hpp ../../include/Nexus/standalone/network/serialization.hpp)
 
 add_library(${LIBRARY_NAME} SHARED ${SOURCE_LIB_FILES} ${HEADER_LIB_FILES} ${SOURCE_ENGINE_FILES})
 target_compile_definitions(${LIBRARY_NAME} PRIVATE -DBOOST_ALL_NO_LIB)

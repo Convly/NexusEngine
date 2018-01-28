@@ -9,11 +9,6 @@
 #include <functional>
 #include <algorithm>
 
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-
 #include "Nexus/standalone/external/any.hpp"
 
 #include "Nexus/modules/maths/maths.hpp"
@@ -35,21 +30,6 @@
 #include "Nexus/networkclient.hpp"
 #include "Nexus/networkserver.hpp"
 
-struct UdpEventPacket {
-	UdpEventPacket() {}
-	UdpEventPacket(const nx::EVENT type, const nx::Any& object) : type_(type), object_(object) {}
-	UdpEventPacket(const UdpEventPacket& other) : type_(other.type_), object_(other.object_) {}
-
-	nx::EVENT type_;
-	nx::Any object_;
-
-	template <typename Archive>
-	void serialize(Archive& ar, unsigned int version)
-	{
-		ar & type_;
-		ar & object_;
-	}
-};
 
 namespace nx {
   class Engine {
@@ -57,27 +37,6 @@ namespace nx {
 		static nx::Engine						_instance;
   public:
 		static nx::Engine& 						Instance();
-
-  public:
-		static nx::UdpEventPacket deserialize(const std::string& data) {
-			nx::UdpEventPacket packet;
-			std::stringstream archive_stream(data);
-			{
-				boost::archive::text_iarchive archive(archive_stream);
-				archive >> packet;
-			}
-
-			return packet;
-		}
-
-		static std::string serialize(const nx::UdpEventPacket& packet) {
-			std::stringstream ss;
-			{
-				boost::archive::text_oarchive archive(ss);
-				archive << packet;
-			}
-			return ss.str();
-		}
 
   private:
 		bool											_run;

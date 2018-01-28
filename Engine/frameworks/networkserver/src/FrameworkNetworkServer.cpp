@@ -1,7 +1,5 @@
 #include "FrameworkNetworkServer.hpp"
 
-nx::Engine* enginePtr = nullptr;
-
 FrameworkNetworkServer::FrameworkNetworkServer(nx::Engine* engine)
 	:
 	nx::NetworkServerFrameworkTpl("FrameworkNetworkServer"),
