@@ -29,6 +29,7 @@ namespace nx
 			std::vector<gui::TextInput>		_textInputs;
 
 		public:
+			Layer() : _entityInfos("") {}
 			Layer(std::string const& _name) : _entityInfos(_name) {}
 			Layer(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
 			~Layer() {}
@@ -85,9 +86,19 @@ namespace nx
 				return (this->_buttons);
 			}
 
+			gui::Button &						getButtonAt(int idx)
+			{
+				return (this->_buttons.at(idx));
+			}
+
 			std::vector<gui::Checkbox> &		getAllCheckboxes()
 			{
 				return (this->_checkboxes);
+			}
+
+			gui::Checkbox &						getCheckboxAt(int idx)
+			{
+				return (this->_checkboxes.at(idx));
 			}
 
 			std::vector<gui::ComboBox> &		getAllComboBoxes()
@@ -95,9 +106,19 @@ namespace nx
 				return (this->_comboBoxes);
 			}
 
+			gui::ComboBox &						getComboBoxAt(int idx)
+			{
+				return (this->_comboBoxes.at(idx));
+			}
+
 			std::vector<gui::Image> &			getAllImages()
 			{
 				return (this->_images);
+			}
+
+			gui::Image &						getImageAt(int idx)
+			{
+				return (this->_images.at(idx));
 			}
 
 			std::vector<gui::ProgressBar> &		getAllProgressBars()
@@ -105,9 +126,19 @@ namespace nx
 				return (this->_progressbars);
 			}
 
+			gui::ProgressBar &					getProgressBarAt(int idx)
+			{
+				return (this->_progressbars.at(idx));
+			}
+
 			std::vector<gui::Sprite> &			getAllSprites()
 			{
 				return (this->_sprites);
+			}
+
+			gui::Sprite &						getSpriteAt(int idx)
+			{
+				return (this->_sprites.at(idx));
 			}
 
 			std::vector<gui::Text> &			getAllTexts()
@@ -115,9 +146,19 @@ namespace nx
 				return (this->_texts);
 			}
 
+			gui::Text &							getTextAt(int idx)
+			{
+				return (this->_texts.at(idx));
+			}
+
 			std::vector<gui::TextInput> &		getAllTextInputs()
 			{
 				return (this->_textInputs);
+			}
+
+			gui::TextInput &						getTextInputAt(int idx)
+			{
+				return (this->_textInputs.at(idx));
 			}
 		};
 	}

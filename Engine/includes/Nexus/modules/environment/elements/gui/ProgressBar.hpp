@@ -15,9 +15,14 @@ namespace nx
 				GUIProgressBarInfos	_progressBarInfos;
 
 			public:
+				ProgressBar() {}
 				ProgressBar(GUIElementInfos const& elementInfos, GUIProgressBarInfos const& progressBarInfos)
 					: _elementInfos(elementInfos), _progressBarInfos(progressBarInfos) {}
 				~ProgressBar() {}
+
+			public:
+				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
+				GUIProgressBarInfos& getGuiProgressBarInfos() { return _progressBarInfos; }
 			};
 		}
 	}

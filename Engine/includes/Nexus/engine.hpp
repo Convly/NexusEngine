@@ -1,8 +1,6 @@
 #ifndef NEXUS_ENGINE__ENGINE_CORE_HPP_
 #define NEXUS_ENGINE__ENGINE_CORE_HPP_
 
-#define BOOST_ALL_DYN_LINK
-
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -18,6 +16,7 @@
 
 #include "Nexus/modules/maths/maths.hpp"
 #include "Nexus/modules/physics/physics.hpp"
+#include "Nexus/modules/xml/Parser.hpp"
 #include "Nexus/modules/environment/Environment.hpp"
 
 #include "Nexus/systems/SystemTpl.hpp"
@@ -136,7 +135,7 @@ namespace nx {
 
   public:
 		void startup(bool serverOnly = false);
-		void setup(void);
+		void setup(const std::string& confPath, bool serverOnly);
 		void stop(void);
 		int run(const std::function<void(void)>&);
 		void coreLoop(const std::function<void(void)>& userCallback);

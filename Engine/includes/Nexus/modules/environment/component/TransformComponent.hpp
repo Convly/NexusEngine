@@ -29,94 +29,84 @@ namespace nx
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size) {}
 			TransformComponent(std::string const& _name, nx::maths::Vector2f const& pos, uint8_t const rotation, nx::maths::Vector2f const& size, nx::physics::Force2d const& direction)
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size), _direction(direction) {}
-			TransformComponent(const TransformComponent & other) 
-				: _entityInfos(other.getEntityInfosConst()), _pos(other.getPosConst()), _rotation(other.getRotationConst()), _size(other.getSizeConst()), _direction(other.getDirectionConst()) {}
+			TransformComponent(const TransformComponent& other) 
+				: _entityInfos(other.getEntityInfosConst()), _pos(other.getPos()), _rotation(other.getRotationConst()), _size(other.getSize()), _direction(other.getDirection()) {}
 			~TransformComponent() {}
 
+		public:
 			// Setters
 			void					setPos(nx::maths::Vector2f const& pos)
 			{
 				this->_pos = pos;
+				_entityInfos.setIsModified(true);
 			}
 
 			void					setRotation(uint16_t const rotation)
 			{
 				this->_rotation = (rotation >= 360) ? (rotation - 360) : (rotation);
+				_entityInfos.setIsModified(true);
 			}
 
 			void					setSize(nx::maths::Vector2f const& size)
 			{
 				this->_size = size;
+				_entityInfos.setIsModified(true);
 			}
 
 			void					setDirection(nx::physics::Force2d const& direction)
 			{
 				this->_direction = direction;
+				_entityInfos.setIsModified(true);
 			}
 
+		public:
 			// Getters
-			EntityInfos &			getEntityInfos()
-			{
-				return (this->_entityInfos);
-			}
-
-			nx::maths::Vector2f &	getPos()
+			const nx::maths::Vector2f&	getPos() const
 			{
 				return (this->_pos);
 			}
 
 			uint16_t				getRotation()
 			{
-				return (this->_rotation);
+				return (this->_rotation.load());
 			}
 
-			nx::maths::Vector2f &	getSize()
-			{
-				return (this->_size);
-			}
-
-			nx::physics::Force2d &	getDirection()
-			{
-				return (this->_direction);
-			}
-
-		public:
-			// Getters const
-			EntityInfos const & getEntityInfosConst() const
-			{
-				return (this->_entityInfos);
-			}
-
-			nx::maths::Vector2f const &	getPosConst() const
-			{
-				return (this->_pos);
-			}
-
-			uint16_t const				getRotationConst() const
+			const uint16_t				getRotationConst() const
 			{
 				return (this->_rotation.load());
 			}
 
-			nx::maths::Vector2f const &	getSizeConst() const
+			const nx::maths::Vector2f&	getSize() const
 			{
 				return (this->_size);
 			}
 
-			nx::physics::Force2d const &	getDirectionConst() const
+			const nx::physics::Force2d&	getDirection() const
 			{
 				return (this->_direction);
 			}
 
 		public:
-			TransformComponent & operator=(const TransformComponent &other)
+			EntityInfos& getEntityInfos()
+			{
+				return (this->_entityInfos);
+			}
+
+			const EntityInfos& getEntityInfosConst() const
+			{
+				return (this->_entityInfos);
+			}
+
+		public:
+			TransformComponent& operator=(const TransformComponent& other)
 			{
 				if (this != &other)
 				{
 					this->_entityInfos = other.getEntityInfosConst();
-					this->_pos = other.getPosConst();
+					this->_pos = other.getPos();
 					this->_rotation = other.getRotationConst();
-					this->_size = other.getSizeConst();
-					this->_direction = other.getDirectionConst();
+					this->_size = other.getSize();
+					this->_direction = other.getDirection();
 				}
 				return (*this);
 			}

@@ -41,9 +41,9 @@ namespace nx
 				this->_backgroundColor = backgroundColor;
 			}
 
-			void addLayer(std::string const& layerName)
+			void addLayer(Layer const& layer)
 			{
-				this->_layers.push_back(layerName);
+				this->_layers.push_back(layer);
 			}
 
 			
@@ -58,10 +58,20 @@ namespace nx
 				return (this->_scriptComponents);
 			}
 
+            ScriptComponent &               getScriptComponentAt(int idx)
+            {
+                return (this->_scriptComponents.at(idx));
+            }
+
 			std::vector<GameObject> &		getGameObjects()
 			{
 				return (this->_gameObjects);
 			}
+
+            GameObject &               getGameObjectAt(int idx)
+            {
+                return (this->_gameObjects.at(idx));
+            }
 
 			nx::env::RGBa &					getBackgroundColor()
 			{
@@ -72,6 +82,11 @@ namespace nx
 			{
 				return (this->_layers);
 			}
+
+            Layer &               getLayerAt(int idx)
+            {
+                return (this->_layers.at(idx));
+            }
 		};
 	}
 }

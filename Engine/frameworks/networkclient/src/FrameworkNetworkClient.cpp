@@ -12,8 +12,3 @@ FrameworkNetworkClient::~FrameworkNetworkClient()
 {
 	nx::Log::inform("New NetworkClient Framework deleted");
 }
-
-void FrameworkNetworkClient::pingNetworkClientFramework()
-{
-	nx::Log::inform("Pong");
-}

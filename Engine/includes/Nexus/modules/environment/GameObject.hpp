@@ -31,7 +31,7 @@ namespace nx
 				this->_scriptComponent = scriptComponent;
 			}
 
-			void		setTransformComponent(TransformComponent & transformComponent)
+			void		setTransformComponent(TransformComponent const& transformComponent)
 			{
 				this->_transformComponent = transformComponent;
 			}

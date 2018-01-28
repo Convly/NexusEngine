@@ -58,7 +58,6 @@ const std::shared_ptr<nx::SystemTpl>& nx::Engine::getSystemByName(const std::str
 	return *it;
 }
 
-
 /* SETTERS */
 
 void nx::Engine::setDebugFlag(const bool debugFlag)
@@ -93,11 +92,11 @@ bool nx::Engine::checkEngineIntegrity() const
 
 /* MAIN */
 
-void nx::Engine::startup(bool serverOnly)
+void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 {
 	if (serverOnly) {
 		this->_systems = {
-			//std::make_shared<nx::ScriptSystem>(),
+			std::make_shared<nx::ScriptSystem>(),
 			std::make_shared<nx::NetworkServerSystem>()
 		};	
 	} else {
@@ -110,12 +109,16 @@ void nx::Engine::startup(bool serverOnly)
 
 	this->_serverOnly = serverOnly;
 
-	for (auto system : this->_systems) {
-		system->init();
-	}
-}
+	nx::GameInfosParser confParser(confPath);
 
-void nx::Engine::setup() {
+	confParser.dump();
+	std::string error;
+	if (!nx::xml::Parser::fillEnvironment(this->_env, confParser)){
+		std::cerr << "Error: xmlParser please look at the logs" << std::endl;
+		// Stop the program
+		return;
+	}
+
 	this->_run = this->checkEngineIntegrity();
 }
 

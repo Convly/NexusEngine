@@ -27,16 +27,16 @@ namespace nx {
         };
 
         const std::vector<std::string>	GameRessourcesAttrs = {
-            "scenes",
-            "gameobjects",
-            "components",
+            "game",
             "scripts",
-            "medias"
+            "sounds",
+            "musics",
+            "images"
         };
 
         struct Fields {
             std::unordered_map<std::string, std::string> _infos;
-            std::unordered_map<std::string, std::vector<std::string>> _ressources;
+            std::unordered_map<std::string, std::string> _resources;
         };
 
     public:
@@ -94,15 +94,13 @@ namespace nx {
         {
             for (const auto& item : d["game"].GetObject()["ressources"].GetObject()) {
                 std::string name(item.name.GetString());
-                std::vector<std::string> value;
-                for (unsigned int i = 0; i < item.value.Size(); ++i)
-                    value.push_back(item.value[i].GetString());
+                std::string value = item.value.GetString();
                 bool validParam = (std::find_if(nx::GameInfosParser::GameRessourcesAttrs.begin(), nx::GameInfosParser::GameRessourcesAttrs.end(), [&](auto it){return it == name;}) != nx::GameInfosParser::GameRessourcesAttrs.end());
                 if (!validParam) {
                     std::string ret = "Unknown ressources parameter: " + name;
                     throw nx::BadFormatGameJSONException(ret);
                 }
-                this->_fields._ressources[name] = value;
+                this->_fields._resources[name] = value;
             }
         }
 
@@ -111,15 +109,15 @@ namespace nx {
             for (auto tag : nx::GameInfosParser::GameInfosAttrs)
             {
                 if (std::find_if(this->_fields._infos.begin(), this->_fields._infos.end(), [&](auto it){return tag == it.first;}) == this->_fields._infos.end()) {
-                    std::string ret = "Missing infos tag '" + tag+ "'";
+                    std::string ret = "Missing infos tag '" + tag + "'";
                     throw nx::BadFormatGameJSONException(ret);
                 }
             }
 
             for (auto tag : nx::GameInfosParser::GameRessourcesAttrs)
             {
-                    if (std::find_if(this->_fields._ressources.begin(), this->_fields._ressources.end(), [&](auto it){return tag == it.first;}) == this->_fields._ressources.end()) {
-                    std::string ret = "Missing ressource tag '" + tag+ "'";
+                if (std::find_if(this->_fields._resources.begin(), this->_fields._resources.end(), [&](auto it){return tag == it.first;}) == this->_fields._resources.end()) {
+                    std::string ret = "Missing ressource tag '" + tag + "'";
                     throw nx::BadFormatGameJSONException(ret);
                 }
             }
@@ -131,11 +129,9 @@ namespace nx {
             for (auto it : this->_fields._infos) {
                 std::cerr << "_> >>> " << it.first << "\t-\t" << it.second << std::endl;
             }
-            for(auto it : this->_fields._ressources) {
+            for(auto it : this->_fields._resources) {
                 std::cerr << "_> >>> " << it.first << ":" << std::endl;
-                for (auto st : it.second) {
-                    std::cerr << "\t\t >>> " << st << std::endl;
-                }
+                std::cerr << "\t\t >>> " << it.second << std::endl;
             }
         }
 

@@ -1,7 +1,7 @@
 #include "GraphicsElement.hpp"
 #include "Nexus/errors/ScriptNotLoadedException.hpp"
 
-nx::graphics::GraphicsElement::GraphicsElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::rendering::MouseEventsContainer& events) :
+nx::graphics::GraphicsElement::GraphicsElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::env::MouseEventsContainer& events) :
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true), _events(events)
 {	
 	for (auto it : this->_events) {
@@ -144,7 +144,7 @@ bool					nx::graphics::GraphicsElement::isVisible() const
 	return (this->_isVisible);
 }
 
-nx::rendering::MouseEventsContainer const& nx::graphics::GraphicsElement::getEvents() const
+nx::env::MouseEventsContainer const& nx::graphics::GraphicsElement::getEvents() const
 {
 	return this->_events;
 }

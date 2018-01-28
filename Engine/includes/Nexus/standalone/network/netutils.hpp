@@ -7,6 +7,8 @@
 #include <memory>
 #include <sstream>
 
+#include "Nexus/standalone/external/any.hpp"
+
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/shared_ptr.hpp>
@@ -14,7 +16,8 @@
 #include "Nexus/systems/SystemTpl.hpp"
 
 namespace nx {
-	    class PlaceHolder
+
+	class PlaceHolder
     {
     public:
         virtual ~PlaceHolder(){}
@@ -215,6 +218,45 @@ namespace nx {
 			ar & object_;
 			ar & prot_;
 		}	
+	};
+
+	struct EnumClassHashNetServ
+	{
+		template <typename T>
+		std::size_t operator()(T t) const
+		{
+			return static_cast<std::size_t>(t);
+		}
+	};
+
+	static const std::unordered_map<nx::EVENT, std::function<external::any(nx::Any&)>, EnumClassHashNetServ> nx_any_convert_serialize = {
+		{nx::EVENT::SCRIPT_RUN,					[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_LOAD,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_INIT,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_UPDATE,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](nx::Any& object) -> external::any {return nx::Anycast<nx::script::ScriptInfos>(object);}},
+		{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> external::any {return std::string("");}},
+		{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> external::any {return std::string("");}},
+		{nx::EVENT::NETCUST_LISTEN,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+		{nx::EVENT::NETCUST_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+		{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
+		{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
+		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> external::any {return nx::Anycast<uint8_t>(object);}}
+	};
+
+	static const std::unordered_map<nx::EVENT, std::function<nx::Any(external::any&)>, EnumClassHashNetServ> std_any_convert_serialize = {
+		{nx::EVENT::SCRIPT_RUN,					[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_LOAD,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_INIT,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_UPDATE,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+		{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](external::any& object) -> nx::Any {return external::any_cast<nx::script::ScriptInfos>(object);}},
+		{nx::EVENT::NETCUST_CONNECT,			[&](external::any& object) -> nx::Any {return std::string("");}},
+		{nx::EVENT::NETCUST_DISCONNECT,			[&](external::any& object) -> nx::Any {return std::string("");}},
+		{nx::EVENT::NETCUST_LISTEN,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+		{nx::EVENT::NETCUST_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+		{nx::EVENT::NETSERV_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
+		{nx::EVENT::NETSERV_SEND_ALL,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
+		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](external::any& object) -> nx::Any {return external::any_cast<uint8_t>(object);}}
 	};
 }
 

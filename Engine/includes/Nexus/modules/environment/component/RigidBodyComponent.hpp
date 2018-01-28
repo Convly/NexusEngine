@@ -33,47 +33,29 @@ namespace nx
 			void		setMass(double const mass)
 			{
 				this->_mass = mass;
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setBounciness(double const bounciness)
 			{
 				this->_bounciness = bounciness;
+				_entityInfos.setIsModified(true);
 			}
 
 			void		setSize(nx::maths::Vector2f const& size)
 			{
 				this->_size = size;
-			}
-
-			// Getters
-			EntityInfos &			getEntityInfos()
-			{
-				return (this->_entityInfos);
-			}
-
-			double					getMass()
-			{
-				return (this->_mass);
-			}
-
-			double					getBounciness()
-			{
-				return (this->_bounciness);
-			}
-
-			nx::maths::Vector2f &	getSize()
-			{
-				return (this->_size);
+				_entityInfos.setIsModified(true);
 			}
 
 		public:
 			// Getters const
-			EntityInfos const &			getEntityInfosConst() const
+			double const				getMassConst() const
 			{
-				return (this->_entityInfos);
+				return (this->_mass);
 			}
 
-			double const				getMassConst() const
+			double						getMass()
 			{
 				return (this->_mass);
 			}
@@ -83,9 +65,29 @@ namespace nx
 				return (this->_bounciness);
 			}
 
-			nx::maths::Vector2f const &	getSizeConst() const
+			double						getBounciness()
+			{
+				return (this->_bounciness);
+			}
+
+			nx::maths::Vector2f const&	getSizeConst() const
 			{
 				return (this->_size);
+			}
+
+			nx::maths::Vector2f			getSize()
+			{
+				return (this->_size);
+			}
+			
+			EntityInfos&				getEntityInfos()
+			{
+				return (this->_entityInfos);
+			}
+
+			EntityInfos const&			getEntityInfosConst() const
+			{
+				return (this->_entityInfos);
 			}
 
 		public:
