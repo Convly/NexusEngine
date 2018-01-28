@@ -97,7 +97,7 @@ void nx::Engine::startup(bool serverOnly)
 {
 	if (serverOnly) {
 		this->_systems = {
-			std::make_shared<nx::ScriptSystem>(),
+			//std::make_shared<nx::ScriptSystem>(),
 			std::make_shared<nx::NetworkServerSystem>()
 		};	
 	} else {

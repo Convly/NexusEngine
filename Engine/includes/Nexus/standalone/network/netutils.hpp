@@ -4,10 +4,115 @@
 #include <string>
 #include <chrono>
 #include <iostream>
+#include <memory>
+#include <sstream>
 
-#include "Nexus/engine.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+
+#include "Nexus/systems/SystemTpl.hpp"
 
 namespace nx {
+	    class PlaceHolder
+    {
+    public:
+        virtual ~PlaceHolder(){}
+        PlaceHolder(){}
+    private:
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, const unsigned int version)
+        {
+        }
+
+    };
+
+    template<typename T>
+    class DerivedPlacedHolder:
+        public PlaceHolder
+    {
+        public:
+            DerivedPlacedHolder()
+            {
+
+            }
+            DerivedPlacedHolder(T &value)
+            {
+                m_value = value;
+            }
+        T m_value;
+
+    private:
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, const unsigned int version)
+        {
+            ar & boost::serialization::base_object<PlaceHolder>(*this);
+            ar & m_value;
+        }
+    };
+
+    class Any
+    {
+    public:
+        Any()
+        {
+
+        }
+
+        template<typename T>
+        Any(const T &value)
+        {
+            m_placeholder.reset(new nx::DerivedPlacedHolder<T>(const_cast<T&>(value)));
+        }
+
+        template<typename T>
+        void operator=(const T &value)
+        {
+            m_placeholder.reset(new nx::DerivedPlacedHolder<T>(const_cast<T&>(value)));
+        }
+
+    protected:
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, const unsigned int version)
+        {
+            ar & m_placeholder;
+        }
+
+        template<typename T>
+        friend    T Anycast(Any &val);
+
+        std::shared_ptr<PlaceHolder> m_placeholder;
+    };
+
+    template<typename T>
+    T Anycast(Any &val)
+    {
+        std::shared_ptr<nx::DerivedPlacedHolder<T>> concrete = std::dynamic_pointer_cast<nx::DerivedPlacedHolder<T> >(val.m_placeholder);
+        if (concrete.get()==NULL)
+            throw std::invalid_argument("Not convertible");
+
+        return concrete->m_value;
+    }
+
+	struct UdpEventPacket {
+		UdpEventPacket() {}
+		UdpEventPacket(const nx::EVENT type, const nx::Any& object) : type_(type), object_(object) {}
+		UdpEventPacket(const UdpEventPacket& other) : type_(other.type_), object_(other.object_) {}
+		
+		nx::EVENT type_;
+		nx::Any object_;
+
+		template <typename Archive>
+		void serialize(Archive& ar, unsigned int version)
+		{
+			ar & type_;
+			ar & object_;
+		}
+	};
+
     enum NETPROT {
 		UDP,
 		TCP

@@ -8,7 +8,7 @@ int main()
 {
   auto& engine = nx::Engine::Instance();
 
-  engine.startup();
+  engine.startup(true);
   engine.ping();
   engine.setup();
 
