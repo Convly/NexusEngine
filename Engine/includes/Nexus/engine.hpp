@@ -128,6 +128,7 @@ namespace nx {
 		void stop(void);
 		int run(const std::function<void(void)>&);
 		void coreLoop(const std::function<void(void)>& userCallback);
+		void loadResources();
 
   private:
 		void _fixedUpdate();

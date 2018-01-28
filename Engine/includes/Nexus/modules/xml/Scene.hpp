@@ -19,7 +19,7 @@ namespace xml{
 
     class Scene{
     public:
-        static std::string fillEnvironment(env::Environment& env, xml_node<>* rootNode, const std::unordered_map<std::string, std::string>& attributes) {
+        static std::string fillEnvironment(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, const std::unordered_map<std::string, std::string>& attributes) {
             env::Scene scene(attributes.at("name"));
             std::string error = "";
 
@@ -32,9 +32,9 @@ namespace xml{
                 else
                     error += "Error: This attribute can't be created in this Scene tag \"" + attributes.at("name") + "\"\n";
             }
-            scene.getScriptComponents() = Component::getScripts(env, rootNode, error, false);
-            scene.getGameObjects() = GameObject::getGameObjects(env, rootNode, error);
-            scene.getLayers() = Layer::getLayers(env, rootNode, error);
+            scene.getScriptComponents() = Component::getScripts(env, gameInfosParser, rootNode, error, false);
+            scene.getGameObjects() = GameObject::getGameObjects(env, gameInfosParser, rootNode, error);
+            scene.getLayers() = Layer::getLayers(env, gameInfosParser, rootNode, error);
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
                 if (std::string(node->name()) != "Script" && std::string(node->name()) != "GameObject" && std::string(node->name()) != "Layer")
                     error += "Error: In the scene \"" + attributes.at("name") + "\" the tag \"" + std::string(node->name()) + "\" doesn't exist\n";

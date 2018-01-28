@@ -31,7 +31,7 @@ namespace xml{
             };
         }
 
-        static std::string fillGuiElementInfos(env::Environment& env, env::GUIElementInfos& guiElementInfos, std::unordered_map<std::string, std::string>& attributes, bool isTextGui){
+        static std::string fillGuiElementInfos(env::Environment& env, const GameInfosParser& gameInfosParser, env::GUIElementInfos& guiElementInfos, std::unordered_map<std::string, std::string>& attributes, bool isTextGui){
             std::string error = "";
             std::vector<std::string> eventsAttributes;
 
@@ -48,7 +48,7 @@ namespace xml{
                 else if (it->first == "size" && !isTextGui)
                     guiElementInfos.setSize(Integrity::xyValues(it->second, error));
                 else if (std::find(eventsAttributes.begin(), eventsAttributes.end(), it->first) != eventsAttributes.end())
-                    Integrity::event(guiElementInfos.getEvents(), env, it->second, it->first, error);
+                    Integrity::event(guiElementInfos.getEvents(), gameInfosParser.getFields()._resources.at("scripts"), env, it->second, it->first, error);
                 else
                     found = false;
                 if (found){

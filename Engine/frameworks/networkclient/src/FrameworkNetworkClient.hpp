@@ -7,7 +7,7 @@
 #include "Nexus/log.hpp"
 #include "Nexus/frameworks/NetworkClientFrameworkTpl.hpp"
 
-extern nx::Engine* enginePtr;
+nx::Engine* enginePtr;
 
 class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 {

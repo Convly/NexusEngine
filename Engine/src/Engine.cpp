@@ -120,6 +120,19 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 	}
 
 	this->_run = this->checkEngineIntegrity();
+	this->loadResources();
+}
+
+void nx::Engine::loadResources()
+{
+	for (auto scene : this->_env.getScenes()){
+		for (auto script : scene.getScriptComponents()){
+			// this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + script.getScriptPath());
+		}
+		for (auto gameObject : scene.getGameObjects()){
+			// this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath());
+		}
+	}
 }
 
 void nx::Engine::stop() {
@@ -129,6 +142,10 @@ void nx::Engine::stop() {
 int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	if (!(this->_run)) {
 		throw nx::RunWithoutSetupException();
+	}
+
+	for (auto& system : this->_systems) {
+		system->init();
 	}
 
 	if (this->isServer())

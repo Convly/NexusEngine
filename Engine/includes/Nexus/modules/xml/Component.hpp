@@ -16,12 +16,13 @@ namespace xml{
 
     class Component{
     public:
-        static std::vector<env::ScriptComponent> getScripts(env::Environment& env, xml_node<>* rootNode, std::string& error, bool onlyOneScript){
+        static std::vector<env::ScriptComponent> getScripts(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, std::string& error, bool onlyOneScript){
             std::vector<env::ScriptComponent> scripts;
 
             for (xml_node<>* node = rootNode->first_node("Script"); node; node = node->next_sibling("Script")){
                 std::unordered_map<std::string, std::string> attributes;
 
+                attributes.clear();
                 if ((error += Util::getAttributes(node->name(), node, attributes)).empty()){
                     env::ScriptComponent script(attributes.at("name"));
 
@@ -29,10 +30,10 @@ namespace xml{
                         if (attribute.first == "name");
                         else if (attribute.first == "active")
                             script.getEntityInfos().setActive(Integrity::boolValue(attribute.second, error));
-                        else if (attribute.first == "paths")
-                            script.setScriptPath(Integrity::path(env, attribute.second, error));
+                        else if (attribute.first == "path")
+                            script.setScriptPath(Integrity::path(env, gameInfosParser.getFields()._resources.at("scripts"), attribute.second, error));
                         else
-                            error += "Error: This attribute can't be created in this script tag \"" + attributes.at("name") + "\"\n";
+                            error += "Error: This attribute can't be created in a script tag \"" + attributes.at("name") + "\"\n";
                     }
                     if (onlyOneScript && scripts.size() >= 1)
                         error += "Error: You can't have more than one script. \"" + script.getEntityInfos().getName() + "\" is too much\n";
@@ -51,6 +52,7 @@ namespace xml{
             for (xml_node<>* node = rootNode->first_node("Transform"); node; node = node->next_sibling("Transform")){
                 std::unordered_map<std::string, std::string> attributes;
 
+                attributes.clear();
                 if ((error += Util::getAttributes(node->name(), node, attributes)).empty()){
                     env::TransformComponent transform(attributes.at("name"));
 
@@ -80,12 +82,13 @@ namespace xml{
             return transforms;
         }
 
-        static std::vector<env::RendererComponent> getRenderers(env::Environment& env, xml_node<>* rootNode, std::string& error, bool onlyOneRenderer){
+        static std::vector<env::RendererComponent> getRenderers(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, std::string& error, bool onlyOneRenderer){
             std::vector<env::RendererComponent> renderers;
 
             for (xml_node<>* node = rootNode->first_node("Renderer"); node; node = node->next_sibling("Renderer")){
                 std::unordered_map<std::string, std::string> attributes;
 
+                attributes.clear();
                 if ((error += Util::getAttributes(node->name(), node, attributes)).empty()){
                     env::RendererComponent renderer(attributes.at("name"));
 
@@ -96,7 +99,7 @@ namespace xml{
                         else if (attribute.first == "opacity")
                             renderer.setOpacity(Integrity::opacity(attribute.second, error));
                         else if (attribute.first == "texturePath")
-                            renderer.setTexturePath(Integrity::path(env, attribute.second, error));
+                            renderer.setTexturePath(Integrity::path(env, gameInfosParser.getFields()._resources.at("images"), attribute.second, error));
                         else if (attribute.first == "shapeType")
                             renderer.setShapeType(Integrity::shapeType(attribute.second, error));
                         else
@@ -119,6 +122,7 @@ namespace xml{
             for (xml_node<>* node = rootNode->first_node("RigidBody"); node; node = node->next_sibling("RigidBody")){
                 std::unordered_map<std::string, std::string> attributes;
 
+                attributes.clear();
                 if ((error += Util::getAttributes(node->name(), node, attributes)).empty()){
                     env::RigidBodyComponent rigidBody(attributes.at("name"));
 

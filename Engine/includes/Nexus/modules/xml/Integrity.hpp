@@ -34,7 +34,7 @@ namespace xml{
                 if (attributes.find(key) == attributes.end())
                     attributes[key] = value;
                 else
-                    error += "Error: this attribute \"" + key + "\" already exist in the " + tagName + " named \"" + attributes.at("name") + "\"\n";
+                    error += "Error: This attribute \"" + key + "\" already exist in the " + tagName + " named \"" + attributes.at("name") + "\"\n";
             }
             for (auto att : mandatoryAtt){
                 if (attributes.find(att) == attributes.end())
@@ -75,9 +75,9 @@ namespace xml{
             return backgroundColor;
         }
 
-        static std::string path(env::Environment& env, const std::string& str, std::string& error){
+        static std::string path(env::Environment& env, const std::string& pathType, const std::string& str, std::string& error){
             try{
-                Crawler crawler(env.getGameInfos().getRootPath() + str);
+                Crawler crawler(env.getGameInfos().getRootPath() + pathType);
             }
             catch (...){
                 error += "Error: An attribute path is incorrect \"" + str + "\"\n"; 
@@ -104,7 +104,7 @@ namespace xml{
         }
 
         static int intValue(const std::string& str, std::string& error){
-            int rotation;
+            int rotation = 0;
 
             try{
                 rotation = std::stoi(str);
@@ -116,7 +116,7 @@ namespace xml{
         }
 
         static maths::Vector2f xyValues(const std::string& str, std::string& error){
-            maths::Vector2f size;
+            maths::Vector2f size = 0;
             std::vector<std::string> splitedValue = split(str, ',');
 
             if (splitedValue.size() == 2){
@@ -134,18 +134,18 @@ namespace xml{
         }
 
         static int opacity(const std::string& str, std::string& error){
-            int opacity;
+            int opacity = 0;
 
-            if (opacity >= 0 && opacity <= 100){
-                try{
-                    opacity = std::stoi(str);
-                }
-                catch (...){
-                    error += "Error: this opacity attribute \"" + str + "\" is not in the correct format. It need to be between 0 and 100\n";
-                }
+            try{
+                opacity = std::stoi(str);
+                if (opacity < 0 || opacity > 100)
+                    error += "Error: this direction attribute \"" + str + "\" is not in the correct format. It need to be between 0 and 100\n";
             }
-            else
-                error += "Error: this direction attribute \"" + str + "\" is not in the correct format. \"x,y\"\n";
+            catch (...){
+                error += "Error: this opacity attribute \"" + str + "\" is not in the correct format. It need to be between 0 and 100\n";
+                opacity = 0;
+                return 0;
+            }
             return opacity;
         }
 
@@ -166,7 +166,7 @@ namespace xml{
         }
 
         static double doubleValue(const std::string& name, const std::string& str, std::string& error){
-            double doubleValue;
+            double doubleValue = 0;
 
             try{
                 doubleValue = std::stod(str);
@@ -177,13 +177,13 @@ namespace xml{
             return doubleValue;
         }
 
-        static void event(nx::env::MouseEventsContainer& events, env::Environment& env, const std::string& str, const std::string& eventName, std::string& error){
+        static void event(nx::env::MouseEventsContainer& events, const std::string& pathType, env::Environment& env, const std::string& str, const std::string& eventName, std::string& error){
             nx::env::MouseEventsContainer event;
             std::vector<std::string> splitedValue = split(str, ':');
 
             if (splitedValue.size() == 2){
                 try{
-                    Crawler crawler(env.getGameInfos().getRootPath() + splitedValue.at(0));
+                    Crawler crawler(env.getGameInfos().getRootPath() + pathType);
                     std::string fctName = splitedValue.at(1);
                     events.push_back({ eventName, script::ScriptInfos(splitedValue.at(0), fctName) });
                 }
