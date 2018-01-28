@@ -8,16 +8,15 @@
 #include <array>
 #include <thread>
 #include <functional>
+
 #include <boost/thread.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/array.hpp>
+
 #include "Nexus/engine.hpp"
 #include "Nexus/frameworks/NetworkServerFrameworkTpl.hpp"
 #include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
-#include "Any.hpp"
 #include "Nexus/standalone/external/any.hpp"
 #include "Nexus/standalone/thread/ScopedLock.hpp"
 
@@ -25,11 +24,11 @@ extern nx::Engine* enginePtr;
 
 struct EnumClassHash
 {
-    template <typename T>
-    std::size_t operator()(T t) const
-    {
-        return static_cast<std::size_t>(t);
-    }
+	template <typename T>
+	std::size_t operator()(T t) const
+	{
+		return static_cast<std::size_t>(t);
+	}
 };
 
 #define NETSERV_MAXCON 4
@@ -66,23 +65,6 @@ static const std::unordered_map<nx::EVENT, std::function<nx::Any(external::any&)
 
 class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 {
-
-	struct UdpEventPacket {
-		UdpEventPacket() {}
-		UdpEventPacket(const nx::EVENT type, const nx::Any& object) : type_(type), object_(object) {}
-		UdpEventPacket(const UdpEventPacket& other) : type_(other.type_), object_(other.object_) {}
-		
-		nx::EVENT type_;
-		nx::Any object_;
-
-		template <typename Archive>
-		void serialize(Archive& ar, unsigned int version)
-		{
-			ar & type_;
-			ar & object_;
-		}
-	};
-
 	struct UdpServer {
 		boost::asio::ip::udp::socket i_server_;
 		boost::asio::ip::udp::socket o_server_;
@@ -96,7 +78,8 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			o_server_(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
 			resolver_(io_service)
   		{
-			start_receive();
+			  nx::Log::inform("Udp server started on port 9898, now listening for requests...");
+			  start_receive();
   		}
 		
 		void start_receive()
@@ -113,14 +96,9 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			{
 				nx::Log::inform("Query received from " + this->remote_endpoint_.address().to_string() + ":" + std::to_string(this->remote_endpoint_.port()));
 
-				UdpEventPacket packet;
-
 				std::string archive_data(&recv_buffer_[0], bufferSize);
-				std::stringstream archive_stream(archive_data);
-				{
-					boost::archive::text_iarchive archive(archive_stream);
-					archive >> packet;
-				}
+				
+				nx::UdpEventPacket packet = nx::Engine::deserialize(archive_data);
 
 				external::any obj = nx_any_convert_serialize.at(packet.type_)(packet.object_);
 				nx::Event e(packet.type_, obj);
@@ -211,16 +189,12 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), std::string(target.ip_).c_str(), std::to_string(target.port_).c_str());
 			boost::asio::ip::udp::resolver::iterator it = resolver_.resolve(query);
 
-			std::string outbound_data;
 			std::vector<char> inbound_data;
 
 			nx::Any obj = std_any_convert_serialize.at(netInfos.event_.type)(netInfos.event_.data);
-			UdpEventPacket packet(netInfos.event_.type, obj);
+			nx::UdpEventPacket packet(netInfos.event_.type, obj);
 
-			std::stringstream ss;
-			boost::archive::text_oarchive archive(ss);
-			archive << packet;
-			outbound_data = ss.str();
+			std::string outbound_data = nx::Engine::serialize(packet);
 
 			o_server_.async_send_to(boost::asio::buffer(outbound_data), *it, [&](const boost::system::error_code& error, std::size_t bytes_transferred){});
 		}

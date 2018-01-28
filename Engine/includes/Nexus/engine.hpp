@@ -6,7 +6,10 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
+
 #include <boost/asio.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 
 #include "Nexus/standalone/external/any.hpp"
 
@@ -18,6 +21,7 @@
 
 #include "Nexus/standalone/GameInfosParser/GameInfosParser.hpp"
 #include "Nexus/standalone/thread/ScopedLock.hpp"
+#include "Nexus/standalone/network/netutils.hpp"
 
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
@@ -31,9 +35,29 @@ namespace nx {
   class Engine {
   private:
 		static nx::Engine						_instance;
-
   public:
 		static nx::Engine& 						Instance();
+
+  public:
+		static nx::UdpEventPacket deserialize(const std::string& data) {
+			nx::UdpEventPacket packet;
+			std::stringstream archive_stream(data);
+			{
+				boost::archive::text_iarchive archive(archive_stream);
+				archive >> packet;
+			}
+
+			return packet;
+		}
+
+		static std::string serialize(const nx::UdpEventPacket& packet) {
+			std::stringstream ss;
+			{
+				boost::archive::text_oarchive archive(ss);
+				archive << packet;
+			}
+			return ss.str();
+		}
 
   private:
 		bool											_run;
