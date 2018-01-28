@@ -20,7 +20,6 @@
 
 #include "Nexus/standalone/GameInfosParser/GameInfosParser.hpp"
 #include "Nexus/standalone/thread/ScopedLock.hpp"
-#include "Nexus/standalone/network/netutils.hpp"
 
 #include "Nexus/errors/RunWithoutSetupException.hpp"
 #include "Nexus/errors/SystemNotFoundException.hpp"
