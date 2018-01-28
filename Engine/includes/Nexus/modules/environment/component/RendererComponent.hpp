@@ -32,7 +32,7 @@ namespace nx
 			RendererComponent(std::string const& _name, uint8_t const opacity, std::string const& texturePath, ShapeType const shapeType)
 				: _entityInfos(_name), _opacity(opacity), _texturePath(texturePath), _shapeType(shapeType) {}
 			RendererComponent(const RendererComponent & other)
-				: _entityInfos(other.getEntityInfos()), _opacity(other.getOpacity()), _texturePath(other.getTexturePath()), _shapeType(other.getShapeType()) {}
+				: _entityInfos(other.getEntityInfosConst()), _opacity(other.getOpacityConst()), _texturePath(other.getTexturePathConst()), _shapeType(other.getShapeTypeConst()) {}
 			~RendererComponent() {}
 
 			// Setters
@@ -56,22 +56,37 @@ namespace nx
 
 		public:
 			// Getters
-			uint8_t	const				getOpacity() const
+			uint8_t						getOpacity()
 			{
 				return (this->_opacity);
 			}
 
-			std::string const &			getTexturePath() const
+			uint8_t	const				getOpacityConst() const
+			{
+				return (this->_opacity);
+			}
+
+			std::string const			getTexturePathConst() const
 			{
 				return (this->_texturePath);
 			}
 
-			ShapeType const &				getShapeType() const
+			std::string					getTexturePath()
+			{
+				return (this->_texturePath);
+			}
+
+			ShapeType const				getShapeTypeConst() const
 			{
 				return (this->_shapeType);
 			}
 
-			EntityInfos const & getEntityInfos() const
+			ShapeType					getShapeType()
+			{
+				return (this->_shapeType);
+			}
+
+			EntityInfos const & getEntityInfosConst() const
 			{
 				return (this->_entityInfos);
 			}
@@ -86,10 +101,10 @@ namespace nx
 			{
 				if (this != &other)
 				{
-					this->_entityInfos = other.getEntityInfos();
-					this->_opacity = other.getOpacity();
-					this->_texturePath = other.getTexturePath();
-					this->_shapeType = other.getShapeType();
+					this->_entityInfos = other.getEntityInfosConst();
+					this->_opacity = other.getOpacityConst();
+					this->_texturePath = other.getTexturePathConst();
+					this->_shapeType = other.getShapeTypeConst();
 				}
 				return (*this);
 			}

@@ -23,7 +23,7 @@ namespace nx
 			void _rescaleImage();
 
 		public:
-			Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::rendering::MouseEventsContainer const& events,
+			Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 				std::string const& imgPath);
 			~Image();
 
