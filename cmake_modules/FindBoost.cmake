@@ -1429,7 +1429,7 @@ endif()
 #           Only used in 'versioned' layout, added in Boost 1.66.0
 set(_boost_ARCHITECTURE_TAG ${BOOST_PREF_ARCH})
 # {CMAKE_CXX_COMPILER_ARCHITECTURE_ID} is not currently set for all compilers
-if(${_boost_ARCHITECTURE_TAG} STREQUAL "" AND NOT "x${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}" STREQUAL "x" AND NOT Boost_VERSION VERSION_LESS 106600)
+if("$_boost_ARCHITECTURE_TAG" STREQUAL "" AND NOT "x${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}" STREQUAL "x" AND NOT Boost_VERSION VERSION_LESS 106600)
   string(APPEND _boost_ARCHITECTURE_TAG "-")
   # This needs to be kept in-sync with the section of CMakePlatformId.h.in
   # inside 'defined(_WIN32) && defined(_MSC_VER)'
