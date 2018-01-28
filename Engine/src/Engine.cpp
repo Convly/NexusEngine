@@ -127,10 +127,10 @@ void nx::Engine::loadResources()
 {
 	for (auto scene : this->_env.getScenes()){
 		for (auto script : scene.getScriptComponents()){
-			// this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + script.getScriptPath());
+			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + script.getScriptPath());
 		}
 		for (auto gameObject : scene.getGameObjects()){
-			// this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath());
+			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath());
 		}
 	}
 }
