@@ -50,7 +50,7 @@ namespace xml{
 
             env.getGameInfos().setRootPath(Crawler::getAbsoluteDir(gameInfosParser.getPath()).string());
             error += addRessources(env, gameInfosParser);            
-            error += Parser::xml(env, gameInfosParser.getFields()._resources.at("game"));
+            error += Parser::xml(env, gameInfosParser, gameInfosParser.getFields()._resources.at("game"));
             if (!error.empty()){
                 std::ofstream file;
                 file.open (env.getGameInfos().getRootPath() + "/xml_error_log.txt");
@@ -62,7 +62,7 @@ namespace xml{
         }
 
         // get the next xml tree of a list a directory
-        static std::string xml(env::Environment& env, const std::string& path){
+        static std::string xml(env::Environment& env, const GameInfosParser& gameInfosParser, const std::string& path){
             std::string error = "";
             try{
                 xml_node<>* rootNode = nullptr;
@@ -82,7 +82,7 @@ namespace xml{
                     if (rootNode == nullptr)
                         error += "Error: nx tag not found in " + filesName[i].string() + "\n";
                     else 
-                        error += Xml::fillEnvironment(env, rootNode);
+                        error += Xml::fillEnvironment(env, gameInfosParser, rootNode);
                 }
             }
             catch (...){

@@ -14,18 +14,19 @@ namespace xml{
 
     class GameObject{
     public:
-        static std::vector<env::GameObject> getGameObjects(env::Environment& env, xml_node<>* rootNode, std::string& error){
+        static std::vector<env::GameObject> getGameObjects(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, std::string& error){
             std::vector<env::GameObject> gameObjects;
             std::unordered_map<std::string, std::string> attributes;
 
             for (xml_node<>* node = rootNode->first_node("GameObject"); node; node = node->next_sibling("GameObject")){
+                attributes.clear();
                 if ((error += Util::getAttributes(node->name(), node, attributes)).empty())
-                    gameObjects.push_back(GameObject::getGameObject(env, node, error, attributes));
+                    gameObjects.push_back(GameObject::getGameObject(env, gameInfosParser, node, error, attributes));
             }
             return gameObjects;
         }
 
-        static env::GameObject getGameObject(env::Environment& env, xml_node<>* rootNode, std::string& error, const std::unordered_map<std::string, std::string>& attributes){
+        static env::GameObject getGameObject(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, std::string& error, const std::unordered_map<std::string, std::string>& attributes){
             env::GameObject gameObject(attributes.at("name"));
 
             for (auto attribute : attributes){
@@ -34,9 +35,9 @@ namespace xml{
                 else if (attribute.first != "name")
                     error += "Error: This attribute can't be created in this GameObject tag \"" + attributes.at("name") + "\"\n";
             }
-            gameObject.getScriptComponent() = Component::getScripts(env, rootNode, error, true).front();
+            gameObject.getScriptComponent() = Component::getScripts(env, gameInfosParser, rootNode, error, true).front();
             gameObject.getTransformComponent() = Component::getTransforms(rootNode, error, true).front();
-            gameObject.getRendererComponent() = Component::getRenderers(env, rootNode, error, true).front();
+            gameObject.getRendererComponent() = Component::getRenderers(env, gameInfosParser, rootNode, error, true).front();
             gameObject.getRigidBodyComponent() = Component::getRigidBodies(rootNode, error, true).front();
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
                 if (std::string(node->name()) != "Script" && std::string(node->name()) != "Transform" && std::string(node->name()) != "Renderer" && std::string(node->name()) != "RigidBody")

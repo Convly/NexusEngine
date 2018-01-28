@@ -77,6 +77,7 @@ namespace nx {
 		void setup(const std::string& confPath, bool serverOnly);
 		void stop(void);
 		int run(const std::function<void(void)>&);
+		void loadResources();
   public:
 		bool isSetup(void) const;
 		bool debug(void) const;
