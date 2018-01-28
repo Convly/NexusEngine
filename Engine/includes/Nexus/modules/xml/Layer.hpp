@@ -25,8 +25,8 @@ namespace xml{
 
     class Layer{
     public:
-        static void initGuiElementTags(std::unordered_map<std::string, std::function<std::string(env::Environment&, env::Layer&, xml_node<>*)>>& guiElementTags){
-            guiElementTags = std::unordered_map<std::string, std::function<std::string(env::Environment&, env::Layer&, xml_node<>*)>>({
+        static void initGuiElementTags(std::unordered_map<std::string, std::function<std::string(env::Environment&, const GameInfosParser& gameInfosParser, env::Layer&, xml_node<>*)>>& guiElementTags){
+            guiElementTags = std::unordered_map<std::string, std::function<std::string(env::Environment&, const GameInfosParser& gameInfosParser, env::Layer&, xml_node<>*)>>({
                 {"Button", &Button::fillButton},
                 {"CheckBox", &CheckBox::fillCheckBox},
                 {"ComboBox", &ComboBox::fillComboBox},
@@ -38,22 +38,23 @@ namespace xml{
             });
         }
 
-        static std::vector<env::Layer> getLayers(env::Environment& env, xml_node<>* rootNode, std::string& error){
+        static std::vector<env::Layer> getLayers(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, std::string& error){
             std::unordered_map<std::string, std::string> attributes;
             std::vector<env::Layer> layers;
 
-            for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
+            for (xml_node<>* node = rootNode->first_node("Layer"); node; node = node->next_sibling("Layer")){
                 env::Layer layer;
+                attributes.clear();
                 if ((error += Util::getAttributes(node->name(), node, attributes)).empty())
-                    error += Layer::fillLayer(env, layer, node, attributes);
+                    error += Layer::fillLayer(env, gameInfosParser, layer, node, attributes);
                 layers.push_back(layer);
             }
             return layers;
         }
 
-        static std::string fillLayer(env::Environment& env, env::Layer& layer, xml_node<>* rootNode, const std::unordered_map<std::string, std::string>& attributes){
+        static std::string fillLayer(env::Environment& env, const GameInfosParser& gameInfosParser, env::Layer& layer, xml_node<>* rootNode, const std::unordered_map<std::string, std::string>& attributes){
             std::string error = "";
-            std::unordered_map<std::string, std::function<std::string(env::Environment&, env::Layer&, xml_node<>*)>> guiElementTags;
+            std::unordered_map<std::string, std::function<std::string(env::Environment&, const GameInfosParser& gameInfosParser, env::Layer&, xml_node<>*)>> guiElementTags;
 
             initGuiElementTags(guiElementTags);
             for (auto attribute : attributes){
@@ -66,7 +67,7 @@ namespace xml{
             }
             for (xml_node<>* node = rootNode->first_node(); node; node = node->next_sibling()){
                 if (guiElementTags.find(std::string(node->name())) != guiElementTags.end())
-                    error += guiElementTags.at(std::string(node->name()))(env, layer, node);
+                    error += guiElementTags.at(std::string(node->name()))(env, gameInfosParser, layer, node);
                 else
                     error += "Error: This tag can not be in a Layer \"" + std::string(node->name()) + "\"\n";
             }

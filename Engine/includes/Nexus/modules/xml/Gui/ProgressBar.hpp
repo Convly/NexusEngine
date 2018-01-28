@@ -16,8 +16,8 @@ namespace xml{
     
     class ProgressBar{
     public:
-        static void init(std::unordered_map<std::string, std::function<std::string(env::Environment&, env::GUIProgressBarInfos&, const std::string& tag, const std::string& value)>>& autorizedAtt){
-            autorizedAtt = std::unordered_map<std::string, std::function<std::string(env::Environment&, env::GUIProgressBarInfos&, const std::string& tag, const std::string& value)>>({
+        static void init(std::unordered_map<std::string, std::function<std::string(env::Environment&, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos&, const std::string& tag, const std::string& value)>>& autorizedAtt){
+            autorizedAtt = std::unordered_map<std::string, std::function<std::string(env::Environment&, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos&, const std::string& tag, const std::string& value)>>({
                 {"backgroundColor", &fillBackgroundColor},
                 {"borderColor", &fillBorderColor},
                 {"borderThickness", &fillBorderThickness},
@@ -26,66 +26,66 @@ namespace xml{
             });
         }
 
-        static std::string fillProgressBar(env::Environment& env, env::Layer& layer, xml_node<>* rootNode){
+        static std::string fillProgressBar(env::Environment& env, const GameInfosParser& gameInfosParser, env::Layer& layer, xml_node<>* rootNode){
             std::string error = "";
             std::unordered_map<std::string, std::string> attributes;
 
             if ((error += Util::getAttributes(rootNode->name(), rootNode, attributes)).empty()){
                 env::gui::ProgressBar progressBar;
 
-                error += GuiElement::fillGuiElementInfos(env, progressBar.getGuiElementInfos(), attributes, false);
-                error += fillProgressBarInfo(env, progressBar.getGuiProgressBarInfos(), attributes);
+                error += GuiElement::fillGuiElementInfos(env, gameInfosParser, progressBar.getGuiElementInfos(), attributes, false);
+                error += fillProgressBarInfo(env, gameInfosParser, progressBar.getGuiProgressBarInfos(), attributes);
                 layer.addProgressBar(progressBar);
             }
             return error;
         }
 
-        static std::string fillProgressBarInfo(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, std::unordered_map<std::string, std::string>& attributes){
+        static std::string fillProgressBarInfo(env::Environment& env, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos& guiProgressBarInfos, std::unordered_map<std::string, std::string>& attributes){
             std::string error = "";
-            std::unordered_map<std::string, std::function<std::string(env::Environment&, env::GUIProgressBarInfos&, const std::string& tag, const std::string& value)>> autorizedAtt;
+            std::unordered_map<std::string, std::function<std::string(env::Environment&, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos&, const std::string& tag, const std::string& value)>> autorizedAtt;
 
             init(autorizedAtt);
             for (auto attribute : attributes){
                 if (autorizedAtt.find(attribute.first) != autorizedAtt.end())
-                    autorizedAtt.at(attribute.first)(env, guiProgressBarInfos, attribute.first, attribute.second);
+                    autorizedAtt.at(attribute.first)(env, gameInfosParser, guiProgressBarInfos, attribute.first, attribute.second);
                 else
                     error += "Error: This attribute \"" + attribute.first + "\" doesn't exist in a progressBar.\n";
             }
             return error;
         }
 
-        static std::string fillBackgroundColor(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
+        static std::string fillBackgroundColor(env::Environment& env, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
             guiProgressBarInfos.getColorInfo().setBackgroundColor(Integrity::color(value, error));
             return error; 
         }
 
-        static std::string fillBorderColor(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
+        static std::string fillBorderColor(env::Environment& env, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
             guiProgressBarInfos.getColorInfo().setBorderColor(Integrity::color(value, error));
             return error; 
         }
 
-        static std::string fillBorderThickness(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
+        static std::string fillBorderThickness(env::Environment& env, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
             guiProgressBarInfos.getColorInfo().setBorderThickness(Integrity::intValue(value, error));
             return error; 
         }
         
-        static std::string fillFontPath(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
+        static std::string fillFontPath(env::Environment& env, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiProgressBarInfos.getTextInfo().setFontPath(Integrity::path(env, value, error));
+            guiProgressBarInfos.getTextInfo().setFontPath(Integrity::path(env, gameInfosParser.getFields()._resources.at("images"), value, error));
             return error; 
         }
 
-        static std::string fillFontSize(env::Environment& env, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
+        static std::string fillFontSize(env::Environment& env, const GameInfosParser& gameInfosParser, env::GUIProgressBarInfos& guiProgressBarInfos, const std::string& tag, const std::string& value){
             std::string error = "";
 
-            guiProgressBarInfos.getTextInfo().setFontPath(Integrity::path(env, value, error));
+            guiProgressBarInfos.getTextInfo().setFontPath(Integrity::path(env, gameInfosParser.getFields()._resources.at("images"), value, error));
             return error; 
         }
     };

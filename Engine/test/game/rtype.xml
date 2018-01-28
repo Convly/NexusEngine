@@ -14,7 +14,7 @@
               fontPath="./fonts/Roboto-Regular.ttf" fontSize="16" textColor="0,0,0,255"/>-->
 
 <!--<Image name="AnImage" pos="100,100" size="64,64"
-           imagePath="./somePathToAnImage.png"/>-->
+           path="./somePathToAnImage.png"/>-->
 
 <!--<ProgressBar name="AProgressBar" pos="100,100" size="64,64"
                  backgroundColor="200,200,200,255" borderColor="255,255,255,255" borderThickness="2"
@@ -74,7 +74,7 @@
   <Scene name="Game" active="False">
     <Layer name="HUD">
       <!--<Image name="HUDImage" pos="0,0" size="1024,768"
-             imagePath="./images/hud.png"/>-->
+             path="./images/hud.png"/>-->
       <Text name="P1ScoreText" pos="20,20"
             fontPath="./fonts/Roboto-Regular.ttf" text="P1:" fontSize="16" textColor="255,255,255,255"/>
       <Text name="P1ScoreValue" pos="50,20"
@@ -94,7 +94,7 @@
       <Text name="PlayerLifeValue" pos="410,420"
             fontPath="./fonts/Roboto-Regular.ttf" text="100" fontSize="22" textColor="255,255,255,255"/>
       <Image name="PlayerLifeSprite" pos="965,20" size="40,40"
-             imagePath="./images/heart.png"/>
+             path="./images/heart.png"/>
     </Layer>
     <Layer name="EscapeMenu" active="False">
       <Button name="EscapeMenuBackground" pos="0,0" size="1024,768"

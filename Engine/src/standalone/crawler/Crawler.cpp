@@ -154,7 +154,7 @@ const std::vector<fs::path>& nx::Crawler::getRecursiveEntriesList(void)
 
  fs::path nx::Crawler::getAbsoluteDir(const std::string& path)
  {
-	return fs::absolute(fs::path(path).parent_path()).string();
+	return fs::absolute(fs::path(path).parent_path()).string() + "/";
  }
 
 std::vector<std::string> nx::Crawler::convertPathVectorToStrings(const std::vector<fs::path>& fsPaths){

@@ -20,7 +20,7 @@ namespace xml{
 
     class Xml{
     public:
-        static std::string fillEnvironment(env::Environment& env, xml_node<>* rootNode) {
+        static std::string fillEnvironment(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode) {
             std::unordered_map<std::string, std::string> attributes;
             std::string error = "";
 
@@ -28,7 +28,7 @@ namespace xml{
                 if (std::string(node->name()) != "Scene")
                     error += "Error: You can't create a \"" + std::string(node->name()) + "\" outside of a Scene tag\n";
                 else if ((error += Util::getAttributes(node->name(), node, attributes)).empty())
-                    error += Scene::fillEnvironment(env, node, attributes);
+                    error += Scene::fillEnvironment(env, gameInfosParser, node, attributes);
                 attributes.clear();
             }
             return error;
