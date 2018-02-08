@@ -173,7 +173,7 @@ public:
 protected:
 	nx::Engine* _engine;
 	boost::asio::io_service io_service_;
-	std::shared_ptr<std::thread> io_thread_;
+	boost::shared_ptr<boost::thread> io_thread_;
 	FrameworkNetworkServer::UdpServer udp_server_;
 };
 
