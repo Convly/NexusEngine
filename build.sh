@@ -7,7 +7,7 @@ NC='\033[0m'
 cd Engine/frameworks/
 for d in */ ; do
     echo "${GREEN}Building framework $d...${NC}"
-    cd "$d/build" && cmake .. && make -j8 && echo "${GREEN}Done${NC}" || echo "${RED}ERROR WHILE BUILDING $d${NC}" ; cd ../../
+    mkdir -p "$d/build" && cd "$d/build" && cmake .. && make -j8 && echo "${GREEN}Done${NC}" || echo "${RED}ERROR WHILE BUILDING $d${NC}" ; cd ../../
 done
 cd ../../ &&
 echo "${GREEN}Cleaning frameworks...${NC}"
