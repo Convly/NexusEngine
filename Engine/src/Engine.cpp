@@ -33,6 +33,11 @@ bool nx::Engine::debug() const
 	return this->_debug;
 }
 
+const bool nx::Engine::isServer() const
+{
+	return this->_serverOnly;
+}
+
 const std::vector<std::shared_ptr<nx::SystemTpl>>& nx::Engine::getSystems() const
 {
 	return this->_systems;
@@ -89,18 +94,20 @@ bool nx::Engine::checkEngineIntegrity() const
 
 void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 {
-	 this->_systems = 
-	 {
-	 	std::make_shared<nx::ScriptSystem>()
-	 };
-	 if (!serverOnly)
-	 	this->_systems.push_back(std::make_shared<nx::RenderingSystem>());
+	if (serverOnly) {
+		this->_systems = {
+			std::make_shared<nx::ScriptSystem>(),
+			std::make_shared<nx::NetworkServerSystem>()
+		};	
+	} else {
+		this->_systems = {
+			std::make_shared<nx::ScriptSystem>(),
+			std::make_shared<nx::RenderingSystem>(),
+			std::make_shared<nx::NetworkClientSystem>()
+		};
+	}
 
-	 for (auto system : this->_systems) {
-	 	system->init();
-	 }
-
-	 this->_run = this->checkEngineIntegrity();
+	this->_serverOnly = serverOnly;
 
 	nx::GameInfosParser confParser(confPath);
 
@@ -111,16 +118,19 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 		// Stop the program
 		return;
 	}
+
+	this->_run = this->checkEngineIntegrity();
 	this->loadResources();
 }
 
-void nx::Engine::loadResources(){
+void nx::Engine::loadResources()
+{
 	for (auto scene : this->_env.getScenes()){
 		for (auto script : scene.getScriptComponents()){
-			// this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + script.getScriptPath());
+			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + script.getScriptPath());
 		}
 		for (auto gameObject : scene.getGameObjects()){
-			// this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath());
+			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath());
 		}
 	}
 }
@@ -134,20 +144,50 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 		throw nx::RunWithoutSetupException();
 	}
 
-	while (this->_run) {
-		for (auto system : this->_systems) {
-			system->update();
-		}
-		userCallback();
+	for (auto& system : this->_systems) {
+		system->init();
 	}
+
+	if (this->isServer())
+		this->coreLoop(userCallback);
+	else
+		this->getSystemByName("rendering")->update();
+
 	return (0);
 }
 
-nx::env::Environment &nx::Engine::getEnv() {
-    return _env;
+void nx::Engine::coreLoop(const std::function<void(void)>& userCallback)
+{
+	while (this->_run)
+	{
+		this->_fixedUpdate();
+		this->_update();
+		userCallback();
+		this->_lateUpdate();
+		this->_render();
+	}
 }
 
-const nx::env::Environment &nx::Engine::getEnv() const {
-	return _env;
+void	nx::Engine::_fixedUpdate()
+{
+	//Boucler sur tout
+	// Calculer la physique
+	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "FixedUpdate"));
 }
 
+void	nx::Engine::_update()
+{
+	//Boucler sur tout
+	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "Update"));
+}
+
+void	nx::Engine::_lateUpdate()
+{
+	//Boucler sur tout
+	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "LateUpdate"));
+}
+
+void	nx::Engine::_render()
+{
+	//reflechir
+}

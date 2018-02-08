@@ -7,6 +7,9 @@ set(LIBRARY_NAME "script")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+find_package ( Lua 5.1 REQUIRED )
+
 ### INCLUDES
 include_directories(
   ${LUA_INCLUDE_DIR}
@@ -20,11 +23,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY        ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 file(GLOB_RECURSE HEADER_LIB_FILES   	${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp)
 file(GLOB_RECURSE SOURCE_LIB_FILES		${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../include/Nexus/engine.hpp)
-
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-find_package ( Lua 5.1 REQUIRED )
+file(GLOB_RECURSE SOURCE_ENGINE_FILES	../../includes/Nexus/engine.hpp ../../include/Nexus/modules/environment/Environment.hpp)
 
 add_library(${LIBRARY_NAME} SHARED ${SOURCE_LIB_FILES} ${HEADER_LIB_FILES} ${SOURCE_ENGINE_FILES})
+add_definitions(-DNEXUS_ENGINE_NO_BOOST)
 SET_TARGET_PROPERTIES(${LIBRARY_NAME} PROPERTIES PREFIX "")
 target_link_libraries(${LIBRARY_NAME} ${LUA_LIBRARIES})

@@ -8,6 +8,8 @@
 
 #include "Nexus/events.hpp"
 #include "Nexus/log.hpp"
+#include "Nexus/errors/InvalidDeserialization.hpp"
+#include "Nexus/standalone/external/any.hpp"
 
 namespace nx {
 	class Engine;
@@ -17,20 +19,12 @@ namespace nx {
 
 	struct Event
 	{
-		Event(const nx::EVENT type_, const std::vector<char>& data_)
+		Event() : type(nx::EVENT::DEFAULT) {}
+		Event(const nx::EVENT type_, const external::any& data_)
 		: type(type_), data(data_) {}
 
-		nx::EVENT			type;
-		std::vector<char>	data;
-
-		static std::vector<char> stringToVector(const std::string& str) {
-			return std::vector<char>(str.c_str(), str.c_str() + str.size() + 1);
-		}
-
-		template <typename T>
-		static std::string stringFromVector(const std::vector<T>& vec) {
-			return vec.data();
-		}
+		nx::EVENT				type;
+		external::any	data;
 	};
 
 	struct EventLink

@@ -51,7 +51,7 @@ void nx::ScriptSystem::event_ScriptRun(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->runFile(e.data.data());
+		f->runFile(external::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptLoad(const nx::Event& e)
@@ -64,7 +64,7 @@ void nx::ScriptSystem::event_ScriptLoad(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->loadFile(e.data.data());
+		f->loadFile(external::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptInit(const nx::Event& e)
@@ -77,7 +77,7 @@ void nx::ScriptSystem::event_ScriptInit(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->init(e.data.data());
+		f->init(external::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
@@ -90,7 +90,7 @@ void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
-		f->update(e.data.data());
+		f->update(external::any_cast<std::string>(e.data));
 }
 
 void nx::ScriptSystem::event_ScriptExecFunction(const nx::Event& e)
@@ -103,11 +103,7 @@ void nx::ScriptSystem::event_ScriptExecFunction(const nx::Event& e)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
 	{
-		const nx::script::ScriptInfos* st = reinterpret_cast<const nx::script::ScriptInfos*>(e.data.data());
-		if (!st) {
-			nx::Log::error("The data is corrupted", "BAD_SCRIPT_INFORMATIONS", 300);
-			return;
-		}
-		f->execFunction(st->file, st->func);
+		nx::script::ScriptInfos si = external::any_cast<nx::script::ScriptInfos>(e.data);
+		f->execFunction(si.file, si.func);
 	}
 }

@@ -11,9 +11,8 @@ int main(int ac, char** av)
 
 	auto& engine = nx::Engine::Instance();
 
+	engine.setup(av[1], true);
 	engine.ping();
-	engine.setup(av[1], false);
-
 	try {
 		return (engine.run(&userMainLoop));
 	} catch (const nx::RunWithoutSetupException& e) {

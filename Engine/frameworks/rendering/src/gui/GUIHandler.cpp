@@ -32,7 +32,7 @@ void nx::gui::GUIHandler::processEvent(sf::Event const& event)
 				{
 					sf::Rect<float> rect(itElem->getPos(), itElem->getSize());
 
-					if (event.mouseButton.button == sf::Mouse::Left)
+					if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 					{
 						if (event.type == sf::Event::MouseButtonPressed)
 						{
@@ -49,7 +49,7 @@ void nx::gui::GUIHandler::processEvent(sf::Event const& event)
 								itElem->onLeftClickReleasedOutside(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 						}
 					}
-					else if (event.mouseButton.button == sf::Mouse::Right)
+					else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right)
 					{
 						if (event.type == sf::Event::MouseButtonPressed)
 						{
@@ -68,7 +68,7 @@ void nx::gui::GUIHandler::processEvent(sf::Event const& event)
 					}
 					if (event.type == sf::Event::MouseMoved)
 					{
-						if (rect.contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+						if (rect.contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)))
 							itElem->onMoveInside(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 						else
 							itElem->onMoveOutside(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
