@@ -172,19 +172,19 @@ void	nx::Engine::_fixedUpdate()
 {
 	//Boucler sur tout
 	// Calculer la physique
-	this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "FixedUpdate"));
+	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "FixedUpdate"));
 }
 
 void	nx::Engine::_update()
 {
 	//Boucler sur tout
-	this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "Update"));
+	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "Update"));
 }
 
 void	nx::Engine::_lateUpdate()
 {
 	//Boucler sur tout
-	this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "LateUpdate"));
+	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "LateUpdate"));
 }
 
 void	nx::Engine::_render()
