@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-echo "CMake"
-cd build
-cmake ..
-
+echo "Installing build tools"
+sudo apt install libboost-all-dev liblua5.1-0-dev libsfml-dev
+echo "Compiling"
+./build.sh
 echo "Done configure"
