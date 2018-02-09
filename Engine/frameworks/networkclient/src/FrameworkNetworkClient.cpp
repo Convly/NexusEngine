@@ -18,20 +18,23 @@ FrameworkNetworkClient::~FrameworkNetworkClient()
 
 void FrameworkNetworkClient::connect(const nx::netcust_host_t& host)
 {
-	if (!this->udp_client_.get()) {
+	if (this->udp_client_.get()) {
 		nx::Log::inform("Client already connected to an host");
 		return ;
 	}
 
 	this->udp_client_ = std::make_shared<FrameworkNetworkClient::UdpClient>(this->io_service_, host.ip_, host.port_);
-	this->io_thread_ = std::make_shared<std::thread>([&]() {
+	this->io_thread_ = boost::make_shared<boost::thread>([&]() {
 		this->io_service_.run();
 	});
 }
 
 void FrameworkNetworkClient::disconnect()
 {
-
+	this->io_service_.stop();	
+	if (this->io_thread_->joinable())
+		this->io_thread_->join();
+	nx::Log::inform("You have been disconnected from the host");
 }
 
 void FrameworkNetworkClient::send(const nx::netserv_send_event_t& event)

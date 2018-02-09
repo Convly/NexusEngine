@@ -29,6 +29,10 @@ lua_State* FrameworkScript::createThread()
 
 void FrameworkScript::registerEnv() {
     luabridge::getGlobalNamespace(_state)
+            .beginClass<nx::Conn>("Conn")
+            .addConstructor<void(*)(void)>()
+            .addStaticFunction("localConnect", &nx::Conn::localConnect)
+            .endClass()
             .beginClass<nx::maths::Vector2f>("Vector2f")
             .addConstructor<void(*)(void)>()
             .addConstructor<void(*)(float, float)>()

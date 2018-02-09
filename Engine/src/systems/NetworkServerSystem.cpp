@@ -10,7 +10,7 @@ nx::NetworkServerSystem::NetworkServerSystem()
 	this->connect(nx::EVENT::NETSERV_SEND, nx::NetworkServerSystem::event_Send);
 	this->connect(nx::EVENT::NETSERV_SEND_ALL, nx::NetworkServerSystem::event_SendAll);
 	this->connect(nx::EVENT::NETSERV_FORCE_DISCONNECT, nx::NetworkServerSystem::event_Disconnect);
-	this->connect(nx::EVENT::NETCUST_CONNECT, nx::NetworkServerSystem::event_Connect);
+	this->connect(nx::EVENT::NETSERV_CONNECT, nx::NetworkServerSystem::event_Connect);
 }
 
 nx::NetworkServerSystem::~NetworkServerSystem() {

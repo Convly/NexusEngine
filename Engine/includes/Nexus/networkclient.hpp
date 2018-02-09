@@ -29,6 +29,9 @@ namespace nx {
 		void init();
 		bool checkIntegrity() const;
 		nx::NetworkClientFrameworkTpl* getFramework();
+
+	public:
+		static void event_Connect(const nx::Event&);
 	};
 }
 

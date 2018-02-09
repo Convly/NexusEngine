@@ -33,7 +33,7 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 		boost::asio::ip::udp::resolver::iterator it;
   		char recv_buffer_[1024];
 
-		UdpClient(boost::asio::io_service& io_service, const std::string ip, const unsigned short port)
+		UdpClient(boost::asio::io_service& io_service, const std::string& ip, const unsigned short port)
 		:
 			ip_(ip),
 			port_(port),
@@ -96,8 +96,6 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), std::string(ip_).c_str(), std::to_string(port_).c_str());
 			boost::asio::ip::udp::resolver::iterator it = resolver_.resolve(query);
 
-			std::vector<char> inbound_data;
-
 			nx::Any obj = nx::std_any_convert_serialize.at(netInfos.event_.type)(netInfos.event_.data);
 			nx::UdpEventPacket packet(netInfos.event_.type, obj);
 
@@ -107,13 +105,13 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 		}
 	};
 public:
-	FrameworkNetworkClient(nx::Engine*);
+	explicit FrameworkNetworkClient(nx::Engine*);
 	~FrameworkNetworkClient();
 	
 protected:
 	nx::Engine* _engine;
 	boost::asio::io_service io_service_;
-	std::shared_ptr<std::thread> io_thread_;
+	boost::shared_ptr<boost::thread> io_thread_;
 	std::shared_ptr<FrameworkNetworkClient::UdpClient> udp_client_;
 
 public:
