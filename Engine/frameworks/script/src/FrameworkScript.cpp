@@ -32,6 +32,7 @@ void FrameworkScript::registerEnv() {
             .beginClass<nx::Conn>("Conn")
             .addConstructor<void(*)(void)>()
             .addStaticFunction("localConnect", &nx::Conn::localConnect)
+            .addStaticFunction("localDisconnect", &nx::Conn::localDisconnect)
             .endClass()
             .beginClass<nx::maths::Vector2f>("Vector2f")
             .addConstructor<void(*)(void)>()

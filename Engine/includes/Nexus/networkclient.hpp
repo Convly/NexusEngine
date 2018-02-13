@@ -32,6 +32,8 @@ namespace nx {
 
 	public:
 		static void event_Connect(const nx::Event&);
+		static void event_ConnectAcceptor(const nx::Event& e);
+		static void event_Disconnect(const nx::Event& e);
 	};
 }
 

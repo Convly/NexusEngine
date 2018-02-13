@@ -10,6 +10,7 @@ nx::NetworkServerSystem::NetworkServerSystem()
 	this->connect(nx::EVENT::NETSERV_SEND, nx::NetworkServerSystem::event_Send);
 	this->connect(nx::EVENT::NETSERV_SEND_ALL, nx::NetworkServerSystem::event_SendAll);
 	this->connect(nx::EVENT::NETSERV_FORCE_DISCONNECT, nx::NetworkServerSystem::event_Disconnect);
+	this->connect(nx::EVENT::NETCUST_DISCONNECT, nx::NetworkServerSystem::event_Disconnect);
 	this->connect(nx::EVENT::NETSERV_CONNECT, nx::NetworkServerSystem::event_Connect);
 }
 
@@ -82,7 +83,7 @@ void nx::NetworkServerSystem::event_Disconnect(const nx::Event& e)
 		return;
 	}
 
-	f->disconnect(external::any_cast<uint8_t>(e.data));
+	f->disconnect(external::any_cast<int>(e.data));
 }
 
 void nx::NetworkServerSystem::event_Connect(const nx::Event& e)

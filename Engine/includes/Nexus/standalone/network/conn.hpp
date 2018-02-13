@@ -16,6 +16,11 @@ namespace nx {
                 external::any infos = nx::netcust_host_t(ip, port);
                 nx::Engine::Instance().emit(nx::EVENT::NETCUST_CONNECT, infos);
             }
+
+            static void localDisconnect()
+            {
+                nx::Engine::Instance().emit(nx::EVENT::NETCUST_DISCONNECT, 0);
+            }
     };
 }
 

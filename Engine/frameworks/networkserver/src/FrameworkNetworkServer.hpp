@@ -70,8 +70,8 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 
 		void handleEvent(const bool con_status, nx::Event event)
 		{
-			if ((	con_status && event.type != nx::EVENT::NETCUST_CONNECT) 
-				|| !con_status && (this->getClientListSize() < NETSERV_MAXCON && event.type == nx::EVENT::NETCUST_CONNECT))
+			if ((	con_status && event.type != nx::EVENT::NETSERV_CONNECT) 
+				|| !con_status && (this->getClientListSize() < NETSERV_MAXCON && event.type == nx::EVENT::NETSERV_CONNECT))
 			{
 				if (!con_status)
 				{
@@ -165,7 +165,7 @@ public:
 public:
 	void sendEvent(const nx::netserv_send_event_t& netInfos);
 	void sendAll(const nx::netserv_send_event_t& net);
-	void disconnect(const uint8_t clientId);
+	void disconnect(const int clientId);
 	void connectClient(const nx::netserv_client_t& clientInfos);
 
 protected:
