@@ -12,14 +12,17 @@
 #include "Nexus/standalone/external/any.hpp"
 #include "Nexus/modules/environment/EnvUtils.hpp"
 
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/shared_ptr.hpp>
+#ifndef NEXUS_ENGINE_NO_BOOST
+	#include <boost/serialization/access.hpp>
+	#include <boost/serialization/export.hpp>
+	#include <boost/serialization/shared_ptr.hpp>
+#endif
 
 #include "Nexus/systems/SystemTpl.hpp"
 
 namespace nx {
 
+#ifndef NEXUS_ENGINE_NO_BOOST
 	class PlaceHolder
     {
     public:
@@ -118,6 +121,7 @@ namespace nx {
 			ar & object_;
 		}
 	};
+#endif
 
     enum NETPROT {
 		UDP,
@@ -219,6 +223,7 @@ namespace nx {
 		}
 	};
 
+#ifndef NEXUS_ENGINE_NO_BOOST
 	static const std::unordered_map<nx::EVENT, std::function<external::any(nx::Any&)>, EnumClassHashNetServ> nx_any_convert_serialize = {
 		{nx::EVENT::SCRIPT_RUN,					[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
 		{nx::EVENT::SCRIPT_LOAD,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
@@ -250,7 +255,7 @@ namespace nx {
 		{nx::EVENT::NETSERV_SEND_ALL,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](external::any& object) -> nx::Any {return external::any_cast<uint8_t>(object);}}
 	};
-	
+#endif
 }
 
 #endif
