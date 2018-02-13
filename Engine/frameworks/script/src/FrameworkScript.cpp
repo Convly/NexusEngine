@@ -458,23 +458,25 @@ void FrameworkScript::runFile(const std::string& scriptPath)
 	luaL_dofile(s, scriptPath.c_str());
 }
 
-void FrameworkScript::loadFile(const std::string& scriptPath)
+bool FrameworkScript::loadFile(const std::string& scriptPath)
 {
 	if (this->_scripts.find(scriptPath) != this->_scripts.end())
 	{
 		nx::Log::inform("Script '" + scriptPath + "' already loaded");
-		return;
+		return false;
 	}
 
 	lua_State* s = this->createThread();
 	if (luaL_dofile(s, scriptPath.c_str())) {
 		nx::Log::error(scriptPath + " doesn't exists in you env", "BAD_FILE", 549);		
-		return;
+		return false;
+
 	}
 	this->_scripts[scriptPath] = s;
+    return true;
 }
 
-void FrameworkScript::execMethod(const std::string& scriptPath, const std::string& methodName)
+bool FrameworkScript::execMethod(const std::string& scriptPath, const std::string& methodName)
 {
 	if (this->_scripts.find(scriptPath) == this->_scripts.end()) {
 		throw nx::ScriptNotLoaded(scriptPath);
@@ -484,27 +486,40 @@ void FrameworkScript::execMethod(const std::string& scriptPath, const std::strin
 			luabridge::getGlobal(this->_scripts[scriptPath], methodName.c_str())();
 		} catch (const luabridge::LuaException& e) {
 			nx::Log::error(e.what(), "BAD_LUA", 550);
+            return false;
 		}
 	} else {
 		nx::Log::error(scriptPath + " doesn't exists in you env", "BAD_FILE", 549);
+        return false;
 	}
+    return true;
 }
 
-void FrameworkScript::init(const std::string& scriptPath)
+bool FrameworkScript::init(const std::string& scriptPath)
 {
-	this->execMethod(scriptPath, "Init");
+	return this->execMethod(scriptPath, "Init");
 }
 
-void FrameworkScript::update(const std::string& scriptPath)
+bool FrameworkScript::update(const std::string& scriptPath)
 {
-	this->execMethod(scriptPath, "Update");	
+	return this->execMethod(scriptPath, "Update");
 }
 
-void FrameworkScript::execFunction(const std::string& scriptPath, const std::string& funcName)
+bool FrameworkScript::execFunction(const std::string& scriptPath, const std::string& funcName)
 {
+    bool ret = true;
 	try {
-		this->execMethod(scriptPath, funcName);
+		ret = ret && this->execMethod(scriptPath, funcName);
 	} catch (const nx::ScriptNotLoaded& e) {
 		nx::Log::error(e.what(), "SCRIPT_NOT_LOADED", 404);
+        return false;
 	}
+
+    return ret;
+}
+
+
+bool FrameworkScript::setup(const std::string& scriptPath)
+{
+    return loadFile(scriptPath) && init(scriptPath);
 }

@@ -91,6 +91,7 @@ namespace nx {
 		void loadResources();
 
   private:
+		void _execForAll(const std::string&);  
 		void _fixedUpdate();
 		void _update();
 		void _lateUpdate();

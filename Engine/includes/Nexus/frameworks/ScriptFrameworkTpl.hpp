@@ -20,10 +20,11 @@ namespace nx {
 
 		// Framework Methods (must be virtual pure)
 		virtual void runFile(const std::string& scriptPath) = 0;
-		virtual void execFunction(const std::string& scriptPath, const std::string& funcName) = 0;
-		virtual void loadFile(const std::string& scriptPath) = 0;
-		virtual void update(const std::string& scriptPath) = 0;
-		virtual void init(const std::string& scriptPath) = 0;
+		virtual bool execFunction(const std::string& scriptPath, const std::string& funcName) = 0;
+		virtual bool loadFile(const std::string& scriptPath) = 0;
+		virtual bool update(const std::string& scriptPath) = 0;
+		virtual bool init(const std::string& scriptPath) = 0;
+		virtual bool setup(const std::string& scriptPath) = 0;
 
 	};	
 }

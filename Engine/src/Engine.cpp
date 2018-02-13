@@ -125,10 +125,10 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 void nx::Engine::loadResources()
 {
 	for (auto scene : this->_env.getScenes()){
-		for (auto script : scene.getScriptComponents()){
-			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + script.getScriptPath());
+		for (auto& script : scene.getScriptComponents()){
+			this->emit(nx::EVENT::SCRIPT_LOAD, _env.getGameInfos().getRootPath() + script.getScriptPath());
 		}
-		for (auto gameObject : scene.getGameObjects()){
+		for (auto& gameObject : scene.getGameObjects()){
 			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath());
 		}
 	}
@@ -167,26 +167,52 @@ void nx::Engine::coreLoop(const std::function<void(void)>& userCallback)
 	}
 }
 
+void	nx::Engine::_execForAll(const std::string& function)
+{
+	for (auto& scene : _env.getScenes())
+	{
+		if (scene.getEntityInfos().getActive())
+		{
+			for (auto& script : scene.getScriptComponents())
+			{
+				emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos(this->_env.getGameInfos().getRootPath() + script.getScriptPath(), function));
+			}
+
+			for (auto& gameObject : scene.getGameObjects())
+			{
+				if (gameObject.getEntityInfos().getActive())
+					emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos(this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath(), function));
+			}
+		}
+	}
+}
+
 void	nx::Engine::_fixedUpdate()
 {
+	_execForAll("FixedUpdate");
+	
 	//Boucler sur tout
 	// Calculer la physique
-	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "FixedUpdate"));
 }
 
 void	nx::Engine::_update()
 {
+	_execForAll("Update");
+	
 	//Boucler sur tout
 	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "Update"));
 }
 
 void	nx::Engine::_lateUpdate()
 {
+	_execForAll("LateUpdate");
+	
 	//Boucler sur tout
 	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "LateUpdate"));
 }
 
 void	nx::Engine::_render()
 {
-	//reflechir
+	// If any element has been changed, send it to the clients
+	// Assignee: @Codex
 }

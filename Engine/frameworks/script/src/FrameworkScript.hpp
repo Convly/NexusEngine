@@ -27,16 +27,16 @@ public:
 
 private:
 	lua_State *createThread();
-	void execMethod(const std::string&, const std::string&);
+	bool execMethod(const std::string&, const std::string&);
 
 public:
     void registerEnv();
 	void runFile(const std::string& scriptPath);
-	void loadFile(const std::string& scriptPath);
-	void update(const std::string& scriptPath);
-	void init(const std::string& scriptPath);
-	void execFunction(const std::string& scriptPath, const std::string& funcName);
-	
+	bool loadFile(const std::string& scriptPath);
+	bool update(const std::string& scriptPath);
+	bool init(const std::string& scriptPath);
+	bool execFunction(const std::string& scriptPath, const std::string& funcName);
+	bool setup(const std::string& scriptPath);
 
 private:
 	lua_State*										_state;
