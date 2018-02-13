@@ -5,7 +5,8 @@ nx::graphics::GraphicsElement::GraphicsElement(sf::Vector2f const& pos, sf::Vect
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true), _events(events)
 {	
 	for (auto it : this->_events) {
-		external::any data = std::string(it.second.file);
+		std::string absPath = nx::Engine::Instance().getEnv().getGameInfos().getRootPath() + nx::Engine::Instance().getGameInfosParser()->getFields()._resources.at("scripts");
+		external::any data = absPath + it.second.file;
 		enginePtr->emit(nx::EVENT::SCRIPT_LOAD, data);
 		try {
 			enginePtr->emit(nx::EVENT::SCRIPT_INIT, data);
@@ -35,6 +36,7 @@ void nx::graphics::GraphicsElement::dispatchMouseEvent(sf::Vector2i const& pos, 
 		this->_events.end(),
 		[&](auto& item) {
 			if (item.first == eventName) {
+				item.second.absolute = false;
 				auto const ptr = reinterpret_cast<char*>(&item.second);
 				enginePtr->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, std::vector<char>(ptr, ptr + sizeof item.second));
 			}
