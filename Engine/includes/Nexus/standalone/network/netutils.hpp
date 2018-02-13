@@ -1,5 +1,6 @@
 #ifndef ENGINE_STANDALONE_NETWORK_UTILS_HPP_
 #define ENGINE_STANDALONE_NETWORK_UTILS_HPP_
+#pragma once
 
 #include <string>
 #include <chrono>
@@ -25,7 +26,7 @@ namespace nx {
         virtual ~PlaceHolder(){}
         PlaceHolder(){}
     private:
-        friend class boost::serialization::access;
+        friend class ::boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int version)
         {
@@ -49,11 +50,11 @@ namespace nx {
         T m_value;
 
     private:
-        friend class boost::serialization::access;
+        friend class ::boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int version)
         {
-            ar & boost::serialization::base_object<PlaceHolder>(*this);
+            ar & boost::serialization::base_object<nx::PlaceHolder>(*this);
             ar & m_value;
         }
     };
@@ -79,7 +80,7 @@ namespace nx {
         }
 
     protected:
-        friend class boost::serialization::access;
+        friend class ::boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int version)
         {
@@ -157,13 +158,13 @@ namespace nx {
 	};
 
 	struct netserv_client_t {
-		netserv_client_t() : id_(-1), status_(nx::NETCON_STATE::UNDEFINED), ip_(""), port_(0), last_ping_(std::chrono::high_resolution_clock::now())
+		netserv_client_t() : id_(-1), status_(nx::NETCON_STATE::UNDEFINED), ip_(""), port_(0)
 		{
 		}
-		netserv_client_t(const int id, const nx::NETCON_STATE status, const std::string& ip, const unsigned short port) : id_(id), status_(status), ip_(ip), port_(port), last_ping_(std::chrono::high_resolution_clock::now())
+		netserv_client_t(const int id, const nx::NETCON_STATE status, const std::string& ip, const unsigned short port) : id_(id), status_(status), ip_(ip), port_(port)
 		{	
 		}
-		netserv_client_t(const netserv_client_t& other) : id_(other.id_), status_(other.status_), ip_(other.ip_), port_(other.port_), last_ping_(other.last_ping_)
+		netserv_client_t(const netserv_client_t& other) : id_(other.id_), status_(other.status_), ip_(other.ip_), port_(other.port_)
 		{
 		}
 
@@ -171,7 +172,6 @@ namespace nx {
 		nx::NETCON_STATE status_;
 		std::string ip_;
 		unsigned short port_;
-		std::chrono::high_resolution_clock::time_point last_ping_;
 
 		nx::netserv_client_t& operator=(const nx::netserv_client_t& other)
 		{
@@ -180,7 +180,6 @@ namespace nx {
 				status_ = other.status_;
 				ip_ = other.ip_;
 				port_ = other.port_;
-				last_ping_ = other.last_ping_;
 			}
 
 			return *this;
@@ -193,7 +192,6 @@ namespace nx {
 			ar & status_;
 			ar & ip_;
 			ar & port_;
-			ar & last_ping_;
 		}
 	};
 
@@ -212,23 +210,6 @@ namespace nx {
 		}
 	};
 
-	template <typename T>
-	struct netserv_send_env_t {
-		netserv_send_env_t(const uint8_t clientId, const T& object, const nx::NETPROT prot) : clientId_(clientId), object_(object), prot_(prot) {}
-
-		uint8_t clientId_;
-		T object_;
-		nx::NETPROT prot_;
-
-		template <typename Archive>
-		void serialize(Archive& ar, const unsigned int version)
-		{
-			ar & clientId_;
-			ar & object_;
-			ar & prot_;
-		}	
-	};
-
 	struct EnumClassHashNetServ
 	{
 		template <typename T>
@@ -244,10 +225,11 @@ namespace nx {
 		{nx::EVENT::SCRIPT_INIT,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
 		{nx::EVENT::SCRIPT_UPDATE,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
 		{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](nx::Any& object) -> external::any {return nx::Anycast<nx::script::ScriptInfos>(object);}},
-		{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> external::any {return std::string("");}},
-		{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> external::any {return std::string("");}},
+		{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netcust_host_t>(object);}},
+		{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> external::any {return nx::Anycast<int>(object);}},
 		{nx::EVENT::NETCUST_LISTEN,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
 		{nx::EVENT::NETCUST_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
+		{nx::EVENT::NETSERV_CONNECT,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_client_t>(object);}},
 		{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> external::any {return nx::Anycast<uint8_t>(object);}}
@@ -259,14 +241,16 @@ namespace nx {
 		{nx::EVENT::SCRIPT_INIT,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
 		{nx::EVENT::SCRIPT_UPDATE,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
 		{nx::EVENT::SCRIPT_EXEC_FUNCTION,		[&](external::any& object) -> nx::Any {return external::any_cast<nx::script::ScriptInfos>(object);}},
-		{nx::EVENT::NETCUST_CONNECT,			[&](external::any& object) -> nx::Any {return std::string("");}},
-		{nx::EVENT::NETCUST_DISCONNECT,			[&](external::any& object) -> nx::Any {return std::string("");}},
+		{nx::EVENT::NETCUST_CONNECT,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netcust_host_t>(object);}},
+		{nx::EVENT::NETCUST_DISCONNECT,			[&](external::any& object) -> nx::Any {return external::any_cast<int>(object);}},
 		{nx::EVENT::NETCUST_LISTEN,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
 		{nx::EVENT::NETCUST_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
+		{nx::EVENT::NETSERV_CONNECT,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_client_t>(object);}},
 		{nx::EVENT::NETSERV_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_SEND_ALL,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](external::any& object) -> nx::Any {return external::any_cast<uint8_t>(object);}}
 	};
+	
 }
 
 #endif
