@@ -32,6 +32,7 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 		boost::asio::ip::udp::endpoint remote_endpoint_;
 		boost::asio::ip::udp::resolver::iterator it;
   		char recv_buffer_[1024];
+		int clientId_ = -1;
 
 		UdpClient(boost::asio::io_service& io_service, const std::string& ip, const unsigned short port)
 		:
@@ -45,6 +46,12 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 			  nx::Log::inform("Udp network client started...");
 			  start_receive();
   		}
+
+		  ~UdpClient()
+		  {
+			  nx::Event e(nx::NETCUST_DISCONNECT, clientId_);
+			  sendEvent(e);
+		  }
 		
 		void start_receive()
 		{
@@ -87,37 +94,55 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 			eventEmit.get();
 		}
 
-		void sendEvent(nx::netserv_send_event_t& netInfos)
+		void sendEvent(nx::Event& event)
 		{
 			nx::thread::ScopedLock lock;
 
-			nx::Log::inform("About to send data to " + ip_ + std::to_string(port_));
+			nx::Log::inform("About to send data to " + ip_ + ":" + std::to_string(port_));
 			
 			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), std::string(ip_).c_str(), std::to_string(port_).c_str());
 			boost::asio::ip::udp::resolver::iterator it = resolver_.resolve(query);
 
-			nx::Any obj = nx::std_any_convert_serialize.at(netInfos.event_.type)(netInfos.event_.data);
-			nx::UdpEventPacket packet(netInfos.event_.type, obj);
+			nx::Any obj = nx::std_any_convert_serialize.at(event.type)(event.data);
+			nx::UdpEventPacket packet(event.type, obj);
 
 			std::string outbound_data = nx::serialization::serialize(packet);
 
 			sock_.async_send_to(boost::asio::buffer(outbound_data), *it, [&](const boost::system::error_code& error, std::size_t bytes_transferred){});
 		}
+
+		void setClientId(const int id)
+		{
+			clientId_ = id;
+		}
+
+		const int getClientId()
+		{
+			return clientId_;
+		}
 	};
 public:
 	explicit FrameworkNetworkClient(nx::Engine*);
 	~FrameworkNetworkClient();
+
+public:
+	const bool connected() const;
+	void setConnect(const bool conn);
 	
 protected:
 	nx::Engine* _engine;
+	bool connected_;
 	boost::asio::io_service io_service_;
 	boost::shared_ptr<boost::thread> io_thread_;
 	std::shared_ptr<FrameworkNetworkClient::UdpClient> udp_client_;
+	int clientId_;
 
 public:
 	void connect(const nx::netcust_host_t&);
 	void disconnect();
 	void send(const nx::netserv_send_event_t&);
+	int getClientId();
+	void setClientId(const int);
 };
 
 #if  defined(_MSC_VER)
