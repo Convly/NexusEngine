@@ -25,6 +25,13 @@ namespace nx {
 
 		nx::EVENT				type;
 		external::any	data;
+
+		template <typename Archive>
+		void serialize(Archive& ar, unsigned int version)
+		{
+			ar & type;
+			ar & data;
+		}
 	};
 
 	struct EventLink
