@@ -1,9 +1,9 @@
 #ifndef FRAMEWORK_NETWORKSERVER
 # define FRAMEWORK_NETWORKSERVER
 
+#include <future>
 #include <iostream>
 #include <vector>
-#include <future>
 #include <memory>
 #include <array>
 #include <thread>
@@ -33,7 +33,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
   		char recv_buffer_[1024];
 		std::array<nx::netserv_client_t, NETSERV_MAXCON> clients_;
 
-		UdpServer(boost::asio::io_service& io_service)
+		explicit UdpServer(boost::asio::io_service& io_service)
 		: 	i_server_(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 9898)),
 			o_server_(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
 			resolver_(io_service)
@@ -70,8 +70,8 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 
 		void handleEvent(const bool con_status, nx::Event event)
 		{
-			if ((	con_status && event.type != nx::EVENT::NETCUST_CONNECT) 
-				|| !con_status && (this->getClientListSize() < NETSERV_MAXCON && event.type == nx::EVENT::NETCUST_CONNECT))
+			if ((	con_status && event.type != nx::EVENT::NETSERV_CONNECT) 
+				|| !con_status && (this->getClientListSize() < NETSERV_MAXCON && event.type == nx::EVENT::NETSERV_CONNECT))
 			{
 				if (!con_status)
 				{
@@ -149,8 +149,6 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), std::string(target.ip_).c_str(), std::to_string(target.port_).c_str());
 			boost::asio::ip::udp::resolver::iterator it = resolver_.resolve(query);
 
-			std::vector<char> inbound_data;
-
 			nx::Any obj = nx::std_any_convert_serialize.at(netInfos.event_.type)(netInfos.event_.data);
 			nx::UdpEventPacket packet(netInfos.event_.type, obj);
 
@@ -161,13 +159,13 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 	};
 
 public:
-	FrameworkNetworkServer(nx::Engine*);
+	explicit FrameworkNetworkServer(nx::Engine*);
 	~FrameworkNetworkServer();
 
 public:
 	void sendEvent(const nx::netserv_send_event_t& netInfos);
 	void sendAll(const nx::netserv_send_event_t& net);
-	void disconnect(const uint8_t clientId);
+	void disconnect(const int clientId);
 	void connectClient(const nx::netserv_client_t& clientInfos);
 
 protected:

@@ -15,6 +15,7 @@ extern "C"
 
 #include "Nexus/engine.hpp"
 #include "Nexus/log.hpp"
+#include "Nexus/standalone/network/conn.hpp"
 #include "Nexus/frameworks/ScriptFrameworkTpl.hpp"
 #include "Nexus/errors/ScriptNotLoadedException.hpp"
 

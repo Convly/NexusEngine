@@ -79,9 +79,10 @@ bool nx::Engine::ping() const
 
 bool nx::Engine::checkEngineIntegrity() const
 {
-	bool systemState, ret = true;
+	bool ret = true;
 
 	for (auto system : this->_systems) {
+		bool systemState;
 		ret = ret && (systemState = system->checkIntegrity());
 		if (this->_debug)
 			nx::Log::debug("State for " + system->getName() + " system is: " + std::to_string(systemState));
@@ -109,13 +110,11 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 
 	this->_serverOnly = serverOnly;
 
-	nx::GameInfosParser confParser(confPath);
+	_gameInfosParser = std::make_shared<nx::GameInfosParser>(confPath);
 
-	confParser.dump();
-	std::string error;
-	if (!nx::xml::Parser::fillEnvironment(this->_env, confParser)){
+	_gameInfosParser->dump();
+	if (!nx::xml::Parser::fillEnvironment(this->_env, *_gameInfosParser)){
 		std::cerr << "Error: xmlParser please look at the logs" << std::endl;
-		// Stop the program
 		return;
 	}
 

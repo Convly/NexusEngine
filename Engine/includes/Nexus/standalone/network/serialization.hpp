@@ -10,6 +10,15 @@
 
 #include "Nexus/standalone/network/netutils.hpp"
 
+
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<nx::UdpEventPacket>, "p<nx::UdpEventPacket>");
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<nx::netcust_host_t>, "p<nx::netcust_host_t>");
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<nx::netserv_client_t>, "p<nx::netserv_client_t>");
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<std::string>, "p<std::string>");
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<nx::Any>, "p<nx::Any>");
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<uint8_t>, "p<uint8_t>");
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<int>, "p<int>");
+
 namespace nx {
     namespace serialization {
         static nx::UdpEventPacket deserialize(const std::string& data) {

@@ -1,7 +1,7 @@
-print("Init for playerscript.lua")
-scriptPath = Env:getRessources():getScriptPathAt(0)
-print(scriptPath)
 function Init()
+    print("Init for playerscript.lua")
+    scriptPath = Env:getRessources():getScriptPathAt(0)
+    print(scriptPath)
 end
 
 function Update()

@@ -13,11 +13,15 @@ namespace nx
 			ScriptInfos(const std::string& file_, const std::string& func_)
 				: file(file_), func(func_) {}
 
+			ScriptInfos(const std::string& file_, const std::string& func_, const bool absolute_)
+				: file(file_), func(func_), absolute(absolute_) {}
+
 			ScriptInfos(const nx::script::ScriptInfos& other)
-				: file(other.file), func(other.func) {}
+				: file(other.file), func(other.func), absolute(other.absolute) {}
 
 			std::string file;
 			std::string func;
+			bool absolute = true;
 		};
 	};
 

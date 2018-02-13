@@ -34,7 +34,14 @@ void FrameworkNetworkServer::connectClient(const nx::netserv_client_t& clientInf
 	this->udp_server_.clients_[freeSlotIndex] = clientInfos;
 	this->udp_server_.clients_[freeSlotIndex].id_ = static_cast<int>(freeSlotIndex);
 	this->udp_server_.clients_[freeSlotIndex].status_ = nx::NETCON_STATE::CONNECTED;
-	nx::Log::inform("Register new client " + std::string(clientInfos.ip_) + ":" + std::to_string(clientInfos.port_) + " at slot " + std::to_string(freeSlotIndex));
+	nx::Log::inform("Registering new client " + std::string(clientInfos.ip_) + ":" + std::to_string(clientInfos.port_) + " at slot " + std::to_string(freeSlotIndex));
+
+	nx::Log::inform("Sending acceptor for new registered client ("+ std::string(clientInfos.ip_) + ":" + std::to_string(clientInfos.port_) + ")");
+	nx::netserv_send_event_t s_event;
+	s_event.clientId_ = freeSlotIndex;
+	s_event.event_ = nx::Event(nx::NETSERV_CONNECT, this->udp_server_.clients_.at(freeSlotIndex));
+	sendEvent(s_event);
+	nx::Log::inform("Success!");
 }
 
 /* INTERFACING */
@@ -59,7 +66,8 @@ void FrameworkNetworkServer::sendAll(const nx::netserv_send_event_t& netInfos)
 	}
 }
 
-void FrameworkNetworkServer::disconnect(const uint8_t clientId)
+void FrameworkNetworkServer::disconnect(const int clientId)
 {
-	// Force disconnect for client nb: clientId
+	this->udp_server_.clients_[clientId].status_ = nx::NETCON_STATE::DISCONNECTED;
+	nx::Log::inform("Status set to 'DISCONNECTED' for client " + std::to_string(clientId));
 }

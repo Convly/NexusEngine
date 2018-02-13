@@ -103,7 +103,8 @@ void nx::ScriptSystem::event_ScriptExecFunction(const nx::Event& e)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
 	else
 	{
+		std::string absPath = nx::Engine::Instance().getEnv().getGameInfos().getRootPath() + nx::Engine::Instance().getGameInfosParser()->getFields()._resources.at("scripts");
 		nx::script::ScriptInfos si = external::any_cast<nx::script::ScriptInfos>(e.data);
-		f->execFunction(si.file, si.func);
+		f->execFunction((si.absolute)? si.file : absPath + si.file, si.func);
 	}
 }
