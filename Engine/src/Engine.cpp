@@ -110,12 +110,11 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 
 	this->_serverOnly = serverOnly;
 
-	nx::GameInfosParser confParser(confPath);
+	_gameInfosParser = std::make_shared<nx::GameInfosParser>(confPath);
 
-	confParser.dump();
-	if (!nx::xml::Parser::fillEnvironment(this->_env, confParser)){
+	_gameInfosParser->dump();
+	if (!nx::xml::Parser::fillEnvironment(this->_env, *_gameInfosParser)){
 		std::cerr << "Error: xmlParser please look at the logs" << std::endl;
-		// Stop the program
 		return;
 	}
 
