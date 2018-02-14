@@ -7,7 +7,7 @@ FrameworkNetworkServer::FrameworkNetworkServer(nx::Engine* engine)
 	udp_server_(this->io_service_)
 {
 	enginePtr = engine;
-	this->io_thread_ = boost::make_shared<boost::thread>([&]() {
+	this->io_thread_ = std::make_shared<std::thread>([&]() {
 		this->io_service_.run();
 	});
 }
