@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(Boost_USE_STATIC_LIBS   OFF)
 set(Boost_USE_MULTITHREADED ON)
 
-find_package(Boost 1.54.0 COMPONENTS system serialization thread filesystem REQUIRED)
+find_package(Boost 1.54.0 COMPONENTS system serialization filesystem REQUIRED)
 find_package( Threads )
 
 if(NOT Boost_FOUND)
