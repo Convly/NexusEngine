@@ -2588,6 +2588,10 @@ namespace rapidxml
 // Undefine internal macros
 #undef RAPIDXML_PARSE_ERROR
 
+// Define memory allocator
+template <typename T>
+static T*  rxallocator() { return new T; }
+
 // On MSVC, restore warnings state
 #ifdef _MSC_VER
     #pragma warning(pop)

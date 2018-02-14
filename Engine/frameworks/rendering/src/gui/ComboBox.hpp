@@ -6,6 +6,7 @@
 # include "GUIElement.hpp"
 # include "../ColorInfo.hpp"
 # include "../TextInfo.hpp"
+# include "../InvalidFontException.hpp"
 
 namespace nx
 {
@@ -16,7 +17,7 @@ namespace nx
 			sf::Color						_backgroundColor;
 			sf::Color						_borderColor;
 			int								_borderThickness;
-			sf::Font						_font;
+			sf::Font						*_font;
 			ColorInfo						_colorInfo;
 			TextInfo						_textInfo;
 

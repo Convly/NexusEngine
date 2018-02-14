@@ -4,10 +4,11 @@ nx::gui::Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::
 			   bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events), _state(false), _isPushButton(isPushButton),
 	_borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
-	_font(sf::Font()), _body(sf::RectangleShape(size)), _colorNotSelected(colorInfo.backgroundColor), _colorSelected(colorInfo.backgroundColor)
+	_font(rxallocator<sf::Font>()), _body(sf::RectangleShape(size)), _colorNotSelected(colorInfo.backgroundColor), _colorSelected(colorInfo.backgroundColor)
 {
-	this->_font.loadFromFile(textInfo.fontPath);
-	this->_label = sf::Text(textInfo.textLabel, this->_font, textInfo.fontSize);
+	if (!this->_font->loadFromFile(textInfo.fontPath))
+		throw nx::InvalidFontException(textInfo.fontPath);
+	this->_label = sf::Text(textInfo.textLabel, *this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->_recenteringLabelText();

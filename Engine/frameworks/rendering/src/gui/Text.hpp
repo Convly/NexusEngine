@@ -13,7 +13,7 @@ namespace nx
 	{
 		class Text : public GUIElement
 		{
-			sf::Font			_font;
+			sf::Font			*_font;
 			sf::Text			_label;
 
 		public:
