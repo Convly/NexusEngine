@@ -4,11 +4,12 @@ nx::gui::TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size,
 					 ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events), _state(false),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
-	_font(sf::Font()), _body(sf::RectangleShape(size)), _textData(textInfo.textLabel),
+	_font(rxallocator<sf::Font>()), _body(sf::RectangleShape(size)), _textData(textInfo.textLabel),
 	_cursor(sf::VertexArray(sf::LinesStrip, 2)), _cursorIdx(textInfo.textLabel.length())
 {
-	this->_font.loadFromFile(textInfo.fontPath);
-	this->_label = sf::Text(textInfo.textLabel, this->_font, textInfo.fontSize);
+	if (!this->_font->loadFromFile(textInfo.fontPath))
+		throw nx::InvalidFontException(textInfo.fontPath);
+	this->_label = sf::Text(textInfo.textLabel, *this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->_label.setPosition(pos.x + 3,
@@ -132,7 +133,7 @@ void nx::gui::TextInput::show(std::shared_ptr<sf::RenderWindow> const& win)
 void nx::gui::TextInput::_repositioningCursor()
 {
 	// Repositioning the cursor
-	sf::Text text("", this->_font, this->_label.getCharacterSize());
+	sf::Text text("", *this->_font, this->_label.getCharacterSize());
 
 	for (int i = this->_cursorIdx; i < static_cast<int>(this->_textData.length()) && text.getLocalBounds().width + 13 <= this->_body.getSize().x; ++i)
 		text.setString(text.getString() + this->_textData[i]);

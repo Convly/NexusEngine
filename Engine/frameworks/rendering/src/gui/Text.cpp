@@ -1,11 +1,11 @@
 #include "Text.hpp"
 
 nx::gui::Text::Text(sf::Vector2f const& pos, std::string const& identifier, nx::env::MouseEventsContainer const& events, TextInfo const& textInfo) :
-	GUIElement(pos, sf::Vector2f(), identifier), _font(sf::Font())
+	GUIElement(pos, sf::Vector2f(), identifier), _font(rxallocator<sf::Font>())
 {
-	if (!this->_font.loadFromFile(textInfo.fontPath))
+	if (!this->_font->loadFromFile(textInfo.fontPath))
 		throw nx::InvalidFontException(textInfo.fontPath);
-	this->_label = sf::Text(textInfo.textLabel, this->_font, textInfo.fontSize);
+	this->_label = sf::Text(textInfo.textLabel, *this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->_label.setPosition(pos);

@@ -6,6 +6,7 @@
 # include "Nexus/log.hpp"
 # include "../ColorInfo.hpp"
 # include "../TextInfo.hpp"
+# include "../InvalidFontException.hpp"
 
 namespace nx
 {
@@ -19,7 +20,7 @@ namespace nx
 			sf::RectangleShape				_body;
 			sf::RectangleShape				_filled;
 			int								_percentage;
-			sf::Font						_font;
+			sf::Font						*_font;
 			sf::Text						_label;
 
 		public:

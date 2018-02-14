@@ -133,7 +133,7 @@ protected:
 	nx::Engine* _engine;
 	bool connected_;
 	boost::asio::io_service io_service_;
-	boost::shared_ptr<boost::thread> io_thread_;
+	std::shared_ptr<std::thread> io_thread_;
 	std::shared_ptr<FrameworkNetworkClient::UdpClient> udp_client_;
 	int clientId_;
 

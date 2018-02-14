@@ -38,6 +38,7 @@ set(Boost_USE_STATIC_LIBS   OFF)
 set(Boost_DEBUG on)
 
 find_package(Boost 1.54.0 COMPONENTS system serialization filesystem thread regex REQUIRED)
+find_package( Threads )
 
 if(NOT Boost_FOUND)
     message("Boost >= 1.54.0 is needed for build")
@@ -57,6 +58,8 @@ add_library(${LIBRARY_NAME} STATIC ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES}
 
 target_compile_definitions(${LIBRARY_NAME} PRIVATE -DBOOST_ALL_NO_LIB)
 target_link_libraries(${LIBRARY_NAME} ${Boost_LIBRARIES})
+
+target_link_libraries(${LIBRARY_NAME} ${CMAKE_THREAD_LIBS_INIT} )
 
 file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
@@ -88,7 +91,6 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 
   add_executable(${APP_EXE} ${SOURCE_TEST_FILES} ${HEADER_TEST_FILES})
   target_link_libraries(${APP_EXE} ${LIBRARY_NAME})
-
 else()
   message("Ignoring tests...")
 endif()

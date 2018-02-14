@@ -4,14 +4,15 @@ nx::gui::ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& s
 						 ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage) :
 	GUIElement(pos, size, identifier, events),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
-	_body(sf::RectangleShape(size)), _filled(sf::RectangleShape()), _percentage(0), _font(sf::Font())
+	_body(sf::RectangleShape(size)), _filled(sf::RectangleShape()), _percentage(0), _font(rxallocator<sf::Font>())
 {
-	this->_label = sf::Text("", this->_font, textInfo.fontSize);
+	if (!this->_font->loadFromFile(textInfo.fontPath))
+		throw nx::InvalidFontException(textInfo.fontPath);
+
+	this->_label = sf::Text("", *this->_font, textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->setFilled(0);
-
-	this->_font.loadFromFile(textInfo.fontPath);
 
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
