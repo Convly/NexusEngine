@@ -152,6 +152,7 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	else
 		this->getSystemByName("rendering")->update();
 
+	_systems.clear();
 	return (0);
 }
 
