@@ -21,6 +21,18 @@ namespace nx
 				~ProgressBar() {}
 
 			public:
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _progressBarInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_progressBarInfos.setIsModified(false);
+				}
+
 				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
 				GUIProgressBarInfos& getGuiProgressBarInfos() { return _progressBarInfos; }
 			};

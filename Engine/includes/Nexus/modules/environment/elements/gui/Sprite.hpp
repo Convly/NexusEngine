@@ -21,6 +21,18 @@ namespace nx
 				~Sprite() {}
 
 			public:
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _spriteInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_spriteInfos.setIsModified(false);
+				}
+
 				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
 				GUISpriteInfos& getGuiSpriteInfos() { return _spriteInfos; }
 			};

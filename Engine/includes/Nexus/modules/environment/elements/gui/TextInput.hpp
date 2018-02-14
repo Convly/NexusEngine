@@ -21,6 +21,18 @@ namespace nx
 				~TextInput() {}
 
 			public:
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _textInputInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_textInputInfos.setIsModified(false);
+				}
+
 				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
 				GUITextInputInfos& getGuiTextInputInfos() { return _textInputInfos; }
 			};

@@ -34,6 +34,45 @@ namespace nx
 			Layer(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
 			~Layer() {}
 
+			template<typename T>
+			bool guiIsModified(T& guiElements){
+				for (auto& guiElement : guiElements){
+					if (guiElement.isModified()){
+						return true;
+					}
+				}
+				return false;
+			}
+
+			bool isModified(){
+				if (_entityInfos.getIsModified() || guiIsModified(_buttons)
+					|| guiIsModified(_checkboxes) || guiIsModified(_comboBoxes)
+					|| guiIsModified(_images) || guiIsModified(_progressbars)
+					|| guiIsModified(_sprites) || guiIsModified(_texts)
+					|| guiIsModified(_textInputs))
+					return true;
+				return false;
+			}
+
+			template<typename T>
+			void guiResetModified(T& guiElements){
+				for (auto& guiElement : guiElements){
+					guiElement.resetModified();
+				}
+			}
+
+			void resetModified(){
+				_entityInfos.setIsModified(false);
+				guiResetModified(_buttons);
+				guiResetModified(_checkboxes);
+				guiResetModified(_comboBoxes);
+				guiResetModified(_images);
+				guiResetModified(_progressbars);
+				guiResetModified(_sprites);
+				guiResetModified(_texts);
+				guiResetModified(_textInputs);
+			}
+
 			// Setters
 			void	addButton(gui::Button const& button)
 			{

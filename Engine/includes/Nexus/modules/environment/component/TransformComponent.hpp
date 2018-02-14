@@ -34,6 +34,13 @@ namespace nx
 			~TransformComponent() {}
 
 		public:
+			bool isModified(){
+				if (_entityInfos.getIsModified()){
+					return true;
+				}
+				return false;
+			}
+
 			// Setters
 			void					setPos(nx::maths::Vector2f const& pos)
 			{

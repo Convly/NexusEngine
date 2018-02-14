@@ -115,7 +115,7 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 	_gameInfosParser->dump();
 	if (!nx::xml::Parser::fillEnvironment(this->_env, *_gameInfosParser)){
 		std::cerr << "Error: xmlParser please look at the logs" << std::endl;
-		return;
+		//return;
 	}
 
 	this->_run = this->checkEngineIntegrity();
@@ -188,5 +188,11 @@ void	nx::Engine::_lateUpdate()
 
 void	nx::Engine::_render()
 {
-	//reflechir
+	for (auto& scene : getEnv().getScenes()){
+		if (scene.isModified()){
+			// Send scene
+			std::cout << scene.getEntityInfos().getName() << " need to be send !!!" << std::endl;
+			scene.resetModified();
+		}
+	}
 }

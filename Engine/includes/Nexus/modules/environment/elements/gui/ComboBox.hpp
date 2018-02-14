@@ -21,6 +21,18 @@ namespace nx
 				~ComboBox() {}
 
 			public:
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _comboBoxInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_comboBoxInfos.setIsModified(false);
+				}
+
 				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
 				GUIComboBoxInfos& getGuiComboBoxInfos() { return _comboBoxInfos; }
 			};

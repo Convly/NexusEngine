@@ -21,6 +21,18 @@ namespace nx
 				~Image() {}
 
 			public:
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _imageInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_imageInfos.setIsModified(false);
+				}
+
 				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
 				GUIImageInfos& getGuiImageInfos() { return _imageInfos; }
 			
