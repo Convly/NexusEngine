@@ -4,10 +4,11 @@ nx::gui::ComboBox::ComboBox(sf::Vector2f const& pos, sf::Vector2f const& size, s
 				   ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
-	_font(sf::Font()), _colorInfo(ColorInfo(colorInfo)), _textInfo(TextInfo(textInfo)), _body(sf::RectangleShape(size)), _idxSelected(-1), _isScrolled(false)
+	_font(rxallocator<sf::Font>()), _colorInfo(ColorInfo(colorInfo)), _textInfo(TextInfo(textInfo)), _body(sf::RectangleShape(size)), _idxSelected(-1), _isScrolled(false)
 {
-	this->_font.loadFromFile(textInfo.fontPath);
-	this->_selected = sf::Text("- Nothing selected -", this->_font, this->_textInfo.fontSize);
+	if (!this->_font->loadFromFile(textInfo.fontPath))
+		throw nx::InvalidFontException(textInfo.fontPath);
+	this->_selected = sf::Text("- Nothing selected -", *this->_font, this->_textInfo.fontSize);
 	this->_selected.setFillColor(textInfo.textColor);
 	this->_selected.setStyle(textInfo.textStyle);
 
@@ -147,7 +148,7 @@ void	nx::gui::ComboBox::setFontSize(unsigned int const fontSize)
 
 void	nx::gui::ComboBox::addSelection(std::string const& selection)
 {
-	sf::Text	text(selection, this->_font, this->_textInfo.fontSize);
+	sf::Text	text(selection, *this->_font, this->_textInfo.fontSize);
 	sf::RectangleShape rect(this->_body.getSize());
 
 	this->_selections.push_back(selection);
