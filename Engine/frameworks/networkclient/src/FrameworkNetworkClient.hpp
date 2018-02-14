@@ -46,12 +46,6 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 			  nx::Log::inform("Udp network client started...");
 			  start_receive();
   		}
-
-		  ~UdpClient()
-		  {
-			  nx::Event e(nx::NETCUST_DISCONNECT, clientId_);
-			  sendEvent(e);
-		  }
 		
 		void start_receive()
 		{
@@ -135,7 +129,6 @@ protected:
 	boost::asio::io_service io_service_;
 	std::shared_ptr<std::thread> io_thread_;
 	std::shared_ptr<FrameworkNetworkClient::UdpClient> udp_client_;
-	int clientId_;
 
 public:
 	void connect(const nx::netcust_host_t&);
