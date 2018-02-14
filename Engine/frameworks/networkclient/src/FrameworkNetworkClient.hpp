@@ -46,6 +46,11 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 			  nx::Log::inform("Udp network client started...");
 			  start_receive();
   		}
+
+		  ~UdpClient()
+		  {
+			  
+		  }
 		
 		void start_receive()
 		{
