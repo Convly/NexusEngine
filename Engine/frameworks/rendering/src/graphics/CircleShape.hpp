@@ -19,7 +19,7 @@ namespace nx
 
 		public:
 			CircleShape(sf::Vector2f const & pos, sf::Vector2f const & size, std::string const & identifier,
-				nx::env::MouseEventsContainer const & events, float const radius, nx::ColorInfo const& colorInfo);
+				float const radius, nx::ColorInfo const& colorInfo);
 			~CircleShape();
 
 			// Display

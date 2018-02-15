@@ -1,6 +1,6 @@
 #include "Sprite.hpp"
 
-nx::graphics::Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
+nx::graphics::Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier,
 			   std::string const& spritesheetPath, sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
 	GraphicsElement(pos, spriteSize, identifier), _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize),
 	_originalSize(spriteSize), _spriteIdx(0), _slowness(40), _isAnimated(false), _animationIdx(0)

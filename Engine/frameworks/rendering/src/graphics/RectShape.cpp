@@ -1,8 +1,8 @@
 #include "RectShape.hpp"
 
 nx::graphics::RectShape::RectShape(sf::Vector2f const & pos, sf::Vector2f const & size, std::string const & identifier,
-								   nx::env::MouseEventsContainer const & events, nx::ColorInfo const& colorInfo) :
-	GraphicsElement(pos, size, identifier, events), _body(sf::RectangleShape(size))
+								   nx::ColorInfo const& colorInfo) :
+	GraphicsElement(pos, size, identifier), _body(sf::RectangleShape(size))
 {
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);

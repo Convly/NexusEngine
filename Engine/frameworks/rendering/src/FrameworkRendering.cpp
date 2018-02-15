@@ -385,7 +385,6 @@ bool FrameworkRendering::addGraphicsSprite(const nx::env::GraphicsElementInfos& 
 		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
 		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
 		graphicsParams.identifier,
-		graphicsParams.events,
 		spriteParams.spritesheetPath,
 		sf::Vector2f(spriteParams.sheetGrid.x, spriteParams.sheetGrid.y),
 		sf::Vector2f(spriteParams.spriteSize.x, spriteParams.spriteSize.y)
@@ -405,7 +404,6 @@ bool FrameworkRendering::addGraphicsCirleShape(const nx::env::GraphicsElementInf
 		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
 		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
 		graphicsParams.identifier,
-		graphicsParams.events,
 		circleShapeParams.getRadiusConst(),
 		nx::ColorInfo(
 			FrameworkRendering::RGBa_to_sfColor(circleShapeParams.getColorInfoConst().getBackgroundColorConst()),
@@ -428,7 +426,6 @@ bool FrameworkRendering::addGraphicsRectShape(const nx::env::GraphicsElementInfo
 		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
 		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
 		graphicsParams.identifier,
-		graphicsParams.events,
 		nx::ColorInfo(
 			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.getBackgroundColorConst()),
 			FrameworkRendering::RGBa_to_sfColor(rectShapeParams.colorInfo.getBorderColorConst()),
@@ -450,7 +447,6 @@ bool FrameworkRendering::addGraphicsConvexShape(const nx::env::GraphicsElementIn
 		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
 		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
 		graphicsParams.identifier,
-		graphicsParams.events,
 		nx::ColorInfo(
 			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.getBackgroundColorConst()),
 			FrameworkRendering::RGBa_to_sfColor(convexShapeParams.colorInfo.getBorderColorConst()),

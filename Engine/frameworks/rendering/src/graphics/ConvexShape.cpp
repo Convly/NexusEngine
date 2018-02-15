@@ -1,8 +1,8 @@
 #include "ConvexShape.hpp"
 
 nx::graphics::ConvexShape::ConvexShape(sf::Vector2f const & pos, sf::Vector2f const & size, std::string const & identifier,
-									   nx::env::MouseEventsContainer const & events, nx::ColorInfo const& colorInfo) :
-	GraphicsElement(pos, sf::Vector2f(), identifier, events), _body(sf::ConvexShape())
+									   nx::ColorInfo const& colorInfo) :
+	GraphicsElement(pos, sf::Vector2f(), identifier), _body(sf::ConvexShape())
 {
 	this->_body.setPosition(pos);
 	this->_body.setFillColor(colorInfo.backgroundColor);
