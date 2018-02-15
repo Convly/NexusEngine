@@ -1,6 +1,7 @@
 #ifndef FRAMEWORK_RENDERING
 # define FRAMEWORK_RENDERING
 
+# include <functional>
 # include "./gui/GUIHandler.hpp"
 # include "./graphics/GraphicsHandler.hpp"
 # include "Nexus/engine.hpp"
@@ -14,6 +15,8 @@ public:
 
 	void InitializeWindow(int width, int height, std::string titleWin);
 	void RefreshRendering();
+	void LoadScene(std::string const& sceneName);
+
 	bool addLayer(const std::string&);
 	bool addButton(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIButtonInfos& buttonsParams);
 	bool addCheckbox(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUICheckboxInfos& checkboxParams);
@@ -279,6 +282,15 @@ private:
 	nx::graphics::CircleShape		*_getGraphicsCircleShapeFromHandler(std::string const& circleShapeId) const;
 	nx::graphics::RectShape			*_getGraphicsRectShapeFromHandler(std::string const& rectShapeId) const;
 	nx::graphics::ConvexShape		*_getGraphicsConvexShapeFromHandler(std::string const& convexShapeId) const;
+
+	void 	_registerGUIButton(std::vector<nx::env::gui::Button> const& buttons, std::string const& layerName);
+	void 	_registerGUICheckbox(std::vector<nx::env::gui::Checkbox> const& checkboxes, std::string const& layerName);
+	void 	_registerGUIComboBox(std::vector<nx::env::gui::ComboBox> const& comboboxes, std::string const& layerName);
+	void 	_registerGUIImage(std::vector<nx::env::gui::Image> const& images, std::string const& layerName);
+	void 	_registerGUIProgressBar(std::vector<nx::env::gui::ProgressBar> const& progressbars, std::string const& layerName);
+	void 	_registerGUISprite(std::vector<nx::env::gui::Sprite> const& sprites, std::string const& layerName);
+	void 	_registerGUIText(std::vector<nx::env::gui::Text> const& texts, std::string const& layerName);
+	void 	_registerGUITextInput(std::vector<nx::env::gui::TextInput> const& textinputs, std::string const& layerName);
 };
 
 #if  defined(_MSC_VER)

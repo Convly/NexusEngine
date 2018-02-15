@@ -45,13 +45,13 @@
                  fontPath="./fonts/Roboto-Regular.ttf" text="" fontSize="12" textColor="0,0,0,255"/>
       <Button name="ConnectButton" pos="432,480" size="160,30"
               isPushButton="True" backgroundColor="200,200,200,255" borderColor="255,255,255,255" borderThickness="2"
-              fontPath="./fonts/Roboto-Regular.ttf" text="" fontSize="12" textColor="0,0,0,255"
+              fontPath="./fonts/Roboto-Regular.ttf" text="Connect" fontSize="20" textColor="0,0,0,255"
               onLeftClickPressedInside="menu.lua:displayAlertConnectionToServer"/>
       <Button name="OpaqueBackground" pos="0,0" size="1024,768" active="False"
               isPushButton="True" backgroundColor="0,0,0,190" borderColor="0,0,0,0" borderThickness="0"
               fontPath="./fonts/Roboto-Regular.ttf" text="" fontSize="0" textColor="0,0,0,0"/>
-      <Sprite name="LoadingSprite" pos="477,349" active="False"
-              spritesheetPath="./images/loading.png" sheetGrid="4,2" spriteSize="68,70"/>
+      <!-- <Sprite name="LoadingSprite" pos="477,349" active="False"
+              spritesheetPath="./images/loading.png" sheetGrid="4,2" spriteSize="68,70"/>  -->
     </Layer>
     <!--<Layer name="WaitingRoom" active="False">
       <Button name="Player1Status" pos="247,300" size="80,30"

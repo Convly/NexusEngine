@@ -26,60 +26,61 @@ void nx::RenderingSystem::init()
 		nx::Log::print("Framework is nullptr");
 	else {
 		f->InitializeWindow(1024, 768, "R-Type");
+		f->LoadScene("Menu");
 		//Home layer
-		f->addLayer("Home");
-		f->addText(
-			"Home",
-			nx::env::GUIElementInfos(nx::maths::Vector2f(470, 225), nx::maths::Vector2f(0, 0), "IpAddressText",
-			{
+		// f->addLayer("Home");
+		// f->addText(
+		// 	"Home",
+		// 	nx::env::GUIElementInfos(nx::maths::Vector2f(470, 225), nx::maths::Vector2f(0, 0), "IpAddressText",
+		// 	{
 
-			}),
-			nx::env::GUITextInfos(nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "IP Address", 16, nx::env::RGBa(255, 255, 255, 255), 0))
-		);
-		f->addTextInput(
-			"Home",
-			nx::env::GUIElementInfos(nx::maths::Vector2f(392, 260), nx::maths::Vector2f(240, 28), "IpAddressTextInput",
-				{
+		// 	}),
+		// 	nx::env::GUITextInfos(nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "IP Address", 16, nx::env::RGBa(255, 255, 255, 255), 0))
+		// );
+		// f->addTextInput(
+		// 	"Home",
+		// 	nx::env::GUIElementInfos(nx::maths::Vector2f(392, 260), nx::maths::Vector2f(240, 28), "IpAddressTextInput",
+		// 		{
 
-				}),
-			nx::env::GUITextInputInfos(nx::env::ColorInfo(nx::env::RGBa(200, 200, 200, 255), nx::env::RGBa(255, 255, 255, 255), 2),
-											 nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::env::RGBa(0, 0, 0, 255), 0))
-		);
-		f->addText(
-			"Home",
-			nx::env::GUIElementInfos(nx::maths::Vector2f(497, 315), nx::maths::Vector2f(0, 0), "PortText",
-				{
+		// 		}),
+		// 	nx::env::GUITextInputInfos(nx::env::ColorInfo(nx::env::RGBa(200, 200, 200, 255), nx::env::RGBa(255, 255, 255, 255), 2),
+		// 									 nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::env::RGBa(0, 0, 0, 255), 0))
+		// );
+		// f->addText(
+		// 	"Home",
+		// 	nx::env::GUIElementInfos(nx::maths::Vector2f(497, 315), nx::maths::Vector2f(0, 0), "PortText",
+		// 		{
 
-				}),
-				nx::env::GUITextInfos(nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "Port", 16, nx::env::RGBa(255, 255, 255, 255), 0))
-				);
-		f->addTextInput(
-			"Home",
-			nx::env::GUIElementInfos(nx::maths::Vector2f(477, 350), nx::maths::Vector2f(70, 28), "PortTextInput",
-				{	
+		// 		}),
+		// 		nx::env::GUITextInfos(nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "Port", 16, nx::env::RGBa(255, 255, 255, 255), 0))
+		// 		);
+		// f->addTextInput(
+		// 	"Home",
+		// 	nx::env::GUIElementInfos(nx::maths::Vector2f(477, 350), nx::maths::Vector2f(70, 28), "PortTextInput",
+		// 		{	
 
-				}),
-			nx::env::GUITextInputInfos(nx::env::ColorInfo(nx::env::RGBa(200, 200, 200, 255), nx::env::RGBa(255, 255, 255, 255), 2),
-											 nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::env::RGBa(0, 0, 0, 255), 0))
-		);
-		f->addButton(
-			"Home",
-			nx::env::GUIElementInfos(nx::maths::Vector2f(432, 480), nx::maths::Vector2f(160, 30), "ConnectButton",
-			{
-				{ "onLeftClickPressedInside",{ "menu.lua", "displayAlertConnectionToServer" } }
-			}),
-			nx::env::GUIButtonInfos(true, nx::env::ColorInfo(nx::env::RGBa(200, 200, 200, 255), nx::env::RGBa(255, 255, 255, 255), 2),
-										  nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "Connect", 20, nx::env::RGBa(0, 0, 0, 255), 0))
-		);
-		f->addButton(
-			"Home",
-			nx::env::GUIElementInfos(nx::maths::Vector2f(0, 0), nx::maths::Vector2f(1024, 768), "OpaqueBackground",
-			{
+		// 		}),
+		// 	nx::env::GUITextInputInfos(nx::env::ColorInfo(nx::env::RGBa(200, 200, 200, 255), nx::env::RGBa(255, 255, 255, 255), 2),
+		// 									 nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "", 12, nx::env::RGBa(0, 0, 0, 255), 0))
+		// );
+		// f->addButton(
+		// 	"Home",
+		// 	nx::env::GUIElementInfos(nx::maths::Vector2f(432, 480), nx::maths::Vector2f(160, 30), "ConnectButton",
+		// 	{
+		// 		{ "onLeftClickPressedInside",{ "menu.lua", "displayAlertConnectionToServer" } }
+		// 	}),
+		// 	nx::env::GUIButtonInfos(true, nx::env::ColorInfo(nx::env::RGBa(200, 200, 200, 255), nx::env::RGBa(255, 255, 255, 255), 2),
+		// 								  nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "Connect", 20, nx::env::RGBa(0, 0, 0, 255), 0))
+		// );
+		// f->addButton(
+		// 	"Home",
+		// 	nx::env::GUIElementInfos(nx::maths::Vector2f(0, 0), nx::maths::Vector2f(1024, 768), "OpaqueBackground",
+		// 	{
 
-			}),
-			nx::env::GUIButtonInfos(true, nx::env::ColorInfo(nx::env::RGBa(0, 0, 0, 190), nx::env::RGBa(0, 0, 0, 0), 0),
-										  nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "", 0, nx::env::RGBa(0, 0, 0, 0), 0))
-		);
+		// 	}),
+		// 	nx::env::GUIButtonInfos(true, nx::env::ColorInfo(nx::env::RGBa(0, 0, 0, 190), nx::env::RGBa(0, 0, 0, 0), 0),
+		// 								  nx::env::TextInfo("./fonts/Roboto-Regular.ttf", "", 0, nx::env::RGBa(0, 0, 0, 0), 0))
+		// );
 		/*f->addGUISprite(
 			"Home",
 			nx::env::GUIElementInfos(nx::maths::Vector2f(477, 349), nx::maths::Vector2f(0, 0), "LoadingSprite",
