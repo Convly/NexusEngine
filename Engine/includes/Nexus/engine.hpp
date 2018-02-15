@@ -90,6 +90,10 @@ namespace nx {
 		void coreLoop(const std::function<void(void)>& userCallback);
 		void loadResources();
 
+  public:
+		void	fixUpdateScript(const std::string& fctName);
+		
+
   private:
 		void _fixedUpdate();
 		void _update();

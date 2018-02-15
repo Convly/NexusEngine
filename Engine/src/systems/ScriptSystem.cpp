@@ -50,8 +50,10 @@ void nx::ScriptSystem::event_ScriptRun(const nx::Event& e)
 	auto f = self->getFramework();
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
-	else
-		f->runFile(external::any_cast<std::string>(e.data));
+	else{
+		std::string rootPath =  nx::Engine::Instance().getEnv().getGameInfos().getRootPath() + nx::Engine::Instance().getGameInfosParser()->getFields()._resources.at("scripts");
+		f->runFile(rootPath + external::any_cast<std::string>(e.data));
+	}
 }
 
 void nx::ScriptSystem::event_ScriptLoad(const nx::Event& e)
@@ -63,8 +65,10 @@ void nx::ScriptSystem::event_ScriptLoad(const nx::Event& e)
 	auto f = self->getFramework();
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
-	else
-		f->loadFile(external::any_cast<std::string>(e.data));
+	else{
+		std::string rootPath =  nx::Engine::Instance().getEnv().getGameInfos().getRootPath() + nx::Engine::Instance().getGameInfosParser()->getFields()._resources.at("scripts");
+		f->loadFile(rootPath + external::any_cast<std::string>(e.data));
+	}
 }
 
 void nx::ScriptSystem::event_ScriptInit(const nx::Event& e)
@@ -76,8 +80,10 @@ void nx::ScriptSystem::event_ScriptInit(const nx::Event& e)
 	auto f = self->getFramework();
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
-	else
-		f->init(external::any_cast<std::string>(e.data));
+	else{
+		std::string rootPath =  nx::Engine::Instance().getEnv().getGameInfos().getRootPath() + nx::Engine::Instance().getGameInfosParser()->getFields()._resources.at("scripts");
+		f->init(rootPath + external::any_cast<std::string>(e.data));
+	}
 }
 
 void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
@@ -89,8 +95,10 @@ void nx::ScriptSystem::event_ScriptUpdate(const nx::Event& e)
 	auto f = self->getFramework();
 	if (!f)
 		nx::Log::warning("Script framework is corrupted", "SCRIPT_INTEGRITY");
-	else
-		f->update(external::any_cast<std::string>(e.data));
+	else{
+		std::string rootPath =  nx::Engine::Instance().getEnv().getGameInfos().getRootPath() + nx::Engine::Instance().getGameInfosParser()->getFields()._resources.at("scripts");
+		f->update(rootPath + external::any_cast<std::string>(e.data));
+	}
 }
 
 void nx::ScriptSystem::event_ScriptExecFunction(const nx::Event& e)
