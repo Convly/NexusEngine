@@ -3,8 +3,7 @@
 FrameworkNetworkClient::FrameworkNetworkClient(nx::Engine* engine)
 :
 	nx::NetworkClientFrameworkTpl("FrameworkNetworkClient"),
-	_engine(engine),
-	clientId_(-1)
+	_engine(engine)
 {
 	enginePtr = engine;
 	nx::Log::inform("New NetworkClient Framework created");
@@ -12,9 +11,7 @@ FrameworkNetworkClient::FrameworkNetworkClient(nx::Engine* engine)
 
 FrameworkNetworkClient::~FrameworkNetworkClient()
 {
-	this->io_service_.stop();	
-	if (this->io_thread_->joinable())
-		this->io_thread_->join();
+	disconnect();
 }
 
 void FrameworkNetworkClient::connect(const nx::netcust_host_t& host)
@@ -42,6 +39,9 @@ void FrameworkNetworkClient::disconnect()
 		nx::Log::inform("No host attached, disconnect operation aborted");
 		return;
 	}
+
+	nx::Event e(nx::NETCUST_DISCONNECT, udp_client_->getClientId());
+	udp_client_->sendEvent(e);
 
 	this->io_service_.stop();	
 	if (this->io_thread_->joinable())
