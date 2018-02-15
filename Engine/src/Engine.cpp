@@ -115,7 +115,7 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 	_gameInfosParser->dump();
 	if (!nx::xml::Parser::fillEnvironment(this->_env, *_gameInfosParser)){
 		std::cerr << "Error: xmlParser please look at the logs" << std::endl;
-		return;
+		//return;
 	}
 
 	this->_run = this->checkEngineIntegrity();
@@ -124,12 +124,12 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 
 void nx::Engine::loadResources()
 {
-	for (auto scene : this->_env.getScenes()){
-		for (auto script : scene.getScriptComponents()){
-			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + script.getScriptPath());
+	for (auto& scene : this->_env.getScenes()){
+		for (auto& script : scene.getScriptComponents()){
+			this->emit(nx::EVENT::SCRIPT_LOAD, script.getScriptPath());
 		}
-		for (auto gameObject : scene.getGameObjects()){
-			this->emit(nx::EVENT::SCRIPT_LOAD, this->_env.getGameInfos().getRootPath() + gameObject.getScriptComponent().getScriptPath());
+		for (auto& gameObject : scene.getGameObjects()){
+			this->emit(nx::EVENT::SCRIPT_LOAD, gameObject.getScriptComponent().getScriptPath());
 		}
 	}
 }
@@ -152,6 +152,7 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	else
 		this->getSystemByName("rendering")->update();
 
+	_systems.clear();
 	return (0);
 }
 
@@ -167,26 +168,46 @@ void nx::Engine::coreLoop(const std::function<void(void)>& userCallback)
 	}
 }
 
+void	nx::Engine::fixUpdateScript(const std::string& fctName){
+	for (auto& scene : getEnv().getScenes()){
+		for (auto& script : scene.getScriptComponents()){
+			this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos(script.getScriptPath(), fctName, false));
+		}
+		for (auto& gameObject : scene.getGameObjects()){
+			this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos(gameObject.getScriptComponent().getScriptPath(), fctName, false));
+		}
+	}	
+}
+
 void	nx::Engine::_fixedUpdate()
 {
-	//Boucler sur tout
+	fixUpdateScript("FixedUpdate");
+	// Boucler sur tout
 	// Calculer la physique
 	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "FixedUpdate"));
 }
 
 void	nx::Engine::_update()
 {
-	//Boucler sur tout
+	fixUpdateScript("Update");
+	// Boucler sur tout
 	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "Update"));
 }
 
 void	nx::Engine::_lateUpdate()
 {
-	//Boucler sur tout
+	fixUpdateScript("LateUpdate");
+	// Boucler sur tout
 	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "LateUpdate"));
 }
 
 void	nx::Engine::_render()
 {
-	//reflechir
+	for (auto& scene : getEnv().getScenes()){
+		if (scene.isModified()){
+			// Send scene
+			std::cout << scene.getEntityInfos().getName() << " need to be send !!!" << std::endl;
+			scene.resetModified();
+		}
+	}
 }

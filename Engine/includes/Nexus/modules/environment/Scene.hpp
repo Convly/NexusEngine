@@ -25,6 +25,31 @@ namespace nx
 			Scene(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
 			~Scene() {}
 
+			bool isModified(){
+				if (_entityInfos.getIsModified())
+					return true;
+				for (auto& scriptComponent : _scriptComponents)
+					if (scriptComponent.isModified())
+						return true;
+				for (auto& gameObject : _gameObjects)
+					if (gameObject.isModified())
+						return true;
+				for (auto& layer : _layers)
+					if (layer.isModified())
+						return true;
+				return false;
+			}
+
+			void resetModified(){
+				_entityInfos.setIsModified(false);
+				for (auto& scriptComponent : _scriptComponents)
+					scriptComponent.resetModified();
+				for (auto& gameObject : _gameObjects)
+					gameObject.resetModified();
+				for (auto& layer : _layers)
+					layer.resetModified();
+			}
+
 			// Setters
 			void addScriptComponent(std::string const& scriptName, std::string const& scriptPath)
 			{

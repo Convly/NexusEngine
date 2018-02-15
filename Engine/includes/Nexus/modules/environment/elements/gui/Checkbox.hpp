@@ -21,6 +21,18 @@ namespace nx
 				~Checkbox() {}
 
 			public:
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _checkboxInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_checkboxInfos.setIsModified(false);
+				}
+
 				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
 				GUICheckboxInfos& getGuiCheckBoxInfos() { return _checkboxInfos; }
 			};

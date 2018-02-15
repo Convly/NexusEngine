@@ -108,27 +108,27 @@
               fontPath="./fonts/Roboto-Regular.ttf" text="Quit" fontSize="18" textColor="0,0,0,255"/>
     </Layer>
     <GameObject name="Player1Object">
-      <Script name="Player1Script" path="./scripts/PlayerScript.lua"/>
+      <Script name="Player1Script" path="./PlayerScript.lua"/>
       <Transform name="Player1Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player1Renderer" opacity="100" texturePath="./images/player.png" shapeType="None"/>
+      <Renderer name="Player1Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
       <RigidBody name="Player1RigidBody" mass="0" bounciness="0" size="64,64"/>
     </GameObject>
     <GameObject name="Player2Object">
-      <Script name="Player2Script" path="./scripts/PlayerScript.lua"/>
+      <Script name="Player2Script" path="./PlayerScript.lua"/>
       <Transform name="Player2Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player2Renderer" opacity="100" texturePath="./images/player.png" shapeType="None"/>
+      <Renderer name="Player2Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
       <RigidBody name="Player2RigidBody" mass="0" bounciness="0" size="64,64"/>
     </GameObject>
     <GameObject name="Player3Object">
-      <Script name="Player3Script" path="./scripts/PlayerScript.lua"/>
+      <Script name="Player3Script" path="./PlayerScript.lua"/>
       <Transform name="Player3Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player3Renderer" opacity="100" texturePath="./images/player.png" shapeType="None"/>
+      <Renderer name="Player3Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
       <RigidBody name="Player3RigidBody" mass="0" bounciness="0" size="64,64"/>
     </GameObject>
     <GameObject name="Player4Object">
-      <Script name="Player4Script" path="./scripts/PlayerScript.lua"/>
+      <Script name="Player4Script" path="./PlayerScript.lua"/>
       <Transform name="Player4Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player4Renderer" opacity="100" texturePath="./images/player.png" shapeType="None"/>
+      <Renderer name="Player4Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
       <RigidBody name="Player4RigidBody" mass="0" bounciness="0" size="64,64"/>
     </GameObject>
   </Scene>

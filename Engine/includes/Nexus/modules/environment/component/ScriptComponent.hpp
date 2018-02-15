@@ -20,6 +20,17 @@ namespace nx
 				: _entityInfos(_name), _scriptPath(scriptPath) {}
 			~ScriptComponent() {}
 
+			bool isModified(){
+				if (_entityInfos.getIsModified()){
+					return true;
+				}
+				return false;
+			}
+
+			void resetModified(){
+				_entityInfos.setIsModified(false);
+			}
+
 			// Setters
 			void		setScriptPath(const std::string& scriptPath)
 			{

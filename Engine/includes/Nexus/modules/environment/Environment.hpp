@@ -28,7 +28,6 @@ namespace nx
 				this->_scenes.push_back(Scene(sceneName));
 			}
 
-
 			// Getters
 			std::vector<Scene> &	getScenes()
 			{
