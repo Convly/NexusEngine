@@ -21,6 +21,18 @@ namespace nx
 				~Button() {}
 
 			public:
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _buttonInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_buttonInfos.setIsModified(false);
+				}
+
 				GUIElementInfos& getGuiElementInfos() { return _elementInfos; }
 				GUIButtonInfos& getGuiButtonInfos() { return _buttonInfos; }
 			};

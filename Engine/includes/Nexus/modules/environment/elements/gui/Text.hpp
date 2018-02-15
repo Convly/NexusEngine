@@ -29,6 +29,18 @@ namespace nx
 				{
 					return _elementInfos;
 				}
+
+				bool isModified(){
+					if (_elementInfos.getIsModified() || _textInfos.getIsModified()){
+						return true;
+					}
+					return false;
+				}
+
+				void resetModified(){
+					_elementInfos.setIsModified(false);
+					_textInfos.setIsModified(false);
+				}
 			};
 		}
 	}

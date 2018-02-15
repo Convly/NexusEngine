@@ -29,6 +29,13 @@ namespace nx
 				: _entityInfos(other.getEntityInfosConst()), _mass(other.getMassConst()), _bounciness(other.getBouncinessConst()), _size(other.getSizeConst()) {}
 			~RigidBodyComponent() {}
 
+			bool isModified(){
+				if (_entityInfos.getIsModified()){
+					return true;
+				}
+				return false;
+			}
+
 			// Setters
 			void		setMass(double const mass)
 			{

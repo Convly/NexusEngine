@@ -35,6 +35,13 @@ namespace nx
 				: _entityInfos(other.getEntityInfosConst()), _opacity(other.getOpacityConst()), _texturePath(other.getTexturePathConst()), _shapeType(other.getShapeTypeConst()) {}
 			~RendererComponent() {}
 
+			bool isModified(){
+				if (_entityInfos.getIsModified()){
+					return true;
+				}
+				return false;
+			}
+
 			// Setters
 			void		setOpacity(uint8_t const opacity)
 			{

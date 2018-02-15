@@ -62,6 +62,10 @@ namespace nx
 				return (this->_active);
 			}
 
+			bool const 			getIsModified() const{
+				return _isModified;
+			}
+
 		public:
 			EntityInfos & operator=(const EntityInfos &other)
 			{

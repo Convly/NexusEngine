@@ -25,6 +25,21 @@ namespace nx
 			GameObject(std::string const& _name, bool const _active) : _entityInfos(_name, _active), _scriptComponent(_name), _transformComponent(_name), _rendererComponent(_name), _rigidBodyComponent(_name) {}
 			~GameObject() {}
 
+			bool isModified(){
+				if (_entityInfos.getIsModified() || _scriptComponent.isModified() || _transformComponent.isModified() || _rendererComponent.isModified() || _rigidBodyComponent.isModified()){
+					return true;
+				}
+				return false;
+			}
+
+			void resetModified(){
+				_entityInfos.setIsModified(false);
+				_scriptComponent.getEntityInfos().setIsModified(false);
+				_transformComponent.getEntityInfos().setIsModified(false);
+				_rendererComponent.getEntityInfos().setIsModified(false);
+				_rigidBodyComponent.getEntityInfos().setIsModified(false);
+			}
+
 			// Setters
 			void		setScriptComponent(ScriptComponent const& scriptComponent)
 			{
