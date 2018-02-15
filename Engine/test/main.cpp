@@ -11,7 +11,7 @@ int main(int ac, char** av)
 
 	auto& engine = nx::Engine::Instance();
 
-	engine.setup(av[1], true);
+	engine.setup(av[1], false);
 	engine.ping();
 	try {
 		return (engine.run(&userMainLoop));
