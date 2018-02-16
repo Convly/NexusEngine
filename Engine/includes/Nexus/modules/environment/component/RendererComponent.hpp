@@ -23,6 +23,7 @@ namespace nx
 			ShapeType				_shapeType;
 
 		public:
+			RendererComponent() {}
 			RendererComponent(std::string const& _name)
 				: _entityInfos(_name), _opacity(100), _shapeType(ShapeType::UNDEFINED) {}
 			RendererComponent(std::string const& _name, std::string const& texturePath)
@@ -34,6 +35,17 @@ namespace nx
 			RendererComponent(const RendererComponent & other)
 				: _entityInfos(other.getEntityInfosConst()), _opacity(other.getOpacityConst()), _texturePath(other.getTexturePathConst()), _shapeType(other.getShapeTypeConst()) {}
 			~RendererComponent() {}
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				uint8_t opacity = _opacity.load();
+				ar & _entityInfos;
+				ar & opacity;
+				ar & _texturePath;
+				ar & _shapeType;
+			}
 
 			bool isModified(){
 				if (_entityInfos.getIsModified()){

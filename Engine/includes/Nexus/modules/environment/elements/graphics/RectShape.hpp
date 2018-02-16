@@ -18,6 +18,14 @@ namespace nx
 				RectShape(GraphicsElementInfos const& elementInfos, GraphicsRectInfos const& rectShapeInfos)
 					: _elementInfos(elementInfos), _rectShapeInfos(rectShapeInfos) {}
 				~RectShape() {}
+
+			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _rectShapeInfos;
+				}
 			};
 		}
 	}

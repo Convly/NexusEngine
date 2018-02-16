@@ -14,6 +14,15 @@ namespace nx
 			std::string		_scriptPath;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _entityInfos;
+				ar & _scriptPath;
+			}
+
+		public:
+			ScriptComponent() {}
 			ScriptComponent(std::string const& _name)
 				: _entityInfos(_name) {}
 			ScriptComponent(std::string const& _name, std::string const& scriptPath)

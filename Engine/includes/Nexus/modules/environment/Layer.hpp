@@ -34,6 +34,21 @@ namespace nx
 			Layer(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
 			~Layer() {}
 
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _entityInfos;
+				ar & _buttons;
+				ar & _checkboxes;
+				ar & _comboBoxes;
+				ar & _images;
+				ar & _progressbars;
+				ar & _sprites;
+				ar & _texts;
+				ar & _textInputs;
+			}
+
 			template<typename T>
 			bool guiIsModified(T& guiElements){
 				for (auto& guiElement : guiElements){

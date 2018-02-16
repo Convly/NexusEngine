@@ -15,6 +15,14 @@ namespace nx
 				GUISpriteInfos		_spriteInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _spriteInfos;
+				}
+
+			public:
 				Sprite() {}
 				Sprite(GUIElementInfos const& elementInfos, GUISpriteInfos const& spriteInfos)
 					: _elementInfos(elementInfos), _spriteInfos(spriteInfos) {}

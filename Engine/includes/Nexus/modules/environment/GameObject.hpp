@@ -21,6 +21,18 @@ namespace nx
 			RigidBodyComponent	_rigidBodyComponent;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _entityInfos;
+				ar & _scriptComponent;
+				ar & _transformComponent;
+				ar & _rendererComponent;
+				ar & _rigidBodyComponent;
+			}
+
+		public:
+			GameObject() {}
 			GameObject(std::string const& _name) : _entityInfos(_name), _scriptComponent(_name), _transformComponent(_name), _rendererComponent(_name), _rigidBodyComponent(_name) {}
 			GameObject(std::string const& _name, bool const _active) : _entityInfos(_name, _active), _scriptComponent(_name), _transformComponent(_name), _rendererComponent(_name), _rigidBodyComponent(_name) {}
 			~GameObject() {}

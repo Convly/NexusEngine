@@ -13,6 +13,14 @@ namespace nx
 			{
 				GUIElementInfos		_elementInfos;
 				GUIProgressBarInfos	_progressBarInfos;
+			
+			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _progressBarInfos;
+				}
 
 			public:
 				ProgressBar() {}

@@ -15,6 +15,14 @@ namespace nx
 				GUIButtonInfos		_buttonInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _buttonInfos;
+				}
+
+			public:
 				Button() {}
 				Button(GUIElementInfos const& elementInfos, GUIButtonInfos const& buttonInfos)
 					: _elementInfos(elementInfos), _buttonInfos(buttonInfos) {}

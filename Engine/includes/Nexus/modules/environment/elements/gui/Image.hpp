@@ -15,6 +15,14 @@ namespace nx
 				GUIImageInfos		_imageInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _imageInfos;
+				}
+
+			public:
 				Image() {}
 				Image(GUIElementInfos const& elementInfos, GUIImageInfos const& imageInfos)
 					: _elementInfos(elementInfos), _imageInfos(imageInfos) {}
