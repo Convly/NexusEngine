@@ -15,6 +15,14 @@ namespace nx
 				GUICheckboxInfos	_checkboxInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _checkboxInfos;
+				}
+
+			public:
 				Checkbox() {}
 				Checkbox(GUIElementInfos const& elementInfos, GUICheckboxInfos const& checkboxInfos)
 					: _elementInfos(elementInfos), _checkboxInfos(checkboxInfos) {}

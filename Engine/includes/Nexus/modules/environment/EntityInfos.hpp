@@ -16,6 +16,16 @@ namespace nx
 			bool 			  	_isModified;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				bool active = _active.load();
+				ar & _name;
+				ar & active;
+				ar & _isModified;
+			}
+
+		public:
 			EntityInfos(std::string const& name_) : _name(name_), _active(true), _isModified(true) {}
 			EntityInfos(std::string const& name_, bool const active_) : _name(name_), _active(active_), _isModified(true) {}
 			EntityInfos() : _name(""), _active(true), _isModified(true) {}

@@ -205,8 +205,9 @@ void	nx::Engine::_render()
 {
 	for (auto& scene : getEnv().getScenes()){
 		if (scene.isModified()){
-			// Send scene
 			std::cout << scene.getEntityInfos().getName() << " need to be send !!!" << std::endl;
+			emit(nx::EVENT::ENV_UPDATE_SCENE, scene);
+
 			scene.resetModified();
 		}
 	}

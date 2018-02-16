@@ -9,6 +9,13 @@ namespace nx
 		{
 		private:
 			std::string _rootPath;
+		
+		public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _rootPath;
+				}
 
 		public:
 			GameInfos() : _rootPath("") {}

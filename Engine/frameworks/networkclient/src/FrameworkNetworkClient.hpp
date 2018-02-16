@@ -31,7 +31,7 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 		boost::asio::ip::udp::resolver::query query;
 		boost::asio::ip::udp::endpoint remote_endpoint_;
 		boost::asio::ip::udp::resolver::iterator it;
-  		char recv_buffer_[1024];
+  		char recv_buffer_[800000];
 		int clientId_ = -1;
 
 		UdpClient(boost::asio::io_service& io_service, const std::string& ip, const unsigned short port)
