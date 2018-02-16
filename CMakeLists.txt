@@ -64,7 +64,7 @@ target_link_libraries(${LIBRARY_NAME} ${CMAKE_THREAD_LIBS_INIT} )
 file(COPY ${ENGINE_DIR}/frameworks DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 if (UNIX AND NOT APPLE AND NOT FSLIB_STATIC)
-  set(FSLIB_STATIC "/usr/lib/gcc/x86_64-linux-gnu/7/libstdc++fs.a")
+  set(FSLIB_STATIC "/usr/lib/gcc/x86_64-linux-gnu/5/libstdc++fs.a")
 endif()
   ### LIBCSTD++FS (UNIX)
 if (UNIX AND NOT APPLE)
