@@ -84,6 +84,18 @@ namespace xml{
 
         static std::vector<env::RendererComponent> getRenderers(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, std::string& error, bool onlyOneRenderer){
             std::vector<env::RendererComponent> renderers;
+            static std::unordered_map<std::string, std::function<void(env::RendererComponent& renderer, const std::string& str, std::string& error)>> renderParams =
+            {
+                {"active", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.getEntityInfos().setActive(Integrity::boolValue(str, error)); }},
+                {"opacity", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setOpacity(Integrity::opacity(str, error)); }},
+                {"texturePath", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setTexturePath(Integrity::path(env, gameInfosParser.getFields()._resources.at("images"), str, error)); }},
+                {"shapeType", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setShapeType(Integrity::shapeType(str, error)); }},
+                {"backgroundColor", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setBackgroundColor(Integrity::color(str, error)); }},
+                {"borderColor", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setBorderColor(Integrity::color(str, error)); }},
+                {"borderThickness", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setBorderThickness(Integrity::intValue(str, error)); }},
+                {"sheetGrid", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setSheetGrid(Integrity::xyValues(str, error)); }},
+                {"spriteSize", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setSpriteSize(Integrity::xyValues(str, error)); }}
+            };
 
             for (xml_node<>* node = rootNode->first_node("Renderer"); node; node = node->next_sibling("Renderer")){
                 std::unordered_map<std::string, std::string> attributes;
@@ -94,16 +106,12 @@ namespace xml{
 
                     for (auto attribute : attributes){
                         if (attribute.first == "name");
-                        else if (attribute.first == "active")
-                            renderer.getEntityInfos().setActive(Integrity::boolValue(attribute.second, error));
-                        else if (attribute.first == "opacity")
-                            renderer.setOpacity(Integrity::opacity(attribute.second, error));
-                        else if (attribute.first == "texturePath")
-                            renderer.setTexturePath(Integrity::path(env, gameInfosParser.getFields()._resources.at("images"), attribute.second, error));
-                        else if (attribute.first == "shapeType")
-                            renderer.setShapeType(Integrity::shapeType(attribute.second, error));
-                        else
-                            error += "Error: This attribute can't be created in this renderer tag \"" + attributes.at("name") + "\"\n";
+                        else{
+                            if (renderParams.find(attribute.first) == renderParams.end())
+                                error += "Error: This attribute can't be created in this renderer tag \"" + attributes.at("name") + "\"\n";
+                            else
+                                renderParams.at(attribute.first)(renderer, attribute.second, error);
+                        }
                     }
                     if (onlyOneRenderer && renderers.size() >= 1)
                         error += "Error: You can't have more than one renderer. \"" + renderer.getEntityInfos().getName() + "\" is too much\n";
