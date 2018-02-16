@@ -1,6 +1,7 @@
 #ifndef NEXUS_ENGINE__RENDERERCOMPONENT_HPP_
 #define NEXUS_ENGINE__RENDERERCOMPONENT_HPP_
 
+#include "../EnvUtils.hpp"
 # include "../EntityInfos.hpp"
 
 namespace nx
@@ -21,6 +22,9 @@ namespace nx
 			std::atomic<uint8_t>	_opacity;
 			std::string				_texturePath;
 			ShapeType				_shapeType;
+			ColorInfo		_color;
+			maths::Vector2f 	_sheetGrid;
+			maths::Vector2f 	_spriteSize;
 
 		public:
 			RendererComponent() {}
@@ -71,6 +75,31 @@ namespace nx
 			{
 				this->_shapeType = shapeType;
 				_entityInfos.setIsModified(true);
+			}
+
+			void 		setBackgroundColor(const nx::env::RGBa& backgroundColor){
+				this->_color.setBackgroundColor(backgroundColor);
+				_entityInfos.setIsModified(true);
+			}
+
+			void 		setBorderColor(const nx::env::RGBa& borderColor){
+				this->_color.setBorderColor(borderColor);
+				_entityInfos.setIsModified(true);
+			}
+
+			void 		setBorderThickness(int borderThickness){
+				this->_color.setBorderThickness(borderThickness);
+				_entityInfos.setIsModified(true);
+			}
+
+			void 		setSheetGrid(const maths::Vector2f& vec){
+				_entityInfos.setIsModified(true);
+				_sheetGrid = vec;
+			}
+
+			void 		setSpriteSize(const maths::Vector2f& vec){
+				_entityInfos.setIsModified(true);
+				_spriteSize = vec;
 			}
 
 		public:
