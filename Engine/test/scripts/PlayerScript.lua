@@ -13,3 +13,11 @@ function Update()
     end
     print("Update for playerscript.lua")
 end
+
+function FixedUpdate()
+
+end
+
+function LateUpdate()
+
+end

@@ -21,8 +21,21 @@ namespace nx
 			std::vector<Layer>				_layers;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _entityInfos;
+				ar & _scriptComponents;
+				ar & _gameObjects;
+				ar & _backgroundColor;
+				ar & _layers;
+			}
+
+		public:
+			Scene() {}
 			Scene(std::string const& _name) : _entityInfos(_name) {}
 			Scene(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
+
 			~Scene() {}
 
 			bool isModified(){

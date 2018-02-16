@@ -32,6 +32,7 @@ namespace nx {
 
 	public:
 		static void event_RenderingEventKey(const nx::Event&);
+		static void event_EnvUpdateScene(const nx::Event&);
 	};
 }
 

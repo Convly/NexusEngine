@@ -17,6 +17,19 @@ namespace nx
 			nx::maths::Vector2f	_size;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				double mass = _mass.load();
+				double bounciness = _bounciness.load();
+				ar & _entityInfos;
+				ar & mass;
+				ar & bounciness;
+				ar & _size;
+			}
+
+		public:
+			RigidBodyComponent() {}
 			RigidBodyComponent(std::string const& _name)
 				: _entityInfos(_name), _mass(0), _bounciness(0) {}
 			RigidBodyComponent(std::string const& _name, double const mass)

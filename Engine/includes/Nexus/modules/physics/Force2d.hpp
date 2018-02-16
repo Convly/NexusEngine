@@ -15,6 +15,15 @@ namespace physics {
         Force2d(const nx::maths::Vector2f& velocity, const nx::maths::Vector2f& inertia) : velocity_(velocity), inertia_(inertia) {}
         ~Force2d() {}
 
+    public:
+        template <typename Archive>
+        void serialize(Archive& ar, unsigned int version)
+        {
+            ar & velocity_;
+            ar & inertia_;
+        }
+        
+
     /* Operators */
     public:
         Force2d& operator=(const Force2d& other) {

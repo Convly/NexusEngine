@@ -15,6 +15,14 @@ namespace nx
 				GraphicsCircleInfos		_circleShapeInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _circleShapeInfos;
+				}
+
+			public:
 				CircleShape(GraphicsElementInfos const& elementInfos, GraphicsCircleInfos const& circleShapeInfos)
 					: _elementInfos(elementInfos), _circleShapeInfos(circleShapeInfos) {}
 				~CircleShape() {}

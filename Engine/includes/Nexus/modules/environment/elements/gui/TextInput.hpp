@@ -15,6 +15,14 @@ namespace nx
 				GUITextInputInfos	_textInputInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _textInputInfos;
+				}
+
+			public:
 				TextInput() {}
 				TextInput(GUIElementInfos const& elementInfos, GUITextInputInfos const& textInputInfos)
 					: _elementInfos(elementInfos), _textInputInfos(textInputInfos) {}

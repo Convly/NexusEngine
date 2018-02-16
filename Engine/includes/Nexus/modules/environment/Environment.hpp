@@ -17,6 +17,15 @@ namespace nx
 			GameInfos					_gameInfos;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _scenes;
+				ar & _ressources;
+				ar & _gameInfos;
+			}
+
+		public:
 			Environment() {}
 			~Environment() {}
 

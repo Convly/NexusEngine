@@ -23,7 +23,7 @@ namespace nx {
 
 	public:
 		NetworkServerSystem();
-		virtual ~NetworkServerSystem();
+virtual ~NetworkServerSystem();
 
 	public:
 		void update();
@@ -35,7 +35,8 @@ namespace nx {
 		static void event_Send(const nx::Event& e);
 		static void event_SendAll(const nx::Event& e);
 		static void event_Disconnect(const nx::Event& e);
-		static void event_Connect(const nx::Event&);
+		static void event_Connect(const nx::Event& e);
+		static void event_SceneUpdate(const nx::Event& e);
 	};
 }
 

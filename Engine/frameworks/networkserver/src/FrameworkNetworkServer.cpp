@@ -53,7 +53,7 @@ void FrameworkNetworkServer::sendEvent(const nx::netserv_send_event_t& netInfos)
 
 void FrameworkNetworkServer::sendAll(const nx::netserv_send_event_t& netInfos)
 {
-	if (netInfos.clientId_ == -1) {
+	if (netInfos.clientId_ != -1) {
 		this->sendEvent(netInfos);
 		return;
 	}
@@ -61,7 +61,7 @@ void FrameworkNetworkServer::sendAll(const nx::netserv_send_event_t& netInfos)
 	for (auto& client : udp_server_.clients_)
 	{
 		if (udp_server_.isAValidClient(client.id_)) {
-			this->sendEvent(netInfos);
+			this->sendEvent(nx::netserv_send_event_t(client.id_, netInfos.event_));
 		}
 	}
 }
@@ -70,4 +70,9 @@ void FrameworkNetworkServer::disconnect(const int clientId)
 {
 	this->udp_server_.clients_[clientId].status_ = nx::NETCON_STATE::DISCONNECTED;
 	nx::Log::inform("Status set to 'DISCONNECTED' for client " + std::to_string(clientId));
+}
+
+void FrameworkNetworkServer::updateScene(const nx::netserv_send_event_t& netInfos)
+{
+	sendAll(netInfos);
 }
