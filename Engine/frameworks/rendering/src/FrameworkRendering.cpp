@@ -85,7 +85,8 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 					// this->addGraphicsConvexShape();
 					break;
 				case nx::env::ShapeType::UNDEFINED:
-					// this->addGraphicsSprite();
+					/*this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+											  nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), ));*/
 					break;
 			};
 		}

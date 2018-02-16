@@ -116,7 +116,7 @@
     <GameObject name="Player2Object">
       <Script name="Player2Script" path="./PlayerScript.lua"/>
       <Transform name="Player2Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player2Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
+      <Renderer name="Player2Renderer" opacity="100" texturePath="./player.png" shapeType="None" />
       <RigidBody name="Player2RigidBody" mass="0" bounciness="0" size="64,64"/>
     </GameObject>
     <GameObject name="Player3Object">
