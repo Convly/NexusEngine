@@ -103,8 +103,8 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 	} else {
 		this->_systems = {
 			std::make_shared<nx::ScriptSystem>(),
-			std::make_shared<nx::RenderingSystem>(),
-			std::make_shared<nx::NetworkClientSystem>()
+			std::make_shared<nx::NetworkClientSystem>(),
+			std::make_shared<nx::RenderingSystem>()
 		};
 	}
 

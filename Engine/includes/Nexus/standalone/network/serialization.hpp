@@ -21,6 +21,7 @@ BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<nx::Any>, "p<nx::Any>");
 BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<uint8_t>, "p<uint8_t>");
 BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<int>, "p<int>");
 BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<nx::env::Scene>, "p<nx::env::Scene>");
+BOOST_CLASS_EXPORT_GUID(nx::DerivedPlacedHolder<nx::script::ScriptInfos>, "p<nx::script::ScriptInfos>");
 
 namespace nx {
     namespace serialization {
