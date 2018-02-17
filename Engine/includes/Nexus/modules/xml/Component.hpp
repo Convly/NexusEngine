@@ -8,6 +8,7 @@
 #include "rapidxml-1.13/rapidxml.hpp"
 
 #include "Nexus/modules/xml/Integrity.hpp"
+#include "Nexus/log.hpp"
 
 using namespace rapidxml;
 
@@ -84,7 +85,7 @@ namespace xml{
 
         static std::vector<env::RendererComponent> getRenderers(env::Environment& env, const GameInfosParser& gameInfosParser, xml_node<>* rootNode, std::string& error, bool onlyOneRenderer){
             std::vector<env::RendererComponent> renderers;
-            static std::unordered_map<std::string, std::function<void(env::RendererComponent& renderer, const std::string& str, std::string& error)>> renderParams =
+            std::unordered_map<std::string, std::function<void(env::RendererComponent& renderer, const std::string& str, std::string& error)>> renderParams =
             {
                 {"active", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.getEntityInfos().setActive(Integrity::boolValue(str, error)); }},
                 {"opacity", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setOpacity(Integrity::opacity(str, error)); }},
@@ -92,9 +93,10 @@ namespace xml{
                 {"shapeType", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setShapeType(Integrity::shapeType(str, error)); }},
                 {"backgroundColor", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setBackgroundColor(Integrity::color(str, error)); }},
                 {"borderColor", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setBorderColor(Integrity::color(str, error)); }},
-                {"borderThickness", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setBorderThickness(Integrity::intValue(str, error)); }},
+				{"borderThickness", [&](env::RendererComponent& renderer, const std::string& str, std::string& error) { renderer.setBorderThickness(Integrity::intValue(str, error)); }},
                 {"sheetGrid", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setSheetGrid(Integrity::xyValues(str, error)); }},
-                {"spriteSize", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setSpriteSize(Integrity::xyValues(str, error)); }}
+                {"spriteSize", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setSpriteSize(Integrity::xyValues(str, error)); }},
+                {"radius", [&](env::RendererComponent& renderer, const std::string& str, std::string& error){ renderer.setRadius(Integrity::intValue(str, error)); }}
             };
 
             for (xml_node<>* node = rootNode->first_node("Renderer"); node; node = node->next_sibling("Renderer")){
@@ -115,7 +117,7 @@ namespace xml{
                     }
                     if (onlyOneRenderer && renderers.size() >= 1)
                         error += "Error: You can't have more than one renderer. \"" + renderer.getEntityInfos().getName() + "\" is too much\n";
-                    else
+					else 
                         renderers.push_back(renderer);
                 }
             }

@@ -21,12 +21,13 @@ nx::gui::Sprite::~Sprite()
 
 void nx::gui::Sprite::_loadSpritesheet()
 {
-	if (!this->_texture.loadFromFile(this->_spritesheetPath))
-		throw nx::InvalidImageException(this->_spritesheetPath);
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("images") + this->_spritesheetPath);
+	if (!this->_texture.loadFromFile(realPath))
+		throw nx::InvalidImageException(realPath);
 	this->_sprite.setTexture(this->_texture);
 	this->_sprite.setPosition(this->getPos());
-	this->_refreshSprite();
 	this->_originalSize = this->_spriteSize;
+	this->_refreshSprite();
 }
 
 void nx::gui::Sprite::_refreshSprite()

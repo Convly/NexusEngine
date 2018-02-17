@@ -961,16 +961,15 @@ namespace nx
 		/////////////////////////////////////////////
 
 		struct GraphicsElementInfos {
-			GraphicsElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier, const nx::env::MouseEventsContainer& events_)
-				: pos(_pos), size(_size), identifier(_identifier), events(events_) {}
+			GraphicsElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier)
+				: pos(_pos), size(_size), identifier(_identifier) {}
 
 			GraphicsElementInfos(const GUIElementInfos& other)
-				: pos(other.getPosConst()), size(other.getSizeConst()), identifier(other.getIdentifierConst()), events(other.getEvents()) {}
+				: pos(other.getPosConst()), size(other.getSizeConst()), identifier(other.getIdentifierConst()) {}
 
 			nx::maths::Vector2f pos;
 			nx::maths::Vector2f size;
 			std::string identifier;
-			nx::env::MouseEventsContainer events;
 
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
@@ -978,7 +977,6 @@ namespace nx
 				ar & pos;
 				ar & size;
 				ar & identifier;
-				ar & events;
 			}
 		};
 

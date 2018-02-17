@@ -1,6 +1,6 @@
 #include "Sprite.hpp"
 
-nx::graphics::Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
+nx::graphics::Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier,
 			   std::string const& spritesheetPath, sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
 	GraphicsElement(pos, spriteSize, identifier), _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize),
 	_originalSize(spriteSize), _spriteIdx(0), _slowness(40), _isAnimated(false), _animationIdx(0)
@@ -21,12 +21,13 @@ nx::graphics::Sprite::~Sprite()
 
 void nx::graphics::Sprite::_loadSpritesheet()
 {
-	if (!this->_texture.loadFromFile(this->_spritesheetPath))
-		throw nx::InvalidImageException(this->_spritesheetPath);
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("images") + this->_spritesheetPath);
+	if (!this->_texture.loadFromFile(realPath))
+		throw nx::InvalidImageException(realPath);
 	this->_sprite.setTexture(this->_texture);
 	this->_sprite.setPosition(this->getPos());
-	this->_refreshSprite();
 	this->_originalSize = this->_spriteSize;
+	this->_refreshSprite();
 }
 
 void nx::graphics::Sprite::_refreshSprite()

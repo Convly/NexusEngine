@@ -18,7 +18,7 @@ namespace nx
 			sf::Vector2f										_size;
 			std::string											_identifier;
 			bool												_isVisible;
-			nx::env::MouseEventsContainer					_events;
+			nx::env::MouseEventsContainer						_events;
 
 		public:
 			GraphicsElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::env::MouseEventsContainer& events);
