@@ -8,7 +8,8 @@ FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	_engine(engine),
 	_win(nullptr),
 	_guiHandler(nullptr),
-	_graphicsHandler(nullptr)
+	_graphicsHandler(nullptr),
+	_sfxHandler(nullptr)
 {
 	enginePtr = engine;
 	nx::Log::inform("New Rendering Framework created");
@@ -24,6 +25,7 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 	this->_win = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), titleWin);
 	this->_guiHandler = std::make_shared<nx::gui::GUIHandler>(this->_win);
 	this->_graphicsHandler = std::make_shared<nx::graphics::GraphicsHandler>(this->_win);
+	this->_sfxHandler = std::make_shared<nx::sfx::SfxHandler>();
 }
 
 void FrameworkRendering::RefreshRendering()
@@ -72,26 +74,28 @@ void FrameworkRendering::HandleKeyboard()
 
 void FrameworkRendering::LoadScene(std::string const& sceneName)
 {
-	auto &scenes = enginePtr->getEnv().getScenes();
+	try
+	{
+		auto &scenes = enginePtr->getEnv().getScenes();
 
-	auto scene = std::find_if(scenes.begin(), scenes.end(), [&](nx::env::Scene scene)
-	{
-		return (scene.getEntityInfos().getName() == sceneName);
-	});
-	if (scene != scenes.end())
-	{
-		auto &gameobjects = scene->getGameObjects();
-		for (auto &gameobject : gameobjects)
+		auto scene = std::find_if(scenes.begin(), scenes.end(), [&](nx::env::Scene scene)
 		{
-			if (gameobject.getEntityInfos().getActive())
+			return (scene.getEntityInfos().getName() == sceneName);
+		});
+		if (scene != scenes.end())
+		{
+			auto &gameobjects = scene->getGameObjects();
+			for (auto &gameobject : gameobjects)
 			{
-				nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
-				nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
-				nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
-
-
-				switch (renderer.getShapeTypeConst())
+				if (gameobject.getEntityInfos().getActive())
 				{
+					nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
+					nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
+					nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
+
+
+					switch (renderer.getShapeTypeConst())
+					{
 					case nx::env::ShapeType::RECTSHAPE:
 						this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
@@ -108,25 +112,30 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 						this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
 						break;
-				};
+					};
+				}
 			}
-		}
-		auto &layers = scene->getLayers();
-		for (auto &layer : layers)
-		{
-			if (layer.getEntityInfos().getActive())
+			auto &layers = scene->getLayers();
+			for (auto &layer : layers)
 			{
-				this->addLayer(layer.getEntityInfos().getName());
-				this->_registerGUICheckbox(layer.getAllCheckboxes(), layer.getEntityInfos().getName());
-				this->_registerGUIComboBox(layer.getAllComboBoxes(), layer.getEntityInfos().getName());
-				this->_registerGUIImage(layer.getAllImages(), layer.getEntityInfos().getName());
-				this->_registerGUIProgressBar(layer.getAllProgressBars(), layer.getEntityInfos().getName());
-				this->_registerGUISprite(layer.getAllSprites(), layer.getEntityInfos().getName());
-				this->_registerGUIText(layer.getAllTexts(), layer.getEntityInfos().getName());
-				this->_registerGUITextInput(layer.getAllTextInputs(), layer.getEntityInfos().getName());
-				this->_registerGUIButton(layer.getAllButtons(), layer.getEntityInfos().getName());
+				if (layer.getEntityInfos().getActive())
+				{
+					this->addLayer(layer.getEntityInfos().getName());
+					this->_registerGUICheckbox(layer.getAllCheckboxes(), layer.getEntityInfos().getName());
+					this->_registerGUIComboBox(layer.getAllComboBoxes(), layer.getEntityInfos().getName());
+					this->_registerGUIImage(layer.getAllImages(), layer.getEntityInfos().getName());
+					this->_registerGUIProgressBar(layer.getAllProgressBars(), layer.getEntityInfos().getName());
+					this->_registerGUISprite(layer.getAllSprites(), layer.getEntityInfos().getName());
+					this->_registerGUIText(layer.getAllTexts(), layer.getEntityInfos().getName());
+					this->_registerGUITextInput(layer.getAllTextInputs(), layer.getEntityInfos().getName());
+					this->_registerGUIButton(layer.getAllButtons(), layer.getEntityInfos().getName());
+				}
 			}
 		}
+	}
+	catch (std::exception e)
+	{
+		nx::Log::debug(e.what());
 	}
 }
 
@@ -1617,4 +1626,168 @@ std::string const &			FrameworkRendering::getTextFromTextInput(std::string const
 unsigned int const			FrameworkRendering::getCursorIdxFromTextInput(std::string const& layerId, std::string const& textInputId) const
 {
 	return (this->_getGUITextInputFromHandler(layerId, textInputId)->getCursorIdx());
+}
+
+//Sound
+
+bool	FrameworkRendering::addSound(const std::string & name)
+{
+return (this->_sfxHandler->addSound(name));
+}
+
+void	FrameworkRendering::removeSound(const std::string & name)
+{
+this->_sfxHandler->removeSound(name);
+}
+
+void	FrameworkRendering::playSound(const std::string & name)
+{
+this->_sfxHandler->playSound(name);
+}
+
+void	FrameworkRendering::pauseSound(const std::string & name)
+{
+this->_sfxHandler->pauseSound(name);
+}
+
+void	FrameworkRendering::stopSound(const std::string & name)
+{
+this->_sfxHandler->stopSound(name);
+}
+
+void 	FrameworkRendering::setSoundLoop(const std::string & name, const bool loop)
+{
+this->_sfxHandler->setSoundLoop(name, loop);
+}
+
+void 	FrameworkRendering::setSoundPitch(const std::string & name, const float pitch)
+{
+this->_sfxHandler->setSoundPitch(name, pitch);
+}
+
+void 	FrameworkRendering::setSoundVolume(const std::string & name, const float volume)
+{
+this->_sfxHandler->setSoundVolume(name, volume);
+}
+
+void 	FrameworkRendering::setSoundAttenuation(const std::string & name, const float attenuation)
+{
+this->_sfxHandler->setSoundAttenuation(name, attenuation);
+}
+
+const bool					FrameworkRendering::soundExist(const std::string & name) const
+{
+return (this->_sfxHandler->soundExist(name));
+}
+
+const bool 					FrameworkRendering::getSoundLoop(const std::string & name) const
+{
+return (this->_sfxHandler->getSoundLoop(name));
+}
+
+const nx::sfx::SFX_STATUS 	FrameworkRendering::getSoundStatus(const std::string & name) const
+{
+return (this->_sfxHandler->getSoundStatus(name));
+}
+
+const float 				FrameworkRendering::getSoundVolume(const std::string & name) const
+{
+return (this->_sfxHandler->getSoundVolume(name));
+}
+
+const float					FrameworkRendering::getSoundPitch(const std::string & name) const
+{
+return (this->_sfxHandler->getSoundPitch(name));
+}
+
+const float 				FrameworkRendering::getSoundAttenuation(const std::string & name) const
+{
+return (this->_sfxHandler->getSoundAttenuation(name));
+}
+
+//Music
+
+bool	FrameworkRendering::addMusic(const std::string & name)
+{
+	return (this->_sfxHandler->addMusic(name));
+}
+
+void	FrameworkRendering::removeMusic(const std::string & name)
+{
+this->_sfxHandler->removeMusic(name);
+}
+
+void	FrameworkRendering::playMusic(const std::string & name)
+{
+this->_sfxHandler->playMusic(name);
+}
+
+void	FrameworkRendering::pauseMusic(const std::string & name)
+{
+this->_sfxHandler->pauseMusic(name);
+}
+
+void	FrameworkRendering::stopMusic(const std::string & name)
+{
+this->_sfxHandler->stopMusic(name);
+}
+
+void 	FrameworkRendering::setMusicLoop(const std::string & name, const bool loop)
+{
+this->_sfxHandler->setMusicLoop(name, loop);
+}
+
+void 	FrameworkRendering::setMusicPitch(const std::string & name, const float pitch)
+{
+this->_sfxHandler->setMusicPitch(name, pitch);
+}
+
+void 	FrameworkRendering::setMusicVolume(const std::string & name, const float volume)
+{
+this->_sfxHandler->setMusicVolume(name, volume);
+}
+
+void 	FrameworkRendering::setMusicAttenuation(const std::string & name, const float attenuation)
+{
+this->_sfxHandler->setMusicAttenuation(name, attenuation);
+}
+
+const bool					FrameworkRendering::musicExist(const std::string & name) const
+{
+return (this->_sfxHandler->musicExist(name));
+}
+
+const bool 					FrameworkRendering::getMusicLoop(const std::string & name) const
+{
+return (this->_sfxHandler->getMusicLoop(name));
+}
+
+const nx::sfx::SFX_STATUS 	FrameworkRendering::getMusicStatus(const std::string & name) const
+{
+return (this->_sfxHandler->getMusicStatus(name));
+}
+
+const float 				FrameworkRendering::getMusicVolume(const std::string & name) const
+{
+return (this->_sfxHandler->getMusicVolume(name));
+}
+
+const float					FrameworkRendering::getMusicPitch(const std::string & name) const
+{
+return (this->_sfxHandler->getMusicPitch(name));
+}
+
+const float 				FrameworkRendering::getMusicAttenuation(const std::string & name) const
+{
+return (this->_sfxHandler->getMusicAttenuation(name));
+}
+
+const unsigned int 			FrameworkRendering::getMusicChannelCount(const std::string & name) const
+{
+return (this->_sfxHandler->getMusicChannelCount(name));
+}
+
+const unsigned int 			FrameworkRendering::getMusicSampleRate(const std::string & name) const
+{
+return (this->_sfxHandler->getMusicSampleRate(name));
 }
