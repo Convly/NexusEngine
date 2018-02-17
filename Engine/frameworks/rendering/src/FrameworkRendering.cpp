@@ -74,26 +74,28 @@ void FrameworkRendering::HandleKeyboard()
 
 void FrameworkRendering::LoadScene(std::string const& sceneName)
 {
-	auto &scenes = enginePtr->getEnv().getScenes();
+	try
+	{
+		auto &scenes = enginePtr->getEnv().getScenes();
 
-	auto scene = std::find_if(scenes.begin(), scenes.end(), [&](nx::env::Scene scene)
-	{
-		return (scene.getEntityInfos().getName() == sceneName);
-	});
-	if (scene != scenes.end())
-	{
-		auto &gameobjects = scene->getGameObjects();
-		for (auto &gameobject : gameobjects)
+		auto scene = std::find_if(scenes.begin(), scenes.end(), [&](nx::env::Scene scene)
 		{
-			if (gameobject.getEntityInfos().getActive())
+			return (scene.getEntityInfos().getName() == sceneName);
+		});
+		if (scene != scenes.end())
+		{
+			auto &gameobjects = scene->getGameObjects();
+			for (auto &gameobject : gameobjects)
 			{
-				nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
-				nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
-				nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
-
-
-				switch (renderer.getShapeTypeConst())
+				if (gameobject.getEntityInfos().getActive())
 				{
+					nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
+					nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
+					nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
+
+
+					switch (renderer.getShapeTypeConst())
+					{
 					case nx::env::ShapeType::RECTSHAPE:
 						this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
@@ -110,25 +112,30 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 						this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
 						break;
-				};
+					};
+				}
 			}
-		}
-		auto &layers = scene->getLayers();
-		for (auto &layer : layers)
-		{
-			if (layer.getEntityInfos().getActive())
+			auto &layers = scene->getLayers();
+			for (auto &layer : layers)
 			{
-				this->addLayer(layer.getEntityInfos().getName());
-				this->_registerGUICheckbox(layer.getAllCheckboxes(), layer.getEntityInfos().getName());
-				this->_registerGUIComboBox(layer.getAllComboBoxes(), layer.getEntityInfos().getName());
-				this->_registerGUIImage(layer.getAllImages(), layer.getEntityInfos().getName());
-				this->_registerGUIProgressBar(layer.getAllProgressBars(), layer.getEntityInfos().getName());
-				this->_registerGUISprite(layer.getAllSprites(), layer.getEntityInfos().getName());
-				this->_registerGUIText(layer.getAllTexts(), layer.getEntityInfos().getName());
-				this->_registerGUITextInput(layer.getAllTextInputs(), layer.getEntityInfos().getName());
-				this->_registerGUIButton(layer.getAllButtons(), layer.getEntityInfos().getName());
+				if (layer.getEntityInfos().getActive())
+				{
+					this->addLayer(layer.getEntityInfos().getName());
+					this->_registerGUICheckbox(layer.getAllCheckboxes(), layer.getEntityInfos().getName());
+					this->_registerGUIComboBox(layer.getAllComboBoxes(), layer.getEntityInfos().getName());
+					this->_registerGUIImage(layer.getAllImages(), layer.getEntityInfos().getName());
+					this->_registerGUIProgressBar(layer.getAllProgressBars(), layer.getEntityInfos().getName());
+					this->_registerGUISprite(layer.getAllSprites(), layer.getEntityInfos().getName());
+					this->_registerGUIText(layer.getAllTexts(), layer.getEntityInfos().getName());
+					this->_registerGUITextInput(layer.getAllTextInputs(), layer.getEntityInfos().getName());
+					this->_registerGUIButton(layer.getAllButtons(), layer.getEntityInfos().getName());
+				}
 			}
 		}
+	}
+	catch (std::exception e)
+	{
+		nx::Log::ebug(e.what());
 	}
 }
 
@@ -1702,7 +1709,6 @@ return (this->_sfxHandler->getSoundAttenuation(name));
 
 bool	FrameworkRendering::addMusic(const std::string & name)
 {
-	std::cout << "FRAMEWORK[ADD MUSIC]" << std::endl;
 	return (this->_sfxHandler->addMusic(name));
 }
 

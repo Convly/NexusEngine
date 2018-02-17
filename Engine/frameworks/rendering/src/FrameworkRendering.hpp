@@ -5,6 +5,7 @@
 # include "./gui/GUIHandler.hpp"
 # include "./graphics/GraphicsHandler.hpp"
 # include "Nexus/engine.hpp"
+# include "Nexus/log.hpp"
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 # include "./audio/SfxHandler.hpp"
 # include "Nexus/modules/environment/Keyboard.hpp"
