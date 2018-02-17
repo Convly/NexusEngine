@@ -2,7 +2,6 @@
 // Made by Marco
 //
 
-
 #ifndef SFX_STATUS_HPP_
 # define SFX_STATUS_HPP_
 

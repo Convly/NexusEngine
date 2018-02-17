@@ -2,11 +2,12 @@
 // Made by Marco
 //
 
-
 # include "SfxHandler.hpp"
 
 nx::sfx::SfxHandler::SfxHandler()
 {
+	_soundPath = enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("sounds");
+	_musicPath = enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("musics");
 }
 
 nx::sfx::SfxHandler::~SfxHandler()
@@ -15,9 +16,9 @@ nx::sfx::SfxHandler::~SfxHandler()
 
 bool	nx::sfx::SfxHandler::addSound(const std::string & name)
 {
-	Sound	sound(name);
+	Sound	sound(_soundPath + name);
 
-	if (this->soundExist(name))
+	if (this->soundExist(_soundPath + name))
 		return (false);
 	
 	if (this->_soundList.size() + this->_musicList.size() >= 256)
@@ -28,71 +29,71 @@ bool	nx::sfx::SfxHandler::addSound(const std::string & name)
 	
 	try
 	{
-		this->_soundList[name] = sound;
+		this->_soundList[_soundPath + name] = sound;
 	}
 	catch (const SoundException & e)
 	{
-		throw SfxException(e.what() + std::string(" (") + name + std::string (")"));
+		throw SfxException(e.what() + std::string(" (") + _soundPath + name + std::string (")"));
 	}
 	return (true);
 }
 
 void	nx::sfx::SfxHandler::removeSound(const std::string & name)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList.erase(name);
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList.erase(_soundPath + name);
 }
 
 void	nx::sfx::SfxHandler::playSound(const std::string & name)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList[name].play();
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList[_soundPath + name].play();
 }
 
 void	nx::sfx::SfxHandler::pauseSound(const std::string & name)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList[name].pause();
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList[_soundPath + name].pause();
 }
 
 void	nx::sfx::SfxHandler::stopSound(const std::string & name)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList[name].stop();
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList[_soundPath + name].stop();
 }
 
 // Setters
 
 void 	nx::sfx::SfxHandler::setSoundLoop(const std::string & name, const bool loop)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList[name].setLoop(loop);
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList[_soundPath + name].setLoop(loop);
 }
 
 void 	nx::sfx::SfxHandler::setSoundPitch(const std::string & name, const float pitch)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList[name].setPitch(pitch);
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList[_soundPath + name].setPitch(pitch);
 }
 
 void 	nx::sfx::SfxHandler::setSoundVolume(const std::string & name, const float volume)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList[name].setVolume(volume);
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList[_soundPath + name].setVolume(volume);
 }
 
 void 	nx::sfx::SfxHandler::setSoundAttenuation(const std::string & name, const float attenuation)
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_soundList[name].setAttenuation(attenuation);
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	this->_soundList[_soundPath + name].setAttenuation(attenuation);
 }
 
 // Getters
@@ -106,44 +107,44 @@ const bool					nx::sfx::SfxHandler::soundExist(const std::string & name) const
 
 const bool 					nx::sfx::SfxHandler::getSoundLoop(const std::string & name) const
 {
-	 if (!this->soundExist(name))
-		 throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	 return (this->_soundList.at(name).getLoop());
+	 if (!this->soundExist(_soundPath + name))
+		 throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	 return (this->_soundList.at(_soundPath + name).getLoop());
 }
 
 const nx::sfx::SFX_STATUS 	nx::sfx::SfxHandler::getSoundStatus(const std::string & name) const
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_soundList.at(name).getStatus());
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	return (this->_soundList.at(_soundPath + name).getStatus());
 }
 
 const float 				nx::sfx::SfxHandler::getSoundVolume(const std::string & name) const
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_soundList.at(name).getVolume());
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	return (this->_soundList.at(_soundPath + name).getVolume());
 }
 
 const float					nx::sfx::SfxHandler::getSoundPitch(const std::string & name) const
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_soundList.at(name).getPitch());
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	return (this->_soundList.at(_soundPath + name).getPitch());
 }
 
 const float 				nx::sfx::SfxHandler::getSoundAttenuation(const std::string & name) const
 {
-	if (!this->soundExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_soundList.at(name).getAttenuation());
+	if (!this->soundExist(_soundPath + name))
+		throw SfxException("Sfx : ressource " + _soundPath + name + " is not loaded.");
+	return (this->_soundList.at(_soundPath + name).getAttenuation());
 }
 
 bool	nx::sfx::SfxHandler::addMusic(const std::string & name)
 {
-	Music	music(name);
+	Music	music(_musicPath + name);
 
-	if (musicExist(name))
+	if (musicExist(_musicPath + name))
 		return (false);
 
 	if (this->_musicList.size() + this->_musicList.size() >= 256)
@@ -154,71 +155,71 @@ bool	nx::sfx::SfxHandler::addMusic(const std::string & name)
 
 	try
 	{
-		this->_musicList[name] = music;
+		this->_musicList[_musicPath + name] = music;
 	}
 	catch (const MusicException & e)
 	{
-		throw SfxException(e.what() + std::string (" (") + name + std::string (")"));
+		throw SfxException(e.what() + std::string (" (") + _musicPath + name + std::string (")"));
 	}
 	return (true);
 }
 
 void	nx::sfx::SfxHandler::removeMusic(const std::string & name)
 {
-	if (!musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList.erase(name);
+	if (!musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList.erase(_musicPath + name);
 }
 
 void	nx::sfx::SfxHandler::playMusic(const std::string & name)
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList[name].play();
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList[_musicPath + name].play();
 }
 
 void	nx::sfx::SfxHandler::pauseMusic(const std::string & name)
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList[name].pause();
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList[_musicPath + name].pause();
 }
 
 void	nx::sfx::SfxHandler::stopMusic(const std::string & name)
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList[name].stop();
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList[_musicPath + name].stop();
 }
 
 // Setters
 
 void 	nx::sfx::SfxHandler::setMusicLoop(const std::string & name, const bool loop)
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList[name].setLoop(loop);
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList[_musicPath + name].setLoop(loop);
 }
 
 void 	nx::sfx::SfxHandler::setMusicPitch(const std::string & name, const float pitch)
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList[name].setPitch(pitch);
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList[_musicPath + name].setPitch(pitch);
 }
 
 void 	nx::sfx::SfxHandler::setMusicVolume(const std::string & name, const float volume)
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList[name].setVolume(volume);
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList[_musicPath + name].setVolume(volume);
 }
 
 void 	nx::sfx::SfxHandler::setMusicAttenuation(const std::string & name, const float attenuation)
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	this->_musicList[name].setAttenuation(attenuation);
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	this->_musicList[_musicPath + name].setAttenuation(attenuation);
 }
 
 // Getters
@@ -232,49 +233,49 @@ const bool					nx::sfx::SfxHandler::musicExist(const std::string & name) const
 
 const bool 					nx::sfx::SfxHandler::getMusicLoop(const std::string & name) const
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_musicList.at(name).getLoop());
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	return (this->_musicList.at(_musicPath + name).getLoop());
 }
 
 const nx::sfx::SFX_STATUS 	nx::sfx::SfxHandler::getMusicStatus(const std::string & name) const
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_musicList.at(name).getStatus());
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	return (this->_musicList.at(_musicPath + name).getStatus());
 }
 
 const float 				nx::sfx::SfxHandler::getMusicVolume(const std::string & name) const
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_musicList.at(name).getVolume());
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	return (this->_musicList.at(_musicPath + name).getVolume());
 }
 
 const float					nx::sfx::SfxHandler::getMusicPitch(const std::string & name) const
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_musicList.at(name).getPitch());
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	return (this->_musicList.at(_musicPath + name).getPitch());
 }
 
 const float 				nx::sfx::SfxHandler::getMusicAttenuation(const std::string & name) const
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_musicList.at(name).getAttenuation());
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	return (this->_musicList.at(_musicPath + name).getAttenuation());
 }
 
 const unsigned int 			nx::sfx::SfxHandler::getMusicChannelCount(const std::string & name) const
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_musicList.at(name).getChannelCount());
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	return (this->_musicList.at(_musicPath + name).getChannelCount());
 }
 
 const unsigned int 			nx::sfx::SfxHandler::getMusicSampleRate(const std::string & name) const
 {
-	if (!this->musicExist(name))
-		throw SfxException("Sfx : ressource " + name + " is not loaded.");
-	return (this->_musicList.at(name).getSampleRate());
+	if (!this->musicExist(_musicPath + name))
+		throw SfxException("Sfx : ressource " + _musicPath + name + " is not loaded.");
+	return (this->_musicList.at(_musicPath + name).getSampleRate());
 }

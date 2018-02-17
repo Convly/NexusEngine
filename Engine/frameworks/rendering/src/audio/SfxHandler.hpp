@@ -2,14 +2,16 @@
 // Made by Marco
 //
 
-
 #ifndef SOUND_HANDLER_HPP
 # define SOUND_HANDLER_HPP
 
 # include "Sound.hpp"
 # include "Music.hpp"
 # include <unordered_map>
+# include "Nexus/engine.hpp"
 # include "../SfxException.hpp"
+
+extern nx::Engine* enginePtr;
 
 namespace nx
 {
@@ -20,6 +22,10 @@ namespace nx
 		private:
 			std::unordered_map<std::string, Sound>	_soundList;
 			std::unordered_map<std::string, Music>	_musicList;
+
+		private:
+			std::string _soundPath;
+			std::string _musicPath;
 
 		public:
 			SfxHandler();

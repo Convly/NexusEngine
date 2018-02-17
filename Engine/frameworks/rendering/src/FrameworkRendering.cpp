@@ -1687,7 +1687,8 @@ return (this->_sfxHandler->getSoundAttenuation(name));
 
 bool	FrameworkRendering::addMusic(const std::string & name)
 {
-return (this->_sfxHandler->addMusic(name));
+	std::cout << "FRAMEWORK[ADD MUSIC]" << std::endl;
+	return (this->_sfxHandler->addMusic(name));
 }
 
 void	FrameworkRendering::removeMusic(const std::string & name)
