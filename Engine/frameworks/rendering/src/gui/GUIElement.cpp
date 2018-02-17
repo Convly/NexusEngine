@@ -1,14 +1,15 @@
 #include "GUIElement.hpp"
 #include "Nexus/errors/ScriptNotLoadedException.hpp"
+#include "../renderingUtils.hpp"
 
 nx::gui::GUIElement::GUIElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::env::MouseEventsContainer& events) :
 	_pos(pos), _size(size), _identifier(identifier), _isVisible(true), _events(events)
 {	
 	for (auto it : this->_events) {
 		external::any data = it.second.file;
-		enginePtr->emit(nx::EVENT::SCRIPT_LOAD, data);
 		try {
-			enginePtr->emit(nx::EVENT::SCRIPT_INIT, data);
+			nx::rendering::tools::script_bi_send(nx::EVENT::SCRIPT_LOAD, data);
+			nx::rendering::tools::script_bi_send(nx::EVENT::SCRIPT_INIT, data);
 		} catch (const nx::ScriptNotLoaded& e) {
 			nx::Log::warning(e.what(), "BAD_FILE");
 		}
@@ -36,7 +37,7 @@ void nx::gui::GUIElement::dispatchMouseEvent(sf::Vector2i const& pos, std::strin
 		[&](auto& item) {
 			if (item.first == eventName) {
 				item.second.absolute = false;
-				enginePtr->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, item.second);
+				nx::rendering::tools::script_bi_send(nx::EVENT::SCRIPT_EXEC_FUNCTION, item.second);
 			}
 		}
 	);

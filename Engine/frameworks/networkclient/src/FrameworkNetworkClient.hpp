@@ -93,7 +93,7 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 			eventEmit.get();
 		}
 
-		void sendEvent(nx::Event& event)
+		void sendEvent(const nx::Event& event)
 		{
 			nx::thread::ScopedLock lock;
 
@@ -102,7 +102,8 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), std::string(ip_).c_str(), std::to_string(port_).c_str());
 			boost::asio::ip::udp::resolver::iterator it = resolver_.resolve(query);
 
-			nx::Any obj = nx::std_any_convert_serialize.at(event.type)(event.data);
+			nx::Event& e = const_cast<nx::Event&>(event);
+			nx::Any obj = nx::std_any_convert_serialize.at(e.type)(e.data);
 			nx::UdpEventPacket packet(event.type, obj);
 
 			std::string outbound_data = nx::serialization::serialize(packet);
@@ -136,9 +137,9 @@ protected:
 	std::shared_ptr<FrameworkNetworkClient::UdpClient> udp_client_;
 
 public:
+	void sendEvent(const nx::netserv_send_event_t&);
 	void connect(const nx::netcust_host_t&);
 	void disconnect();
-	void send(const nx::netserv_send_event_t&);
 	int getClientId();
 	void setClientId(const int);
 };

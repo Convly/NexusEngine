@@ -7,9 +7,10 @@ nx::NetworkClientSystem::NetworkClientSystem()
 	nx::SystemTpl(__NX_NETWORKCLIENT_KEY__),
 	_framework_m(std::make_shared<nx::FrameworkManager<nx::NetworkClientFrameworkTpl>>(__NX_NETWORKCLIENT_KEY__, true))
 {
-	this->connect(nx::EVENT::NETCUST_CONNECT, nx::NetworkClientSystem::event_Connect);
-	this->connect(nx::EVENT::NETSERV_CONNECT, nx::NetworkClientSystem::event_ConnectAcceptor);
-	this->connect(nx::EVENT::NETCUST_DISCONNECT, nx::NetworkClientSystem::event_Disconnect);
+	connect(nx::EVENT::NETCUST_CONNECT, nx::NetworkClientSystem::event_Connect);
+	connect(nx::EVENT::NETSERV_CONNECT, nx::NetworkClientSystem::event_ConnectAcceptor);
+	connect(nx::EVENT::NETCUST_DISCONNECT, nx::NetworkClientSystem::event_Disconnect);
+	connect(nx::EVENT::NETCUST_SEND_EVENT, nx::NetworkClientSystem::event_SendEvent);
 }
 
 nx::NetworkClientSystem::~NetworkClientSystem() {
@@ -83,4 +84,21 @@ void nx::NetworkClientSystem::event_Disconnect(const nx::Event& e)
 	}
 
 	f->disconnect();
+}
+
+void nx::NetworkClientSystem::event_SendEvent(const nx::Event& e)
+{
+	auto& engine = nx::Engine::Instance();
+	auto self = nx::Engine::cast<nx::NetworkClientSystem>(engine.getSystemByName(__NX_NETWORKCLIENT_KEY__));
+	if (!self) return;
+
+	auto f = self->getFramework();
+	if (!f)
+	{
+		nx::Log::warning("NetworkClient framework is corrupted", "NETWORK_SERVER_INTEGRITY");
+		return;
+	}
+
+	nx::netserv_send_event_t netInfos = external::any_cast<nx::netserv_send_event_t>(e.data);
+	f->sendEvent(netInfos);
 }
