@@ -26,7 +26,6 @@ void nx::RenderingSystem::init()
 		nx::Log::print("Framework is nullptr");
 	else {
 		f->InitializeWindow(1024, 768, "R-Type");
-		//f->LoadScene("Menu");
 		f->LoadScene("Game");
 	}
 }

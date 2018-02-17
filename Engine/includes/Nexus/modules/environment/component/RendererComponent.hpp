@@ -236,8 +236,6 @@ namespace nx
 					this->_sheetGrid = other.getSheetGridConst();
 					this->_spriteSize = other.getSpriteSizeConst();
 					this->_radius = other.getRadiusConst();
-
-					std::cout << "MOIFYING ALL LOL --> " << this->getBorderThicknessConst() << " vs " << other.getBorderThicknessConst() << std::endl;
 				}
 				return (*this);
 			}
