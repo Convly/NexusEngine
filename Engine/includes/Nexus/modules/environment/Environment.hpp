@@ -4,6 +4,7 @@
 # include "Scene.hpp"
 # include "Ressources.hpp"
 # include "GameInfos.hpp"
+# include "Keyboard.hpp"
 
 namespace nx
 {

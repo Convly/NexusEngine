@@ -5,7 +5,10 @@
 # include "./gui/GUIHandler.hpp"
 # include "./graphics/GraphicsHandler.hpp"
 # include "Nexus/engine.hpp"
+# include "Nexus/log.hpp"
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
+# include "./audio/SfxHandler.hpp"
+# include "Nexus/modules/environment/Keyboard.hpp"
 
 class FrameworkRendering : public nx::rendering::RenderingFrameworkTpl
 {
@@ -17,6 +20,7 @@ public:
 	void RefreshRendering();
 	void LoadScene(std::string const& sceneName);
 	void RefreshScene(nx::env::Scene scene);
+	void HandleKeyboard();	
 
 	bool addLayer(const std::string& layerId);
 	bool addButton(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIButtonInfos& buttonsParams);
@@ -262,6 +266,46 @@ public:
 	std::string const &			getTextFromTextInput(std::string const& layerId, std::string const& textInputId) const;
 	unsigned int const			getCursorIdxFromTextInput(std::string const& layerId, std::string const& textInputId) const;
 	
+	//Sound
+	bool	addSound(const std::string & name);
+	void	removeSound(const std::string & name);
+	void	playSound(const std::string & name);
+	void	pauseSound(const std::string & name);
+	void	stopSound(const std::string & name);
+
+	void 	setSoundLoop(const std::string & name, const bool loop);
+	void 	setSoundPitch(const std::string & name, const float pitch);
+	void 	setSoundVolume(const std::string & name, const float volume);
+	void 	setSoundAttenuation(const std::string & name, const float attenuation);
+
+	const bool					soundExist(const std::string & name) const;
+	const bool 					getSoundLoop(const std::string & name) const;
+	const nx::sfx::SFX_STATUS 	getSoundStatus(const std::string & name) const;
+	const float 				getSoundVolume(const std::string & name) const;
+	const float					getSoundPitch(const std::string & name) const;
+	const float 				getSoundAttenuation(const std::string & name) const;
+
+	//Music
+	bool	addMusic(const std::string & name);
+	void	removeMusic(const std::string & name);
+	void	playMusic(const std::string & name);
+	void	pauseMusic(const std::string & name);
+	void	stopMusic(const std::string & name);
+
+	void 	setMusicLoop(const std::string & name, const bool loop);
+	void 	setMusicPitch(const std::string & name, const float pitch);
+	void 	setMusicVolume(const std::string & name, const float volume);
+	void 	setMusicAttenuation(const std::string & name, const float attenuation);
+
+	const bool					musicExist(const std::string & name) const;
+	const bool 					getMusicLoop(const std::string & name) const;
+	const nx::sfx::SFX_STATUS 	getMusicStatus(const std::string & name) const;
+	const float 				getMusicVolume(const std::string & name) const;
+	const float					getMusicPitch(const std::string & name) const;
+	const float 				getMusicAttenuation(const std::string & name) const;
+	const unsigned int 			getMusicChannelCount(const std::string & name) const;
+	const unsigned int 			getMusicSampleRate(const std::string & name) const;
+
 protected:
 	nx::Engine	*_engine;
 
@@ -272,6 +316,8 @@ private:
 	std::shared_ptr<sf::RenderWindow>		_win;
 	std::shared_ptr<nx::gui::GUIHandler>	_guiHandler;
 	std::shared_ptr<nx::graphics::GraphicsHandler>	_graphicsHandler;
+	std::shared_ptr<nx::sfx::SfxHandler>			_sfxHandler;
+	nx::env::Keyboard								_keyboard;
 
 	nx::gui::GUIElement		*_getGUIElementFromHandler(std::string const& layerId, std::string const& elemId) const;
 	nx::gui::Button			*_getGUIButtonFromHandler(std::string const& layerId, std::string const& buttonId) const;
@@ -297,6 +343,7 @@ private:
 	void 	_registerGUISprite(std::vector<nx::env::gui::Sprite> const& sprites, std::string const& layerName);
 	void 	_registerGUIText(std::vector<nx::env::gui::Text> const& texts, std::string const& layerName);
 	void 	_registerGUITextInput(std::vector<nx::env::gui::TextInput> const& textinputs, std::string const& layerName);
+
 };
 
 #if  defined(_MSC_VER)

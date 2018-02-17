@@ -30,6 +30,7 @@ if(SFML_FOUND)
 		${CMAKE_CURRENT_SOURCE_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/gui
 		${CMAKE_CURRENT_SOURCE_DIR}/graphics
+		${CMAKE_CURRENT_SOURCE_DIR}/audio
 		../../includes/
 	)
 

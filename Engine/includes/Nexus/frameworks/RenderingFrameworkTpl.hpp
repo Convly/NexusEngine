@@ -7,6 +7,17 @@
 
 namespace nx {
 
+	namespace sfx
+	{
+		enum SFX_STATUS
+		{
+			UNKNOWN = -1,
+			PLAY,
+			PAUSE,
+			STOP
+		};
+	}
+
     namespace rendering {
 
         class RenderingFrameworkTpl {
@@ -794,6 +805,46 @@ namespace nx {
             virtual unsigned int const
             getCursorIdxFromTextInput(std::string const &layerId,
                                       std::string const &textInputId) const = 0;
+
+			//Sound
+			virtual bool	addSound(const std::string & name) = 0;
+			virtual void	removeSound(const std::string & name) = 0;
+			virtual void	playSound(const std::string & name) = 0;
+			virtual void	pauseSound(const std::string & name) = 0;
+			virtual void	stopSound(const std::string & name) = 0;
+
+			virtual void 	setSoundLoop(const std::string & name, const bool loop) = 0;
+			virtual void 	setSoundPitch(const std::string & name, const float pitch) = 0;
+			virtual void 	setSoundVolume(const std::string & name, const float volume) = 0;
+			virtual void 	setSoundAttenuation(const std::string & name, const float attenuation) = 0;
+
+			virtual const bool					soundExist(const std::string & name) const = 0;
+			virtual const bool 					getSoundLoop(const std::string & name) const = 0;
+			virtual const nx::sfx::SFX_STATUS 	getSoundStatus(const std::string & name) const = 0;
+			virtual const float 				getSoundVolume(const std::string & name) const = 0;
+			virtual const float					getSoundPitch(const std::string & name) const = 0;
+			virtual const float 				getSoundAttenuation(const std::string & name) const = 0;
+
+			//Music
+			virtual bool	addMusic(const std::string & name) = 0;
+			virtual void	removeMusic(const std::string & name) = 0;
+			virtual void	playMusic(const std::string & name) = 0;
+			virtual void	pauseMusic(const std::string & name) = 0;
+			virtual void	stopMusic(const std::string & name) = 0;
+
+			virtual void 	setMusicLoop(const std::string & name, const bool loop) = 0;
+			virtual void 	setMusicPitch(const std::string & name, const float pitch) = 0;
+			virtual void 	setMusicVolume(const std::string & name, const float volume) = 0;
+			virtual void 	setMusicAttenuation(const std::string & name, const float attenuation) = 0;
+
+			virtual const bool					musicExist(const std::string & name) const = 0;
+			virtual const bool 					getMusicLoop(const std::string & name) const = 0;
+			virtual const nx::sfx::SFX_STATUS 	getMusicStatus(const std::string & name) const = 0;
+			virtual const float 				getMusicVolume(const std::string & name) const = 0;
+			virtual const float					getMusicPitch(const std::string & name) const = 0;
+			virtual const float 				getMusicAttenuation(const std::string & name) const = 0;
+			virtual const unsigned int 			getMusicChannelCount(const std::string & name) const = 0;
+			virtual const unsigned int 			getMusicSampleRate(const std::string & name) const = 0;
         };
     }
 }
