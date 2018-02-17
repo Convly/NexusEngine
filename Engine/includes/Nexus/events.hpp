@@ -29,7 +29,8 @@ namespace nx {
 		ENV_REMOVE_GUI_OBJECT =			5004,
 		ENV_UPDATE_GUI_OBJECT =			5005,
 		ENV_CLEAR_SCENE =				5006,
-		ENV_INIT =						5007
+		ENV_INIT =						5007,
+		ENV_UPDATE_SCENE =				5008
 	};
 }
 #endif

@@ -30,7 +30,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 		boost::asio::ip::udp::socket o_server_;
 		boost::asio::ip::udp::resolver resolver_;
 		boost::asio::ip::udp::endpoint remote_endpoint_;
-  		char recv_buffer_[1024];
+  		char recv_buffer_[800000];
 		std::array<nx::netserv_client_t, NETSERV_MAXCON> clients_;
 
 		explicit UdpServer(boost::asio::io_service& io_service)
@@ -131,7 +131,7 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 
 		bool isAValidClient(const uint8_t idx)
 		{
-			return (idx >= 0 && idx < 4 && clients_[idx].id_ != -1 && clients_[idx].ip_ != "" && clients_[idx].port_ != 0);
+			return (idx >= 0 && idx < 4 && clients_[idx].id_ != -1 && clients_[idx].ip_ != "" && clients_[idx].port_ != 0 && clients_[idx].status_ == nx::NETCON_STATE::CONNECTED);
 		}
 
 		void sendEvent(nx::netserv_send_event_t& netInfos)
@@ -167,6 +167,7 @@ public:
 	void sendAll(const nx::netserv_send_event_t& net);
 	void disconnect(const int clientId);
 	void connectClient(const nx::netserv_client_t& clientInfos);
+	void updateScene(const nx::netserv_send_event_t& netInfos);
 
 protected:
 	nx::Engine* _engine;

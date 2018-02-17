@@ -18,6 +18,13 @@ struct Vector2f {
 	float x;
 	float y;
 
+	template <typename Archive>
+	void serialize(Archive& ar, unsigned int version)
+	{
+		ar & x;
+		ar & y;
+	}
+
 	/* Operators */
 	Vector2f& operator=(const Vector2f& other) {
 		if (this != &other) {

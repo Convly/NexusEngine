@@ -15,6 +15,14 @@ namespace nx
 				GUITextInfos		_textInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _textInfos;
+				}
+
+			public:
 				Text() {}
 				Text(GUIElementInfos const& elementInfos, GUITextInfos const& textInfos)
 					: _elementInfos(elementInfos), _textInfos(textInfos) {}

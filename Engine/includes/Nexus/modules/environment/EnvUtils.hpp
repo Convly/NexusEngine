@@ -22,6 +22,14 @@ namespace nx
 			std::string file;
 			std::string func;
 			bool absolute = true;
+
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & file;
+				ar & func;
+				ar & absolute;
+			}
 		};
 	};
 
@@ -43,6 +51,20 @@ namespace nx
 			std::atomic<uint32_t> _green;
 			std::atomic<uint32_t> _blue;
 			std::atomic<uint32_t> _alpha;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				uint32_t red = _red.load();
+				uint32_t green = _green.load();
+				uint32_t blue = _blue.load();
+				uint32_t alpha = _alpha.load();
+				ar & red;
+				ar & green;
+				ar & blue;
+				ar & alpha;
+			}
 
 		public:
 			RGBa() : _red(0), _green(0), _blue(0), _alpha(255) {}
@@ -141,6 +163,16 @@ namespace nx
 			std::atomic<unsigned int>	_borderThickness;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				unsigned int borderThickness = _borderThickness.load();
+				ar & _backgroundColor;
+				ar & _borderColor;
+				ar & borderThickness;
+			}
+
+		public:
 			ColorInfo() : _borderThickness(0){}
 			ColorInfo(const nx::env::RGBa& backgroundColor_, const nx::env::RGBa& borderColor_, const unsigned int borderThickness_)
 				: _backgroundColor(backgroundColor_), _borderColor(borderColor_), _borderThickness(borderThickness_) {}
@@ -220,6 +252,19 @@ namespace nx
 			std::atomic<unsigned int>	_fontSize;
 			nx::env::RGBa				_textColor;
 			std::atomic<uint32_t>		_textStyle;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				unsigned int fontSize = _fontSize.load();
+				uint32_t textStyle = _textStyle.load();
+				ar & _fontPath;
+				ar & _textLabel;
+				ar & fontSize;
+				ar & _textColor;
+				ar & textStyle;
+			}
 
 		public:
 			TextInfo() : _fontSize(0), _textStyle(0){}
@@ -335,6 +380,18 @@ namespace nx
 			GUIElementInfos(const GUIElementInfos& other)
 				: _active(other.getActiveConst()), _pos(other.getPosConst()), _size(other.getSizeConst()), _identifier(other.getIdentifierConst()), _events(other.getEvents()), _isModified(true) {}
 
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _active;
+				ar & _pos;
+				ar & _size;
+				ar & _identifier;
+				ar & _events;
+				ar & _isModified;
+			}
+
 		private:
 			bool _active;
 			nx::maths::Vector2f _pos;
@@ -433,6 +490,17 @@ namespace nx
 			bool 				_isModified;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				bool isPushButton = _isPushButton.load();
+				ar & isPushButton;
+				ar & _colorInfo;
+				ar & _textInfo;
+				ar & _isModified;
+			}
+
+		public:
 			GUIButtonInfos()  : _isPushButton(true), _isModified(true){}
 			GUIButtonInfos(bool const isPushButton_, nx::env::ColorInfo const& colorInfo_, nx::env::TextInfo const& textInfo_) : _isPushButton(isPushButton_), _colorInfo(colorInfo_), _textInfo(textInfo_), _isModified(true) {}
 			GUIButtonInfos(const GUIButtonInfos& other) : _isPushButton(other.getIsPushButtonConst()), _colorInfo(other.getColorInfoConst()), _textInfo(other.getTextInfoConst()), _isModified(true) {}
@@ -521,6 +589,14 @@ namespace nx
 		private:
 			nx::env::ColorInfo _colorInfo;
 			bool _isModified;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _colorInfo;
+				ar & _isModified;
+			}
 		
 		public:
 			void setIsModified(const bool isModified){
@@ -557,6 +633,15 @@ namespace nx
 			nx::env::ColorInfo _colorInfo;
 			nx::env::TextInfo _textInfo;
 			bool _isModified;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _colorInfo;
+				ar & _textInfo;
+				ar & _isModified;
+			}
 		
 		public:
 			void setIsModified(const bool isModified){
@@ -607,6 +692,15 @@ namespace nx
 			nx::env::ColorInfo _colorInfo;
 			nx::env::TextInfo _textInfo;
 			bool _isModified;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _colorInfo;
+				ar & _textInfo;
+				ar & _isModified;
+			}
 		
 		public:
 			void setIsModified(const bool isModified){
@@ -657,6 +751,15 @@ namespace nx
 			nx::env::ColorInfo _colorInfo;
 			nx::env::TextInfo _textInfo;
 			bool _isModified;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _colorInfo;
+				ar & _textInfo;
+				ar & _isModified;
+			}
 		
 		public:
 			void setIsModified(const bool isModified){
@@ -706,6 +809,14 @@ namespace nx
 		private:
 			nx::env::TextInfo _textInfo;
 			bool _isModified;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _textInfo;
+				ar & _isModified;
+			}
 		
 		public:
 			void setIsModified(const bool isModified){
@@ -741,6 +852,14 @@ namespace nx
 		private:
 			std::string _imagePath;
 			bool _isModified;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _imagePath;
+				ar & _isModified;
+			}
 		
 		public:
 			void setIsModified(const bool isModified){
@@ -777,6 +896,15 @@ namespace nx
 			nx::maths::Vector2f _sheetGrid;
 			nx::maths::Vector2f _spriteSize;
 			bool _isModified;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & _spritesheetPath;
+				ar & _sheetGrid;
+				ar & _spriteSize;
+			}
 		
 		public:
 			void setIsModified(const bool isModified){
@@ -842,6 +970,14 @@ namespace nx
 			nx::maths::Vector2f pos;
 			nx::maths::Vector2f size;
 			std::string identifier;
+
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & pos;
+				ar & size;
+				ar & identifier;
+			}
 		};
 
 		struct GraphicsSpriteInfos {
@@ -851,6 +987,14 @@ namespace nx
 			std::string spritesheetPath;
 			nx::maths::Vector2f sheetGrid;
 			nx::maths::Vector2f spriteSize;
+			
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & spritesheetPath;
+				ar & sheetGrid;
+				ar & spriteSize;
+			}
 		};
 
 		class GraphicsCircleInfos {
@@ -858,6 +1002,15 @@ namespace nx
 		private:
 			std::atomic<float>	_radius;
 			nx::env::ColorInfo	_colorInfo;
+
+		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				float radius = _radius.load();
+				ar & radius;
+				ar & _colorInfo;
+			}
 
 		public:
 			GraphicsCircleInfos(float const radius_, nx::env::ColorInfo const& colorInfo_) : _radius(radius_), _colorInfo(colorInfo_) {}
@@ -916,6 +1069,12 @@ namespace nx
 			GraphicsRectInfos(const GraphicsRectInfos& other) : colorInfo(other.colorInfo) {}
 
 			nx::env::ColorInfo colorInfo;
+
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & colorInfo;
+			}
 		};
 
 		struct GraphicsConvexInfos {
@@ -923,6 +1082,12 @@ namespace nx
 			GraphicsConvexInfos(const GraphicsConvexInfos& other) : colorInfo(other.colorInfo) {}
 
 			nx::env::ColorInfo colorInfo;
+
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				ar & colorInfo;
+			}
 		};
 	}
 }

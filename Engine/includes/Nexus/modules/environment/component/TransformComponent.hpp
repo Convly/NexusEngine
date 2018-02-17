@@ -19,6 +19,19 @@ namespace nx
 			nx::physics::Force2d	_direction;
 
 		public:
+			template <typename Archive>
+			void serialize(Archive& ar, unsigned int version)
+			{
+				bool rotation = _rotation.load();
+				ar & _entityInfos;
+				ar & _pos;
+				ar & rotation;
+				ar & _size;
+				ar & _direction;
+			}
+
+		public:
+			TransformComponent() {}
 			TransformComponent(std::string const& _name)
 				: _entityInfos(_name), _rotation(0) {}
 			TransformComponent(std::string const& _name, nx::maths::Vector2f const& pos)

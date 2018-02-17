@@ -46,8 +46,8 @@ void FrameworkRendering::RefreshRendering()
 			this->_win->clear(sf::Color(0, 0 , 0, 255));
 
 			// Drawing stuff on screen
-			this->_guiHandler->drawLayers();
 			this->_graphicsHandler->drawElements();
+			this->_guiHandler->drawLayers();
 
 			// Displaying screen
 			this->_win->display();
@@ -68,40 +68,49 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 		auto &gameobjects = scene->getGameObjects();
 		for (auto &gameobject : gameobjects)
 		{
-			nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
-			nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
-			nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
-
-			switch (renderer.getShapeTypeConst())
+			if (gameobject.getEntityInfos().getActive())
 			{
-				case nx::env::ShapeType::RECTSHAPE:
-					// this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-					// 						  );
-					break;
-				case nx::env::ShapeType::CIRCLESHAPE:
-					// this->addGraphicsCirleShape();
-					break;
-				case nx::env::ShapeType::CONVEXSHAPE:
-					// this->addGraphicsConvexShape();
-					break;
-				case nx::env::ShapeType::UNDEFINED:
-					/*this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-											  nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), ));*/
-					break;
-			};
+				nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
+				nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
+				nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
+
+
+				switch (renderer.getShapeTypeConst())
+				{
+					case nx::env::ShapeType::RECTSHAPE:
+						this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+							nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
+						break;
+					case nx::env::ShapeType::CIRCLESHAPE:
+						this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+							nx::env::GraphicsCircleInfos(renderer.getRadiusConst(), renderer.getColorInfoConst()));
+						break;
+					case nx::env::ShapeType::CONVEXSHAPE:
+						this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+							nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
+						break;
+					case nx::env::ShapeType::UNDEFINED:
+						this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+							nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
+						break;
+				};
+			}
 		}
 		auto &layers = scene->getLayers();
 		for (auto &layer : layers)
 		{
-			this->addLayer(layer.getEntityInfos().getName());
-			this->_registerGUICheckbox(layer.getAllCheckboxes(), layer.getEntityInfos().getName());
-			this->_registerGUIComboBox(layer.getAllComboBoxes(), layer.getEntityInfos().getName());
-			this->_registerGUIImage(layer.getAllImages(), layer.getEntityInfos().getName());
-			this->_registerGUIProgressBar(layer.getAllProgressBars(), layer.getEntityInfos().getName());
-			this->_registerGUISprite(layer.getAllSprites(), layer.getEntityInfos().getName());
-			this->_registerGUIText(layer.getAllTexts(), layer.getEntityInfos().getName());
-			this->_registerGUITextInput(layer.getAllTextInputs(), layer.getEntityInfos().getName());
-			this->_registerGUIButton(layer.getAllButtons(), layer.getEntityInfos().getName());
+			if (layer.getEntityInfos().getActive())
+			{
+				this->addLayer(layer.getEntityInfos().getName());
+				this->_registerGUICheckbox(layer.getAllCheckboxes(), layer.getEntityInfos().getName());
+				this->_registerGUIComboBox(layer.getAllComboBoxes(), layer.getEntityInfos().getName());
+				this->_registerGUIImage(layer.getAllImages(), layer.getEntityInfos().getName());
+				this->_registerGUIProgressBar(layer.getAllProgressBars(), layer.getEntityInfos().getName());
+				this->_registerGUISprite(layer.getAllSprites(), layer.getEntityInfos().getName());
+				this->_registerGUIText(layer.getAllTexts(), layer.getEntityInfos().getName());
+				this->_registerGUITextInput(layer.getAllTextInputs(), layer.getEntityInfos().getName());
+				this->_registerGUIButton(layer.getAllButtons(), layer.getEntityInfos().getName());
+			}
 		}
 	}
 }

@@ -15,6 +15,14 @@ namespace nx
 				GUIComboBoxInfos	_comboBoxInfos;
 
 			public:
+				template <typename Archive>
+				void serialize(Archive& ar, unsigned int version)
+				{
+					ar & _elementInfos;
+					ar & _comboBoxInfos;
+				}
+
+			public:
 				ComboBox() {}
 				ComboBox(GUIElementInfos const& elementInfos, GUIComboBoxInfos const& comboBoxInfos)
 					: _elementInfos(elementInfos), _comboBoxInfos(comboBoxInfos) {}

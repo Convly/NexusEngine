@@ -70,8 +70,7 @@
             fontPath="./fonts/Roboto-Regular.ttf" text="Waiting for players.." fontSize="22" textColor="255,255,255,255"/>
     </Layer>-->
   </Scene>
-
-  <Scene name="Game" active="False">
+  <Scene name="Game">
     <Layer name="HUD">
       <!--<Image name="HUDImage" pos="0,0" size="1024,768"
              path="./images/hud.png"/>-->
@@ -91,10 +90,10 @@
             fontPath="./fonts/Roboto-Regular.ttf" text="P4:" fontSize="16" textColor="255,255,255,255"/>
       <Text name="P4ScoreValue" pos="50,110"
             fontPath="./fonts/Roboto-Regular.ttf" text="0" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="PlayerLifeValue" pos="410,420"
-            fontPath="./fonts/Roboto-Regular.ttf" text="100" fontSize="22" textColor="255,255,255,255"/>
-      <Image name="PlayerLifeSprite" pos="965,20" size="40,40"
-             path="./images/heart.png"/>
+      <!-- <Text name="PlayerLifeValue" pos="410,420"
+            fontPath="./fonts/Roboto-Regular.ttf" text="100" fontSize="22" textColor="255,255,255,255"/> -->
+      <!--<Image name="PlayerLifeSprite" pos="965,20" size="40,40"
+             path="./heart.png"/>-->
     </Layer>
     <Layer name="EscapeMenu" active="False">
       <Button name="EscapeMenuBackground" pos="0,0" size="1024,768"
@@ -109,27 +108,27 @@
     </Layer>
     <GameObject name="Player1Object">
       <Script name="Player1Script" path="./PlayerScript.lua"/>
-      <Transform name="Player1Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player1Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
-      <RigidBody name="Player1RigidBody" mass="0" bounciness="0" size="64,64"/>
+      <Transform name="Player1Transform" pos="70,30" rotation="0" size="184,184" direction="0,0"/>
+      <Renderer active="False" name="Player1Renderer" opacity="70" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
+      <RigidBody name="Player1RigidBody" mass="0" bounciness="0" size="184,184"/>
     </GameObject>
     <GameObject name="Player2Object">
       <Script name="Player2Script" path="./PlayerScript.lua"/>
-      <Transform name="Player2Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player2Renderer" opacity="100" texturePath="./player.png" shapeType="None" />
-      <RigidBody name="Player2RigidBody" mass="0" bounciness="0" size="64,64"/>
+      <Transform name="Player2Transform" pos="70,230" rotation="0" size="184,184" direction="0,0"/>
+      <Renderer name="Player2Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
+      <RigidBody name="Player2RigidBody" mass="0" bounciness="0" size="184,184"/>
     </GameObject>
     <GameObject name="Player3Object">
       <Script name="Player3Script" path="./PlayerScript.lua"/>
-      <Transform name="Player3Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player3Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
-      <RigidBody name="Player3RigidBody" mass="0" bounciness="0" size="64,64"/>
+      <Transform name="Player3Transform" pos="70,430" rotation="0" size="184,184" direction="0,0"/>
+      <Renderer name="Player3Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
+      <RigidBody name="Player3RigidBody" mass="0" bounciness="0" size="184,184"/>
     </GameObject>
     <GameObject name="Player4Object">
       <Script name="Player4Script" path="./PlayerScript.lua"/>
-      <Transform name="Player4Transform" pos="0,0" rotation="0" size="64,64" direction="0,0"/>
-      <Renderer name="Player4Renderer" opacity="100" texturePath="./player.png" shapeType="None"/>
-      <RigidBody name="Player4RigidBody" mass="0" bounciness="0" size="64,64"/>
+      <Transform name="Player4Transform" pos="70,630" rotation="0" size="184,184" direction="0,0"/>
+      <Renderer name="Player4Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
+      <RigidBody name="Player4RigidBody" mass="0" bounciness="0" size="184,184"/>
     </GameObject>
   </Scene>
 </nx>

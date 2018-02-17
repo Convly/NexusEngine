@@ -11,6 +11,7 @@
 
 #include "Nexus/standalone/external/any.hpp"
 #include "Nexus/modules/environment/EnvUtils.hpp"
+#include "Nexus/modules/environment/Environment.hpp"
 
 #ifndef NEXUS_ENGINE_NO_BOOST
 	#include <boost/serialization/access.hpp>
@@ -201,9 +202,9 @@ namespace nx {
 
 	struct netserv_send_event_t {
 		netserv_send_event_t() : clientId_(-1) {}
-		netserv_send_event_t(const uint8_t clientId, const nx::Event& event) : clientId_(clientId), event_(event) {}
+		netserv_send_event_t(const int clientId, const nx::Event& event) : clientId_(clientId), event_(event) {}
 
-		uint8_t clientId_;
+		int clientId_;
 		nx::Event event_;
 
 		template <typename Archive>
@@ -237,7 +238,8 @@ namespace nx {
 		{nx::EVENT::NETSERV_CONNECT,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_client_t>(object);}},
 		{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
-		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> external::any {return nx::Anycast<uint8_t>(object);}}
+		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> external::any {return nx::Anycast<uint8_t>(object);}},
+		{nx::EVENT::ENV_UPDATE_SCENE,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::env::Scene>(object);}}
 	};
 
 	static const std::unordered_map<nx::EVENT, std::function<nx::Any(external::any&)>, EnumClassHashNetServ> std_any_convert_serialize = {
@@ -253,7 +255,8 @@ namespace nx {
 		{nx::EVENT::NETSERV_CONNECT,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_client_t>(object);}},
 		{nx::EVENT::NETSERV_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_SEND_ALL,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
-		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](external::any& object) -> nx::Any {return external::any_cast<uint8_t>(object);}}
+		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](external::any& object) -> nx::Any {return external::any_cast<uint8_t>(object);}},
+		{nx::EVENT::ENV_UPDATE_SCENE,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::env::Scene>(object);}}
 	};
 #endif
 }
