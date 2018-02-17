@@ -29,7 +29,9 @@ namespace nx {
 
             virtual void RefreshRendering() = 0;
 
-	    virtual void LoadScene(std::string const& sceneName) = 0;
+		    virtual void LoadScene(std::string const& sceneName) = 0;
+
+			virtual void RefreshScene(nx::env::Scene scene) = 0;
 
             // GUI ELEMENTS
             virtual bool addLayer(const std::string &) = 0;
@@ -66,6 +68,9 @@ namespace nx {
             addGUISprite(const std::string &, const nx::env::GUIElementInfos &,
                          const nx::env::GUISpriteInfos &) = 0;
 
+			virtual bool removeLayer(std::string const& layerId) = 0;
+			virtual bool removeGUIElem(std::string const& layerId, std::string const& elemId) = 0;
+
             virtual bool addGraphicsSprite(
                     const nx::env::GraphicsElementInfos &graphicsParams,
                     const nx::env::GraphicsSpriteInfos &spriteParams) = 0;
@@ -81,6 +86,8 @@ namespace nx {
             virtual bool addGraphicsConvexShape(
                     const nx::env::GraphicsElementInfos &graphicsParams,
                     const nx::env::GraphicsConvexInfos &convexShapeParams) = 0;
+
+			virtual bool removeGraphicsElem(std::string const& elemId) = 0;
 
             virtual void setVisibleToGUIElement(std::string const &layerId,
                                                 std::string const &elemId,

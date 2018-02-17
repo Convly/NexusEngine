@@ -964,8 +964,8 @@ namespace nx
 			GraphicsElementInfos(const nx::maths::Vector2f& _pos, const nx::maths::Vector2f& _size, const std::string& _identifier)
 				: pos(_pos), size(_size), identifier(_identifier) {}
 
-			GraphicsElementInfos(const GUIElementInfos& other)
-				: pos(other.getPosConst()), size(other.getSizeConst()), identifier(other.getIdentifierConst()) {}
+			GraphicsElementInfos(const GraphicsElementInfos& other)
+				: pos(other.pos), size(other.size), identifier(other.identifier) {}
 
 			nx::maths::Vector2f pos;
 			nx::maths::Vector2f size;

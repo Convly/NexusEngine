@@ -74,6 +74,24 @@ namespace nx
 				this->_gameObjects.push_back(GameObject(gameObjectName));
 			}
 
+			void addGameObject(GameObject const& gameObject)
+			{
+				this->_gameObjects.push_back(gameObject);
+			}
+
+			bool removeGameObject(std::string const& gameObjectId)
+			{
+				bool found = false;
+				std::remove_if(this->_gameObjects.begin(), this->_gameObjects.end(),
+					[&](nx::env::GameObject gameObject)
+				{
+					if (gameObject.getEntityInfos().getName() == gameObjectId)
+						found = true;
+					return (gameObject.getEntityInfos().getName() == gameObjectId);
+				});
+				return (found);
+			}
+
 			void setBackgroundColor(nx::env::RGBa const& backgroundColor)
 			{
 				this->_backgroundColor = backgroundColor;
@@ -82,6 +100,19 @@ namespace nx
 			void addLayer(Layer const& layer)
 			{
 				this->_layers.push_back(layer);
+			}
+
+			bool removeLayer(std::string const& layerId)
+			{
+				bool found = false;
+				std::remove_if(this->_layers.begin(), this->_layers.end(),
+							   [&](nx::env::Layer layer)
+							   {
+									if (layer.getEntityInfos().getName() == layerId)
+										found = true;
+									return (layer.getEntityInfos().getName() == layerId);
+							   });
+				return (found);
 			}
 
 			

@@ -60,6 +60,6 @@ void nx::RenderingSystem::event_EnvUpdateScene(const nx::Event& e)
 		return;
 	}
 
-	nx::env::Scene go = external::any_cast<nx::env::Scene>(e.data);
-	std::cout << go.getEntityInfos().getName() << std::endl;
+	nx::env::Scene scene = external::any_cast<nx::env::Scene>(e.data);
+	f->RefreshScene(scene);
 }

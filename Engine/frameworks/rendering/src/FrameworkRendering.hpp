@@ -16,8 +16,9 @@ public:
 	void InitializeWindow(int width, int height, std::string titleWin);
 	void RefreshRendering();
 	void LoadScene(std::string const& sceneName);
+	void RefreshScene(nx::env::Scene scene);
 
-	bool addLayer(const std::string&);
+	bool addLayer(const std::string& layerId);
 	bool addButton(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIButtonInfos& buttonsParams);
 	bool addCheckbox(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUICheckboxInfos& checkboxParams);
 	bool addProgressBar(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIProgressBarInfos& progressBarParams);
@@ -27,10 +28,15 @@ public:
 	bool addImage(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIImageInfos& imageParams);
 	bool addGUISprite(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUISpriteInfos& spriteParams);
 
+	bool removeLayer(std::string const& layerId);
+	bool removeGUIElem(std::string const& layerId, std::string const& elemId);
+		
 	bool addGraphicsSprite(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsSpriteInfos& spriteParams);
 	bool addGraphicsCirleShape(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsCircleInfos& circleShapeParams);
 	bool addGraphicsRectShape(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsRectInfos& rectShapeParams);
 	bool addGraphicsConvexShape(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsConvexInfos& convexShapeParams);
+
+	bool removeGraphicsElem(std::string const& elemId);
 
 	void						setVisibleToGUIElement(std::string const& layerId, std::string const& elemId, bool const isVisible);
 	void						setVisibleToGraphicsElement(std::string const& elemId, bool const isVisible);

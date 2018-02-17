@@ -28,6 +28,7 @@ namespace nx
 			~GraphicsHandler();
 
 			void	addElement(std::shared_ptr<GraphicsElement> elem);
+			bool	removeElement(std::string const& elemId);
 
 			// Events
 			void	processEvent(sf::Event const& event);

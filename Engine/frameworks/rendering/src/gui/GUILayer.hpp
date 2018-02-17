@@ -24,6 +24,7 @@ namespace nx
 			~GUILayer();
 
 			void	add(std::shared_ptr<GUIElement> elem);
+			bool	remove(std::string const& elemId);
 
 			// Setters
 			void											 setVisible(bool const state);

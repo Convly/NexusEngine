@@ -31,6 +31,7 @@ namespace nx
 			~GUIHandler();
 
 			void	addLayer(std::shared_ptr<GUILayer> elem);
+			bool	removeLayer(std::string const& layerId);
 
 			// Events
 			void	processEvent(sf::Event const& event);

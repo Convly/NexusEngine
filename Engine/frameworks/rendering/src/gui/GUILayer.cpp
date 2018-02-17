@@ -17,6 +17,20 @@ void nx::gui::GUILayer::add(std::shared_ptr<GUIElement> elem)
 }
 
 
+bool	nx::gui::GUILayer::remove(std::string const& elemId)
+{
+	bool found = false;
+
+	std::remove_if(this->_guiElements.begin(), this->_guiElements.end(),
+		[&](std::shared_ptr<nx::gui::GUIElement> elem)
+	{
+		if (elem->getIdentifier() == elemId)
+			found = true;
+		return (elem->getIdentifier() == elemId);
+	});
+	return (found);
+}
+
 // Setters
 
 void										nx::gui::GUILayer::setVisible(bool const state)

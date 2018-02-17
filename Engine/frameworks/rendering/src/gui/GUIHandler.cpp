@@ -16,6 +16,19 @@ void	nx::gui::GUIHandler::addLayer(std::shared_ptr<GUILayer> layer)
 	this->_guiLayers.push_back(layer);
 }
 
+bool	nx::gui::GUIHandler::removeLayer(std::string const& layerId)
+{
+	bool found = false;
+
+	std::remove_if(this->_guiLayers.begin(), this->_guiLayers.end(),
+		[&](std::shared_ptr<nx::gui::GUILayer> elem)
+	{
+		if (elem->getIdentifier() == layerId)
+			found = true;
+		return (elem->getIdentifier() == layerId);
+	});
+	return (found);
+}
 
 // Events
 
