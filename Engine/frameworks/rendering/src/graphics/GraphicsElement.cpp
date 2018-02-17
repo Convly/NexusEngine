@@ -1,4 +1,5 @@
 #include "GraphicsElement.hpp"
+#include "../renderingUtils.hpp"
 #include "Nexus/errors/ScriptNotLoadedException.hpp"
 
 nx::graphics::GraphicsElement::GraphicsElement(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, const nx::env::MouseEventsContainer& events) :
@@ -6,9 +7,9 @@ nx::graphics::GraphicsElement::GraphicsElement(sf::Vector2f const& pos, sf::Vect
 {	
 	for (auto it : this->_events) {
 		external::any data = it.second.file;
-		enginePtr->emit(nx::EVENT::SCRIPT_LOAD, data);
 		try {
-			enginePtr->emit(nx::EVENT::SCRIPT_INIT, data);
+			nx::rendering::tools::script_bi_send(nx::EVENT::SCRIPT_INIT, data);
+			nx::rendering::tools::script_bi_send(nx::EVENT::SCRIPT_LOAD, data);
 		} catch (const nx::ScriptNotLoaded& e) {
 			nx::Log::warning(e.what(), "BAD_FILE");
 		}
@@ -36,8 +37,7 @@ void nx::graphics::GraphicsElement::dispatchMouseEvent(sf::Vector2i const& pos, 
 		[&](auto& item) {
 			if (item.first == eventName) {
 				item.second.absolute = false;
-				auto const ptr = reinterpret_cast<char*>(&item.second);
-				enginePtr->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, std::vector<char>(ptr, ptr + sizeof item.second));
+				nx::rendering::tools::script_bi_send(nx::EVENT::SCRIPT_EXEC_FUNCTION, item.second);
 			}
 		}
 	);

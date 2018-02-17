@@ -16,6 +16,7 @@ namespace nx
 			std::vector<std::string>	_musicPaths;
 			std::vector<std::string>	_scriptPaths;
 			std::vector<std::string>	_imagePaths;
+			std::vector<std::string>	_fontPaths;
 
 		public:
 			Ressources() {}
@@ -40,6 +41,11 @@ namespace nx
 			void	addScriptPath(std::string const& scriptPath)
 			{
 				this->_scriptPaths.push_back(scriptPath);
+			}
+
+			void	addFontPath(std::string const& fontPath)
+			{
+				this->_fontPaths.push_back(fontPath);
 			}
 
 			// Getters
@@ -77,6 +83,15 @@ namespace nx
 
             std::string getScriptPathAt(int idx) {
                 return (this->_scriptPaths.at(idx));
+            }
+
+			std::vector<std::string> &	getFontPaths()
+			{
+				return (this->_fontPaths);
+			}
+
+            std::string getFontPathAt(int idx) {
+                return (this->_fontPaths.at(idx));
             }
 		};
 	}

@@ -3,7 +3,8 @@
 FrameworkNetworkClient::FrameworkNetworkClient(nx::Engine* engine)
 :
 	nx::NetworkClientFrameworkTpl("FrameworkNetworkClient"),
-	_engine(engine)
+	_engine(engine),
+	connected_(false)
 {
 	enginePtr = engine;
 	nx::Log::inform("New NetworkClient Framework created");
@@ -51,10 +52,6 @@ void FrameworkNetworkClient::disconnect()
 	nx::Log::inform("You have been successfully disconnected from the host");
 }
 
-void FrameworkNetworkClient::send(const nx::netserv_send_event_t& event)
-{
-}
-
 const bool FrameworkNetworkClient::connected() const
 {
 	return connected_;
@@ -75,4 +72,10 @@ void FrameworkNetworkClient::setClientId(const int id)
 {
 	if (connected_)
 		udp_client_->setClientId(id);
+}
+
+void FrameworkNetworkClient::sendEvent(const nx::netserv_send_event_t& netInfos)
+{
+	if (connected_)
+		udp_client_->sendEvent(netInfos.event_);
 }

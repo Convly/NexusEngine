@@ -4,6 +4,7 @@ FrameworkNetworkServer::FrameworkNetworkServer(nx::Engine* engine)
 	:
 	nx::NetworkServerFrameworkTpl("FrameworkNetworkServer"),
 	_engine(engine),
+	full_(false),
 	udp_server_(this->io_service_)
 {
 	enginePtr = engine;
@@ -42,6 +43,12 @@ void FrameworkNetworkServer::connectClient(const nx::netserv_client_t& clientInf
 	s_event.event_ = nx::Event(nx::NETSERV_CONNECT, this->udp_server_.clients_.at(freeSlotIndex));
 	sendEvent(s_event);
 	nx::Log::inform("Success!");
+
+	if (udp_server_.getFreeSlot() == -1)
+	{
+		nx::Log::inform("Server full, starting the game...");
+		setServerFullState(true);
+	}
 }
 
 /* INTERFACING */
@@ -75,4 +82,14 @@ void FrameworkNetworkServer::disconnect(const int clientId)
 void FrameworkNetworkServer::updateScene(const nx::netserv_send_event_t& netInfos)
 {
 	sendAll(netInfos);
+}
+
+void FrameworkNetworkServer::setServerFullState(const bool state)
+{
+	full_ = state;
+}
+
+const bool FrameworkNetworkServer::isServerFull()
+{
+	return full_;
 }
