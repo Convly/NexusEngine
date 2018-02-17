@@ -135,7 +135,7 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 	}
 	catch (std::exception e)
 	{
-		nx::Log::ebug(e.what());
+		nx::Log::debug(e.what());
 	}
 }
 
