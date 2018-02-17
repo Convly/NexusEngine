@@ -43,6 +43,8 @@ void FrameworkRendering::RefreshRendering()
 					this->_win->close();
 				this->_guiHandler->processEvent(event);
 			}
+
+			this->HandleKeyboard();
 			
 			// Clearing the window
 			this->_win->clear(sf::Color(0, 0 , 0, 255));
@@ -54,6 +56,19 @@ void FrameworkRendering::RefreshRendering()
 			// Displaying screen
 			this->_win->display();
 		}
+	}
+}
+
+void FrameworkRendering::HandleKeyboard()
+{
+	nx::env::Keyboard board;
+	for (int k = -1; k <= nx::env::Keyboard::Key::KeyCount; ++k)
+		board.setKeyState(k, sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(k)));
+
+	if (board != _keyboard)
+	{
+		_keyboard = board;
+		// TODO: SEND EVENT THROUGH NETWORK
 	}
 }
 

@@ -1,5 +1,7 @@
 #include "FrameworkScript.hpp"
 
+nx::Engine* enginePtr = nullptr;
+
 FrameworkScript::FrameworkScript(nx::Engine* engine)
 :
 	nx::ScriptFrameworkTpl("FrameworkScript"),
@@ -8,6 +10,7 @@ FrameworkScript::FrameworkScript(nx::Engine* engine)
 	_state = luaL_newstate();
 	luaL_openlibs(_state);
     registerEnv();
+    enginePtr = engine;
 }
 
 FrameworkScript::~FrameworkScript() {}

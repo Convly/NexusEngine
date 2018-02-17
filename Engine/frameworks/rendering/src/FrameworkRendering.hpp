@@ -7,6 +7,7 @@
 # include "Nexus/engine.hpp"
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 # include "./audio/SfxHandler.hpp"
+# include "Nexus/modules/environment/Keyboard.hpp"
 
 class FrameworkRendering : public nx::rendering::RenderingFrameworkTpl
 {
@@ -17,6 +18,7 @@ public:
 	void InitializeWindow(int width, int height, std::string titleWin);
 	void RefreshRendering();
 	void LoadScene(std::string const& sceneName);
+	void HandleKeyboard();	
 
 	bool addLayer(const std::string&);
 	bool addButton(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIButtonInfos& buttonsParams);
@@ -308,6 +310,7 @@ private:
 	std::shared_ptr<nx::gui::GUIHandler>	_guiHandler;
 	std::shared_ptr<nx::graphics::GraphicsHandler>	_graphicsHandler;
 	std::shared_ptr<nx::sfx::SfxHandler>			_sfxHandler;
+	nx::env::Keyboard								_keyboard;
 
 	nx::gui::GUIElement		*_getGUIElementFromHandler(std::string const& layerId, std::string const& elemId) const;
 	nx::gui::Button			*_getGUIButtonFromHandler(std::string const& layerId, std::string const& buttonId) const;
