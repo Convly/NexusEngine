@@ -158,8 +158,18 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 
 void nx::Engine::coreLoop(const std::function<void(void)>& userCallback)
 {
+	auto serverFramework = cast<nx::NetworkServerSystem>(getSystemByName(__NX_NETWORKSERVER_KEY__))->getFramework();
+	if (!serverFramework)
+	{
+		nx::Log::warning("NetworkServer framework is corrupted, exiting...", "SERVER_INTEGRITY");
+		return;
+	}
+
 	while (this->_run)
 	{
+		if (!serverFramework->isServerFull())
+			continue;
+
 		this->_fixedUpdate();
 		this->_update();
 		userCallback();

@@ -24,6 +24,8 @@ namespace nx {
 		virtual void disconnect(const int clientId) = 0;
 		virtual void connectClient(const nx::netserv_client_t& clientInfos) = 0;
 		virtual void updateScene(const nx::netserv_send_event_t&) = 0;
+		virtual const bool isServerFull() = 0;
+		
 	};
 }
 
