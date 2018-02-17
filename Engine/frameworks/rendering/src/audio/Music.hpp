@@ -7,10 +7,10 @@
 
 # include <memory>
 # include <iostream>
-# include "SfxStatus.hpp"
 # include <SFML/Audio.hpp>
 # include "../MusicException.hpp"
 # include "Nexus/modules/maths/maths.hpp"
+# include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
 namespace nx
 {

@@ -7,10 +7,10 @@
 # define SOUND_HPP_
 
 # include <iostream>
-# include "SfxStatus.hpp"
 # include <SFML/Audio.hpp>
 # include "../SoundException.hpp"
 # include "Nexus/modules/maths/maths.hpp"
+# include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 
 namespace nx
 {

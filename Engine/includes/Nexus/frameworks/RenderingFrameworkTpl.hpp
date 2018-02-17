@@ -4,9 +4,19 @@
 #include <iostream>
 #include "Nexus/frameworks/ScriptFrameworkTpl.hpp"
 #include "Nexus/modules/maths/maths.hpp"
-# include "../frameworks/rendering/src/audio/SfxStatus.hpp"
 
 namespace nx {
+
+	namespace sfx
+	{
+		enum SFX_STATUS
+		{
+			UNKNOWN = -1,
+			PLAY,
+			PAUSE,
+			STOP
+		};
+	}
 
     namespace rendering {
 
