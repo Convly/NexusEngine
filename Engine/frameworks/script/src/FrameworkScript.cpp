@@ -32,6 +32,12 @@ lua_State* FrameworkScript::createThread()
 
 void FrameworkScript::registerEnv() {
     luabridge::getGlobalNamespace(_state)
+            .beginClass<nx::env::Keyboard>("Keyboard")
+            .addConstructor<void(*)(void)>()
+            .addFunction("compare", &nx::env::Keyboard::compare)
+            .addFunction("getKeyState", &nx::env::Keyboard::getKeyState)
+            .addFunction("print", &nx::env::Keyboard::print)
+            .endClass()
             .beginClass<nx::Conn>("Conn")
             .addConstructor<void(*)(void)>()
             .addStaticFunction("localConnect", &nx::Conn::localConnect)

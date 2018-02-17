@@ -68,10 +68,15 @@ namespace env {
 
             Keyboard& operator=(const Keyboard& other)
             {
-                const auto& okeys = other.getKeys(); 
-                std::for_each(okeys.begin(), okeys.end(), [&](const Keymap::value_type& item) {
-                    setKeyState(item.first, item.second);
-                });
+                if (&other != this)
+                {
+                    const auto& okeys = other.getKeys(); 
+                    std::for_each(okeys.begin(), okeys.end(), [&](const Keymap::value_type& item) {
+                        setKeyState(item.first, item.second);
+                    });
+                }
+
+                return *this;
             }
 
             bool compare(const Keyboard& other)
@@ -118,7 +123,7 @@ namespace env {
                 keys_[static_cast<Key>(key)] = state;
             }
 
-            const bool getKeyState(int key) const
+            bool getKeyState(int key)
             {
                 if (key < -1 || key > Key::KeyCount)
                 {
@@ -132,7 +137,6 @@ namespace env {
             void print()
             {
                 nx::Log::debug("Printing keymap...");
-                std::cout << keys_.size() << std::endl;
                 for (int k = -1; k <= nx::env::Keyboard::Key::KeyCount; ++k)
                     nx::Log::debug("Key." + std::to_string(k) + ": " + std::to_string(keys_.at(static_cast<Key>(k))));
                 nx::Log::debug("--End of print--");
