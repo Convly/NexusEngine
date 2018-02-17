@@ -27,8 +27,6 @@ void nx::RenderingSystem::init()
 	else {
 		f->InitializeWindow(1024, 768, "R-Type");
 		f->LoadScene("Game");
-		f->addMusic("menu_music.ogg");
-		f->playMusic("menu_music.ogg");
 	}
 }
 

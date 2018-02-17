@@ -6,9 +6,9 @@
 
 extern "C"
 {
-	#include <lua.h>
-	#include <lauxlib.h>
-	#include <lualib.h>
+	#include <lua5.1/lua.h>
+	#include <luad5.1/lauxlib.h>
+	#include <luad5.1/lualib.h>
 }
 
 #include "LuaBridge/LuaBridge.h"
