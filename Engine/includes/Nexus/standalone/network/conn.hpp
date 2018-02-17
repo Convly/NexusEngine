@@ -4,6 +4,8 @@
 #include "Nexus/engine.hpp"
 #include "Nexus/standalone/network/netutils.hpp"
 
+extern nx::Engine* enginePtr;
+
 namespace nx {
     class Conn {
         public:
@@ -14,12 +16,12 @@ namespace nx {
             static void localConnect(const std::string& ip, const short port)
             {
                 external::any infos = nx::netcust_host_t(ip, port);
-                nx::Engine::Instance().emit(nx::EVENT::NETCUST_CONNECT, infos);
+                enginePtr->emit(nx::EVENT::NETCUST_CONNECT, infos);
             }
 
             static void localDisconnect()
             {
-                nx::Engine::Instance().emit(nx::EVENT::NETCUST_DISCONNECT, 0);
+                enginePtr->emit(nx::EVENT::NETCUST_DISCONNECT, 0);
             }
     };
 }
