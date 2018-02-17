@@ -31,7 +31,8 @@ namespace nx {
             "scripts",
             "sounds",
             "musics",
-            "images"
+            "images",
+            "fonts"
         };
 
         struct Fields {
