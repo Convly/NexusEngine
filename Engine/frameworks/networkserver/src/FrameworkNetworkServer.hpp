@@ -168,9 +168,14 @@ public:
 	void disconnect(const int clientId);
 	void connectClient(const nx::netserv_client_t& clientInfos);
 	void updateScene(const nx::netserv_send_event_t& netInfos);
+	const bool isServerFull();
+
+public:
+	void setServerFullState(const bool);
 
 protected:
 	nx::Engine* _engine;
+	bool full_;
 	boost::asio::io_service io_service_;
 	std::shared_ptr<std::thread> io_thread_;
 	FrameworkNetworkServer::UdpServer udp_server_;
