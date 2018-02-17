@@ -12,11 +12,12 @@
 			"command": "overwatch"
 		},
 		"ressources": {
-			"game": "/game/",
-			"scripts": "scripts/",
-			"sounds": "medias/images/",
-			"musics": "medias/images/",
-			"images": "medias/images/"
+			"game": "game/game/",
+			"scripts": "game/scripts/",
+			"sounds": "game/sounds/",
+			"musics": "game/musics/",
+			"images": "game/images/",
+			"fonts": "game/fonts/"
 		}
 	}
 }

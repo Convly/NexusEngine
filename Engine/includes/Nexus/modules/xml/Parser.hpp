@@ -38,6 +38,9 @@ namespace xml{
                 current = "images";
                 crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
                 env.getRessources().getImagePaths() = Crawler::convertPathVectorToStrings(crawler.getRecursiveEntriesList());
+                current = "fonts";
+                crawler = Crawler(env.getGameInfos().getRootPath() + gameInfosParser.getFields()._resources.at(current));
+                env.getRessources().getFontPaths() = Crawler::convertPathVectorToStrings(crawler.getRecursiveEntriesList());
             }
             catch (...){
                 error += "Error: \"" + gameInfosParser.getFields()._resources.at(current) + "\" doesn't exist\n";
