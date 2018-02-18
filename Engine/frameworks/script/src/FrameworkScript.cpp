@@ -449,6 +449,11 @@ void FrameworkScript::registerEnv() {
             .addFunction<std::vector<nx::env::Scene>::reference (std::vector<nx::env::Scene>::*)(std::vector<nx::env::Scene>::size_type)>("at", &std::vector<nx::env::Scene>::at)
             .endClass()
 
+            .beginClass<std::vector<nx::env::Keyboard> > ("KeyboardVector")
+            .addFunction("size", &std::vector<nx::env::Keyboard>::size)
+            .addFunction<std::vector<nx::env::Keyboard>::reference (std::vector<nx::env::Keyboard>::*)(std::vector<nx::env::Keyboard>::size_type)>("at", &std::vector<nx::env::Keyboard>::at)
+            .endClass()
+
             //Environment
             .beginClass<nx::env::Environment>("Environment")
             .addConstructor<void(*)(void)>()
@@ -456,6 +461,9 @@ void FrameworkScript::registerEnv() {
             .addFunction("getSceneAt", &nx::env::Environment::getSceneAt)
             .addFunction("getRessources", &nx::env::Environment::getRessources)
             .addFunction("getGameInfos", &nx::env::Environment::getGameInfos)
+            .addFunction("getConnectedClient", &nx::env::Environment::getConnectedClient)
+            .addFunction("getKeyboardAt", &nx::env::Environment::getKeyboardAt)
+            .addFunction("getKeyboards", &nx::env::Environment::getKeyboards)
             .endClass();
     luabridge::push(_state, &_engine->getEnv());
     lua_setglobal(_state, "Env");

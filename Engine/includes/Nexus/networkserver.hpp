@@ -37,6 +37,8 @@ virtual ~NetworkServerSystem();
 		static void event_Disconnect(const nx::Event& e);
 		static void event_Connect(const nx::Event& e);
 		static void event_SceneUpdate(const nx::Event& e);
+		static void event_EnvClientKeyboard(const nx::Event& e);
+		static void event_NewClientConnected(const nx::Event& e);
 	};
 }
 
