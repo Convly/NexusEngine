@@ -137,7 +137,7 @@ protected:
 	std::shared_ptr<FrameworkNetworkClient::UdpClient> udp_client_;
 
 public:
-	void sendEvent(const nx::netserv_send_event_t&);
+	void sendEvent(const nx::Event&);
 	void connect(const nx::netcust_host_t&);
 	void disconnect();
 	int getClientId();

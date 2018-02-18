@@ -13,6 +13,8 @@ nx::NetworkServerSystem::NetworkServerSystem()
 	connect(nx::EVENT::NETCUST_DISCONNECT, nx::NetworkServerSystem::event_Disconnect);
 	connect(nx::EVENT::NETSERV_CONNECT, nx::NetworkServerSystem::event_Connect);
 	connect(nx::EVENT::ENV_UPDATE_SCENE, nx::NetworkServerSystem::event_SceneUpdate);
+	connect(nx::EVENT::ENV_CLIENT_KEYBOARD, nx::NetworkServerSystem::event_EnvClientKeyboard);
+	connect(nx::EVENT::ENV_NOTIFY_NEW_CLIENT, nx::NetworkServerSystem::event_NewClientConnected);
 }
 
 nx::NetworkServerSystem::~NetworkServerSystem() {
@@ -116,4 +118,37 @@ void nx::NetworkServerSystem::event_SceneUpdate(const nx::Event& e)
 	}
 	
 	f->updateScene(nx::netserv_send_event_t(-1, e));
+}
+
+void nx::NetworkServerSystem::event_EnvClientKeyboard(const nx::Event& e)
+{
+	auto& engine = nx::Engine::Instance();
+	auto self = engine.cast<nx::NetworkServerSystem>(engine.getSystemByName(__NX_NETWORKSERVER_KEY__));
+	if (!self) return;
+
+	auto f = self->getFramework();
+	if (!f)
+	{
+		nx::Log::warning("NetworkServer framework is corrupted", "NETWORK_SERVER_INTEGRITY");
+		return;
+	}
+
+	nx::netserv_send_board_t netBoard = external::any_cast<nx::netserv_send_board_t>(e.data);
+	engine.getEnv().updateKeyboard(netBoard.clientId_, netBoard.board_);
+}
+
+void nx::NetworkServerSystem::event_NewClientConnected(const nx::Event& e)
+{
+	auto& engine = nx::Engine::Instance();
+	auto self = nx::Engine::cast<nx::NetworkServerSystem>(engine.getSystemByName(__NX_NETWORKSERVER_KEY__));
+	if (!self) return;
+
+	auto f = self->getFramework();
+	if (!f)
+	{
+		nx::Log::warning("NetworkServer framework is corrupted", "NETWORK_SERVER_INTEGRITY");
+		return;
+	}
+
+	engine.getEnv().addKeyboard();
 }

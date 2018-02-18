@@ -19,9 +19,9 @@
 #include "Nexus/standalone/network/netutils.hpp"
 #include "Nexus/standalone/network/serialization.hpp"
 
-nx::Engine* enginePtr;
-
 #define NETSERV_MAXCON 4
+
+extern nx::Engine* enginePtr;
 
 class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 {

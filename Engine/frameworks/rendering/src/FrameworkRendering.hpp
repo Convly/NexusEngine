@@ -8,6 +8,7 @@
 # include "Nexus/log.hpp"
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 # include "./audio/SfxHandler.hpp"
+# include "Nexus/standalone/network/netutils.hpp"
 # include "Nexus/modules/environment/Keyboard.hpp"
 
 class FrameworkRendering : public nx::rendering::RenderingFrameworkTpl
