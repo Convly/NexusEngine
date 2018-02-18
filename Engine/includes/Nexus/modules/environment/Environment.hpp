@@ -2,7 +2,6 @@
 #define NEXUS_ENGINE__ENVIRONMENT_HPP_
 
 # include <vector>
-# include <atomic>
 
 # include "Scene.hpp"
 # include "Ressources.hpp"
