@@ -68,7 +68,7 @@ void FrameworkRendering::HandleKeyboard()
 	if (board != _keyboard)
 	{
 		_keyboard = board;
-		// TODO: SEND EVENT THROUGH NETWORK
+		enginePtr->emit(nx::EVENT::ENV_CLIENT_KEYBOARD, nx::netserv_send_board_t(-1, _keyboard));
 	}
 }
 

@@ -11,8 +11,7 @@ namespace rendering {
 namespace tools {
     static void script_bi_send(const nx::EVENT type, const external::any& data)
     {
-        nx::netserv_send_event_t netInfos(-1, nx::Event(type, data));
-        enginePtr->emit(nx::EVENT::NETCUST_SEND_EVENT, netInfos);
+        enginePtr->emit(nx::EVENT::NETCUST_SEND_EVENT, nx::Event(type, data));
         enginePtr->emit(type, data);
     }
 }

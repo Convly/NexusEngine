@@ -215,6 +215,21 @@ namespace nx {
 		}
 	};
 
+	struct netserv_send_board_t {
+		netserv_send_board_t() {}
+		netserv_send_board_t(const int clientId, const nx::env::Keyboard& board) : clientId_(clientId), board_(board) {}
+		
+		int clientId_;
+		nx::env::Keyboard board_;
+
+		template <typename Archive>
+		void serialize(Archive& ar, const unsigned int version)
+		{
+			ar & clientId_;
+			ar & board_;
+		}
+	};
+
 	struct EnumClassHashNetServ
 	{
 		template <typename T>
@@ -234,12 +249,14 @@ namespace nx {
 		{nx::EVENT::NETCUST_CONNECT,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netcust_host_t>(object);}},
 		{nx::EVENT::NETCUST_DISCONNECT,			[&](nx::Any& object) -> external::any {return nx::Anycast<int>(object);}},
 		{nx::EVENT::NETCUST_LISTEN,				[&](nx::Any& object) -> external::any {return nx::Anycast<std::string>(object);}},
-		{nx::EVENT::NETCUST_SEND_EVENT,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
+		{nx::EVENT::NETCUST_SEND_EVENT,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::Event>(object);}},
 		{nx::EVENT::NETSERV_CONNECT,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_client_t>(object);}},
 		{nx::EVENT::NETSERV_SEND,				[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_SEND_ALL,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](nx::Any& object) -> external::any {return nx::Anycast<uint8_t>(object);}},
-		{nx::EVENT::ENV_UPDATE_SCENE,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::env::Scene>(object);}}
+		{nx::EVENT::ENV_UPDATE_SCENE,			[&](nx::Any& object) -> external::any {return nx::Anycast<nx::env::Scene>(object);}},
+		{nx::EVENT::ENV_CLIENT_KEYBOARD,		[&](nx::Any& object) -> external::any {return nx::Anycast<netserv_send_board_t>(object);}},
+		{nx::EVENT::ENV_NOTIFY_NEW_CLIENT,		[&](nx::Any& object) -> external::any {return nx::Anycast<int>(object);}}
 	};
 
 	static const std::unordered_map<nx::EVENT, std::function<nx::Any(external::any&)>, EnumClassHashNetServ> std_any_convert_serialize = {
@@ -251,12 +268,14 @@ namespace nx {
 		{nx::EVENT::NETCUST_CONNECT,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netcust_host_t>(object);}},
 		{nx::EVENT::NETCUST_DISCONNECT,			[&](external::any& object) -> nx::Any {return external::any_cast<int>(object);}},
 		{nx::EVENT::NETCUST_LISTEN,				[&](external::any& object) -> nx::Any {return external::any_cast<std::string>(object);}},
-		{nx::EVENT::NETCUST_SEND_EVENT,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
+		{nx::EVENT::NETCUST_SEND_EVENT,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::Event>(object);}},
 		{nx::EVENT::NETSERV_CONNECT,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_client_t>(object);}},
 		{nx::EVENT::NETSERV_SEND,				[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_SEND_ALL,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::netserv_send_event_t>(object);}},
 		{nx::EVENT::NETSERV_FORCE_DISCONNECT,	[&](external::any& object) -> nx::Any {return external::any_cast<uint8_t>(object);}},
-		{nx::EVENT::ENV_UPDATE_SCENE,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::env::Scene>(object);}}
+		{nx::EVENT::ENV_UPDATE_SCENE,			[&](external::any& object) -> nx::Any {return external::any_cast<nx::env::Scene>(object);}},
+		{nx::EVENT::ENV_CLIENT_KEYBOARD,		[&](external::any& object) -> nx::Any {return external::any_cast<netserv_send_board_t>(object);}},
+		{nx::EVENT::ENV_NOTIFY_NEW_CLIENT,		[&](external::any& object) -> nx::Any {return external::any_cast<int>(object);}}
 	};
 #endif
 }

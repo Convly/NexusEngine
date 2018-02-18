@@ -18,7 +18,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 if (WIN32)
 	set(SFML_STATIC_LIBRARIES TRUE)
 endif()
-find_package(SFML 2 REQUIRED network audio graphics window system)
+find_package(SFML 2 REQUIRED audio graphics window system)
 if(SFML_FOUND)
 	### COMPILATOR OPTIONS
 	set(CMAKE_CXX_STANDARD 14)

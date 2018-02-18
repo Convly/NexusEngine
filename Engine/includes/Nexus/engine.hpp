@@ -64,7 +64,7 @@ namespace nx {
 
 	  void emit(const nx::Event& event)
 	  {
-		  nx::Log::inform("New event catched in the Engine: {" + std::to_string(event.type) + "}");
+		//   nx::Log::inform("New event catched in the Engine: {" + std::to_string(event.type) + "}");
 		  std::for_each(
 			  this->_systems.begin(),
 			  this->_systems.end(),

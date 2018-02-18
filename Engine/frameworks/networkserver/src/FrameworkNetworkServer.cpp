@@ -1,5 +1,7 @@
 #include "FrameworkNetworkServer.hpp"
 
+nx::Engine* enginePtr = nullptr;
+
 FrameworkNetworkServer::FrameworkNetworkServer(nx::Engine* engine)
 	:
 	nx::NetworkServerFrameworkTpl("FrameworkNetworkServer"),
@@ -42,6 +44,7 @@ void FrameworkNetworkServer::connectClient(const nx::netserv_client_t& clientInf
 	s_event.clientId_ = freeSlotIndex;
 	s_event.event_ = nx::Event(nx::NETSERV_CONNECT, this->udp_server_.clients_.at(freeSlotIndex));
 	sendEvent(s_event);
+	enginePtr->emit(nx::EVENT::ENV_NOTIFY_NEW_CLIENT, s_event.clientId_);
 	nx::Log::inform("Success!");
 
 	if (udp_server_.getFreeSlot() == -1)

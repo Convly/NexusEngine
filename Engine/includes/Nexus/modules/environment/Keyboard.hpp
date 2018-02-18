@@ -106,6 +106,13 @@ namespace env {
             nx::env::Keyboard::Keymap keys_;
 
         public:
+            template <typename Archive>
+            void serialize(Archive& ar, unsigned int version)
+            {
+                ar & keys_;
+            }
+
+        public:
             const Keymap& getKeys() const
             {
                 return keys_;
