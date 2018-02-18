@@ -1,11 +1,12 @@
 #ifndef NEXUS_ENGINE__SCENE_HPP_
 #define NEXUS_ENGINE__SCENE_HPP_
 
-# include "EntityInfos.hpp"
 # include "./component/ScriptComponent.hpp"
+# include "EntityInfos.hpp"
 # include "GameObject.hpp"
 # include "EnvUtils.hpp"
 # include "Layer.hpp"
+# include "Sfx.hpp"
 
 namespace nx
 {
@@ -19,6 +20,7 @@ namespace nx
 			std::vector<GameObject>			_gameObjects;
 			nx::env::RGBa					_backgroundColor;
 			std::vector<Layer>				_layers;
+			std::vector<Sfx>				_sfx;
 
 		public:
 			template <typename Archive>
@@ -29,6 +31,7 @@ namespace nx
 				ar & _gameObjects;
 				ar & _backgroundColor;
 				ar & _layers;
+				ar & _sfx;
 			}
 
 		public:
@@ -50,6 +53,9 @@ namespace nx
 				for (auto& layer : _layers)
 					if (layer.isModified())
 						return true;
+				for (auto& sfx : _sfx)
+					if (sfx.isModified())
+						return true;
 				return false;
 			}
 
@@ -61,6 +67,8 @@ namespace nx
 					gameObject.resetModified();
 				for (auto& layer : _layers)
 					layer.resetModified();
+				for (auto& sfx : _sfx)
+					sfx.resetModified();
 			}
 
 			// Setters
@@ -84,6 +92,10 @@ namespace nx
 				this->_layers.push_back(layer);
 			}
 
+			void addSfx(Sfx const & sfx)
+			{
+				this->_sfx.push_back(sfx);
+			}
 			
 			// Getters
 			EntityInfos &					getEntityInfos()
@@ -125,6 +137,16 @@ namespace nx
             {
                 return (this->_layers.at(idx));
             }
+
+			std::vector<Sfx> &				getSfx()
+			{
+				return (this->_sfx);
+			}
+
+			Sfx &							getSfxAt(int idx)
+			{
+				return (this->_sfx.at(idx));
+			}
 		};
 	}
 }
