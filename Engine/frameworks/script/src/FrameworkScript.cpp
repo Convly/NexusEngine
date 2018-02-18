@@ -418,7 +418,7 @@ void FrameworkScript::registerEnv() {
             .addFunction("getButtonAt", &nx::env::Layer::getButtonAt)
             .addFunction("getButtonsSize", &nx::env::Layer::getButtonsSize)
             .addFunction("getCheckboxAt", &nx::env::Layer::getCheckboxAt)
-            .addFunction("getCheckboxesSize", &nx::env::Layer::getCheckboxesSize)
+            .addFunction("getCheckBoxesSize", &nx::env::Layer::getCheckBoxesSize)
             .addFunction("getComboBoxAt", &nx::env::Layer::getComboBoxAt)
             .addFunction("getComboBoxesSize", &nx::env::Layer::getComboBoxesSize)
             .addFunction("getImageAt", &nx::env::Layer::getImageAt)
