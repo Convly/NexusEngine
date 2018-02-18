@@ -77,7 +77,7 @@ endif()
 # CMake instructions to test exemple using the static lib in debug mode
 if (CMAKE_BUILD_TYPE MATCHES Debug)
   message("Preparing to build tests for debug mode...")
-  set(APP_EXE "engine_test")
+  set(APP_EXE "r-type")
   set(TEST_DIR ${ENGINE_DIR}/test/)
   
   if (UNIX AND NOT APPLE)
