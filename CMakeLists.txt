@@ -72,6 +72,9 @@ if (UNIX AND NOT APPLE)
   set_property(TARGET stdc++fs PROPERTY IMPORTED_LOCATION ${FSLIB_STATIC})
   target_link_libraries(${LIBRARY_NAME} stdc++fs)
   target_link_libraries(${LIBRARY_NAME} dl)
+  find_package(X11 REQUIRED)
+  target_link_libraries(${LIBRARY_NAME} ${X11_LIBRARIES})
+  include_directories(${X11_INCLUDE_DIR})
 endif()
 
 # CMake instructions to test exemple using the static lib in debug mode

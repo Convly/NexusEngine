@@ -1,11 +1,15 @@
 #include "Nexus/engine.hpp"
 #include "Nexus/log.hpp"
 
+ #include <X11/Xlib.h>  
+
 void userMainLoop() {
 }
 
+
 int main(int ac, char** av)
 {
+	XInitThreads();
 	if (ac != 2)
 		return -1;
 
