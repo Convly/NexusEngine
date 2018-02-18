@@ -1,11 +1,20 @@
 #include "Text.hpp"
 
+extern GraphicResources resources;
+
 nx::gui::Text::Text(sf::Vector2f const& pos, std::string const& identifier, nx::env::MouseEventsContainer const& events, TextInfo const& textInfo) :
-	GUIElement(pos, sf::Vector2f(), identifier), _font(rxallocator<sf::Font>())
+	GUIElement(pos, sf::Vector2f(), identifier)
 {
-	if (!this->_font->loadFromFile(textInfo.fontPath))
-		throw nx::InvalidFontException(textInfo.fontPath);
-	this->_label = sf::Text(textInfo.textLabel, *this->_font, textInfo.fontSize);
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("fonts") + textInfo.fontPath);
+
+	if (resources.fonts.find(realPath) == resources.fonts.end())
+	{
+		resources.fonts[realPath] = rxallocator<sf::Font>();
+		if (!resources.fonts[realPath]->loadFromFile(realPath))
+			throw nx::InvalidFontException(realPath);
+	}
+
+	this->_label = sf::Text(textInfo.textLabel, *resources.fonts[realPath], textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->_label.setPosition(pos);

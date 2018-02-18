@@ -9,6 +9,7 @@
 # include "Nexus/frameworks/RenderingFrameworkTpl.hpp"
 # include "./audio/SfxHandler.hpp"
 # include "Nexus/modules/environment/Keyboard.hpp"
+# include "GraphicResources.hpp"
 
 class FrameworkRendering : public nx::rendering::RenderingFrameworkTpl
 {

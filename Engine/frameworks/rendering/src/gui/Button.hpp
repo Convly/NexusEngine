@@ -7,6 +7,7 @@
 # include "../ColorInfo.hpp"
 # include "../TextInfo.hpp"
 # include "../InvalidFontException.hpp"
+# include "../../frameworks/rendering/src/GraphicResources.hpp"
 
 namespace nx
 {
@@ -18,7 +19,6 @@ namespace nx
 			bool				_isPushButton;
 			sf::Color			_borderColor;
 			int					_borderThickness;
-			sf::Font			*_font;
 			sf::Text			_label;
 			sf::RectangleShape	_body;
 

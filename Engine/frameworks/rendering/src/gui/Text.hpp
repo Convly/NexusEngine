@@ -6,6 +6,7 @@
 # include "GUIElement.hpp"
 # include "../TextInfo.hpp"
 # include "../InvalidFontException.hpp"
+# include "../../frameworks/rendering/src/GraphicResources.hpp"
 
 namespace nx
 {
@@ -13,7 +14,6 @@ namespace nx
 	{
 		class Text : public GUIElement
 		{
-			sf::Font			*_font;
 			sf::Text			_label;
 
 		public:

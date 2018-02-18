@@ -1,6 +1,7 @@
 #include "FrameworkRendering.hpp"
 
 nx::Engine* enginePtr = nullptr;
+GraphicResources resources;
 
 FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	:
@@ -208,28 +209,20 @@ void FrameworkRendering::RefreshScene(nx::env::Scene newScene)
 			{
 				std::string layerName = layer.getEntityInfos().getName();
 
-				this->removeLayer(layerName);
+				std::cout << this->removeLayer(layerName) << std::endl;
 				scene->removeLayer(layerName);
 				if (layer.getEntityInfos().getActive())
 				{
-					auto newLayer = std::find_if(newScene.getLayers().begin(), newScene.getLayers().end(),
-												 [&](nx::env::Layer layer)
-												 {
-													return (layer.getEntityInfos().getName() == layerName);
-												 });
-					if (newLayer != newScene.getLayers().end())
-					{
-						this->addLayer(newLayer->getEntityInfos().getName());
-						this->_registerGUIButton(newLayer->getAllButtons(), layerName);
-						this->_registerGUICheckbox(newLayer->getAllCheckboxes(), layerName);
-						this->_registerGUIComboBox(newLayer->getAllComboBoxes(), layerName);
-						this->_registerGUIImage(newLayer->getAllImages(), layerName);
-						this->_registerGUIProgressBar(newLayer->getAllProgressBars(), layerName);
-						this->_registerGUISprite(newLayer->getAllSprites(), layerName);
-						this->_registerGUIText(newLayer->getAllTexts(), layerName);
-						this->_registerGUITextInput(newLayer->getAllTextInputs(), layerName);
-						scene->addLayer(*newLayer);
-					}
+					this->addLayer(layer.getEntityInfos().getName());
+					this->_registerGUIButton(layer.getAllButtons(), layerName);
+					this->_registerGUICheckbox(layer.getAllCheckboxes(), layerName);
+					this->_registerGUIComboBox(layer.getAllComboBoxes(), layerName);
+					this->_registerGUIImage(layer.getAllImages(), layerName);
+					this->_registerGUIProgressBar(layer.getAllProgressBars(), layerName);
+					this->_registerGUISprite(layer.getAllSprites(), layerName);
+					this->_registerGUIText(layer.getAllTexts(), layerName);
+					this->_registerGUITextInput(layer.getAllTextInputs(), layerName);
+					scene->addLayer(layer);
 				}
 			}
 		}

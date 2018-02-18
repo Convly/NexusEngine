@@ -1,14 +1,23 @@
 #include "Button.hpp"
 
+extern GraphicResources resources;
+
 nx::gui::Button::Button(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 			   bool const isPushButton, ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events), _state(false), _isPushButton(isPushButton),
 	_borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
-	_font(rxallocator<sf::Font>()), _body(sf::RectangleShape(size)), _colorNotSelected(colorInfo.backgroundColor), _colorSelected(colorInfo.backgroundColor)
+	_body(sf::RectangleShape(size)), _colorNotSelected(colorInfo.backgroundColor), _colorSelected(colorInfo.backgroundColor)
 {
-	if (!this->_font->loadFromFile(textInfo.fontPath))
-		throw nx::InvalidFontException(textInfo.fontPath);
-	this->_label = sf::Text(textInfo.textLabel, *this->_font, textInfo.fontSize);
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("fonts") + textInfo.fontPath);
+
+	if (resources.fonts.find(realPath) == resources.fonts.end())
+	{
+		resources.fonts[realPath] = rxallocator<sf::Font>();
+		if (!resources.fonts[realPath]->loadFromFile(realPath))
+			throw nx::InvalidFontException(realPath);
+	}
+
+	this->_label = sf::Text(textInfo.textLabel, *resources.fonts[realPath], textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->_recenteringLabelText();

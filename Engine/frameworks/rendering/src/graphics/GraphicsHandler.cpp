@@ -19,14 +19,13 @@ void	nx::graphics::GraphicsHandler::addElement(std::shared_ptr<GraphicsElement> 
 bool	nx::graphics::GraphicsHandler::removeElement(std::string const& elemId)
 {
 	bool found = false;
-
-	std::remove_if(this->_graphicsElements.begin(), this->_graphicsElements.end(),
+	this->_graphicsElements.erase(std::remove_if(this->_graphicsElements.begin(), this->_graphicsElements.end(),
 		[&](std::shared_ptr<nx::graphics::GraphicsElement> elem)
-		{
-			if (elem->getIdentifier() == elemId)
-				found = true;
-			return (elem->getIdentifier() == elemId);
-		});
+	{
+		if (elem->getIdentifier() == elemId)
+			found = true;
+		return (elem->getIdentifier() == elemId);
+	}), this->_graphicsElements.end());
 	return (found);
 }
 

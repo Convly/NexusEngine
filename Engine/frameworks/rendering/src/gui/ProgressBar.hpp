@@ -7,6 +7,7 @@
 # include "../ColorInfo.hpp"
 # include "../TextInfo.hpp"
 # include "../InvalidFontException.hpp"
+# include "../../frameworks/rendering/src/GraphicResources.hpp"
 
 namespace nx
 {
@@ -20,7 +21,6 @@ namespace nx
 			sf::RectangleShape				_body;
 			sf::RectangleShape				_filled;
 			int								_percentage;
-			sf::Font						*_font;
 			sf::Text						_label;
 
 		public:
