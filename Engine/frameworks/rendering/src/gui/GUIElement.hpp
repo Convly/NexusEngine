@@ -57,7 +57,7 @@ namespace nx
 			sf::Vector2f const &										getSize() const;
 			std::string	const &											getIdentifier() const;
 			bool														isVisible() const;
-			nx::env::MouseEventsContainer const &					getEvents() const;
+			nx::env::MouseEventsContainer const &						getEvents() const;
 			virtual std::string	const									getType() const = 0;
 
 		};

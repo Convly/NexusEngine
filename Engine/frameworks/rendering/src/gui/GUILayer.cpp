@@ -11,7 +11,7 @@ nx::gui::GUILayer::~GUILayer()
 
 }
 
-void nx::gui::GUILayer::add(std::shared_ptr<GUIElement> elem)
+void nx::gui::GUILayer::add(std::shared_ptr<GUIElement> const& elem)
 {
 	this->_guiElements.push_back(elem);
 }
@@ -21,7 +21,7 @@ bool	nx::gui::GUILayer::remove(std::string const& elemId)
 {
 	bool found = false;
 	this->_guiElements.erase(std::remove_if(this->_guiElements.begin(), this->_guiElements.end(),
-		[&](std::shared_ptr<nx::gui::GUIElement> elem)
+		[&](std::shared_ptr<nx::gui::GUIElement> & elem)
 	{
 		if (elem->getIdentifier() == elemId)
 			found = true;
@@ -32,7 +32,7 @@ bool	nx::gui::GUILayer::remove(std::string const& elemId)
 
 // Setters
 
-void										nx::gui::GUILayer::setVisible(bool const state)
+void													nx::gui::GUILayer::setVisible(bool const state)
 {
 	this->_isVisible = state;
 }
@@ -40,7 +40,7 @@ void										nx::gui::GUILayer::setVisible(bool const state)
 
 // Getters
 
-std::string const &							nx::gui::GUILayer::getIdentifier() const
+std::string const &										nx::gui::GUILayer::getIdentifier() const
 {
 	return (this->_identifier);
 }
@@ -50,24 +50,24 @@ bool	nx::gui::GUILayer::isVisible() const
 	return (this->_isVisible);
 }
 
-std::vector<std::shared_ptr<nx::gui::GUIElement>> const & nx::gui::GUILayer::getElements() const
+std::vector<std::shared_ptr<nx::gui::GUIElement>> const &				nx::gui::GUILayer::getElements() const
 {
 	return (this->_guiElements);
 }
 
-std::vector<std::shared_ptr<nx::gui::GUIElement>>&		 nx::gui::GUILayer::getElements()
+std::vector<std::shared_ptr<nx::gui::GUIElement>> &						nx::gui::GUILayer::getElements()
 {
 	return (this->_guiElements);
 }
 
 
-std::shared_ptr<nx::gui::GUIElement> const &	nx::gui::GUILayer::getElementByName(std::string const& identifier) const
+std::shared_ptr<nx::gui::GUIElement> const &							nx::gui::GUILayer::getElementByName(std::string const& identifier) const
 {
 	auto it = std::find_if(
 		this->_guiElements.begin(),
 		this->_guiElements.end(),
-		[&](auto &element){
-			return element->getIdentifier() == identifier;
+		[&](std::shared_ptr<nx::gui::GUIElement> const& elem){
+			return (elem->getIdentifier() == identifier);
 		}
 	);
 
@@ -78,13 +78,13 @@ std::shared_ptr<nx::gui::GUIElement> const &	nx::gui::GUILayer::getElementByName
 	return *it;
 }
 
-std::shared_ptr<nx::gui::GUIElement>&		nx::gui::GUILayer::getElementByName(std::string const& identifier)
+std::shared_ptr<nx::gui::GUIElement> &									nx::gui::GUILayer::getElementByName(std::string const& identifier)
 {
 	auto it = std::find_if(
 		this->_guiElements.begin(),
 		this->_guiElements.end(),
-		[&](auto &element){
-			return element->getIdentifier() == identifier;
+		[&](std::shared_ptr<nx::gui::GUIElement> const& elem){
+			return elem->getIdentifier() == identifier;
 		}
 	);
 
@@ -100,8 +100,8 @@ bool nx::gui::GUILayer::object_exists(const std::string& identifier) const
 	auto it = std::find_if(
 		this->_guiElements.begin(),
 		this->_guiElements.end(),
-		[&](auto &element){
-			return element->getIdentifier() == identifier;
+		[&](std::shared_ptr<nx::gui::GUIElement> const& elem){
+			return elem->getIdentifier() == identifier;
 		}
 	);
 

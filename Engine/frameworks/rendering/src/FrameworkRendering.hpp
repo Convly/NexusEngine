@@ -10,6 +10,7 @@
 # include "./audio/SfxHandler.hpp"
 # include "Nexus/modules/environment/Keyboard.hpp"
 # include "GraphicResources.hpp"
+# include "Nexus/standalone/thread/ScopedLock.hpp"
 
 class FrameworkRendering : public nx::rendering::RenderingFrameworkTpl
 {
