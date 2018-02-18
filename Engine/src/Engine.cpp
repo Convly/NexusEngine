@@ -167,8 +167,8 @@ void nx::Engine::coreLoop(const std::function<void(void)>& userCallback)
 
 	while (this->_run)
 	{
-		//if (!serverFramework->isServerFull())
-			//continue;
+		if (!serverFramework->isServerFull())
+			continue;
 
 		this->_fixedUpdate();
 		this->_update();

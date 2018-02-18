@@ -3,6 +3,7 @@
     
 # include <vector>
 # include <memory>
+# include <atomic>
 # include "GUILayer.hpp"
 
 # include "Button.hpp"

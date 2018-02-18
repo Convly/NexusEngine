@@ -1,7 +1,9 @@
 #include "Nexus/engine.hpp"
 #include "Nexus/log.hpp"
 
- #include <X11/Xlib.h>  
+#if defined(__GNUC__) || defined(__GNUG__)
+	#include <X11/Xlib.h>  
+#endif
 
 void userMainLoop() {
 }
@@ -9,7 +11,9 @@ void userMainLoop() {
 
 int main(int ac, char** av)
 {
-	XInitThreads();
+	#if defined(__GNUC__) || defined(__GNUG__)
+		XInitThreads();
+	#endif
 	if (ac != 2)
 		return -1;
 

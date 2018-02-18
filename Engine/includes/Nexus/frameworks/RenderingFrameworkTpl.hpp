@@ -42,7 +42,7 @@ namespace nx {
 
 		    virtual void LoadScene(std::string const& sceneName) = 0;
 
-			virtual void RefreshScene(nx::env::Scene scene) = 0;
+			virtual void RefreshScene(nx::env::Scene & scene) = 0;
 
             // GUI ELEMENTS
             virtual bool addLayer(const std::string &) = 0;

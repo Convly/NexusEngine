@@ -32,7 +32,13 @@ nx::gui::Text::~Text()
 void nx::gui::Text::show(std::shared_ptr<sf::RenderWindow> const& win)
 {
 	if (this->isVisible())
+	{
+		nx::Log::debug("------> Text drawn");
+		nx::Log::debug(this->getText());
+		nx::Log::debug(this->getFontSize());
+		nx::Log::debug("r: " + std::to_string(this->_label.getFillColor().r) + " | " + std::to_string(this->_label.getFillColor().g) + " | " + std::to_string(this->_label.getFillColor().b) + " | " + std::to_string(this->_label.getFillColor().a));
 		win->draw(this->_label);
+	}
 }
 
 

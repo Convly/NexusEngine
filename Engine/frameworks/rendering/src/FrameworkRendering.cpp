@@ -2,6 +2,7 @@
 
 nx::Engine* enginePtr = nullptr;
 GraphicResources resources;
+std::mutex g_mutex;
 
 FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	:
@@ -54,7 +55,7 @@ void FrameworkRendering::RefreshRendering()
 
 			// Drawing stuff on screen
 			{
-				nx::thread::ScopedLock lock;
+				std::lock_guard<std::mutex> lock(g_mutex);
 				this->_graphicsHandler->drawElements();
 				this->_guiHandler->drawLayers();
 			}
@@ -150,8 +151,10 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 	}
 }
 
-void FrameworkRendering::RefreshScene(nx::env::Scene newScene)
+void FrameworkRendering::RefreshScene(nx::env::Scene & newScene)
 {
+	std::lock_guard<std::mutex> lock(g_mutex);
+
 	auto &scenes = enginePtr->getEnv().getScenes();
 
 	auto scene = std::find_if(scenes.begin(), scenes.end(), [&](nx::env::Scene scene)
@@ -210,15 +213,16 @@ void FrameworkRendering::RefreshScene(nx::env::Scene newScene)
 		auto &layers = newScene.getLayers();
 		for (auto &layer : layers)
 		{
+			std::string layerName = layer.getEntityInfos().getName();
 			if (layer.isModified())
 			{
-				std::string layerName = layer.getEntityInfos().getName();
 
-				std::cout << this->removeLayer(layerName) << std::endl;
+				this->removeLayer(layerName);
 				scene->removeLayer(layerName);
 				if (layer.getEntityInfos().getActive())
 				{
-					this->addLayer(layer.getEntityInfos().getName());
+					this->addLayer(layerName);
+					scene->addLayer(layer);
 					this->_registerGUIButton(layer.getAllButtons(), layerName);
 					this->_registerGUICheckbox(layer.getAllCheckboxes(), layerName);
 					this->_registerGUIComboBox(layer.getAllComboBoxes(), layerName);
@@ -227,9 +231,9 @@ void FrameworkRendering::RefreshScene(nx::env::Scene newScene)
 					this->_registerGUISprite(layer.getAllSprites(), layerName);
 					this->_registerGUIText(layer.getAllTexts(), layerName);
 					this->_registerGUITextInput(layer.getAllTextInputs(), layerName);
-					scene->addLayer(layer);
 				}
 			}
+			nx::Log::debug("nb elements in '" + layerName + "': " + std::to_string(this->_guiHandler->getLayerByName(layerName).getElements().size()));
 		}
 	}
 

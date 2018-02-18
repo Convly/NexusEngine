@@ -98,9 +98,7 @@ void nx::graphics::GraphicsHandler::processEvent(sf::Event const& event)
 void nx::graphics::GraphicsHandler::drawElements()
 {
 	for (auto &itElem : this->_graphicsElements)
-	{
-		itElem->show(this->_win);
-	}
+		std::atomic_load(&itElem)->show(this->_win);
 }
 
 

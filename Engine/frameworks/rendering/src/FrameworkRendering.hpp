@@ -21,7 +21,7 @@ public:
 	void InitializeWindow(int width, int height, std::string titleWin);
 	void RefreshRendering();
 	void LoadScene(std::string const& sceneName);
-	void RefreshScene(nx::env::Scene scene);
+	void RefreshScene(nx::env::Scene & scene);
 	void HandleKeyboard();	
 
 	bool addLayer(const std::string& layerId);
