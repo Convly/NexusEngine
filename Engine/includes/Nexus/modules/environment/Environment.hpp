@@ -49,6 +49,11 @@ namespace nx
                 return (this->_scenes.at(idx));
             }
 
+			unsigned long			getScenesSize()
+			{
+				return _scenes.size();
+			}
+
 			Ressources &			getRessources()
 			{
                 return (this->_ressources);

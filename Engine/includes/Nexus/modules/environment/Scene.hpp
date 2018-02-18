@@ -96,6 +96,11 @@ namespace nx
 				return (this->_scriptComponents);
 			}
 
+			unsigned long					getScriptComponentsSize()
+			{
+				return _scriptComponents.size();
+			}
+
             ScriptComponent &               getScriptComponentAt(int idx)
             {
                 return (this->_scriptComponents.at(idx));
@@ -104,6 +109,11 @@ namespace nx
 			std::vector<GameObject> &		getGameObjects()
 			{
 				return (this->_gameObjects);
+			}
+
+			unsigned long					getGameObjectsSize()
+			{
+				return _scriptComponents.size();
 			}
 
             GameObject &               getGameObjectAt(int idx)
@@ -119,6 +129,11 @@ namespace nx
 			std::vector<Layer> &			getLayers()
 			{
 				return (this->_layers);
+			}
+
+			unsigned long					getLayersSize()
+			{
+				return _layers.size();
 			}
 
             Layer &               getLayerAt(int idx)
