@@ -106,25 +106,25 @@
               isPushButton="True" backgroundColor="200,200,200,255" borderColor="255,255,255,255" borderThickness="2"
               fontPath="./fonts/Roboto-Regular.ttf" text="Quit" fontSize="18" textColor="0,0,0,255"/>
     </Layer>
-    <GameObject name="Player1Object">
+    <GameObject name="Player1">
       <Script name="Player1Script" path="./PlayerScript.lua"/>
       <Transform name="Player1Transform" pos="70,30" rotation="0" size="184,184" direction="0,0"/>
       <Renderer active="False" name="Player1Renderer" opacity="70" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
       <RigidBody name="Player1RigidBody" mass="0" bounciness="0" size="184,184"/>
     </GameObject>
-    <GameObject name="Player2Object">
+    <GameObject name="Player2">
       <Script name="Player2Script" path="./PlayerScript.lua"/>
       <Transform name="Player2Transform" pos="70,230" rotation="0" size="184,184" direction="0,0"/>
       <Renderer name="Player2Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
       <RigidBody name="Player2RigidBody" mass="0" bounciness="0" size="184,184"/>
     </GameObject>
-    <GameObject name="Player3Object">
+    <GameObject name="Player3">
       <Script name="Player3Script" path="./PlayerScript.lua"/>
       <Transform name="Player3Transform" pos="70,430" rotation="0" size="184,184" direction="0,0"/>
       <Renderer name="Player3Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
       <RigidBody name="Player3RigidBody" mass="0" bounciness="0" size="184,184"/>
     </GameObject>
-    <GameObject name="Player4Object">
+    <GameObject name="Player4">
       <Script name="Player4Script" path="./PlayerScript.lua"/>
       <Transform name="Player4Transform" pos="70,630" rotation="0" size="184,184" direction="0,0"/>
       <Renderer name="Player4Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>

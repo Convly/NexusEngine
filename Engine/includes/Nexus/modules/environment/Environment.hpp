@@ -53,6 +53,15 @@ namespace nx
                 return (this->_scenes.at(idx));
             }
 
+			Scene &					getSceneByName(const std::string& name)
+			{
+				for (auto& scene : _scenes){
+					if (scene.getEntityInfos().getName() == name)
+						return scene;
+				}
+				return _scenes.back();
+			}
+
 			unsigned long			getScenesSize()
 			{
 				return _scenes.size();

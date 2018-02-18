@@ -112,10 +112,10 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 
 	_gameInfosParser = std::make_shared<nx::GameInfosParser>(confPath);
 
-	_gameInfosParser->dump();
+	//_gameInfosParser->dump();
 	if (!nx::xml::Parser::fillEnvironment(this->_env, *_gameInfosParser)){
 		std::cerr << "Error: xmlParser please look at the logs" << std::endl;
-		//return;
+		return;
 	}
 
 	this->_run = this->checkEngineIntegrity();
@@ -167,8 +167,8 @@ void nx::Engine::coreLoop(const std::function<void(void)>& userCallback)
 
 	while (this->_run)
 	{
-		if (!serverFramework->isServerFull())
-			continue;
+		// if (!serverFramework->isServerFull())
+		// 	continue;
 
 		this->_fixedUpdate();
 		this->_update();
@@ -192,6 +192,12 @@ void	nx::Engine::fixUpdateScript(const std::string& fctName){
 void	nx::Engine::_fixedUpdate()
 {
 	fixUpdateScript("FixedUpdate");
+	for (auto& scene : _env.getScenes()){
+		for (auto& gameObject : scene.getGameObjects()){
+			gameObject.getTransformComponent().getPos().x += gameObject.getTransformComponent().getDirection().vx();
+			gameObject.getTransformComponent().getPos().y += gameObject.getTransformComponent().getDirection().vy();
+		}
+	}
 	// Boucler sur tout
 	// Calculer la physique
 	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "FixedUpdate"));

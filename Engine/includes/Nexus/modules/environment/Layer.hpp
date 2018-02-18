@@ -254,6 +254,78 @@ namespace nx
 			{
 				return _textInputs.size();
 			}
+
+			gui::Button &                    getButtonByName(const std::string& name)
+			{
+				for (auto& it : _buttons) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _buttons.back();
+			}
+
+			gui::Checkbox &                    getCheckBoxByName(const std::string& name)
+			{
+				for (auto& it : _checkboxes) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _checkboxes.back();
+			}
+
+			gui::ComboBox &                    getComboBoxByName(const std::string& name)
+			{
+				for (auto& it : _comboBoxes) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _comboBoxes.back();
+			}
+
+			gui::Image &                    	getImageByName(const std::string& name)
+			{
+				for (auto& it : _images) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _images.back();
+			}
+
+			gui::ProgressBar &                    getProgressBarByName(const std::string& name)
+			{
+				for (auto& it : _progressbars) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _progressbars.back();
+			}
+
+			gui::Sprite &                    getSpriteByName(const std::string& name)
+			{
+				for (auto& it : _sprites) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _sprites.back();
+			}
+
+			gui::Text &                    getTextByName(const std::string& name)
+			{
+				for (auto& it : _texts) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _texts.back();
+			}
+
+			gui::TextInput &                    getTextInputByName(const std::string& name)
+			{
+				for (auto& it : _textInputs) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _textInputs.back();
+			}
 		};
 	}
 }
