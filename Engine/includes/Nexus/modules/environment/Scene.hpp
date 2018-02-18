@@ -74,7 +74,7 @@ namespace nx
 				this->_gameObjects.push_back(GameObject(gameObjectName));
 			}
 
-			void addGameObject(GameObject const& gameObject)
+			void addGameObjectCopy(GameObject const& gameObject)
 			{
 				this->_gameObjects.push_back(gameObject);
 			}

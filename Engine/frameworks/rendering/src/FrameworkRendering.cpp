@@ -92,7 +92,12 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 					nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
 					nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
 					nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
-
+					if (gameobject.getScriptComponentConst().getEntityInfos().getActiveConst())
+					{
+						const std::string scriptPath = gameobject.getScriptComponentConst().getScriptPath();
+						enginePtr->emit(nx::EVENT::SCRIPT_LOAD, scriptPath);
+						enginePtr->emit(nx::EVENT::SCRIPT_INIT, scriptPath);
+					}
 
 					switch (renderer.getShapeTypeConst())
 					{
@@ -191,7 +196,7 @@ void FrameworkRendering::RefreshScene(nx::env::Scene newScene)
 														nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
 								break;
 						};
-						scene->addGameObject(*newGameObject);
+						scene->addGameObjectCopy(*newGameObject);
 					}
 				}
 			}

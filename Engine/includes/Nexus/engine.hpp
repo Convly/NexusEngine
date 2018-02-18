@@ -2,6 +2,9 @@
 #define NEXUS_ENGINE__ENGINE_CORE_HPP_
 
 # define BOOST_ALL_DYN_LINK
+//#if defined(BOOST_ASIO_MSVC) && (BOOST_ASIO_MSVC >= 1700)
+# define BOOST_ASIO_DISABLE_BUFFER_DEBUGGING
+//#endif
 
 #include <iostream>
 #include <vector>
