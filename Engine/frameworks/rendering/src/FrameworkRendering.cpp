@@ -97,19 +97,19 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 					switch (renderer.getShapeTypeConst())
 					{
 					case nx::env::ShapeType::RECTSHAPE:
-						this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
 						break;
 					case nx::env::ShapeType::CIRCLESHAPE:
-						this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsCircleInfos(renderer.getRadiusConst(), renderer.getColorInfoConst()));
 						break;
 					case nx::env::ShapeType::CONVEXSHAPE:
-						this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
 						break;
 					case nx::env::ShapeType::UNDEFINED:
-						this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
 						break;
 					};

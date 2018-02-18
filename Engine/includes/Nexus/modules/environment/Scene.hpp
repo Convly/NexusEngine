@@ -96,6 +96,15 @@ namespace nx
 				return (this->_scriptComponents);
 			}
 
+			ScriptComponent &					getScriptComponentByName(const std::string& name)
+			{
+				for (auto& script : _scriptComponents){
+					if (script.getEntityInfos().getName() == name)
+						return script;
+				}
+				return _scriptComponents.back();
+			}
+
 			unsigned long					getScriptComponentsSize()
 			{
 				return _scriptComponents.size();
@@ -109,6 +118,15 @@ namespace nx
 			std::vector<GameObject> &		getGameObjects()
 			{
 				return (this->_gameObjects);
+			}
+
+			GameObject &					getGameObjectByName(const std::string& name)
+			{
+				for (auto& gameObject : _gameObjects){
+					if (gameObject.getEntityInfos().getName() == name)
+						return gameObject;
+				}
+				return _gameObjects.back();
 			}
 
 			unsigned long					getGameObjectsSize()
@@ -129,6 +147,15 @@ namespace nx
 			std::vector<Layer> &			getLayers()
 			{
 				return (this->_layers);
+			}
+
+			Layer &					getLayerByName(const std::string& name)
+			{
+				for (auto& layer : _layers){
+					if (layer.getEntityInfos().getName() == name)
+						return layer;
+				}
+				return _layers.back();
 			}
 
 			unsigned long					getLayersSize()
