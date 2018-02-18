@@ -313,7 +313,7 @@ void FrameworkScript::registerEnv() {
             .addConstructor<void(*)(float const, nx::env::ColorInfo const&)>()
             .addFunction("setRadius", &nx::env::GraphicsCircleInfos::setRadius)
             .addFunction("getRadius", &nx::env::GraphicsCircleInfos::getRadius)
-            .addFunction("setRadius", &nx::env::GraphicsCircleInfos::setColorInfo)
+            .addFunction("setColorInfo", &nx::env::GraphicsCircleInfos::setColorInfo)
             .addFunction("getColorInfo", &nx::env::GraphicsCircleInfos::getColorInfo)
             .endClass()
 
