@@ -47,28 +47,24 @@ namespace nx
 		class RGBa {
 
 		private:
-			std::atomic<uint32_t> _red;
-			std::atomic<uint32_t> _green;
-			std::atomic<uint32_t> _blue;
-			std::atomic<uint32_t> _alpha;
+			int _red;
+			int _green;
+			int _blue;
+			int _alpha;
 
 		public:
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				uint32_t red = _red.load();
-				uint32_t green = _green.load();
-				uint32_t blue = _blue.load();
-				uint32_t alpha = _alpha.load();
-				ar & red;
-				ar & green;
-				ar & blue;
-				ar & alpha;
+				ar & _red;
+				ar & _green;
+				ar & _blue;
+				ar & _alpha;
 			}
 
 		public:
 			RGBa() : _red(0), _green(0), _blue(0), _alpha(255) {}
-			RGBa(const uint32_t red_, const uint32_t green_, const uint32_t blue_, const uint32_t alpha_)
+			RGBa(const int red_, const int green_, const int blue_, const int alpha_)
 				: _red(red_), _green(green_), _blue(blue_), _alpha(alpha_) {}
 
 			RGBa(const RGBa& other)
@@ -76,66 +72,66 @@ namespace nx
 
 		public:
 			// Setters
-			void		setRed(const uint32_t red)
+			void		setRed(const int red)
 			{
 				this->_red = red;
 			}
 
-			void		setGreen(const uint32_t green)
+			void		setGreen(const int green)
 			{
 				this->_green = green;
 			}
 
-			void		setBlue(const uint32_t blue)
+			void		setBlue(const int blue)
 			{
 				this->_blue = blue;
 			}
 
-			void		setAlpha(const uint32_t alpha)
+			void		setAlpha(const int alpha)
 			{
 				this->_alpha = alpha;
 			}
 
 		public:
 			// Getters
-			uint32_t	getRed()
+			int	getRed()
 			{
 				return (this->_red);
 			}
 
-			uint32_t	getGreen()
+			int	getGreen()
 			{
 				return (this->_green);
 			}
 
-			uint32_t	getBlue()
+			int	getBlue()
 			{
 				return (this->_blue);
 			}
 
-			uint32_t	getAlpha()
+			int	getAlpha()
 			{
 				return (this->_alpha);
 			}
 
 		public:
 			// Getters const
-			uint32_t const	getRedConst() const
+			int const	getRedConst() const
 			{
 				return (this->_red);
 			}
 
-			uint32_t const	getGreenConst() const
+			int const	getGreenConst() const
 			{
 				return (this->_green);
 			}
 
-			uint32_t const	getBlueConst() const
+			int const	getBlueConst() const
 			{
 				return (this->_blue);
 			}
 
-			uint32_t const	getAlphaConst() const
+			int const	getAlphaConst() const
 			{
 				return (this->_alpha);
 			}
@@ -160,16 +156,15 @@ namespace nx
 		private:
 			nx::env::RGBa				_backgroundColor;
 			nx::env::RGBa				_borderColor;
-			std::atomic<unsigned int>	_borderThickness;
+			unsigned int				_borderThickness;
 
 		public:
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				unsigned int borderThickness = _borderThickness.load();
 				ar & _backgroundColor;
 				ar & _borderColor;
-				ar & borderThickness;
+				ar & _borderThickness;
 			}
 
 		public:
@@ -211,7 +206,7 @@ namespace nx
 
 			unsigned int 		getBorderThickness()
 			{
-				return (this->_borderThickness.load());
+				return (this->_borderThickness);
 			}
 
 		public:
@@ -228,7 +223,7 @@ namespace nx
 
 			unsigned int const 		getBorderThicknessConst() const
 			{
-				return (this->_borderThickness.load());
+				return (this->_borderThickness);
 			}
 
 		public:
@@ -249,21 +244,19 @@ namespace nx
 		private:
 			std::string					_fontPath;
 			std::string					_textLabel;
-			std::atomic<unsigned int>	_fontSize;
+			unsigned int				_fontSize;
 			nx::env::RGBa				_textColor;
-			std::atomic<uint32_t>		_textStyle;
+			uint32_t					_textStyle;
 
 		public:
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				unsigned int fontSize = _fontSize.load();
-				uint32_t textStyle = _textStyle.load();
 				ar & _fontPath;
 				ar & _textLabel;
-				ar & fontSize;
+				ar & _fontSize;
 				ar & _textColor;
-				ar & textStyle;
+				ar & _textStyle;
 			}
 
 		public:
@@ -484,7 +477,7 @@ namespace nx
 		class GUIButtonInfos {
 
 		private:
-			std::atomic<bool>	_isPushButton;
+			bool				_isPushButton;
 			nx::env::ColorInfo	_colorInfo;
 			nx::env::TextInfo	_textInfo;
 			bool 				_isModified;
@@ -493,8 +486,7 @@ namespace nx
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				bool isPushButton = _isPushButton.load();
-				ar & isPushButton;
+				ar & _isPushButton;
 				ar & _colorInfo;
 				ar & _textInfo;
 				ar & _isModified;
@@ -1000,15 +992,14 @@ namespace nx
 		class GraphicsCircleInfos {
 
 		private:
-			std::atomic<float>	_radius;
+			float				_radius;
 			nx::env::ColorInfo	_colorInfo;
 
 		public:
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				float radius = _radius.load();
-				ar & radius;
+				ar & _radius;
 				ar & _colorInfo;
 			}
 
@@ -1089,7 +1080,13 @@ namespace nx
 				ar & colorInfo;
 			}
 		};
+
+		inline std::ostream& operator<<(std::ostream& os, const nx::env::RGBa& item) {
+			std::cout << "Color(r=" << item.getRedConst() << ", g=" << item.getGreenConst() << ", b=" << item.getBlueConst() << ", b=" << item.getBlueConst() << ", a=" << item.getAlphaConst() << ")";
+			return os;
+		}
 	}
+
 }
 
 #endif /* NEXUS_ENGINE__ENVUTILS_HPP_ */
