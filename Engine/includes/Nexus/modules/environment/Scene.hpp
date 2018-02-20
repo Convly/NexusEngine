@@ -35,6 +35,14 @@ namespace nx
 			Scene() {}
 			Scene(std::string const& _name) : _entityInfos(_name) {}
 			Scene(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
+			Scene(const nx::env::Scene& other)
+			:
+				_entityInfos(other.getEntityInfosConst()),
+				_scriptComponents(other.getScriptComponentsConst()),
+				_gameObjects(other.getGameObjectsConst()),
+				_backgroundColor(other.getBackgroundColorConst()),
+				_layers(other.getLayersConst())
+			{}
 
 			~Scene() {}
 
@@ -122,9 +130,19 @@ namespace nx
 				return (this->_entityInfos);
 			}
 
+			const EntityInfos& getEntityInfosConst() const
+			{
+				return _entityInfos;
+			}
+ 
 			std::vector<ScriptComponent> &	getScriptComponents()
 			{
 				return (this->_scriptComponents);
+			}
+
+			const std::vector<ScriptComponent>& getScriptComponentsConst() const
+			{
+				return _scriptComponents;
 			}
 
             ScriptComponent &               getScriptComponentAt(int idx)
@@ -137,6 +155,11 @@ namespace nx
 				return (this->_gameObjects);
 			}
 
+			const std::vector<GameObject>& getGameObjectsConst() const
+			{
+				return _gameObjects;
+			}
+
             GameObject &               getGameObjectAt(int idx)
             {
                 return (this->_gameObjects.at(idx));
@@ -147,9 +170,19 @@ namespace nx
 				return (this->_backgroundColor);
 			}
 
+			const nx::env::RGBa& getBackgroundColorConst() const
+			{
+				return _backgroundColor;
+			}
+
 			std::vector<Layer> &			getLayers()
 			{
 				return (this->_layers);
+			}
+
+			const std::vector<Layer>& getLayersConst() const 
+			{
+				return _layers;
 			}
 
             Layer &               getLayerAt(int idx)

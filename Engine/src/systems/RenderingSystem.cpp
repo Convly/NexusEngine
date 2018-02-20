@@ -63,9 +63,10 @@ void nx::RenderingSystem::event_EnvUpdateScene(const nx::Event& e)
 	/*nx::env::Scene &scene = external::any_cast<nx::env::Scene>(e.data);
 	f->RefreshScene(scene);*/
 	nx::env::Scene scene(external::any_cast<nx::env::Scene>(e.data));
-	nx::Log::debug("r: " + std::to_string(scene.getLayerAt(0).getAllTexts()[0].getGuiTextInfos().getTextInfo().getTextColor().getRed()), false);
-	nx::Log::debug(" | g: " + std::to_string(scene.getLayerAt(0).getAllTexts()[0].getGuiTextInfos().getTextInfo().getTextColor().getGreen()), false);
-	nx::Log::debug(" | b: " + std::to_string(scene.getLayerAt(0).getAllTexts()[0].getGuiTextInfos().getTextInfo().getTextColor().getBlue()), false);
-	nx::Log::debug(" | a: " + std::to_string(scene.getLayerAt(0).getAllTexts()[0].getGuiTextInfos().getTextInfo().getTextColor().getAlpha()));
+	std::cout << "Dumping layers for " << scene.getEntityInfos().getNameConst() << std::endl;
+	for (auto layer : scene.getLayersConst())
+	{
+		std::cout << layer.getEntityInfos().getNameConst() << std::endl;
+	}
 	f->RefreshScene(scene);
 }

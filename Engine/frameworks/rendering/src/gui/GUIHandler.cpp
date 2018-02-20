@@ -108,7 +108,6 @@ void nx::gui::GUIHandler::drawLayers()
 		if (itLayer.isVisible())
 		{
 			auto elems = itLayer.getElements();
-			nx::Log::debug("HANDLER: nb elements in '" + itLayer.getIdentifier() + "': " + std::to_string(elems.size()));
 			for (auto &itElem : elems)
 				std::atomic_load(&itElem)->show(this->_win);
 		}

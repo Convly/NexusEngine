@@ -198,29 +198,26 @@ void FrameworkRendering::RefreshScene(nx::env::Scene & newScene)
 								break;
 							case nx::env::ShapeType::CONVEXSHAPE:
 								this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-															 nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
-								break;
-							case nx::env::ShapeType::UNDEFINED:
-								this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-														nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
-								break;
-						};
-						scene->addGameObjectCopy(*newGameObject);
+																nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
+									break;
+								case nx::env::ShapeType::UNDEFINED:
+									this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+															nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
+									break;
+							};
+							scene->addGameObjectCopy(*newGameObject);
+						}
 					}
 				}
 			}
-		}
-		auto &layers = newScene.getLayers();
-		for (auto &layer : layers)
-		{
-			std::string layerName = layer.getEntityInfos().getName();
-			if (layer.isModified())
+			auto &layers = newScene.getLayers();
+			for (auto &layer : layers)
 			{
-
-				this->removeLayer(layerName);
-				scene->removeLayer(layerName);
-				if (layer.getEntityInfos().getActive())
+				std::string layerName = layer.getEntityInfos().getName();
+				if (layer.isModified())
 				{
+					this->removeLayer(layerName);
+					scene->removeLayer(layerName);
 					this->addLayer(layerName);
 					scene->addLayer(layer);
 					this->_registerGUIButton(layer.getAllButtons(), layerName);
@@ -231,9 +228,7 @@ void FrameworkRendering::RefreshScene(nx::env::Scene & newScene)
 					this->_registerGUISprite(layer.getAllSprites(), layerName);
 					this->_registerGUIText(layer.getAllTexts(), layerName);
 					this->_registerGUITextInput(layer.getAllTextInputs(), layerName);
-				}
 			}
-			nx::Log::debug("nb elements in '" + layerName + "': " + std::to_string(this->_guiHandler->getLayerByName(layerName).getElements().size()));
 		}
 	}
 
@@ -339,7 +334,6 @@ bool FrameworkRendering::addButton(const std::string& layerId, const nx::env::GU
 	button->setVisible(guiParams.getActiveConst());
 	auto b = guiParams.getActiveConst();
 	this->_guiHandler->getLayerByName(layerId).add(button);
-	std::cout << "Adding new button (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -362,7 +356,6 @@ bool FrameworkRendering::addCheckbox(const std::string& layerId, const nx::env::
 	);
 	checkbox->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(checkbox);
-	std::cout << "Adding new checkbox (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -389,7 +382,6 @@ bool FrameworkRendering::addProgressBar(const std::string& layerId, const nx::en
 		);
 	progressbar->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(progressbar);
-	std::cout << "Adding new progressbar (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -416,7 +408,6 @@ bool FrameworkRendering::addComboBox(const std::string& layerId, const nx::env::
 		);
 	combobox->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(combobox);
-	std::cout << "Adding new combobox (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -443,7 +434,7 @@ bool FrameworkRendering::addTextInput(const std::string& layerId, const nx::env:
 		);
 	textinput->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(textinput);
-	std::cout << "Adding new textinput (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	std::cout << " textinput (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -465,7 +456,6 @@ bool FrameworkRendering::addText(const std::string& layerId, const nx::env::GUIE
 		);
 	text->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(text);
-	std::cout << "Adding new text (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -484,7 +474,7 @@ bool FrameworkRendering::addImage(const std::string& layerId, const nx::env::GUI
 		);
 	image->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(image);
-	std::cout << "Adding new image (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	std::cout << " image (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -505,7 +495,6 @@ bool FrameworkRendering::addGUISprite(const std::string& layerId, const nx::env:
 		);
 	sprite->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(sprite);
-	std::cout << "Adding new guiSprite (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -547,7 +536,6 @@ bool FrameworkRendering::addGraphicsSprite(const nx::env::GraphicsElementInfos& 
 		sf::Vector2f(spriteParams.spriteSize.x, spriteParams.spriteSize.y)
 		);
 	this->_graphicsHandler->addElement(sprite);
-	std::cout << "Adding new graphicsSprite (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
@@ -569,7 +557,6 @@ bool FrameworkRendering::addGraphicsCirleShape(const nx::env::GraphicsElementInf
 		);
 
 	this->_graphicsHandler->addElement(circle);
-	std::cout << "Adding new graphicsCircle (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
@@ -590,7 +577,6 @@ bool FrameworkRendering::addGraphicsRectShape(const nx::env::GraphicsElementInfo
 		);
 
 	this->_graphicsHandler->addElement(rect);
-	std::cout << "Adding new graphicsRect (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
@@ -611,7 +597,6 @@ bool FrameworkRendering::addGraphicsConvexShape(const nx::env::GraphicsElementIn
 		);
 
 	this->_graphicsHandler->addElement(convex);
-	std::cout << "Adding new graphicsConvex (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
