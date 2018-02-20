@@ -3,6 +3,9 @@
 #include "Nexus/rendering.hpp"
 
 nx::Engine nx::Engine::_instance = nx::Engine();
+double FPS = 1000 / nx::Engine::getFps();
+int64_t PROCESSED_TIME = nx::Engine::timems();
+
 
 nx::Engine&  				nx::Engine::Instance()
 {
@@ -14,7 +17,6 @@ nx::Engine::Engine(const bool debug)
 	_run(false),
 	_debug(debug)
 {
-
 }
 
 nx::Engine::~Engine()
@@ -112,10 +114,10 @@ void nx::Engine::setup(const std::string& confPath, bool serverOnly)
 
 	_gameInfosParser = std::make_shared<nx::GameInfosParser>(confPath);
 
-	_gameInfosParser->dump();
+	//_gameInfosParser->dump();
 	if (!nx::xml::Parser::fillEnvironment(this->_env, *_gameInfosParser)){
 		std::cerr << "Error: xmlParser please look at the logs" << std::endl;
-		//return;
+		return;
 	}
 
 	this->_run = this->checkEngineIntegrity();
@@ -150,7 +152,16 @@ int nx::Engine::run(const std::function<void(void)>& userCallback) {
 	if (this->isServer())
 		this->coreLoop(userCallback);
 	else
+	{
+		auto clientF = cast<nx::NetworkClientSystem>(getSystemByName(__NX_NETWORKCLIENT_KEY__))->getFramework();
+		if (!clientF)
+		{
+			nx::Log::warning("NetworkClient framework is corrupted, exiting...", "CLIENT_INTEGRITY");
+			return -1;
+		}
 		this->getSystemByName("rendering")->update();
+		clientF->disconnect();
+	}
 
 	_systems.clear();
 	return (0);
@@ -167,13 +178,17 @@ void nx::Engine::coreLoop(const std::function<void(void)>& userCallback)
 
 	while (this->_run)
 	{
-		if (!serverFramework->isServerFull())
-			continue;
+		// if (!serverFramework->isServerFull())
+		// 	continue;
+		while ((PROCESSED_TIME + FPS) < nx::Engine::timems())
+		{
+			this->_fixedUpdate();
+			this->_update();
+			userCallback();
+			// this->_lateUpdate();
+        	PROCESSED_TIME += FPS;
+		}
 
-		this->_fixedUpdate();
-		this->_update();
-		userCallback();
-		this->_lateUpdate();
 		this->_render();
 	}
 }
@@ -192,32 +207,29 @@ void	nx::Engine::fixUpdateScript(const std::string& fctName){
 void	nx::Engine::_fixedUpdate()
 {
 	fixUpdateScript("FixedUpdate");
-	// Boucler sur tout
-	// Calculer la physique
-	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "FixedUpdate"));
+	for (auto& scene : _env.getScenes()){
+		for (auto& gameObject : scene.getGameObjects()){
+			gameObject.getTransformComponent().getPos().x += gameObject.getTransformComponent().getDirection().vx();
+			gameObject.getTransformComponent().getPos().y += gameObject.getTransformComponent().getDirection().vy();
+		}
+	}
 }
 
 void	nx::Engine::_update()
 {
 	fixUpdateScript("Update");
-	// Boucler sur tout
-	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "Update"));
 }
 
 void	nx::Engine::_lateUpdate()
 {
 	fixUpdateScript("LateUpdate");
-	// Boucler sur tout
-	// this->emit(nx::EVENT::SCRIPT_EXEC_FUNCTION, nx::script::ScriptInfos("[nom_fichier]", "LateUpdate"));
 }
 
 void	nx::Engine::_render()
 {
 	for (auto& scene : getEnv().getScenes()){
 		if (scene.isModified()){
-			std::cout << scene.getEntityInfos().getName() << " need to be send !!!" << std::endl;
 			emit(nx::EVENT::ENV_UPDATE_SCENE, scene);
-
 			scene.resetModified();
 		}
 	}

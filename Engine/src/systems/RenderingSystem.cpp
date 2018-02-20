@@ -5,7 +5,7 @@
 nx::RenderingSystem::RenderingSystem()
 :
 	nx::SystemTpl(__NX_RENDERING_KEY__),
-	_framework_m(std::make_shared<nx::FrameworkManager<nx::rendering::RenderingFrameworkTpl>>(__NX_RENDERING_KEY__, true))
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::rendering::RenderingFrameworkTpl>>(__NX_RENDERING_KEY__))
 {
 	connect(nx::EVENT::ENV_UPDATE_SCENE, nx::RenderingSystem::event_EnvUpdateScene);
 }
@@ -60,13 +60,6 @@ void nx::RenderingSystem::event_EnvUpdateScene(const nx::Event& e)
 		return;
 	}
 
-	/*nx::env::Scene &scene = external::any_cast<nx::env::Scene>(e.data);
-	f->RefreshScene(scene);*/
 	nx::env::Scene scene(external::any_cast<nx::env::Scene>(e.data));
-	std::cout << "Dumping layers for " << scene.getEntityInfos().getNameConst() << std::endl;
-	for (auto layer : scene.getLayersConst())
-	{
-		std::cout << layer.getEntityInfos().getNameConst() << std::endl;
-	}
 	f->RefreshScene(scene);
 }

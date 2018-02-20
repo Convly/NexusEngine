@@ -74,28 +74,28 @@
     <Layer name="HUD">
       <!--<Image name="HUDImage" pos="0,0" size="1024,768"
              path="./images/hud.png"/>-->
-      <Text name="P1ScoreText" pos="20,20"
+      <Text name="Player1ScoreText" pos="20,20"
             fontPath="Roboto-Regular.ttf" text="P1:" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="P1ScoreValue" pos="50,20"
+      <Text name="Player1ScoreValue" pos="50,20"
             fontPath="Roboto-Regular.ttf" text="0" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="P2ScoreText" pos="20,50"
+      <Text name="Player2ScoreText" pos="20,50"
             fontPath="Roboto-Regular.ttf" text="P2:" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="P2ScoreValue" pos="50,50"
+      <Text name="Player2ScoreValue" pos="50,50"
             fontPath="Roboto-Regular.ttf" text="0" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="P3ScoreText" pos="20,80"
+      <Text name="Player3ScoreText" pos="20,80"
             fontPath="Roboto-Regular.ttf" text="P3:" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="P3ScoreValue" pos="50,80"
+      <Text name="Player3ScoreValue" pos="50,80"
             fontPath="Roboto-Regular.ttf" text="0" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="P4ScoreText" pos="20,110"
+      <Text name="Player4ScoreText" pos="20,110"
             fontPath="Roboto-Regular.ttf" text="P4:" fontSize="16" textColor="255,255,255,255"/>
-      <Text name="P4ScoreValue" pos="50,110"
+      <Text name="Player4ScoreValue" pos="50,110"
             fontPath="Roboto-Regular.ttf" text="0" fontSize="16" textColor="255,255,255,255"/>
       <!-- <Text name="PlayerLifeValue" pos="410,420"
             fontPath="Roboto-Regular.ttf" text="100" fontSize="22" textColor="255,255,255,255"/> -->
       <!--<Image name="PlayerLifeSprite" pos="965,20" size="40,40"
              path="./heart.png"/>-->
     </Layer>
-    <Layer name="EscapeMenu" active="False">
+    <!-- <Layer name="EscapeMenu" active="False">
       <Button name="EscapeMenuBackground" pos="0,0" size="1024,768"
               isPushButton="True" backgroundColor="0,0,0,170" borderColor="0,0,0,0" borderThickness="0"
               fontPath="Roboto-Regular.ttf" text="" fontSize="0" textColor="0,0,0,0"/>
@@ -105,30 +105,30 @@
       <Button name="ContinueButton" pos="457,450" size="110,40"
               isPushButton="True" backgroundColor="200,200,200,255" borderColor="255,255,255,255" borderThickness="2"
               fontPath="Roboto-Regular.ttf" text="Quit" fontSize="18" textColor="0,0,0,255"/>
-    </Layer>
-    <GameObject name="Player1Object">
+    </Layer> -->
+    <GameObject name="Player1">
       <Script name="Player1Script" path="./PlayerScript.lua"/>
-      <Transform name="Player1Transform" pos="70,30" rotation="0" size="184,184" direction="0,0"/>
-      <Renderer active="False" name="Player1Renderer" opacity="70" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
-      <RigidBody name="Player1RigidBody" mass="0" bounciness="0" size="184,184"/>
+      <Transform name="Player1Transform" pos="70,30" rotation="0" size="181,121" direction="0,0"/>
+      <Renderer name="Player1Renderer" opacity="70" texturePath="./warrior2.png" shapeType="None" sheetGrid="1,1" spriteSize="181,121"/>
+      <RigidBody name="Player1RigidBody" mass="0" bounciness="0" size="181,121"/>
     </GameObject>
-    <GameObject name="Player2Object">
+    <GameObject name="Player2">
       <Script name="Player2Script" path="./PlayerScript.lua"/>
-      <Transform name="Player2Transform" pos="70,230" rotation="0" size="184,184" direction="0,0"/>
-      <Renderer name="Player2Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
-      <RigidBody name="Player2RigidBody" mass="0" bounciness="0" size="184,184"/>
+      <Transform name="Player2Transform" pos="70,230" rotation="0" size="181,121" direction="0,0"/>
+      <Renderer name="Player2Renderer" opacity="100" texturePath="./warrior2.png" shapeType="None" sheetGrid="1,1" spriteSize="181,121"/>
+      <RigidBody name="Player2RigidBody" mass="0" bounciness="0" size="181,121"/>
     </GameObject>
-    <GameObject name="Player3Object">
+    <GameObject name="Player3">
       <Script name="Player3Script" path="./PlayerScript.lua"/>
-      <Transform name="Player3Transform" pos="70,430" rotation="0" size="184,184" direction="0,0"/>
-      <Renderer name="Player3Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
-      <RigidBody name="Player3RigidBody" mass="0" bounciness="0" size="184,184"/>
+      <Transform name="Player3Transform" pos="70,430" rotation="0" size="181,121" direction="0,0"/>
+      <Renderer name="Player3Renderer" opacity="100" texturePath="./warrior2.png" shapeType="None" sheetGrid="1,1" spriteSize="181,121"/>
+      <RigidBody name="Player3RigidBody" mass="0" bounciness="0" size="181,121"/>
     </GameObject>
-    <GameObject name="Player4Object">
+    <GameObject name="Player4">
       <Script name="Player4Script" path="./PlayerScript.lua"/>
-      <Transform name="Player4Transform" pos="70,630" rotation="0" size="184,184" direction="0,0"/>
-      <Renderer name="Player4Renderer" opacity="100" texturePath="./defaultgamelogo.png" shapeType="None" sheetGrid="1,1" spriteSize="184,184"/>
-      <RigidBody name="Player4RigidBody" mass="0" bounciness="0" size="184,184"/>
+      <Transform name="Player4Transform" pos="70,630" rotation="0" size="181,121" direction="0,0"/>
+      <Renderer name="Player4Renderer" opacity="100" texturePath="./warrior2.png" shapeType="None" sheetGrid="1,1" spriteSize="181,121"/>
+      <RigidBody name="Player4RigidBody" mass="0" bounciness="0" size="181,121"/>
     </GameObject>
   </Scene>
 </nx>

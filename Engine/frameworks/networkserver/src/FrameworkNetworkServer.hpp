@@ -19,9 +19,9 @@
 #include "Nexus/standalone/network/netutils.hpp"
 #include "Nexus/standalone/network/serialization.hpp"
 
-nx::Engine* enginePtr;
-
 #define NETSERV_MAXCON 4
+
+extern nx::Engine* enginePtr;
 
 class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 {
@@ -54,8 +54,6 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 		{
 			if (!error || error == boost::asio::error::message_size)
 			{
-				nx::Log::inform("Query received from " + this->remote_endpoint_.address().to_string() + ":" + std::to_string(this->remote_endpoint_.port()));
-
 				std::string archive_data(&recv_buffer_[0], bufferSize);
 				
 				nx::UdpEventPacket packet = nx::serialization::deserialize(archive_data);
@@ -78,7 +76,6 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 					nx::netserv_client_t newClientInfos(-1, nx::NETCON_STATE::UNDEFINED, remote_endpoint_.address().to_string(), remote_endpoint_.port());
 					event.data = newClientInfos;
 				}
-				nx::Log::inform("Re-routing packet of type " + std::to_string(event.type) + " for " + remote_endpoint_.address().to_string() + ":" + std::to_string(remote_endpoint_.port()));
 				this->dispatchEvent(event);
 			} else {
 				std::string err = (con_status)? " attempted to connect twice": " tried to interact with the server without a valid connection";
@@ -141,8 +138,6 @@ class FrameworkNetworkServer : public nx::NetworkServerFrameworkTpl
 			if (!isAValidClient(netInfos.clientId_)) {
 				return;
 			}
-
-			nx::Log::inform("About to send data to " + std::to_string(netInfos.clientId_));
 
 			nx::netserv_client_t target = clients_[netInfos.clientId_];
 			

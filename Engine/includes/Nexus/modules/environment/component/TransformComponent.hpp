@@ -42,7 +42,7 @@ namespace nx
 			TransformComponent(std::string const& _name, nx::maths::Vector2f const& pos, uint8_t const rotation, nx::maths::Vector2f const& size, nx::physics::Force2d const& direction)
 				: _entityInfos(_name), _pos(pos), _rotation(rotation), _size(size), _direction(direction) {}
 			TransformComponent(const TransformComponent& other) 
-				: _entityInfos(other.getEntityInfosConst()), _pos(other.getPos()), _rotation(other.getRotationConst()), _size(other.getSize()), _direction(other.getDirection()) {}
+				: _entityInfos(other.getEntityInfosConst()), _pos(other.getPosConst()), _rotation(other.getRotationConst()), _size(other.getSize()), _direction(other.getDirectionConst()) {}
 			~TransformComponent() {}
 
 		public:
@@ -80,13 +80,20 @@ namespace nx
 
 		public:
 			// Getters
-			const nx::maths::Vector2f&	getPos() const
+			const nx::maths::Vector2f&	getPosConst() const
 			{
+				return (this->_pos);
+			}
+
+			nx::maths::Vector2f&	getPos()
+			{
+				_entityInfos.setIsModified(true);				
 				return (this->_pos);
 			}
 
 			uint16_t				getRotation()
 			{
+				_entityInfos.setIsModified(true);				
 				return (this->_rotation);
 			}
 
@@ -96,11 +103,17 @@ namespace nx
 			}
 
 			const nx::maths::Vector2f&	getSize() const
-			{
+			{			
 				return (this->_size);
 			}
 
-			const nx::physics::Force2d&	getDirection() const
+			nx::physics::Force2d&	getDirection()
+			{
+				_entityInfos.setIsModified(true);				
+				return (this->_direction);
+			}
+
+			const nx::physics::Force2d&	getDirectionConst() const
 			{
 				return (this->_direction);
 			}
@@ -108,6 +121,7 @@ namespace nx
 		public:
 			EntityInfos& getEntityInfos()
 			{
+				_entityInfos.setIsModified(true);				
 				return (this->_entityInfos);
 			}
 
@@ -122,10 +136,10 @@ namespace nx
 				if (this != &other)
 				{
 					this->_entityInfos = other.getEntityInfosConst();
-					this->_pos = other.getPos();
+					this->_pos = other.getPosConst();
 					this->_rotation = other.getRotationConst();
 					this->_size = other.getSize();
-					this->_direction = other.getDirection();
+					this->_direction = other.getDirectionConst();
 				}
 				return (*this);
 			}

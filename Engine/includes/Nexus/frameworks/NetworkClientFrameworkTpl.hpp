@@ -18,7 +18,7 @@ namespace nx {
 		// This method must be implemented this way
 		const std::string& getName(void) const {return this->_name;}
 
-		virtual void sendEvent(const nx::netserv_send_event_t&) = 0;
+		virtual void sendEvent(const nx::Event&) = 0;
 		virtual void connect(const nx::netcust_host_t&) = 0;
 		virtual void disconnect() = 0;
 		virtual int getClientId() = 0;

@@ -5,7 +5,7 @@
 nx::${__NX_BASE_SYSTEM__}System::${__NX_BASE_SYSTEM__}System()
 :
 	nx::SystemTpl(__NX_${__NX_UPPER_SYSTEM__}_KEY__),
-	_framework_m(std::make_shared<nx::FrameworkManager<nx::${__NX_BASE_SYSTEM__}FrameworkTpl>>(__NX_${__NX_UPPER_SYSTEM__}_KEY__, true))
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::${__NX_BASE_SYSTEM__}FrameworkTpl>>(__NX_${__NX_UPPER_SYSTEM__}_KEY__))
 {
 
 }

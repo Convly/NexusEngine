@@ -25,6 +25,7 @@ FrameworkRendering::~FrameworkRendering()
 void FrameworkRendering::InitializeWindow(int width, int height, std::string titleWin)
 {
 	this->_win = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), titleWin);
+	this->_win->setFramerateLimit(nx::Engine::getFps());
 	this->_guiHandler = std::make_shared<nx::gui::GUIHandler>(this->_win);
 	this->_graphicsHandler = std::make_shared<nx::graphics::GraphicsHandler>(this->_win);
 	this->_sfxHandler = std::make_shared<nx::sfx::SfxHandler>();
@@ -75,7 +76,7 @@ void FrameworkRendering::HandleKeyboard()
 	if (board != _keyboard)
 	{
 		_keyboard = board;
-		// TODO: SEND EVENT THROUGH NETWORK
+		enginePtr->emit(nx::EVENT::ENV_CLIENT_KEYBOARD, nx::netserv_send_board_t(-1, _keyboard));
 	}
 }
 
@@ -109,19 +110,19 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 					switch (renderer.getShapeTypeConst())
 					{
 					case nx::env::ShapeType::RECTSHAPE:
-						this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
 						break;
 					case nx::env::ShapeType::CIRCLESHAPE:
-						this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsCircleInfos(renderer.getRadiusConst(), renderer.getColorInfoConst()));
 						break;
 					case nx::env::ShapeType::CONVEXSHAPE:
-						this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
 						break;
 					case nx::env::ShapeType::UNDEFINED:
-						this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
+						this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
 							nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
 						break;
 					};
@@ -175,49 +176,47 @@ void FrameworkRendering::RefreshScene(nx::env::Scene & newScene)
 				scene->removeGameObject(gameObjectName);
 				if (gameobject.getEntityInfos().getActive())
 				{
-					auto newGameObject = std::find_if(newScene.getGameObjects().begin(), newScene.getGameObjects().end(),
-													  [&](nx::env::GameObject gameObject)
-													  {
-														  return (gameObject.getEntityInfos().getName() == gameObjectName);
-													  });
-					if (newGameObject != newScene.getGameObjects().end())
-					{
-						nx::env::TransformComponent const& transform = newGameObject->getTransformComponentConst();
-						nx::env::RendererComponent const& renderer = newGameObject->getRendererComponentConst();
-						nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
+					nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
+					nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
+					nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
 
-						switch (newGameObject->getRendererComponent().getShapeType())
-						{
-							case nx::env::ShapeType::RECTSHAPE:
-								this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-														   nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
-								break;
-							case nx::env::ShapeType::CIRCLESHAPE:
-								this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-															nx::env::GraphicsCircleInfos(renderer.getRadiusConst(), renderer.getColorInfoConst()));
-								break;
-							case nx::env::ShapeType::CONVEXSHAPE:
-								this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-																nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
-									break;
-								case nx::env::ShapeType::UNDEFINED:
-									this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPos(), transform.getSize(), infos.getNameConst()),
-															nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
-									break;
-							};
-							scene->addGameObjectCopy(*newGameObject);
-						}
+					switch (gameobject.getRendererComponent().getShapeType())
+					{
+						case nx::env::ShapeType::RECTSHAPE:
+							this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+														nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
+							break;
+						case nx::env::ShapeType::CIRCLESHAPE:
+							this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+														nx::env::GraphicsCircleInfos(renderer.getRadiusConst(), renderer.getColorInfoConst()));
+							break;
+						case nx::env::ShapeType::CONVEXSHAPE:
+							this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+															nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
+							break;
+						case nx::env::ShapeType::UNDEFINED:
+							this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+													nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
+							break;
+						};
+						scene->addGameObjectCopy(gameobject);
 					}
 				}
 			}
+
+			for (auto& layer : this->_guiHandler->getLayers())
+			{
+				std::string layerName = layer.getIdentifier();
+				this->removeLayer(layerName);
+				scene->removeLayer(layerName);
+			}
+
 			auto &layers = newScene.getLayers();
 			for (auto &layer : layers)
 			{
 				std::string layerName = layer.getEntityInfos().getName();
 				if (layer.isModified())
 				{
-					this->removeLayer(layerName);
-					scene->removeLayer(layerName);
 					this->addLayer(layerName);
 					scene->addLayer(layer);
 					this->_registerGUIButton(layer.getAllButtons(), layerName);
@@ -434,7 +433,6 @@ bool FrameworkRendering::addTextInput(const std::string& layerId, const nx::env:
 		);
 	textinput->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(textinput);
-	std::cout << " textinput (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 
@@ -474,7 +472,6 @@ bool FrameworkRendering::addImage(const std::string& layerId, const nx::env::GUI
 		);
 	image->setVisible(guiParams.getActiveConst());
 	this->_guiHandler->getLayerByName(layerId).add(image);
-	std::cout << " image (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
 	return (true);
 }
 

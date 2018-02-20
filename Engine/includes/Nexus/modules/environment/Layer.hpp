@@ -244,6 +244,11 @@ namespace nx
 				return (this->_buttons);
 			}
 
+			unsigned long						getButtonsSize()
+			{
+				return _buttons.size();
+			}
+
 			gui::Button &						getButtonAt(int idx)
 			{
 				return (this->_buttons.at(idx));
@@ -259,6 +264,11 @@ namespace nx
 				return (this->_checkboxes.at(idx));
 			}
 
+			unsigned long						getCheckBoxesSize()
+			{
+				return _checkboxes.size();
+			}
+
 			std::vector<gui::ComboBox> &		getAllComboBoxes()
 			{
 				return (this->_comboBoxes);
@@ -267,6 +277,11 @@ namespace nx
 			gui::ComboBox &						getComboBoxAt(int idx)
 			{
 				return (this->_comboBoxes.at(idx));
+			}
+
+			unsigned long						getComboBoxesSize()
+			{
+				return _comboBoxes.size();
 			}
 
 			std::vector<gui::Image> &			getAllImages()
@@ -279,6 +294,11 @@ namespace nx
 				return (this->_images.at(idx));
 			}
 
+			unsigned long						getImagesSize()
+			{
+				return _images.size();
+			}
+
 			std::vector<gui::ProgressBar> &		getAllProgressBars()
 			{
 				return (this->_progressbars);
@@ -287,6 +307,11 @@ namespace nx
 			gui::ProgressBar &					getProgressBarAt(int idx)
 			{
 				return (this->_progressbars.at(idx));
+			}
+
+			unsigned long						getProgressBarsSize()
+			{
+				return _progressbars.size();
 			}
 
 			std::vector<gui::Sprite> &			getAllSprites()
@@ -299,6 +324,11 @@ namespace nx
 				return (this->_sprites.at(idx));
 			}
 
+			unsigned long						getSpritesSize()
+			{
+				return _sprites.size();
+			}
+
 			std::vector<gui::Text> &			getAllTexts()
 			{
 				return (this->_texts);
@@ -309,14 +339,96 @@ namespace nx
 				return (this->_texts.at(idx));
 			}
 
+			unsigned long						getTextsSize()
+			{
+				return _texts.size();
+			}
+
 			std::vector<gui::TextInput> &		getAllTextInputs()
 			{
 				return (this->_textInputs);
 			}
 
-			gui::TextInput &						getTextInputAt(int idx)
+			gui::TextInput &					getTextInputAt(int idx)
 			{
 				return (this->_textInputs.at(idx));
+			}
+
+			unsigned long						getTextInputsSize()
+			{
+				return _textInputs.size();
+			}
+
+			gui::Button &                    getButtonByName(const std::string& name)
+			{
+				for (auto& it : _buttons) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _buttons.back();
+			}
+
+			gui::Checkbox &                    getCheckBoxByName(const std::string& name)
+			{
+				for (auto& it : _checkboxes) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _checkboxes.back();
+			}
+
+			gui::ComboBox &                    getComboBoxByName(const std::string& name)
+			{
+				for (auto& it : _comboBoxes) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _comboBoxes.back();
+			}
+
+			gui::Image &                    	getImageByName(const std::string& name)
+			{
+				for (auto& it : _images) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _images.back();
+			}
+
+			gui::ProgressBar &                    getProgressBarByName(const std::string& name)
+			{
+				for (auto& it : _progressbars) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _progressbars.back();
+			}
+
+			gui::Sprite &                    getSpriteByName(const std::string& name)
+			{
+				for (auto& it : _sprites) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _sprites.back();
+			}
+
+			gui::Text &                    getTextByName(const std::string& name)
+			{
+				for (auto& it : _texts) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _texts.back();
+			}
+
+			gui::TextInput &                    getTextInputByName(const std::string& name)
+			{
+				for (auto& it : _textInputs) {
+					if (it.getGuiElementInfos().getIdentifier() == name)
+						return it;
+				}
+				return _textInputs.back();
 			}
 		};
 	}

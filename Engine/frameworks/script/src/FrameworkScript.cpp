@@ -313,7 +313,7 @@ void FrameworkScript::registerEnv() {
             .addConstructor<void(*)(float const, nx::env::ColorInfo const&)>()
             .addFunction("setRadius", &nx::env::GraphicsCircleInfos::setRadius)
             .addFunction("getRadius", &nx::env::GraphicsCircleInfos::getRadius)
-            .addFunction("setRadius", &nx::env::GraphicsCircleInfos::setColorInfo)
+            .addFunction("setColorInfo", &nx::env::GraphicsCircleInfos::setColorInfo)
             .addFunction("getColorInfo", &nx::env::GraphicsCircleInfos::getColorInfo)
             .endClass()
 
@@ -331,6 +331,8 @@ void FrameworkScript::registerEnv() {
 
             .beginClass<nx::env::gui::TextInput>("TextInput")
             .addConstructor<void(*)(nx::env::GUIElementInfos const&, nx::env::GUITextInputInfos const&)>()
+            .addFunction("getGuiTextInputInfos", &nx::env::gui::TextInput::getGuiTextInputInfos)
+            .addFunction("getGuiElementInfos", &nx::env::gui::TextInput::getGuiElementInfos)
             .endClass()
 
             .beginClass<std::vector<nx::env::gui::TextInput> > ("TextInputVector")
@@ -341,7 +343,7 @@ void FrameworkScript::registerEnv() {
             .beginClass<nx::env::gui::Text>("Text")
             .addConstructor<void(*)(nx::env::GUIElementInfos const&, nx::env::GUITextInfos const&)>()
             .addFunction("getGuiTextInfos", &nx::env::gui::Text::getGuiTextInfos)
-            .addFunction("getGuiElementInfos", &nx::env::gui::Text::getGuiTextInfos)
+            .addFunction("getGuiElementInfos", &nx::env::gui::Text::getGuiElementInfos)
             .endClass()
 
             .beginClass<std::vector<nx::env::gui::Text> > ("TextVector")
@@ -416,13 +418,30 @@ void FrameworkScript::registerEnv() {
             .addFunction("addTextInput", &nx::env::Layer::addTextInput)
             .addFunction("getEntityInfos", &nx::env::Layer::getEntityInfos)
             .addFunction("getButtonAt", &nx::env::Layer::getButtonAt)
+            .addFunction("getButtonsSize", &nx::env::Layer::getButtonsSize)
             .addFunction("getCheckboxAt", &nx::env::Layer::getCheckboxAt)
+            .addFunction("getCheckBoxesSize", &nx::env::Layer::getCheckBoxesSize)
             .addFunction("getComboBoxAt", &nx::env::Layer::getComboBoxAt)
+            .addFunction("getComboBoxesSize", &nx::env::Layer::getComboBoxesSize)
             .addFunction("getImageAt", &nx::env::Layer::getImageAt)
+            .addFunction("getImagesSize", &nx::env::Layer::getImagesSize)
             .addFunction("getProgressBarAt", &nx::env::Layer::getProgressBarAt)
+            .addFunction("getProgressBarsSize", &nx::env::Layer::getProgressBarsSize)
             .addFunction("getSpriteAt", &nx::env::Layer::getSpriteAt)
+            .addFunction("getSpritesSize", &nx::env::Layer::getSpritesSize)
             .addFunction("getTextAt", &nx::env::Layer::getTextAt)
+            .addFunction("getTextsSize", &nx::env::Layer::getTextsSize)
+            .addFunction("getTextByName", &nx::env::Layer::getTextByName)
             .addFunction("getTextInputAt", &nx::env::Layer::getTextInputAt)
+            .addFunction("getTextInputsSize", &nx::env::Layer::getTextInputsSize)
+            .addFunction("getButtonByName", &nx::env::Layer::getButtonByName)
+            .addFunction("getCheckboxByName", &nx::env::Layer::getCheckBoxByName)
+            .addFunction("getComboBoxByName", &nx::env::Layer::getComboBoxByName)
+            .addFunction("getImageByName", &nx::env::Layer::getImageByName)
+            .addFunction("getProgressBarByName", &nx::env::Layer::getProgressBarByName)
+            .addFunction("getSpriteByName", &nx::env::Layer::getSpriteByName)
+            .addFunction("getTextByName", &nx::env::Layer::getTextByName)
+            .addFunction("getTextInputByName", &nx::env::Layer::getTextInputByName)
             .endClass()
 
             .beginClass<std::vector<nx::env::Layer> > ("LayerVector")
@@ -439,9 +458,15 @@ void FrameworkScript::registerEnv() {
             .addFunction("addLayer", &nx::env::Scene::addLayer)
             .addFunction("getEntityInfos", &nx::env::Scene::getEntityInfos)
             .addFunction("getScriptComponentAt", &nx::env::Scene::getScriptComponentAt)
+            .addFunction("getScriptComponentByName", &nx::env::Scene::getScriptComponentByName)
             .addFunction("getGameObjectAt", &nx::env::Scene::getGameObjectAt)
             .addFunction("getLayerAt", &nx::env::Scene::getLayerAt)
+            .addFunction("getLayerByName", &nx::env::Scene::getLayerByName)
             .addFunction("getBackgroundColor", &nx::env::Scene::getBackgroundColor)
+			.addFunction("getScriptComponentsSize", &nx::env::Scene::getScriptComponentsSize)
+            .addFunction("getGameObjectByName", &nx::env::Scene::getGameObjectByName)
+            .addFunction("getGameObjectsSize", &nx::env::Scene::getGameObjectsSize)
+            .addFunction("getLayersSize", &nx::env::Scene::getLayersSize)
             .endClass()
 
             .beginClass<std::vector<nx::env::Scene> > ("SceneVector")
@@ -449,13 +474,23 @@ void FrameworkScript::registerEnv() {
             .addFunction<std::vector<nx::env::Scene>::reference (std::vector<nx::env::Scene>::*)(std::vector<nx::env::Scene>::size_type)>("at", &std::vector<nx::env::Scene>::at)
             .endClass()
 
+            .beginClass<std::vector<nx::env::Keyboard> > ("KeyboardVector")
+            .addFunction("size", &std::vector<nx::env::Keyboard>::size)
+            .addFunction<std::vector<nx::env::Keyboard>::reference (std::vector<nx::env::Keyboard>::*)(std::vector<nx::env::Keyboard>::size_type)>("at", &std::vector<nx::env::Keyboard>::at)
+            .endClass()
+
             //Environment
             .beginClass<nx::env::Environment>("Environment")
             .addConstructor<void(*)(void)>()
             .addFunction("addScene", &nx::env::Environment::addScene)
             .addFunction("getSceneAt", &nx::env::Environment::getSceneAt)
+            .addFunction("getSceneByName", &nx::env::Environment::getSceneByName)
             .addFunction("getRessources", &nx::env::Environment::getRessources)
             .addFunction("getGameInfos", &nx::env::Environment::getGameInfos)
+			.addFunction("getScenesSize", &nx::env::Environment::getScenesSize)
+            .addFunction("getConnectedClient", &nx::env::Environment::getConnectedClient)
+            .addFunction("getKeyboardAt", &nx::env::Environment::getKeyboardAt)
+            .addFunction("getKeyboards", &nx::env::Environment::getKeyboards)
             .endClass();
     luabridge::push(_state, &_engine->getEnv());
     lua_setglobal(_state, "Env");
@@ -488,15 +523,15 @@ void FrameworkScript::execMethod(const std::string& scriptPath, const std::strin
 	if (this->_scripts.find(scriptPath) == this->_scripts.end()) {
 		throw nx::ScriptNotLoaded(scriptPath);
 	}
-	if (!luaL_dofile(this->_scripts[scriptPath], scriptPath.c_str())) {
+	// if (!luaL_dofile(this->_scripts[scriptPath], scriptPath.c_str())) {
 		try {
 			luabridge::getGlobal(this->_scripts[scriptPath], methodName.c_str())();
 		} catch (const luabridge::LuaException& e) {
 			nx::Log::error(e.what(), "BAD_LUA", 550);
 		}
-	} else {
-		nx::Log::error(scriptPath + " doesn't exists in you env", "BAD_FILE", 549);
-	}
+	// } else {
+		// nx::Log::error(scriptPath + " doesn't exists in you env", "BAD_FILE", 549);
+	// }
 }
 
 void FrameworkScript::init(const std::string& scriptPath)
