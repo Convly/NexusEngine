@@ -104,7 +104,6 @@ namespace nx
 
 			void addKeyboard()
 			{
-				nx::Log::debug("Adding new Keyboard size = " + std::to_string(_keyboards.size()));
 				_keyboards.push_back(nx::env::Keyboard());	
 			}
 

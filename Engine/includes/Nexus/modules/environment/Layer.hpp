@@ -129,6 +129,110 @@ namespace nx
 				this->_textInputs.push_back(textInput);
 			}
 
+			bool	removeButton(std::string const& buttonId)
+			{
+				bool found = false;
+				std::remove_if(this->_buttons.begin(), this->_buttons.end(),
+					[&](nx::env::gui::Button button)
+				{
+					if (button.getGuiElementInfos().getIdentifier() == buttonId)
+						found = true;
+					return (button.getGuiElementInfos().getIdentifier() == buttonId);
+				});
+				return (found);
+			}
+
+			bool	removeCheckbox(std::string const& checkboxId)
+			{
+				bool found = false;
+				std::remove_if(this->_checkboxes.begin(), this->_checkboxes.end(),
+					[&](nx::env::gui::Checkbox checkbox)
+				{
+					if (checkbox.getGuiElementInfos().getIdentifier() == checkboxId)
+						found = true;
+					return (checkbox.getGuiElementInfos().getIdentifier() == checkboxId);
+				});
+				return (found);
+			}
+
+			bool	removeComboBox(std::string const& comboBoxId)
+			{
+				bool found = false;
+				std::remove_if(this->_comboBoxes.begin(), this->_comboBoxes.end(),
+					[&](nx::env::gui::ComboBox comboBox)
+				{
+					if (comboBox.getGuiElementInfos().getIdentifier() == comboBoxId)
+						found = true;
+					return (comboBox.getGuiElementInfos().getIdentifier() == comboBoxId);
+				});
+				return (found);
+			}
+
+			bool	removeImage(std::string const& imageId)
+			{
+				bool found = false;
+				std::remove_if(this->_images.begin(), this->_images.end(),
+					[&](nx::env::gui::Image image)
+				{
+					if (image.getGuiElementInfos().getIdentifier() == imageId)
+						found = true;
+					return (image.getGuiElementInfos().getIdentifier() == imageId);
+				});
+				return (found);
+			}
+
+			bool	removeProgressBar(std::string const& progressBarId)
+			{
+				bool found = false;
+				std::remove_if(this->_progressbars.begin(), this->_progressbars.end(),
+					[&](nx::env::gui::ProgressBar progressBar)
+				{
+					if (progressBar.getGuiElementInfos().getIdentifier() == progressBarId)
+						found = true;
+					return (progressBar.getGuiElementInfos().getIdentifier() == progressBarId);
+				});
+				return (found);
+			}
+
+			bool	removeSprite(std::string const& spriteId)
+			{
+				bool found = false;
+				std::remove_if(this->_sprites.begin(), this->_sprites.end(),
+					[&](nx::env::gui::Sprite sprite)
+				{
+					if (sprite.getGuiElementInfos().getIdentifier() == spriteId)
+						found = true;
+					return (sprite.getGuiElementInfos().getIdentifier() == spriteId);
+				});
+				return (found);
+			}
+
+			bool	removeText(std::string const& textId)
+			{
+				bool found = false;
+				std::remove_if(this->_texts.begin(), this->_texts.end(),
+					[&](nx::env::gui::Text text)
+				{
+					if (text.getGuiElementInfos().getIdentifier() == textId)
+						found = true;
+					return (text.getGuiElementInfos().getIdentifier() == textId);
+				});
+				return (found);
+			}
+
+			bool	removeTextInput(std::string const& textInputId)
+			{
+				bool found = false;
+				std::remove_if(this->_textInputs.begin(), this->_textInputs.end(),
+					[&](nx::env::gui::TextInput textInput)
+				{
+					if (textInput.getGuiElementInfos().getIdentifier() == textInputId)
+						found = true;
+					return (textInput.getGuiElementInfos().getIdentifier() == textInputId);
+				});
+				return (found);
+			}
+
 			// Getters
 			EntityInfos &						getEntityInfos()
 			{

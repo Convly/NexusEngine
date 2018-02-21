@@ -14,7 +14,7 @@ namespace nx
 		private:
 			EntityInfos				_entityInfos;
 			nx::maths::Vector2f		_pos;
-			std::atomic<uint16_t>	_rotation;
+			uint16_t				_rotation;
 			nx::maths::Vector2f		_size;
 			nx::physics::Force2d	_direction;
 
@@ -22,10 +22,9 @@ namespace nx
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				bool rotation = _rotation.load();
 				ar & _entityInfos;
 				ar & _pos;
-				ar & rotation;
+				ar & _rotation;
 				ar & _size;
 				ar & _direction;
 			}
@@ -88,26 +87,29 @@ namespace nx
 
 			nx::maths::Vector2f&	getPos()
 			{
+				_entityInfos.setIsModified(true);				
 				return (this->_pos);
 			}
 
 			uint16_t				getRotation()
 			{
-				return (this->_rotation.load());
+				_entityInfos.setIsModified(true);				
+				return (this->_rotation);
 			}
 
 			const uint16_t				getRotationConst() const
 			{
-				return (this->_rotation.load());
+				return (this->_rotation);
 			}
 
 			const nx::maths::Vector2f&	getSize() const
-			{
+			{			
 				return (this->_size);
 			}
 
 			nx::physics::Force2d&	getDirection()
 			{
+				_entityInfos.setIsModified(true);				
 				return (this->_direction);
 			}
 
@@ -119,6 +121,7 @@ namespace nx
 		public:
 			EntityInfos& getEntityInfos()
 			{
+				_entityInfos.setIsModified(true);				
 				return (this->_entityInfos);
 			}
 

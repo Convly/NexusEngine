@@ -1,5 +1,7 @@
 #include "Sprite.hpp"
 
+extern GraphicResources resources;
+
 nx::gui::Sprite::Sprite(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 			   std::string const& spritesheetPath, sf::Vector2f const& sheetGrid, sf::Vector2f const& spriteSize) :
 	GUIElement(pos, spriteSize, identifier), _spritesheetPath(spritesheetPath), _sheetGrid(sheetGrid), _spriteSize(spriteSize),
@@ -22,9 +24,14 @@ nx::gui::Sprite::~Sprite()
 void nx::gui::Sprite::_loadSpritesheet()
 {
 	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("images") + this->_spritesheetPath);
-	if (!this->_texture.loadFromFile(realPath))
-		throw nx::InvalidImageException(realPath);
-	this->_sprite.setTexture(this->_texture);
+
+	if (resources.textures.find(realPath) == resources.textures.end())
+	{
+		resources.textures[realPath] = sf::Texture();
+		if (!resources.textures[realPath].loadFromFile(realPath))
+			throw nx::InvalidImageException(realPath);
+	}
+	this->_sprite.setTexture(resources.textures[realPath]);
 	this->_sprite.setPosition(this->getPos());
 	this->_originalSize = this->_spriteSize;
 	this->_refreshSprite();

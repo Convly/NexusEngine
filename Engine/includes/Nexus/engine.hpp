@@ -2,12 +2,15 @@
 #define NEXUS_ENGINE__ENGINE_CORE_HPP_
 
 # define BOOST_ALL_DYN_LINK
+# define BOOST_ASIO_DISABLE_BUFFER_DEBUGGING
 
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <functional>
 #include <algorithm>
+#include <atomic>
+#include <chrono>
 
 #include "Nexus/standalone/external/any.hpp"
 
@@ -64,14 +67,23 @@ namespace nx {
 
 	  void emit(const nx::Event& event)
 	  {
-		//   nx::Log::inform("New event catched in the Engine: {" + std::to_string(event.type) + "}");
 		  std::for_each(
 			  this->_systems.begin(),
 			  this->_systems.end(),
 			  [&](const auto system) {
-			  	system->emitter(event);
-		  	}
+					system->emitter(event);
+		  		}
 		  );
+	  }
+
+	  static int64_t timems()
+	  {
+		  return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();   
+	  }
+
+	  static long getFps()
+	  {
+		  return 30;
 	  }
 
 		template<typename T>

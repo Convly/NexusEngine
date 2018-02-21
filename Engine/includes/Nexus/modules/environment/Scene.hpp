@@ -35,6 +35,14 @@ namespace nx
 			Scene() {}
 			Scene(std::string const& _name) : _entityInfos(_name) {}
 			Scene(std::string const& _name, bool const _active) : _entityInfos(_name, _active) {}
+			Scene(const nx::env::Scene& other)
+			:
+				_entityInfos(other.getEntityInfosConst()),
+				_scriptComponents(other.getScriptComponentsConst()),
+				_gameObjects(other.getGameObjectsConst()),
+				_backgroundColor(other.getBackgroundColorConst()),
+				_layers(other.getLayersConst())
+			{}
 
 			~Scene() {}
 
@@ -74,6 +82,24 @@ namespace nx
 				this->_gameObjects.push_back(GameObject(gameObjectName));
 			}
 
+			void addGameObjectCopy(GameObject const& gameObject)
+			{
+				this->_gameObjects.push_back(gameObject);
+			}
+
+			bool removeGameObject(std::string const& gameObjectId)
+			{
+				bool found = false;
+				std::remove_if(this->_gameObjects.begin(), this->_gameObjects.end(),
+					[&](nx::env::GameObject gameObject)
+				{
+					if (gameObject.getEntityInfos().getName() == gameObjectId)
+						found = true;
+					return (gameObject.getEntityInfos().getName() == gameObjectId);
+				});
+				return (found);
+			}
+
 			void setBackgroundColor(nx::env::RGBa const& backgroundColor)
 			{
 				this->_backgroundColor = backgroundColor;
@@ -84,6 +110,19 @@ namespace nx
 				this->_layers.push_back(layer);
 			}
 
+			bool removeLayer(std::string const& layerId)
+			{
+				bool found = false;
+				std::remove_if(this->_layers.begin(), this->_layers.end(),
+							   [&](nx::env::Layer layer)
+							   {
+									if (layer.getEntityInfos().getName() == layerId)
+										found = true;
+									return (layer.getEntityInfos().getName() == layerId);
+							   });
+				return (found);
+			}
+
 			
 			// Getters
 			EntityInfos &					getEntityInfos()
@@ -91,9 +130,19 @@ namespace nx
 				return (this->_entityInfos);
 			}
 
+			const EntityInfos& getEntityInfosConst() const
+			{
+				return _entityInfos;
+			}
+ 
 			std::vector<ScriptComponent> &	getScriptComponents()
 			{
 				return (this->_scriptComponents);
+			}
+
+			const std::vector<ScriptComponent>& getScriptComponentsConst() const
+			{
+				return _scriptComponents;
 			}
 
 			ScriptComponent &					getScriptComponentByName(const std::string& name)
@@ -120,6 +169,10 @@ namespace nx
 				return (this->_gameObjects);
 			}
 
+			const std::vector<GameObject>& getGameObjectsConst() const
+			{
+				return _gameObjects;
+			}
 			GameObject &					getGameObjectByName(const std::string& name)
 			{
 				for (auto& gameObject : _gameObjects){
@@ -144,9 +197,19 @@ namespace nx
 				return (this->_backgroundColor);
 			}
 
+			const nx::env::RGBa& getBackgroundColorConst() const
+			{
+				return _backgroundColor;
+			}
+
 			std::vector<Layer> &			getLayers()
 			{
 				return (this->_layers);
+			}
+
+			const std::vector<Layer>& getLayersConst() const 
+			{
+				return _layers;
 			}
 
 			Layer &					getLayerByName(const std::string& name)

@@ -1,15 +1,24 @@
 #include "TextInput.hpp"
 
+extern GraphicResources resources;
+
 nx::gui::TextInput::TextInput(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 					 ColorInfo const& colorInfo, TextInfo const& textInfo) :
 	GUIElement(pos, size, identifier, events), _state(false),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
-	_font(rxallocator<sf::Font>()), _body(sf::RectangleShape(size)), _textData(textInfo.textLabel),
-	_cursor(sf::VertexArray(sf::LinesStrip, 2)), _cursorIdx(textInfo.textLabel.length())
+	_body(sf::RectangleShape(size)), _textData(textInfo.textLabel),
+	_cursor(sf::VertexArray(sf::LinesStrip, 2)), _cursorIdx(textInfo.textLabel.length()), _textInfo(textInfo)
 {
-	if (!this->_font->loadFromFile(textInfo.fontPath))
-		throw nx::InvalidFontException(textInfo.fontPath);
-	this->_label = sf::Text(textInfo.textLabel, *this->_font, textInfo.fontSize);
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("fonts") + textInfo.fontPath);
+
+	if (resources.fonts.find(realPath) == resources.fonts.end())
+	{
+		resources.fonts[realPath] = rxallocator<sf::Font>();
+		if (!resources.fonts[realPath]->loadFromFile(realPath))
+			throw nx::InvalidFontException(realPath);
+	}
+
+	this->_label = sf::Text(textInfo.textLabel, *resources.fonts[realPath], textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->_label.setPosition(pos.x + 3,
@@ -133,7 +142,8 @@ void nx::gui::TextInput::show(std::shared_ptr<sf::RenderWindow> const& win)
 void nx::gui::TextInput::_repositioningCursor()
 {
 	// Repositioning the cursor
-	sf::Text text("", *this->_font, this->_label.getCharacterSize());
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("fonts") + this->_textInfo.fontPath);
+	sf::Text text("", *resources.fonts[realPath], this->_label.getCharacterSize());
 
 	for (int i = this->_cursorIdx; i < static_cast<int>(this->_textData.length()) && text.getLocalBounds().width + 13 <= this->_body.getSize().x; ++i)
 		text.setString(text.getString() + this->_textData[i]);

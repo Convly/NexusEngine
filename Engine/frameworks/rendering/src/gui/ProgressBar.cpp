@@ -1,15 +1,23 @@
 #include "ProgressBar.hpp"
 
+extern GraphicResources resources;
+
 nx::gui::ProgressBar::ProgressBar(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 						 ColorInfo const& colorInfo, TextInfo const& textInfo, bool const displayPercentage) :
 	GUIElement(pos, size, identifier, events),
 	_backgroundColor(colorInfo.backgroundColor), _borderColor(colorInfo.borderColor), _borderThickness(colorInfo.borderThickness),
-	_body(sf::RectangleShape(size)), _filled(sf::RectangleShape()), _percentage(0), _font(rxallocator<sf::Font>())
+	_body(sf::RectangleShape(size)), _filled(sf::RectangleShape()), _percentage(0)
 {
-	if (!this->_font->loadFromFile(textInfo.fontPath))
-		throw nx::InvalidFontException(textInfo.fontPath);
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("fonts") + textInfo.fontPath);
 
-	this->_label = sf::Text("", *this->_font, textInfo.fontSize);
+	if (resources.fonts.find(realPath) == resources.fonts.end())
+	{
+		resources.fonts[realPath] = rxallocator<sf::Font>();
+		if (!resources.fonts[realPath]->loadFromFile(realPath))
+			throw nx::InvalidFontException(realPath);
+	}
+
+	this->_label = sf::Text("", *resources.fonts[realPath], textInfo.fontSize);
 	this->_label.setFillColor(textInfo.textColor);
 	this->_label.setStyle(textInfo.textStyle);
 	this->setFilled(0);

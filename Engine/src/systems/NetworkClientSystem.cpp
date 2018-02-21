@@ -5,7 +5,7 @@
 nx::NetworkClientSystem::NetworkClientSystem()
 :
 	nx::SystemTpl(__NX_NETWORKCLIENT_KEY__),
-	_framework_m(std::make_shared<nx::FrameworkManager<nx::NetworkClientFrameworkTpl>>(__NX_NETWORKCLIENT_KEY__, true))
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::NetworkClientFrameworkTpl>>(__NX_NETWORKCLIENT_KEY__))
 {
 	connect(nx::EVENT::NETCUST_CONNECT, nx::NetworkClientSystem::event_Connect);
 	connect(nx::EVENT::NETSERV_CONNECT, nx::NetworkClientSystem::event_ConnectAcceptor);

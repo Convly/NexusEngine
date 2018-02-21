@@ -64,8 +64,6 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 		{
 			if (!error || error == boost::asio::error::message_size)
 			{
-				nx::Log::inform("Query received from " + this->remote_endpoint_.address().to_string() + ":" + std::to_string(this->remote_endpoint_.port()));
-
 				std::string archive_data(&recv_buffer_[0], bufferSize);
 				
 				nx::UdpEventPacket packet = nx::serialization::deserialize(archive_data);
@@ -73,7 +71,6 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 				external::any obj = nx::nx_any_convert_serialize.at(packet.type_)(packet.object_);
 				nx::Event e(packet.type_, obj);
 
-				nx::Log::inform("Re-routing packet of type " + std::to_string(e.type) + " for " + remote_endpoint_.address().to_string() + ":" + std::to_string(remote_endpoint_.port()));
 				this->dispatchEvent(e);
 				start_receive();
 			}
@@ -96,8 +93,6 @@ class FrameworkNetworkClient : public nx::NetworkClientFrameworkTpl
 		void sendEvent(const nx::Event& event)
 		{
 			nx::thread::ScopedLock lock;
-
-			nx::Log::inform("About to send data to " + ip_ + ":" + std::to_string(port_));
 			
 			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), std::string(ip_).c_str(), std::to_string(port_).c_str());
 			boost::asio::ip::udp::resolver::iterator it = resolver_.resolve(query);

@@ -11,11 +11,23 @@ nx::gui::GUIHandler::~GUIHandler()
 
 }
 
-void	nx::gui::GUIHandler::addLayer(std::shared_ptr<GUILayer> layer)
+void	nx::gui::GUIHandler::addLayer(GUILayer const& layer)
 {
 	this->_guiLayers.push_back(layer);
 }
 
+bool	nx::gui::GUIHandler::removeLayer(std::string const& layerId)
+{
+	bool found = false;
+	this->_guiLayers.erase(std::remove_if(this->_guiLayers.begin(), this->_guiLayers.end(),
+		[&](nx::gui::GUILayer & elem)
+	{
+		if (elem.getIdentifier() == layerId)
+			found = true;
+		return (elem.getIdentifier() == layerId);
+	}), this->_guiLayers.end());
+	return (found);
+}
 
 // Events
 
@@ -23,10 +35,10 @@ void nx::gui::GUIHandler::processEvent(sf::Event const& event)
 {
 	for (auto itLayer : this->_guiLayers)
 	{
-		if (itLayer->isVisible())
+		if (itLayer.isVisible())
 		{
-			auto elems = itLayer->getElements();
-			for (auto itElem : elems)
+			auto elems = itLayer.getElements();
+			for (auto &itElem : elems)
 			{
 				if (itElem->isVisible())
 				{
@@ -93,13 +105,11 @@ void nx::gui::GUIHandler::drawLayers()
 {
 	for (auto itLayer : this->_guiLayers)
 	{
-		if (itLayer->isVisible())
+		if (itLayer.isVisible())
 		{
-			auto elems = itLayer->getElements();
-			for (auto itElem : elems)
-			{
-				itElem->show(this->_win);
-			}
+			auto elems = itLayer.getElements();
+			for (auto &itElem : elems)
+				std::atomic_load(&itElem)->show(this->_win);
 		}
 	}
 }
@@ -107,31 +117,31 @@ void nx::gui::GUIHandler::drawLayers()
 
 // Getters
 
-std::vector<std::shared_ptr<nx::gui::GUILayer>>	const &	nx::gui::GUIHandler::getLayers() const
+std::vector<nx::gui::GUILayer>	const &					nx::gui::GUIHandler::getLayers() const
 {
 	return (this->_guiLayers);
 }
 
-std::vector<std::shared_ptr<nx::gui::GUILayer>>&	nx::gui::GUIHandler::getLayers()
+std::vector<nx::gui::GUILayer>&							nx::gui::GUIHandler::getLayers()
 {
-	return this->_guiLayers;
+	return (this->_guiLayers);
 }
 
-std::shared_ptr<nx::gui::GUILayer> const &				nx::gui::GUIHandler::getLayerByName(std::string const& identifier) const
+nx::gui::GUILayer const &								nx::gui::GUIHandler::getLayerByName(std::string const& identifier) const
 {
 	for (auto &it : this->_guiLayers)
 	{
-		if (it->getIdentifier() == identifier)
+		if (it.getIdentifier() == identifier)
 			return (it);
 	}
 	throw (nx::LayerNotFoundException(identifier));
 }
 
-std::shared_ptr<nx::gui::GUILayer>&						nx::gui::GUIHandler::getLayerByName(std::string const& identifier)
+nx::gui::GUILayer &										nx::gui::GUIHandler::getLayerByName(std::string const& identifier)
 {
 	for (auto &it : this->_guiLayers)
 	{
-		if (it->getIdentifier() == identifier)
+		if (it.getIdentifier() == identifier)
 			return (it);
 	}
 	throw (nx::LayerNotFoundException(identifier));
@@ -141,7 +151,7 @@ const bool			nx::gui::GUIHandler::layer_exists(const std::string& identifier) co
 {
 	for (auto &it : this->_guiLayers)
 	{
-		if (it->getIdentifier() == identifier)
+		if (it.getIdentifier() == identifier)
 			return true;
 	}
 

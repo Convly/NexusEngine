@@ -12,19 +12,17 @@ namespace nx
 		{
 		private:
 			EntityInfos			_entityInfos;
-			std::atomic<double>	_mass;
-			std::atomic<double>	_bounciness;
+			double				_mass;
+			double				_bounciness;
 			nx::maths::Vector2f	_size;
 
 		public:
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				double mass = _mass.load();
-				double bounciness = _bounciness.load();
 				ar & _entityInfos;
-				ar & mass;
-				ar & bounciness;
+				ar & _mass;
+				ar & _bounciness;
 				ar & _size;
 			}
 
@@ -116,8 +114,8 @@ namespace nx
 				if (this != &other)
 				{
 					this->_entityInfos = other.getEntityInfosConst();
-					this->_mass.store(other.getMassConst());
-					this->_bounciness.store(other.getBouncinessConst());
+					this->_mass = other.getMassConst();
+					this->_bounciness = other.getBouncinessConst();
 					this->_size = other.getSizeConst();
 				}
 				return (*this);

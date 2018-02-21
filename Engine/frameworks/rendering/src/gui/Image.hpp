@@ -5,6 +5,7 @@
 # include "Nexus/log.hpp"
 # include "GUIElement.hpp"
 # include "../InvalidImageException.hpp"
+# include "../../frameworks/rendering/src/GraphicResources.hpp"
 
 namespace nx
 {
@@ -14,7 +15,6 @@ namespace nx
 		{
 			std::string		_imgPath;
 
-			sf::Texture		_texture;
 			sf::Sprite		_img;
 
 			sf::Vector2f	_originalSize;

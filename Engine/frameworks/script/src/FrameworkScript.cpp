@@ -431,6 +431,7 @@ void FrameworkScript::registerEnv() {
             .addFunction("getSpritesSize", &nx::env::Layer::getSpritesSize)
             .addFunction("getTextAt", &nx::env::Layer::getTextAt)
             .addFunction("getTextsSize", &nx::env::Layer::getTextsSize)
+            .addFunction("getTextByName", &nx::env::Layer::getTextByName)
             .addFunction("getTextInputAt", &nx::env::Layer::getTextInputAt)
             .addFunction("getTextInputsSize", &nx::env::Layer::getTextInputsSize)
             .addFunction("getButtonByName", &nx::env::Layer::getButtonByName)
@@ -522,15 +523,15 @@ void FrameworkScript::execMethod(const std::string& scriptPath, const std::strin
 	if (this->_scripts.find(scriptPath) == this->_scripts.end()) {
 		throw nx::ScriptNotLoaded(scriptPath);
 	}
-	if (!luaL_dofile(this->_scripts[scriptPath], scriptPath.c_str())) {
+	// if (!luaL_dofile(this->_scripts[scriptPath], scriptPath.c_str())) {
 		try {
 			luabridge::getGlobal(this->_scripts[scriptPath], methodName.c_str())();
 		} catch (const luabridge::LuaException& e) {
 			nx::Log::error(e.what(), "BAD_LUA", 550);
 		}
-	} else {
-		nx::Log::error(scriptPath + " doesn't exists in you env", "BAD_FILE", 549);
-	}
+	// } else {
+		// nx::Log::error(scriptPath + " doesn't exists in you env", "BAD_FILE", 549);
+	// }
 }
 
 void FrameworkScript::init(const std::string& scriptPath)

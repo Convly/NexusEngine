@@ -1,6 +1,8 @@
 #include "FrameworkRendering.hpp"
 
 nx::Engine* enginePtr = nullptr;
+GraphicResources resources;
+std::mutex g_mutex;
 
 FrameworkRendering::FrameworkRendering(nx::Engine* engine)
 	:
@@ -23,6 +25,7 @@ FrameworkRendering::~FrameworkRendering()
 void FrameworkRendering::InitializeWindow(int width, int height, std::string titleWin)
 {
 	this->_win = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), titleWin);
+	this->_win->setFramerateLimit(nx::Engine::getFps());
 	this->_guiHandler = std::make_shared<nx::gui::GUIHandler>(this->_win);
 	this->_graphicsHandler = std::make_shared<nx::graphics::GraphicsHandler>(this->_win);
 	this->_sfxHandler = std::make_shared<nx::sfx::SfxHandler>();
@@ -30,6 +33,8 @@ void FrameworkRendering::InitializeWindow(int width, int height, std::string tit
 
 void FrameworkRendering::RefreshRendering()
 {
+	nx::thread::ScopedLock lock;
+
 	if (this->_win && this->_guiHandler)
 	{
 		while (this->_win->isOpen())
@@ -50,8 +55,11 @@ void FrameworkRendering::RefreshRendering()
 			this->_win->clear(sf::Color(0, 0 , 0, 255));
 
 			// Drawing stuff on screen
-			this->_graphicsHandler->drawElements();
-			this->_guiHandler->drawLayers();
+			{
+				std::lock_guard<std::mutex> lock(g_mutex);
+				this->_graphicsHandler->drawElements();
+				this->_guiHandler->drawLayers();
+			}
 
 			// Displaying screen
 			this->_win->display();
@@ -92,7 +100,12 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 					nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
 					nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
 					nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
-
+					if (gameobject.getScriptComponentConst().getEntityInfos().getActiveConst())
+					{
+						const std::string scriptPath = gameobject.getScriptComponentConst().getScriptPath();
+						enginePtr->emit(nx::EVENT::SCRIPT_LOAD, scriptPath);
+						enginePtr->emit(nx::EVENT::SCRIPT_INIT, scriptPath);
+					}
 
 					switch (renderer.getShapeTypeConst())
 					{
@@ -137,6 +150,87 @@ void FrameworkRendering::LoadScene(std::string const& sceneName)
 	{
 		nx::Log::debug(e.what());
 	}
+}
+
+void FrameworkRendering::RefreshScene(nx::env::Scene & newScene)
+{
+	std::lock_guard<std::mutex> lock(g_mutex);
+
+	auto &scenes = enginePtr->getEnv().getScenes();
+
+	auto scene = std::find_if(scenes.begin(), scenes.end(), [&](nx::env::Scene scene)
+	{
+		return (scene.getEntityInfos().getName() == newScene.getEntityInfos().getName());
+	});
+
+	if (scene != scenes.end())
+	{
+		auto &gameobjects = newScene.getGameObjects();
+		for (auto &gameobject : gameobjects)
+		{
+			if (gameobject.isModified())
+			{
+				std::string gameObjectName = gameobject.getRendererComponent().getEntityInfos().getName();
+
+				this->removeGraphicsElem(gameObjectName);
+				scene->removeGameObject(gameObjectName);
+				if (gameobject.getEntityInfos().getActive())
+				{
+					nx::env::TransformComponent const& transform = gameobject.getTransformComponentConst();
+					nx::env::RendererComponent const& renderer = gameobject.getRendererComponentConst();
+					nx::env::EntityInfos const& infos = renderer.getEntityInfosConst();
+
+					switch (gameobject.getRendererComponent().getShapeType())
+					{
+						case nx::env::ShapeType::RECTSHAPE:
+							this->addGraphicsRectShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+														nx::env::GraphicsRectInfos(renderer.getColorInfoConst()));
+							break;
+						case nx::env::ShapeType::CIRCLESHAPE:
+							this->addGraphicsCirleShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+														nx::env::GraphicsCircleInfos(renderer.getRadiusConst(), renderer.getColorInfoConst()));
+							break;
+						case nx::env::ShapeType::CONVEXSHAPE:
+							this->addGraphicsConvexShape(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+															nx::env::GraphicsConvexInfos(renderer.getColorInfoConst()));
+							break;
+						case nx::env::ShapeType::UNDEFINED:
+							this->addGraphicsSprite(nx::env::GraphicsElementInfos(transform.getPosConst(), transform.getSize(), infos.getNameConst()),
+													nx::env::GraphicsSpriteInfos(renderer.getTexturePathConst(), renderer.getSheetGridConst(), renderer.getSpriteSizeConst()));
+							break;
+						};
+						scene->addGameObjectCopy(gameobject);
+					}
+				}
+			}
+
+			for (auto& layer : this->_guiHandler->getLayers())
+			{
+				std::string layerName = layer.getIdentifier();
+				this->removeLayer(layerName);
+				scene->removeLayer(layerName);
+			}
+
+			auto &layers = newScene.getLayers();
+			for (auto &layer : layers)
+			{
+				std::string layerName = layer.getEntityInfos().getName();
+				if (layer.isModified())
+				{
+					this->addLayer(layerName);
+					scene->addLayer(layer);
+					this->_registerGUIButton(layer.getAllButtons(), layerName);
+					this->_registerGUICheckbox(layer.getAllCheckboxes(), layerName);
+					this->_registerGUIComboBox(layer.getAllComboBoxes(), layerName);
+					this->_registerGUIImage(layer.getAllImages(), layerName);
+					this->_registerGUIProgressBar(layer.getAllProgressBars(), layerName);
+					this->_registerGUISprite(layer.getAllSprites(), layerName);
+					this->_registerGUIText(layer.getAllTexts(), layerName);
+					this->_registerGUITextInput(layer.getAllTextInputs(), layerName);
+			}
+		}
+	}
+
 }
 
 void FrameworkRendering::_registerGUIButton(std::vector<nx::env::gui::Button> const& buttons, std::string const& layerName)
@@ -210,13 +304,13 @@ bool FrameworkRendering::addLayer(const std::string& layerIdentifier)
 		}
 	}
 
-	this->_guiHandler->addLayer(std::make_shared<nx::gui::GUILayer>(layerIdentifier));
+	this->_guiHandler->addLayer(nx::gui::GUILayer(layerIdentifier));
 	return true;
 }
 
 bool FrameworkRendering::addButton(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIButtonInfos& buttonsParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -238,15 +332,14 @@ bool FrameworkRendering::addButton(const std::string& layerId, const nx::env::GU
 	);
 	button->setVisible(guiParams.getActiveConst());
 	auto b = guiParams.getActiveConst();
-	this->_guiHandler->getLayerByName(layerId)->add(button);
-	std::cout << "Adding new button (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(button);
 	return (true);
 }
 
 
 bool FrameworkRendering::addCheckbox(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUICheckboxInfos& checkboxParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -261,14 +354,13 @@ bool FrameworkRendering::addCheckbox(const std::string& layerId, const nx::env::
 			checkboxParams.getColorInfoConst().getBorderThicknessConst())
 	);
 	checkbox->setVisible(guiParams.getActiveConst());
-	this->_guiHandler->getLayerByName(layerId)->add(checkbox);
-	std::cout << "Adding new checkbox (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(checkbox);
 	return (true);
 }
 
 bool FrameworkRendering::addProgressBar(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIProgressBarInfos& progressBarParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -288,14 +380,13 @@ bool FrameworkRendering::addProgressBar(const std::string& layerId, const nx::en
 			FrameworkRendering::RGBa_to_sfColor(progressBarParams.getTextInfoConst().getTextColorConst()))
 		);
 	progressbar->setVisible(guiParams.getActiveConst());
-	this->_guiHandler->getLayerByName(layerId)->add(progressbar);
-	std::cout << "Adding new progressbar (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(progressbar);
 	return (true);
 }
 
 bool FrameworkRendering::addComboBox(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIComboBoxInfos& comboBoxParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -315,14 +406,13 @@ bool FrameworkRendering::addComboBox(const std::string& layerId, const nx::env::
 			FrameworkRendering::RGBa_to_sfColor(comboBoxParams.getTextInfoConst().getTextColorConst()))
 		);
 	combobox->setVisible(guiParams.getActiveConst());
-	this->_guiHandler->getLayerByName(layerId)->add(combobox);
-	std::cout << "Adding new combobox (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(combobox);
 	return (true);
 }
 
 bool FrameworkRendering::addTextInput(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUITextInputInfos& textInputParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -342,14 +432,13 @@ bool FrameworkRendering::addTextInput(const std::string& layerId, const nx::env:
 			FrameworkRendering::RGBa_to_sfColor(textInputParams.getTextInfoConst().getTextColorConst()))
 		);
 	textinput->setVisible(guiParams.getActiveConst());
-	this->_guiHandler->getLayerByName(layerId)->add(textinput);
-	std::cout << "Adding new textinput (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(textinput);
 	return (true);
 }
 
 bool FrameworkRendering::addText(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUITextInfos& textParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -364,14 +453,13 @@ bool FrameworkRendering::addText(const std::string& layerId, const nx::env::GUIE
 			FrameworkRendering::RGBa_to_sfColor(textParams.getTextInfoConst().getTextColorConst()))
 		);
 	text->setVisible(guiParams.getActiveConst());
-	this->_guiHandler->getLayerByName(layerId)->add(text);
-	std::cout << "Adding new text (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(text);
 	return (true);
 }
 
 bool FrameworkRendering::addImage(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUIImageInfos& imageParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -383,14 +471,13 @@ bool FrameworkRendering::addImage(const std::string& layerId, const nx::env::GUI
 		imageParams.getImagePathConst()
 		);
 	image->setVisible(guiParams.getActiveConst());
-	this->_guiHandler->getLayerByName(layerId)->add(image);
-	std::cout << "Adding new image (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(image);
 	return (true);
 }
 
 bool FrameworkRendering::addGUISprite(const std::string& layerId, const nx::env::GUIElementInfos& guiParams, const nx::env::GUISpriteInfos& spriteParams)
 {
-	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId)->object_exists(guiParams.getIdentifierConst())) {
+	if (!this->_guiHandler->layer_exists(layerId) || this->_guiHandler->getLayerByName(layerId).object_exists(guiParams.getIdentifierConst())) {
 		return (false);
 	}
 
@@ -404,9 +491,31 @@ bool FrameworkRendering::addGUISprite(const std::string& layerId, const nx::env:
 		sf::Vector2f(spriteParams.getSpriteSizeConst().x, spriteParams.getSpriteSizeConst().y)
 		);
 	sprite->setVisible(guiParams.getActiveConst());
-	this->_guiHandler->getLayerByName(layerId)->add(sprite);
-	std::cout << "Adding new guiSprite (" << guiParams.getIdentifierConst() << ") in " << layerId << std::endl;
+	this->_guiHandler->getLayerByName(layerId).add(sprite);
 	return (true);
+}
+
+bool FrameworkRendering::removeLayer(std::string const& layerId)
+{
+	return (this->_guiHandler->removeLayer(layerId));
+}
+
+bool FrameworkRendering::removeGUIElem(std::string const& layerId, std::string const& elemId)
+{
+	if (!this->_guiHandler->layer_exists(layerId)) {
+		return (false);
+	}
+
+	try
+	{
+		nx::gui::GUILayer layer = this->_guiHandler->getLayerByName(layerId);
+		return (layer.remove(elemId));
+	}
+	catch (nx::LayerNotFoundException e)
+	{
+		nx::Log::warning(e.what(), "LAYER_NOT_FOUND");
+		return (false);
+	}
 }
 
 bool FrameworkRendering::addGraphicsSprite(const nx::env::GraphicsElementInfos& graphicsParams, const nx::env::GraphicsSpriteInfos& spriteParams)
@@ -424,7 +533,6 @@ bool FrameworkRendering::addGraphicsSprite(const nx::env::GraphicsElementInfos& 
 		sf::Vector2f(spriteParams.spriteSize.x, spriteParams.spriteSize.y)
 		);
 	this->_graphicsHandler->addElement(sprite);
-	std::cout << "Adding new graphicsSprite (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
@@ -433,7 +541,7 @@ bool FrameworkRendering::addGraphicsCirleShape(const nx::env::GraphicsElementInf
 	if (this->_graphicsHandler->object_exists(graphicsParams.identifier)) {
 		return (false);
 	}
-	
+
 	std::shared_ptr<nx::graphics::CircleShape> circle = std::make_shared<nx::graphics::CircleShape>(
 		sf::Vector2f(graphicsParams.pos.x, graphicsParams.pos.y),
 		sf::Vector2f(graphicsParams.size.x, graphicsParams.size.y),
@@ -446,7 +554,6 @@ bool FrameworkRendering::addGraphicsCirleShape(const nx::env::GraphicsElementInf
 		);
 
 	this->_graphicsHandler->addElement(circle);
-	std::cout << "Adding new graphicsCircle (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
@@ -467,7 +574,6 @@ bool FrameworkRendering::addGraphicsRectShape(const nx::env::GraphicsElementInfo
 		);
 
 	this->_graphicsHandler->addElement(rect);
-	std::cout << "Adding new graphicsRect (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
@@ -488,104 +594,135 @@ bool FrameworkRendering::addGraphicsConvexShape(const nx::env::GraphicsElementIn
 		);
 
 	this->_graphicsHandler->addElement(convex);
-	std::cout << "Adding new graphicsConvex (" << graphicsParams.identifier << ")" << std::endl;
 	return (true);
 }
 
-nx::gui::GUIElement	*FrameworkRendering::_getGUIElementFromHandler(std::string const& layerId, std::string const& elemId) const
+bool FrameworkRendering::removeGraphicsElem(std::string const& elemId)
+{
+	return (this->_graphicsHandler->removeElement(elemId));
+}
+
+nx::gui::GUIElement		*FrameworkRendering::_getGUIElementFromHandler(std::string const& layerId, std::string const& elemId) const
 {
 	if (!this->_guiHandler->layer_exists(layerId))
 		throw nx::LayerNotFoundException(elemId);
 
-	if (!this->_guiHandler->getLayerByName(layerId)->object_exists(elemId))
+	if (!this->_guiHandler->getLayerByName(layerId).object_exists(elemId))
 		throw nx::ElementNotFoundException(elemId);
 
-	nx::gui::GUIElement *elem = this->_guiHandler->getLayerByName(layerId)->getElementByName(elemId).get();
-
-	if (!elem)
-		throw nx::NullElementException(elemId);
-
-	return (elem);
+	try
+	{
+		nx::gui::GUIElement *elem = this->_guiHandler->getLayerByName(layerId).getElementByName(elemId).get();
+		return (elem);
+	}
+	catch (nx::ElementNotFoundException e)
+	{
+		throw nx::ElementNotFoundException(elemId);
+	}
 }
 
-nx::gui::Button		*FrameworkRendering::_getGUIButtonFromHandler(std::string const& layerId, std::string const& buttonId) const
+nx::gui::Button			*FrameworkRendering::_getGUIButtonFromHandler(std::string const& layerId, std::string const& buttonId) const
 {
-	nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_getGUIElementFromHandler(layerId, buttonId));
-
-	if (!button)
+	try
+	{
+		nx::gui::Button *button = dynamic_cast<nx::gui::Button *>(this->_getGUIElementFromHandler(layerId, buttonId));
+		return (button);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(buttonId, "nx::gui::Button");
-
-	return (button);
+	}
 }
 
 nx::gui::Checkbox		*FrameworkRendering::_getGUICheckboxFromHandler(std::string const& layerId, std::string const& checkboxId) const
 {
-	nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_getGUIElementFromHandler(layerId, checkboxId));
-
-	if (!checkbox)
+	try
+	{
+		nx::gui::Checkbox *checkbox = dynamic_cast<nx::gui::Checkbox *>(this->_getGUIElementFromHandler(layerId, checkboxId));
+		return (checkbox);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(checkboxId, "nx::gui::Checkbox");
-
-	return (checkbox);
+	}
 }
 
 nx::gui::ProgressBar	*FrameworkRendering::_getGUIProgressBarFromHandler(std::string const& layerId, std::string const& progressBarId) const
 {
-	nx::gui::ProgressBar *progressBar = dynamic_cast<nx::gui::ProgressBar *>(this->_getGUIElementFromHandler(layerId, progressBarId));
-
-	if (!progressBar)
+	try
+	{
+		nx::gui::ProgressBar *progressBar = dynamic_cast<nx::gui::ProgressBar *>(this->_getGUIElementFromHandler(layerId, progressBarId));
+		return (progressBar);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(progressBarId, "nx::gui::ProgressBar");
-
-	return (progressBar);
+	}
 }
 
 nx::gui::ComboBox		*FrameworkRendering::_getGUIComboBoxFromHandler(std::string const& layerId, std::string const& comboBoxId) const
 {
-	nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_getGUIElementFromHandler(layerId, comboBoxId));
-
-	if (!comboBox)
+	try
+	{
+		nx::gui::ComboBox *comboBox = dynamic_cast<nx::gui::ComboBox *>(this->_getGUIElementFromHandler(layerId, comboBoxId));
+		return (comboBox);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(comboBoxId, "nx::gui::ComboBox");
-
-	return (comboBox);
+	}
 }
 
 nx::gui::TextInput		*FrameworkRendering::_getGUITextInputFromHandler(std::string const& layerId, std::string const& textInputId) const
 {
-	nx::gui::TextInput *textInput = dynamic_cast<nx::gui::TextInput *>(this->_getGUIElementFromHandler(layerId, textInputId));
-
-	if (!textInput)
+	try
+	{
+		nx::gui::TextInput *textInput = dynamic_cast<nx::gui::TextInput *>(this->_getGUIElementFromHandler(layerId, textInputId));
+		return (textInput);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(textInputId, "nx::gui::TextInput");
-
-	return (textInput);
+	}
 }
 
 nx::gui::Text			*FrameworkRendering::_getGUITextFromHandler(std::string const& layerId, std::string const& textId) const
 {
-	nx::gui::Text *text = dynamic_cast<nx::gui::Text *>(this->_getGUIElementFromHandler(layerId, textId));
-
-	if (!text)
+	try
+	{
+		nx::gui::Text *text = dynamic_cast<nx::gui::Text *>(this->_getGUIElementFromHandler(layerId, textId));
+		return (text);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(textId, "nx::gui::Text");
-
-	return (text);
+	}
 }
 
 nx::gui::Image			*FrameworkRendering::_getGUIImageFromHandler(std::string const& layerId, std::string const& imageId) const
 {
-	nx::gui::Image *image = dynamic_cast<nx::gui::Image *>(this->_getGUIElementFromHandler(layerId, imageId));
-
-	if (!image)
+	try
+	{
+		nx::gui::Image *image = dynamic_cast<nx::gui::Image *>(this->_getGUIElementFromHandler(layerId, imageId));
+		return (image);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(imageId, "nx::gui::Image");
-
-	return (image);
+	}
 }
 
 nx::gui::Sprite			*FrameworkRendering::_getGUISpriteFromHandler(std::string const& layerId, std::string const& spriteId) const
 {
-	nx::gui::Sprite *sprite = dynamic_cast<nx::gui::Sprite *>(this->_getGUIElementFromHandler(layerId, spriteId));
-
-	if (!sprite)
+	try
+	{
+		nx::gui::Sprite *sprite = dynamic_cast<nx::gui::Sprite *>(this->_getGUIElementFromHandler(layerId, spriteId));
+		return (sprite);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(spriteId, "nx::gui::Sprite");
-
-	return (sprite);
+	}
 }
 
 
@@ -594,52 +731,67 @@ nx::graphics::GraphicsElement	*FrameworkRendering::_getGraphicsElementFromHandle
 	if (!this->_graphicsHandler->object_exists(elemId))
 		throw nx::ElementNotFoundException(elemId);
 
-	nx::graphics::GraphicsElement *elem = this->_graphicsHandler->getElementByName(elemId).get();
-
-	if (!elem)
-		throw nx::NullElementException(elemId);
-
-	return (elem);
+	try
+	{
+		nx::graphics::GraphicsElement *elem = this->_graphicsHandler->getElementByName(elemId).get();
+		return (elem);
+	}
+	catch (nx::ElementNotFoundException e)
+	{
+		throw nx::ElementNotFoundException(elemId);
+	}
 }
 
 nx::graphics::Sprite			*FrameworkRendering::_getGraphicsSpriteFromHandler(std::string const& spriteId) const
 {
-	nx::graphics::Sprite *sprite = dynamic_cast<nx::graphics::Sprite *>(this->_getGraphicsElementFromHandler(spriteId));
-
-	if (!sprite)
+	try
+	{
+		nx::graphics::Sprite	*sprite = dynamic_cast<nx::graphics::Sprite *>(this->_getGraphicsElementFromHandler(spriteId));
+		return (sprite);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(spriteId, "nx::graphics::Sprite");
-
-	return (sprite);
+	}
 }
 
 nx::graphics::CircleShape		*FrameworkRendering::_getGraphicsCircleShapeFromHandler(std::string const& circleShapeId) const
 {
-	nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_getGraphicsElementFromHandler(circleShapeId));
-
-	if (!circleShape)
+	try
+	{
+		nx::graphics::CircleShape *circleShape = dynamic_cast<nx::graphics::CircleShape *>(this->_getGraphicsElementFromHandler(circleShapeId));
+		return (circleShape);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(circleShapeId, "nx::graphics::CircleShape");
-
-	return (circleShape);
+	}
 }
 
 nx::graphics::RectShape			*FrameworkRendering::_getGraphicsRectShapeFromHandler(std::string const& rectShapeId) const
 {
-	nx::graphics::RectShape *rectShape = dynamic_cast<nx::graphics::RectShape *>(this->_getGraphicsElementFromHandler(rectShapeId));
-
-	if (!rectShape)
+	try
+	{
+		nx::graphics::RectShape *rectShape = dynamic_cast<nx::graphics::RectShape *>(this->_getGraphicsElementFromHandler(rectShapeId));
+		return (rectShape);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(rectShapeId, "nx::graphics::RectShape");
-
-	return (rectShape);
+	}
 }
 
 nx::graphics::ConvexShape		*FrameworkRendering::_getGraphicsConvexShapeFromHandler(std::string const& convexShapeId) const
 {
-	nx::graphics::ConvexShape *convexShape = dynamic_cast<nx::graphics::ConvexShape *>(this->_getGraphicsElementFromHandler(convexShapeId));
-
-	if (!convexShape)
+	try
+	{
+		nx::graphics::ConvexShape *convexShape = dynamic_cast<nx::graphics::ConvexShape *>(this->_getGraphicsElementFromHandler(convexShapeId));
+		return (convexShape);
+	}
+	catch (std::bad_cast e)
+	{
 		throw nx::InvalidCastElementException(convexShapeId, "nx::graphics::ConvexShape");
-
-	return (convexShape);
+	}
 }
 
 

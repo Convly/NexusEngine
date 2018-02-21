@@ -30,7 +30,6 @@ void FrameworkNetworkClient::connect(const nx::netcust_host_t& host)
 	nx::Event e = nx::Event(nx::EVENT::NETSERV_CONNECT, nx::netserv_client_t());
 	this->udp_client_->sendEvent(e);
 	this->connected_ = true;
-	nx::Log::inform("Connected");
 }
 
 void FrameworkNetworkClient::disconnect()

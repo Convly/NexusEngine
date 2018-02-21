@@ -6,6 +6,7 @@
 # include "Nexus/log.hpp"
 # include "GUIElement.hpp"
 # include "../InvalidImageException.hpp"
+# include "../../frameworks/rendering/src/GraphicResources.hpp"
 
 namespace nx
 {
@@ -17,7 +18,6 @@ namespace nx
 			sf::Vector2f			_sheetGrid;
 			sf::Vector2f			_spriteSize;
 
-			sf::Texture				_texture;
 			sf::Sprite				_sprite;
 
 			sf::Vector2f			_originalSize;

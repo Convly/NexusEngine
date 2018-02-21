@@ -39,7 +39,6 @@ void FrameworkNetworkServer::connectClient(const nx::netserv_client_t& clientInf
 	this->udp_server_.clients_[freeSlotIndex].status_ = nx::NETCON_STATE::CONNECTED;
 	nx::Log::inform("Registering new client " + std::string(clientInfos.ip_) + ":" + std::to_string(clientInfos.port_) + " at slot " + std::to_string(freeSlotIndex));
 
-	nx::Log::inform("Sending acceptor for new registered client ("+ std::string(clientInfos.ip_) + ":" + std::to_string(clientInfos.port_) + ")");
 	nx::netserv_send_event_t s_event;
 	s_event.clientId_ = freeSlotIndex;
 	s_event.event_ = nx::Event(nx::NETSERV_CONNECT, this->udp_server_.clients_.at(freeSlotIndex));

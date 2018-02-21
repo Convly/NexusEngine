@@ -12,16 +12,15 @@ namespace nx
 		{
 		private:
 			std::string			_name;
-			std::atomic<bool>	_active;
+			bool				_active;
 			bool 			  	_isModified;
 
 		public:
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				bool active = _active.load();
 				ar & _name;
-				ar & active;
+				ar & _active;
 				ar & _isModified;
 			}
 

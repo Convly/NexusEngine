@@ -19,13 +19,13 @@ namespace nx
 		class RendererComponent
 		{
 			EntityInfos				_entityInfos;
-			std::atomic<uint8_t>	_opacity;
+			uint8_t					_opacity;
 			std::string				_texturePath;
 			ShapeType				_shapeType;
 			ColorInfo				_color;
 			maths::Vector2f 		_sheetGrid;
 			maths::Vector2f 		_spriteSize;
-			std::atomic<uint8_t> 	_radius;
+			uint8_t				 	_radius;
 
 		public:
 			RendererComponent() : _radius(0) {}
@@ -53,16 +53,14 @@ namespace nx
 			template <typename Archive>
 			void serialize(Archive& ar, unsigned int version)
 			{
-				uint8_t opacity = _opacity.load();
-				uint8_t radius = _radius.load();
 				ar & _entityInfos;
-				ar & opacity;
+				ar & _opacity;
 				ar & _texturePath;
 				ar & _shapeType;
 				ar & _color;
 				ar & _sheetGrid;
 				ar & _spriteSize;
-				ar & radius;
+				ar & _radius;
 			}
 
 			bool isModified(){

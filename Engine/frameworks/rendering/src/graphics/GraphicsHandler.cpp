@@ -11,9 +11,22 @@ nx::graphics::GraphicsHandler::GraphicsHandler::~GraphicsHandler()
 
 }
 
-void	nx::graphics::GraphicsHandler::addElement(std::shared_ptr<GraphicsElement> elem)
+void	nx::graphics::GraphicsHandler::addElement(std::shared_ptr<GraphicsElement> const& elem)
 {
 	this->_graphicsElements.push_back(elem);
+}
+
+bool	nx::graphics::GraphicsHandler::removeElement(std::string const& elemId)
+{
+	bool found = false;
+	this->_graphicsElements.erase(std::remove_if(this->_graphicsElements.begin(), this->_graphicsElements.end(),
+		[&](std::shared_ptr<nx::graphics::GraphicsElement> & elem)
+	{
+		if (elem->getIdentifier() == elemId)
+			found = true;
+		return (elem->getIdentifier() == elemId);
+	}), this->_graphicsElements.end());
+	return (found);
 }
 
 
@@ -21,7 +34,7 @@ void	nx::graphics::GraphicsHandler::addElement(std::shared_ptr<GraphicsElement> 
 
 void nx::graphics::GraphicsHandler::processEvent(sf::Event const& event)
 {
-	for (auto itElem : this->_graphicsElements)
+	for (auto &itElem : this->_graphicsElements)
 	{
 		if (itElem->isVisible())
 		{
@@ -84,26 +97,24 @@ void nx::graphics::GraphicsHandler::processEvent(sf::Event const& event)
 
 void nx::graphics::GraphicsHandler::drawElements()
 {
-	for (auto itElem : this->_graphicsElements)
-	{
-		itElem->show(this->_win);
-	}
+	for (auto &itElem : this->_graphicsElements)
+		std::atomic_load(&itElem)->show(this->_win);
 }
 
 
 // Getters
 
-std::vector<std::shared_ptr<nx::graphics::GraphicsElement>>	const &			nx::graphics::GraphicsHandler::getElements() const
+std::vector<std::shared_ptr<nx::graphics::GraphicsElement>>	const &		nx::graphics::GraphicsHandler::getElements() const
 {
 	return (this->_graphicsElements);
 }
 
-std::vector<std::shared_ptr<nx::graphics::GraphicsElement>>&			nx::graphics::GraphicsHandler::getElements()
+std::vector<std::shared_ptr<nx::graphics::GraphicsElement>> &			nx::graphics::GraphicsHandler::getElements()
 {
 	return (this->_graphicsElements);
 }
 
-std::shared_ptr<nx::graphics::GraphicsElement> const &			nx::graphics::GraphicsHandler::getElementByName(std::string const& identifier) const
+std::shared_ptr<nx::graphics::GraphicsElement> const &					nx::graphics::GraphicsHandler::getElementByName(std::string const& identifier) const
 {
 	for (auto &it : this->_graphicsElements)
 	{
@@ -113,7 +124,7 @@ std::shared_ptr<nx::graphics::GraphicsElement> const &			nx::graphics::GraphicsH
 	throw (nx::LayerNotFoundException(identifier));
 }
 
-std::shared_ptr<nx::graphics::GraphicsElement>&			nx::graphics::GraphicsHandler::getElementByName(std::string const& identifier)
+std::shared_ptr<nx::graphics::GraphicsElement> &						nx::graphics::GraphicsHandler::getElementByName(std::string const& identifier)
 {
 	for (auto &it : this->_graphicsElements)
 	{
@@ -123,7 +134,7 @@ std::shared_ptr<nx::graphics::GraphicsElement>&			nx::graphics::GraphicsHandler:
 	throw (nx::LayerNotFoundException(identifier));
 }
 
-const bool		nx::graphics::GraphicsHandler::object_exists(const std::string& identifier) const
+const bool																nx::graphics::GraphicsHandler::object_exists(const std::string& identifier) const
 {
 	for (auto &it : this->_graphicsElements)
 	{

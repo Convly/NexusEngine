@@ -23,20 +23,21 @@ namespace nx
 			GUILayer(std::string const& identifier);
 			~GUILayer();
 
-			void	add(std::shared_ptr<GUIElement> elem);
+			void	add(std::shared_ptr<GUIElement> const& elem);
+			bool	remove(std::string const& elemId);
 
 			// Setters
-			void											 setVisible(bool const state);
+			void											setVisible(bool const state);
 
 			// Getters
-			std::string const &								 getIdentifier() const;
-			bool											 isVisible() const;
+			std::string const &								getIdentifier() const;
+			bool											isVisible() const;
 
-			std::vector<std::shared_ptr<GUIElement>> const & getElements() const;
-			std::vector<std::shared_ptr<GUIElement>>&		 getElements();
-			std::shared_ptr<GUIElement> const &				 getElementByName(std::string const& identifier) const;
-			std::shared_ptr<GUIElement>&					 getElementByName(std::string const& identifier);
-			bool											 object_exists(const std::string& identifier) const;
+			std::vector<std::shared_ptr<GUIElement>> const &	getElements() const;
+			std::vector<std::shared_ptr<GUIElement>> &			getElements();
+			std::shared_ptr<GUIElement> const &					getElementByName(std::string const& identifier) const;
+			std::shared_ptr<GUIElement> &						getElementByName(std::string const& identifier);
+			bool												object_exists(const std::string& identifier) const;
 		};
 	}
 }

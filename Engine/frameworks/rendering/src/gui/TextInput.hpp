@@ -7,6 +7,7 @@
 # include "../ColorInfo.hpp"
 # include "../TextInfo.hpp"
 # include "../InvalidFontException.hpp"
+# include "../../frameworks/rendering/src/GraphicResources.hpp"
 
 namespace nx
 {
@@ -18,7 +19,6 @@ namespace nx
 			sf::Color			_backgroundColor;
 			sf::Color			_borderColor;
 			int					_borderThickness;
-			sf::Font			*_font;
 			sf::Text			_label;
 			sf::RectangleShape	_body;
 			std::string			_textData;
@@ -28,6 +28,8 @@ namespace nx
 
 			sf::Clock			_clock;
 			sf::Time			_time;
+
+			TextInfo			_textInfo;
 
 			// Specific functions for this element
 			void _repositioningCursor();

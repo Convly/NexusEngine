@@ -5,7 +5,7 @@
 nx::NetworkServerSystem::NetworkServerSystem()
 :
 	nx::SystemTpl(__NX_NETWORKSERVER_KEY__),
-	_framework_m(std::make_shared<nx::FrameworkManager<nx::NetworkServerFrameworkTpl>>(__NX_NETWORKSERVER_KEY__, true))
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::NetworkServerFrameworkTpl>>(__NX_NETWORKSERVER_KEY__))
 {
 	connect(nx::EVENT::NETSERV_SEND, nx::NetworkServerSystem::event_Send);
 	connect(nx::EVENT::NETSERV_SEND_ALL, nx::NetworkServerSystem::event_SendAll);

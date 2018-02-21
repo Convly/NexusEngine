@@ -20,14 +20,15 @@ namespace nx
 	{
 		class GraphicsHandler
 		{
-			std::vector<std::shared_ptr<GraphicsElement>>	_graphicsElements;
+			std::vector<std::shared_ptr<GraphicsElement>>			_graphicsElements;
 			std::shared_ptr<sf::RenderWindow>		_win;
 
 		public:
 			GraphicsHandler(std::shared_ptr<sf::RenderWindow> const& win);
 			~GraphicsHandler();
 
-			void	addElement(std::shared_ptr<GraphicsElement> elem);
+			void	addElement(std::shared_ptr<GraphicsElement> const& elem);
+			bool	removeElement(std::string const& elemId);
 
 			// Events
 			void	processEvent(sf::Event const& event);
@@ -36,11 +37,11 @@ namespace nx
 			void	drawElements();
 
 			// Getters
-			std::vector<std::shared_ptr<GraphicsElement>> const &	getElements() const;
-			std::vector<std::shared_ptr<GraphicsElement>>&			getElements();
-			std::shared_ptr<GraphicsElement> const &				getElementByName(std::string const& identifier) const;
-			std::shared_ptr<GraphicsElement>&						getElementByName(std::string const& identifier);
-			const bool 												object_exists(const std::string&) const;
+			std::vector<std::shared_ptr<GraphicsElement>> const &		getElements() const;
+			std::vector<std::shared_ptr<GraphicsElement>> &				getElements();
+			std::shared_ptr<GraphicsElement> const &					getElementByName(std::string const& identifier) const;
+			std::shared_ptr<GraphicsElement> &							getElementByName(std::string const& identifier);
+			const bool 													object_exists(const std::string&) const;
 		};
 	}
 }

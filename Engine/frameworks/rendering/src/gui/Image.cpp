@@ -1,5 +1,7 @@
 #include "Image.hpp"
 
+extern GraphicResources resources;
+
 nx::gui::Image::Image(sf::Vector2f const& pos, sf::Vector2f const& size, std::string const& identifier, nx::env::MouseEventsContainer const& events,
 			 std::string const& imgPath) :
 	GUIElement(pos, size, identifier, events), _imgPath(imgPath)
@@ -15,9 +17,15 @@ nx::gui::Image::~Image()
 
 void nx::gui::Image::_loadImage()
 {
-	if (!this->_texture.loadFromFile(this->_imgPath))
-		throw nx::InvalidImageException(this->_imgPath);
-	this->_img.setTexture(this->_texture);
+	std::string realPath(enginePtr->getEnv().getGameInfos().getRootPath() + enginePtr->getGameInfosParser()->getFields()._resources.at("images") + this->_imgPath);
+
+	if (resources.textures.find(realPath) == resources.textures.end())
+	{
+		resources.textures[realPath] = sf::Texture();
+		if (!resources.textures[realPath].loadFromFile(realPath))
+			throw nx::InvalidImageException(realPath);
+	}
+	this->_img.setTexture(resources.textures[realPath]);
 	this->_img.setPosition(this->getPos());
 	this->_originalSize = sf::Vector2f(this->_img.getLocalBounds().width, this->_img.getLocalBounds().height);
 }

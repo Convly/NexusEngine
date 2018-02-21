@@ -5,7 +5,7 @@
 nx::ScriptSystem::ScriptSystem()
 :
 	nx::SystemTpl(__NX_SCRIPT_KEY__),
-	_framework_m(std::make_shared<nx::FrameworkManager<nx::ScriptFrameworkTpl>>(__NX_SCRIPT_KEY__, true))
+	_framework_m(std::make_shared<nx::FrameworkManager<nx::ScriptFrameworkTpl>>(__NX_SCRIPT_KEY__))
 {
 	this->connect(nx::EVENT::SCRIPT_RUN, nx::ScriptSystem::event_ScriptRun);
 	this->connect(nx::EVENT::SCRIPT_LOAD, nx::ScriptSystem::event_ScriptLoad);

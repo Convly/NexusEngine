@@ -3,6 +3,7 @@
     
 # include <vector>
 # include <memory>
+# include <atomic>
 # include "GUILayer.hpp"
 
 # include "Button.hpp"
@@ -23,14 +24,15 @@ namespace nx
 	{
 		class GUIHandler
 		{
-			std::vector<std::shared_ptr<GUILayer>>	_guiLayers;
+			std::vector<GUILayer>					_guiLayers;
 			std::shared_ptr<sf::RenderWindow>		_win;
 
 		public:
 			GUIHandler(std::shared_ptr<sf::RenderWindow> const& win);
 			~GUIHandler();
 
-			void	addLayer(std::shared_ptr<GUILayer> elem);
+			void	addLayer(GUILayer const& elem);
+			bool	removeLayer(std::string const& layerId);
 
 			// Events
 			void	processEvent(sf::Event const& event);
@@ -39,10 +41,10 @@ namespace nx
 			void	drawLayers();
 
 			// Getters
-			std::vector<std::shared_ptr<GUILayer>> const &	getLayers() const;
-			std::vector<std::shared_ptr<GUILayer>>&			getLayers();
-			std::shared_ptr<GUILayer> const &				getLayerByName(std::string const& identifier) const;
-			std::shared_ptr<GUILayer>&						getLayerByName(std::string const& identifier);
+			std::vector<GUILayer> const &					getLayers() const;
+			std::vector<GUILayer> &							getLayers();
+			GUILayer  const &								getLayerByName(std::string const& identifier) const;
+			GUILayer &										getLayerByName(std::string const& identifier);
 			const bool 										layer_exists(const std::string&) const;
 		};
 	}
